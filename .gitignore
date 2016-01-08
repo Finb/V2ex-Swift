@@ -1,0 +1,13 @@
+*.mode*v*
+*.pbxuser
+*.xccheckout
+#*.xcbkptlist
+#*.xcscheme
+#*.xcworkspacedata
+*.xcuserstate
+build/
+.DS_Store
+._.*
+xcuserdata
+DerivedData/
+.idea/
