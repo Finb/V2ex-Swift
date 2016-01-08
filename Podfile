@@ -1,4 +1,5 @@
 platform:ios,'8.0'
 inhibit_all_warnings!
+use_frameworks!
 
-pod 'Masonry', '~> 0.5.3'
+pod 'SnapKit', '~> 0.18.0'
