@@ -7,34 +7,49 @@
 //
 
 import UIKit
+import SnapKit
+
+
 
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
-    private var _tableView :UITableView?
+    private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView?.delegate = self;
-            _tableView?.dataSource = self;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            
+            regClass(_tableView, cell: HomeTopicListTableViewCell.self);
+            
+            _tableView.registerClass(HomeTopicListTableViewCell.self , forCellReuseIdentifier: HomeTopicListTableViewCell.Identifier());
+            
+            _tableView.delegate = self;
+            _tableView.dataSource = self;
             return _tableView!;
+            
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(self.tableView);
-
-        NSLog("\(self.classForCoder)");
+        self.tableView.snp_makeConstraints{ (make) -> Void in
+            make.top.right.bottom.left.right.equalTo(self.view);
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100;
+        return 200;
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 180;
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell();
+        return getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath) ;
     }
 
 }
