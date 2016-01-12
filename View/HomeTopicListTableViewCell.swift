@@ -35,7 +35,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
-        
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();
         self.contentView .addSubview(self.contentPanel!);
@@ -87,7 +86,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.topicContentLabel=V2SpacingLabel();
-        self.topicContentLabel!.text="百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳百度这两天会不会因为";
+        self.topicContentLabel?.backgroundColor = UIColor.whiteColor()
+        self.topicContentLabel!.text="百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳" ;
         self.topicContentLabel!.textColor=V2EXColor.colors.v2_gray_53;
         self.topicContentLabel!.font=v2Font(14);
         self.topicContentLabel?.numberOfLines=0;
@@ -101,6 +101,11 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.topicContentLabel!.snp_bottom).offset(12);
+        }
+        
+        self.contentView.snp_makeConstraints{ (make) -> Void in
+            make.left.top.right.equalTo(self);
+            make.bottom.equalTo(self.contentPanel!).offset(10);
         }
         
     }

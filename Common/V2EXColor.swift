@@ -13,6 +13,19 @@ func colorWith255RGB(r:CGFloat , g:CGFloat, b:CGFloat) ->UIColor {
     return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 255)
 }
 
+func createImageWithColor(color:UIColor) -> UIImage{
+    let rect=CGRectMake(0.0, 0.0, 1.0, 1.0);
+    UIGraphicsBeginImageContext(rect.size);
+    let context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, rect);
+    
+    let theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
+
 //使用协议 方便以后切换颜色配置文件、或者做主题配色之类乱七八糟产品经理最爱的功能
 
 protocol V2EXColorProtocol{

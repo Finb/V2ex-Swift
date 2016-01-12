@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */; };
 		069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069508E31C3F74FF0088D031 /* AppDelegate.swift */; };
 		069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069508EA1C3F74FF0088D031 /* Assets.xcassets */; };
 		069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+FINAutomaticHeightCell.swift"; sourceTree = "<group>"; };
 		069508E01C3F74FF0088D031 /* V2ex-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "V2ex-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		069508E31C3F74FF0088D031 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		069508EA1C3F74FF0088D031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -48,6 +50,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0653CFA61C44E09B00E4FC05 /* UITableView+FINAutomaticHeightCell */ = {
+			isa = PBXGroup;
+			children = (
+				0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */,
+			);
+			path = "UITableView+FINAutomaticHeightCell";
+			sourceTree = "<group>";
+		};
 		069508D71C3F74FF0088D031 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +94,7 @@
 		069508F61C3F75A60088D031 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				0653CFA61C44E09B00E4FC05 /* UITableView+FINAutomaticHeightCell */,
 				06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */,
 				06DD400A1C43726600CE293D /* V2EXColor.swift */,
 				06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */,
@@ -265,6 +276,7 @@
 				06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
+				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
