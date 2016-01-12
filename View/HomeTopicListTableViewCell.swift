@@ -53,7 +53,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.userNameLabel = UILabel();
         self.userNameLabel!.text = "finab测试";
-        self.userNameLabel!.textColor = V2EXColor.colors.v2_gray_53;
+        self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
         self.userNameLabel!.font=v2Font(14);
         self.contentPanel! .addSubview(self.userNameLabel!);
         self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
@@ -63,7 +63,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.dateAndLastPostUserLabel = UILabel();
         self.dateAndLastPostUserLabel!.text="17分钟前 · 最后回复 Livid";
-        self.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_gray_173;
+        self.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_TopicListDateColor;
         self.dateAndLastPostUserLabel!.font=v2Font(12);
         self.contentPanel?.addSubview(self.dateAndLastPostUserLabel!);
         self.dateAndLastPostUserLabel!.snp_makeConstraints{ (make) -> Void in
@@ -74,7 +74,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.topicTitleLabel=V2SpacingLabel();
         self.topicTitleLabel!.text="百度这两天会不会因为血友病吧事件";
-        self.topicTitleLabel!.textColor=V2EXColor.colors.v2_gray_15;
+        self.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         self.topicTitleLabel!.font=v2Font(18);
         self.topicTitleLabel?.numberOfLines=2;
         self.topicTitleLabel?.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
@@ -88,7 +88,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.topicContentLabel=V2SpacingLabel();
         self.topicContentLabel?.backgroundColor = UIColor.whiteColor()
         self.topicContentLabel!.text="百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳" ;
-        self.topicContentLabel!.textColor=V2EXColor.colors.v2_gray_53;
+        self.topicContentLabel!.textColor=V2EXColor.colors.v2_TopicListUserNameColor;
         self.topicContentLabel!.font=v2Font(14);
         self.topicContentLabel?.numberOfLines=0;
         self.topicContentLabel?.preferredMaxLayoutWidth=SCREEN_WIDTH-24;

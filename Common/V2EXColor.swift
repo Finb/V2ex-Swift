@@ -33,9 +33,9 @@ protocol V2EXColorProtocol{
     var v2_backgroundColor: UIColor { get }
     
     // gray
-    var v2_gray_15 : UIColor { get }
-    var v2_gray_53 : UIColor { get }
-    var v2_gray_173 : UIColor { get }
+    var v2_TopicListTitleColor : UIColor { get }
+    var v2_TopicListUserNameColor : UIColor { get }
+    var v2_TopicListDateColor : UIColor { get }
     //red
 }
 
@@ -49,19 +49,19 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     }
     
     
-    var v2_gray_15 : UIColor{
+    var v2_TopicListTitleColor : UIColor{
         get{
             return colorWith255RGB(15, g: 15, b: 15);
         }
     }
     
-    var v2_gray_53 : UIColor{
+    var v2_TopicListUserNameColor : UIColor{
         get{
             return colorWith255RGB(53, g: 53, b: 53);
         }
     }
     
-    var v2_gray_173 : UIColor{
+    var v2_TopicListDateColor : UIColor{
         get{
             return colorWith255RGB(173, g: 173, b: 173);
         }
