@@ -66,7 +66,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 60;
+        return 1000;
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

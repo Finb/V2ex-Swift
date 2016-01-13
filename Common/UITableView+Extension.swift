@@ -15,7 +15,7 @@ extension NSObject {
      - returns: 当前类名的字符串
      */
     public class func Identifier() -> String {
-        return "\(self.classForCoder)";
+        return "\(self)";
     }
 }
 

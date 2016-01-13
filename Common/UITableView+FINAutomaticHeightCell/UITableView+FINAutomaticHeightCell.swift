@@ -36,6 +36,9 @@ extension UITableView {
     
     private func fin_templateCellForReuseIdentifier(identifier: String) -> UITableViewCell {
         assert(identifier.characters.count > 0, "Expect a valid identifier - \(identifier)")
+        if self.fin_templateCellsByIdentifiers == nil {
+            self.fin_templateCellsByIdentifiers = [:]
+        }
         var templateCell = self.fin_templateCellsByIdentifiers?[identifier] as? UITableViewCell
         if templateCell == nil {
             templateCell = self.dequeueReusableCellWithIdentifier(identifier)
