@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.frame=UIScreen.mainScreen().bounds;
         self.window?.makeKeyAndVisible();
         
-        let nav = UINavigationController(rootViewController: HomeViewController());
+        let nav = V2EXNavigationController(rootViewController: HomeViewController());
         self.window?.rootViewController = nav;
         
         return true
