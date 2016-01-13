@@ -47,11 +47,11 @@ func regClass(tableView:UITableView , cell:AnyClass)->Void {
  
  - returns: 传入Cell类型的 实例对象
  */
-func getCell(tableView:UITableView , cell:AnyClass ,indexPath:NSIndexPath) ->UITableViewCell {
-    return tableView.dequeueReusableCellWithIdentifier(cell.Identifier(), forIndexPath: indexPath);
+func getCell<T: UITableViewCell>(tableView:UITableView ,cell: T.Type ,indexPath:NSIndexPath) -> T {
+    return tableView.dequeueReusableCellWithIdentifier("\(cell)", forIndexPath: indexPath) as! T ;
 }
 
-func v2Font(fontSize: CGFloat) -> UIFont? {
+func v2Font(fontSize: CGFloat) -> UIFont {
     return UIFont.systemFontOfSize(fontSize);
 //    return UIFont(name: "Helvetica", size: fontSize);
 }

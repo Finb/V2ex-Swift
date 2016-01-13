@@ -9,7 +9,7 @@
 import UIKit
 extension UITableView {
 
-    public func fin_heightForCellWithIdentifier(identifier: String, configuration: ((cell: UITableViewCell) -> Void)?) -> CGFloat {
+    public func fin_heightForCellWithIdentifier<T>(identifier: String, configuration: ((cell: T) -> Void)?) -> CGFloat {
         if identifier.characters.count <= 0 {
             return 0
         }
@@ -18,7 +18,7 @@ extension UITableView {
         cell.prepareForReuse()
         
         if configuration != nil {
-            configuration!(cell: cell)
+            configuration!(cell: cell as! T)
         }
         
 //        cell.setNeedsUpdateConstraints();
@@ -50,8 +50,9 @@ extension UITableView {
         return templateCell!
     }
     
-    public func fin_heightForCellWithIdentifier(identifier: String, indexPath: NSIndexPath, configuration: ((cell: UITableViewCell) -> Void)?) -> CGFloat {
-        if identifier.characters.count == 0 {
+    public func fin_heightForCellWithIdentifier<T>(identifier: T.Type, indexPath: NSIndexPath, configuration: ((cell: T) -> Void)?) -> CGFloat {
+        let identifierStr = "\(identifier)";
+        if identifierStr.characters.count == 0 {
             return 0
         }
         
@@ -62,7 +63,7 @@ extension UITableView {
             return height
         }
         
-        let height = self.fin_heightForCellWithIdentifier(identifier, configuration: configuration)
+        let height = self.fin_heightForCellWithIdentifier(identifierStr, configuration: configuration)
         self.fin_indexPathHeightCache![indexPath.section][indexPath.row] = height
 //        NSLog("cached by indexPath:[\(indexPath.section),\(indexPath.row)] --> \(height)")
         

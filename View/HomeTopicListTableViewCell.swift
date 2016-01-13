@@ -52,7 +52,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.userNameLabel = UILabel();
-        self.userNameLabel!.text = "finab测试";
         self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
         self.userNameLabel!.font=v2Font(14);
         self.contentPanel! .addSubview(self.userNameLabel!);
@@ -73,7 +72,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         
         self.topicTitleLabel=V2SpacingLabel();
-        self.topicTitleLabel!.text="百度这两天会不会因为血友病吧事件";
         self.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         self.topicTitleLabel!.font=v2Font(18);
         self.topicTitleLabel?.numberOfLines=2;
@@ -87,7 +85,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.topicContentLabel=V2SpacingLabel();
         self.topicContentLabel?.backgroundColor = UIColor.whiteColor()
-        self.topicContentLabel!.text="百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳百度这两天会不会因为血友病吧事件，成为击倒它的最后一拳" ;
         self.topicContentLabel!.textColor=V2EXColor.colors.v2_TopicListUserNameColor;
         self.topicContentLabel!.font=v2Font(14);
         self.topicContentLabel?.numberOfLines=0;
@@ -117,4 +114,9 @@ class HomeTopicListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func bind(model:TopicListModel){
+        self.userNameLabel?.text = model.member?.username;
+        self.topicTitleLabel?.text = model.title;
+        self.topicContentLabel?.text = model.content;
+    }
 }

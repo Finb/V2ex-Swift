@@ -9,9 +9,12 @@
 import UIKit
 import SnapKit
 
+import Alamofire
+import AlamofireObjectMapper
 
 
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
+    var topicList:Array<TopicListModel>?
     private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
@@ -34,28 +37,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true);
-        
-//        self.navigationController?.navigationBar .setBackgroundImage(createImageWithColor(UIColor.clearColor()), forBarMetrics: .Default)
-//        let darkBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
-//        self.navigationController?.navigationBar .insertSubview(darkBlurView, atIndex: 0);
-//        darkBlurView.backgroundColor=UIColor(white: 0.4, alpha: 0.8)
-//        darkBlurView.snp_makeConstraints{ (make) -> Void in
-//            make.top.equalTo(darkBlurView.superview!).offset(-20);
-//            make.right.leading.equalTo(darkBlurView.superview!);
-//            make.height.equalTo(64);
-//        }
-//        let vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: UIBlurEffect(style: .Dark)))
-//        vibrancyView.frame=CGRectMake(0, 0, 375, 64)
-//        darkBlurView.contentView .addSubview(vibrancyView)
-//        
-//        let label = UILabel(frame: CGRectMake(0, 20, 375, 44))
-//        label.text = "V2EX"
-//        label.font = UIFont(name: "HelveticaNeue-Bold", size: 22)
-//        label.textAlignment = .Center
-//        label.textColor = UIColor.blackColor()
-//        vibrancyView.contentView .addSubview(label);
+        self.navigationItem.title="V2EX";
         
         
         self.view.addSubview(self.tableView);
@@ -63,22 +45,38 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             make.top.right.bottom.left.right.equalTo(self.view);
         }
         
+        TopicListModel.getTopicList(){
+            [weak self](response:Response<[TopicListModel],NSError>) -> Void in
+            if response.result.isSuccess {
+                self?.topicList = response.result.value
+                self?.tableView.reloadData()
+            }
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1000;
+        if let list = self.topicList {
+            return list.count;
+        }
+        return 0;
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let f = tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.Identifier(), indexPath: indexPath) { (cell) -> Void in
-        
+        return tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
+            cell.bind(self.topicList![indexPath.row]);
         }
-        NSLog("\(f)");
-        return f
+//        return 100;
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath) ;
+        let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
+        cell.bind(self.topicList![indexPath.row]);
+        return cell;
+    }
+    
+    func invoke( afunc: String -> Void) -> Void {
+        afunc("Fin");
     }
 
 }
+
