@@ -61,7 +61,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.dateAndLastPostUserLabel = UILabel();
-        self.dateAndLastPostUserLabel!.text="17分钟前 · 最后回复 Livid";
         self.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_TopicListDateColor;
         self.dateAndLastPostUserLabel!.font=v2Font(12);
         self.contentPanel?.addSubview(self.dateAndLastPostUserLabel!);
@@ -115,8 +114,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     
     func bind(model:TopicListModel){
-        self.userNameLabel?.text = model.member?.username;
-        self.topicTitleLabel?.text = model.title;
-        self.topicContentLabel?.text = model.content;
+        self.userNameLabel?.text = model.userName;
+        self.dateAndLastPostUserLabel?.text = model.date
+        self.topicTitleLabel?.text = model.topicTitle;
     }
 }

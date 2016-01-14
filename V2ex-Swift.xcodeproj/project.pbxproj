@@ -18,6 +18,8 @@
 		069839761C4773D600FF7163 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 069839781C4773D600FF7163 /* Localizable.strings */; };
 		0698397D1C47766500FF7163 /* Dark.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0698397B1C47766500FF7163 /* Dark.bundle */; };
 		0698397E1C47766500FF7163 /* Light.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0698397C1C47766500FF7163 /* Light.bundle */; };
+		069839811C478EC300FF7163 /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839801C478EC300FF7163 /* LeftViewController.swift */; };
+		069839831C478ECC00FF7163 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839821C478ECC00FF7163 /* RightViewController.swift */; };
 		06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */; };
 		06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */; };
 		06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DD400A1C43726600CE293D /* V2EXColor.swift */; };
@@ -41,6 +43,8 @@
 		069839791C47740B00FF7163 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		0698397B1C47766500FF7163 /* Dark.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Dark.bundle; sourceTree = "<group>"; };
 		0698397C1C47766500FF7163 /* Light.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Light.bundle; sourceTree = "<group>"; };
+		069839801C478EC300FF7163 /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
+		069839821C478ECC00FF7163 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
 		06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "V2ex+Define.swift"; sourceTree = "<group>"; };
 		06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2SpacingLabel.swift; sourceTree = "<group>"; };
 		06DD400A1C43726600CE293D /* V2EXColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXColor.swift; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
+				069839801C478EC300FF7163 /* LeftViewController.swift */,
+				069839821C478ECC00FF7163 /* RightViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -305,6 +311,7 @@
 			files = (
 				0610F1B01C46136300481402 /* BaseModel.swift in Sources */,
 				069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */,
+				069839831C478ECC00FF7163 /* RightViewController.swift in Sources */,
 				06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */,
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
@@ -312,6 +319,7 @@
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
+				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
 				0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */,
 			);

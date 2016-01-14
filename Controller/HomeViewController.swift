@@ -12,6 +12,7 @@ import SnapKit
 import Alamofire
 import AlamofireObjectMapper
 
+import Ji
 
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var topicList:Array<TopicListModel>?
@@ -43,11 +44,11 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.right.equalTo(self.view);
         }
-        
+                
         TopicListModel.getTopicList(){
-            [weak self](response:Response<[TopicListModel],NSError>) -> Void in
-            if response.result.isSuccess {
-                self?.topicList = response.result.value
+            [weak self](response:V2Response<[TopicListModel]>) -> Void in
+            if response.success {
+                self?.topicList = response.value
                 self?.tableView.reloadData()
             }
         }

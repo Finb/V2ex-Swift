@@ -8,6 +8,8 @@
 
 import UIKit
 
+import DrawerController
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -18,10 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.window = UIWindow();
         self.window?.frame=UIScreen.mainScreen().bounds;
+        self.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         self.window?.makeKeyAndVisible();
-        
-        let nav = V2EXNavigationController(rootViewController: HomeViewController());
-        self.window?.rootViewController = nav;
+
+        let centerNav = V2EXNavigationController(rootViewController: HomeViewController());
+        let leftViewController = LeftViewController();
+        let rightViewController = RightViewController();
+        let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
+        drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        drawerController.maximumLeftDrawerWidth=230;
+        drawerController.maximumRightDrawerWidth=180;
+        drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.PanningCenterView
+        drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.All;
+        self.window?.rootViewController = drawerController;
         
         return true
     }

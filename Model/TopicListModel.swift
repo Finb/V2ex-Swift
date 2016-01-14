@@ -11,76 +11,52 @@ import UIKit
 import ObjectMapper
 import Alamofire
 
-class TopicListModel: BaseModel {
-    var id: String?
-    var title: String?
-    var url: String?
-    var content: String?
-    var content_rendered: String?
+import Ji
+
+class TopicListModel {
+    var avata: String?
+    var nodeName: String?
+    var userName: String?
+    var topicTitle: String?
+    var date: String?
+    var lastReplyUserName: String?
     var replies: String?
-    var member: TopicList_MemberModel?
-    var node: TopicList_NodeModel?
-    var created: String?
-    var last_modified: String?
-    var last_touched: String?
     
-    override func mapping(map: Map) {
-        id <- map["id"]
-        title <- map["title"]
-        url <- map["url"]
-        content <- map["content"]
-        content_rendered <- map["content_rendered"]
-        replies <- map["replies"]
-        member <- map["member"]
-        node <- map["node"]
-        created <- map["created"]
-        last_modified <- map["last_modified"]
-        last_touched <- map["last_touched"]
+    class func getTopicList(completionHandler: V2Response<[TopicListModel]> -> Void)->Void{
+        
+        Alamofire.request(.GET, "https://www.v2ex.com/?tab=hot", parameters: ["tag":"hot"], encoding: .URL, headers: ["user-agent":USER_AGENT]).responseString { (response: Response<String,NSError>) -> Void in
+            var resultArray:[TopicListModel] = []
+
+            if let html = response .result.value{
+                let jiHtml = Ji(htmlString: html);
+                if let aRootNode = jiHtml?.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box'][1]/div[@class='cell item']"){
+                    for aNode in aRootNode {
+                        let avata = aNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
+                        let nodeName = aNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
+                        let userName = aNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content
+                        let topicTitle = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0].content
+                        let date = aNode.xPath("./table/tr/td[3]/span[3]")[0].content
+                        let lastReplyUserName = aNode.xPath("./table/tr/td[3]/span[3]/strong[1]/a[1]")[0].content
+                        let replies = aNode.xPath("./table/tr/td[4]/a[1]")[0].content
+                        
+                        let topic = TopicListModel()
+                        topic.avata  = avata
+                        topic.nodeName  = nodeName
+                        topic.userName  = userName
+                        topic.topicTitle  = topicTitle
+                        topic.date  = date
+                        topic.lastReplyUserName  = lastReplyUserName
+                        topic.replies  = replies
+                        
+                        resultArray.append(topic);
+                    }
+                }
+            }
+            
+            let t = V2Response<Array<TopicListModel>>(value:resultArray, success: response.result.isSuccess)
+            completionHandler(t);
+            
+        }
     }
     
-    class func getTopicList(completionHandler: Response<[TopicListModel], NSError> -> Void)->Void{
-        Alamofire.request(.GET, "https://www.v2ex.com/api/topics/show.json?node_id=10").responseArray(completionHandler);
-    }
-    
-}
-
-
-class TopicList_MemberModel:BaseModel {
-    var id: Int?
-    var username: String?
-    var tagline: String?
-    var avatar_mini: String?
-    var avatar_normal: String?
-    var avatar_large: String?
-    override func mapping(map: Map) {
-        id <- map["id"]
-        username <- map["username"]
-        tagline <- map["tagline"]
-        avatar_mini <- map["avatar_mini"]
-        avatar_normal <- map["avatar_normal"]
-        avatar_large <- map["avatar_large"]
-    }
-}
-
-class TopicList_NodeModel:BaseModel {
-    var id: Int?
-    var name: String?
-    var title: String?
-    var title_alternative: String?
-    var url: String?
-    var topics: Int?
-    var avatar_mini: String?
-    var avatar_normal: String?
-    var avatar_large: String?
-    override func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        title <- map["title"]
-        title_alternative <- map["title_alternative"]
-        url <- map["url"]
-        topics <- map["topics"]
-        avatar_mini <- map["avatar_mini"]
-        avatar_normal <- map["avatar_normal"]
-        avatar_large <- map["avatar_large"]
-    }
 }
