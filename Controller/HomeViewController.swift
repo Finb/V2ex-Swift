@@ -74,9 +74,5 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         return cell;
     }
     
-    func invoke( afunc: String -> Void) -> Void {
-        afunc("Fin");
-    }
-
 }
 

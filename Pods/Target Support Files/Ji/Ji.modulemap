@@ -1,0 +1,6 @@
+framework module Ji {
+  umbrella header "Ji-umbrella.h"
+
+  export *
+  module * { export * }
+}

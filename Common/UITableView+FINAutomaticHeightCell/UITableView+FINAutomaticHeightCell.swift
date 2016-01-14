@@ -9,7 +9,7 @@
 import UIKit
 extension UITableView {
 
-    public func fin_heightForCellWithIdentifier<T>(identifier: String, configuration: ((cell: T) -> Void)?) -> CGFloat {
+    public func fin_heightForCellWithIdentifier<T: UITableViewCell>(identifier: String, configuration: ((cell: T) -> Void)?) -> CGFloat {
         if identifier.characters.count <= 0 {
             return 0
         }
@@ -50,7 +50,7 @@ extension UITableView {
         return templateCell!
     }
     
-    public func fin_heightForCellWithIdentifier<T>(identifier: T.Type, indexPath: NSIndexPath, configuration: ((cell: T) -> Void)?) -> CGFloat {
+    public func fin_heightForCellWithIdentifier<T: UITableViewCell>(identifier: T.Type, indexPath: NSIndexPath, configuration: ((cell: T) -> Void)?) -> CGFloat {
         let identifierStr = "\(identifier)";
         if identifierStr.characters.count == 0 {
             return 0
