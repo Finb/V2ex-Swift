@@ -15,6 +15,7 @@
 		069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069508EA1C3F74FF0088D031 /* Assets.xcassets */; };
 		069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */; };
 		069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069508FA1C3F75C70088D031 /* HomeViewController.swift */; };
+		069839761C4773D600FF7163 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 069839781C4773D600FF7163 /* Localizable.strings */; };
 		06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */; };
 		06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */; };
 		06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DD400A1C43726600CE293D /* V2EXColor.swift */; };
@@ -34,6 +35,8 @@
 		069508ED1C3F74FF0088D031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		069508EF1C3F74FF0088D031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		069508FA1C3F75C70088D031 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		069839771C4773D600FF7163 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		069839791C47740B00FF7163 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "V2ex+Define.swift"; sourceTree = "<group>"; };
 		06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2SpacingLabel.swift; sourceTree = "<group>"; };
 		06DD400A1C43726600CE293D /* V2EXColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXColor.swift; sourceTree = "<group>"; };
@@ -90,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				069508E31C3F74FF0088D031 /* AppDelegate.swift */,
+				069839781C4773D600FF7163 /* Localizable.strings */,
 				0610F1B31C46491800481402 /* V2EXNavigationController.swift */,
 				069508EA1C3F74FF0088D031 /* Assets.xcassets */,
 				069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */,
@@ -205,6 +209,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 069508D71C3F74FF0088D031;
 			productRefGroup = 069508E11C3F74FF0088D031 /* Products */;
@@ -222,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
+				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,6 +310,15 @@
 				069508ED1C3F74FF0088D031 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		069839781C4773D600FF7163 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				069839771C4773D600FF7163 /* en */,
+				069839791C47740B00FF7163 /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

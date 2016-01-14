@@ -14,19 +14,30 @@ class V2EXNavigationController: UINavigationController {
         super.viewDidLoad()
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
         
-//        self.navigationBar .setBackgroundImage(createImageWithColor(UIColor.clearColor()), forBarMetrics: .Default)
-//        let darkBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
-//        self.navigationBar .insertSubview(darkBlurView, atIndex: 0);
-//        darkBlurView.backgroundColor=UIColor(white: 0.4, alpha: 0.8)
-//        darkBlurView.snp_makeConstraints{ (make) -> Void in
-//            make.top.equalTo(darkBlurView.superview!).offset(-20);
-//            make.right.leading.equalTo(darkBlurView.superview!);
-//            make.height.equalTo(64);
-//        }
+
         
         self.navigationBar.titleTextAttributes = [
             NSFontAttributeName : UIFont(name: "HelveticaNeue-Bold", size: 20)!,
             NSForegroundColorAttributeName : V2EXColor.colors.v2_TopicListTitleColor
         ]
+        
+        self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clearColor()), forBarMetrics: .Default)
+        
+        let maskingView = UIView()
+        maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
+        self.navigationBar.insertSubview(maskingView, atIndex: 0);
+
+        maskingView.snp_makeConstraints{ (make) -> Void in
+            make.left.bottom.right.equalTo(maskingView.superview!)
+            make.top.equalTo(maskingView.superview!).offset(-20);
+        }
+        
+        let frostedView = UIToolbar()
+        frostedView.barStyle = .Default
+        maskingView.addSubview(frostedView);
+        
+        frostedView.snp_makeConstraints{ (make) -> Void in
+            make.top.bottom.left.right.equalTo(maskingView);
+        }
     }
 }
