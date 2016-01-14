@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class HomeTopicListTableViewCell: UITableViewCell {
     /// 头像
@@ -43,8 +44,9 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.avatarImageView = UIImageView();
-        self.avatarImageView!.backgroundColor=UIColor.redColor();
-        self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFill;
+        self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
+        self.avatarImageView!.layer.cornerRadius = 3;
+        self.avatarImageView?.layer.masksToBounds = true;
         self.contentPanel!.addSubview(self.avatarImageView!);
         self.avatarImageView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
@@ -117,5 +119,11 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.userNameLabel?.text = model.userName;
         self.dateAndLastPostUserLabel?.text = model.date
         self.topicTitleLabel?.text = model.topicTitle;
+        
+        if let avata = model.avata {
+            
+            self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+        }
+        
     }
 }

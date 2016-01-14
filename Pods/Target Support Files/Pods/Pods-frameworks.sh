@@ -88,6 +88,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/AlamofireObjectMapper.framework"
   install_framework "Pods/DrawerController.framework"
   install_framework "Pods/Ji.framework"
+  install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/SnapKit.framework"
 fi
@@ -96,6 +97,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/AlamofireObjectMapper.framework"
   install_framework "Pods/DrawerController.framework"
   install_framework "Pods/Ji.framework"
+  install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/SnapKit.framework"
 fi
