@@ -39,7 +39,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
         
-        
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.right.equalTo(self.view);
