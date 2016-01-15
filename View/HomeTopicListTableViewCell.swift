@@ -24,8 +24,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
     var nodeNameLabel: UILabel?
     /// 帖子标题
     var topicTitleLabel: UILabel?
-    /// 帖子内容
-    var topicContentLabel: UILabel?
     
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView?
@@ -36,7 +34,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
-        self.layer.drawsAsynchronously=true;
         
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();
@@ -49,7 +46,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
         self.avatarImageView!.layer.cornerRadius = 3;
         self.avatarImageView!.layer.masksToBounds = true;
-        self.avatarImageView!.layer.drawsAsynchronously=true;
         self.contentPanel!.addSubview(self.avatarImageView!);
         self.avatarImageView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
@@ -74,12 +70,42 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.left.equalTo(self.userNameLabel!);
         }
         
+        self.replyCountLabel = UILabel();
+        self.replyCountLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
+        self.replyCountLabel!.font = v2Font(12)
+        self.contentPanel!.addSubview(self.replyCountLabel!);
+        self.replyCountLabel!.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.userNameLabel!);
+            make.right.equalTo(self.contentPanel!).offset(-12);
+        }
+        self.replyCountIconImageView = UIImageView(image: UIImage(imageNamed: "reply_n"))
+        self.replyCountIconImageView?.contentMode = .ScaleAspectFit
+        self.contentPanel?.addSubview(self.replyCountIconImageView!);
+        self.replyCountIconImageView!.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.replyCountLabel!);
+            make.width.height.equalTo(18);
+            make.right.equalTo(self.replyCountLabel!.snp_left).offset(-2);
+        }
+        
+        self.nodeNameLabel = UILabel();
+        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
+        self.nodeNameLabel!.font = v2Font(11)
+        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.9, alpha: 1);
+        self.nodeNameLabel?.layer.cornerRadius=2;
+        self.nodeNameLabel!.clipsToBounds = true
+        self.contentPanel?.addSubview(self.nodeNameLabel!)
+        self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.replyCountLabel!);
+            make.right.equalTo(self.replyCountIconImageView!.snp_left).offset(-4)
+            make.bottom.equalTo(self.replyCountLabel!).offset(1);
+            make.top.equalTo(self.replyCountLabel!).offset(-1);
+        }
         
         self.topicTitleLabel=V2SpacingLabel();
         self.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         self.topicTitleLabel!.font=v2Font(18);
-        self.topicTitleLabel?.numberOfLines=2;
-        self.topicTitleLabel?.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
+        self.topicTitleLabel!.numberOfLines=2;
+        self.topicTitleLabel!.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
         self.contentPanel?.addSubview(self.topicTitleLabel!);
         self.topicTitleLabel!.snp_makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView!.snp_bottom).offset(12);
@@ -87,21 +113,9 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.right.equalTo(self.contentPanel!).offset(-12);
         }
         
-        self.topicContentLabel=V2SpacingLabel();
-        self.topicContentLabel?.backgroundColor = UIColor.whiteColor()
-        self.topicContentLabel!.textColor=V2EXColor.colors.v2_TopicListUserNameColor;
-        self.topicContentLabel!.font=v2Font(14);
-        self.topicContentLabel?.numberOfLines=0;
-        self.topicContentLabel?.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
-        self.contentPanel?.addSubview(self.topicContentLabel!);
-        self.topicContentLabel!.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.topicTitleLabel!.snp_bottom).offset(6);
-            make.left.equalTo(self.avatarImageView!);
-            make.right.equalTo(self.contentPanel!).offset(-12);
-        }
         
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.topicContentLabel!.snp_bottom).offset(12);
+            make.bottom.equalTo(self.topicTitleLabel!.snp_bottom).offset(12);
         }
         
         self.contentView.snp_makeConstraints{ (make) -> Void in
@@ -124,9 +138,13 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.topicTitleLabel?.text = model.topicTitle;
         
         if let avata = model.avata {
-            
             self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
         }
         
+        self.replyCountLabel?.text = model.replies;
+        if let node = model.nodeName{
+        self.nodeNameLabel!.text = "  " + node + "  "
+        }
+
     }
 }

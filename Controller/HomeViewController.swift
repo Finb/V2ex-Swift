@@ -73,6 +73,5 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         cell.bind(self.topicList![indexPath.row]);
         return cell;
     }
-    
 }
 

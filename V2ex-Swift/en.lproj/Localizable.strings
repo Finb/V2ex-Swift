@@ -5,5 +5,14 @@
   Created by huangfeng on 1/14/16.
   Copyright © 2016 Fin. All rights reserved.
 */
-
-test="test";
+tech     = "Technology";
+creative = "Creative";
+play     = "Play";
+apple    = "Apple";
+jobs     = "Jobs";
+deals    = "Deals";
+city     = "City";
+qna      = "Ask&Answer";
+hot      = "Hot";
+all      = "All";
+r2       = "R2";
