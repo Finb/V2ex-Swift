@@ -15,9 +15,7 @@ class V2FPSLabel: UILabel {
     private var _link :CADisplayLink?
     private var _count:Int = 0
     private var _lastTime:NSTimeInterval = 0
-    
-    private var _llll:NSTimeInterval?
-    
+
     private let _defaultSize = CGSizeMake(55, 20);
     
     override init(var frame: CGRect) {

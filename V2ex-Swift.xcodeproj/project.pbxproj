@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */; };
+		060C4E421C48EC39004FBECC /* V2Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E411C48EC39004FBECC /* V2Client.swift */; };
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
+		060C4E411C48EC39004FBECC /* V2Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Client.swift; sourceTree = "<group>"; };
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */,
 				06DD400A1C43726600CE293D /* V2EXColor.swift */,
 				06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */,
+				060C4E411C48EC39004FBECC /* V2Client.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
+				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
@@ -441,6 +445,7 @@
 				INFOPLIST_FILE = "V2ex-Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.fin.V2ex-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

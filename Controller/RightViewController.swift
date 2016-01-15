@@ -10,17 +10,17 @@ import UIKit
 
 class RightViewController: UITableViewController {
     let rightNodes = [
-        rightNodeModel(nodeName: NSLocalizedString("hot"), nodeTag: "hot"),
-        rightNodeModel(nodeName: NSLocalizedString("all"), nodeTag: "all"),
-        rightNodeModel(nodeName: NSLocalizedString("tech" ), nodeTag: "tech"),
-        rightNodeModel(nodeName: NSLocalizedString("creative" ), nodeTag: "creative"),
-        rightNodeModel(nodeName: NSLocalizedString("play" ), nodeTag: "play"),
-        rightNodeModel(nodeName: NSLocalizedString("apple" ), nodeTag: "apple"),
-        rightNodeModel(nodeName: NSLocalizedString("jobs" ), nodeTag: "jobs"),
-        rightNodeModel(nodeName: NSLocalizedString("deals" ), nodeTag: "deals"),
-        rightNodeModel(nodeName: NSLocalizedString("city" ), nodeTag: "city"),
-        rightNodeModel(nodeName: NSLocalizedString("qna" ), nodeTag: "qna"),
-        rightNodeModel(nodeName: NSLocalizedString("r2" ), nodeTag: "r2"),
+        rightNodeModel(nodeName: NSLocalizedString("tech" ), nodeTab: "tech"),
+        rightNodeModel(nodeName: NSLocalizedString("creative" ), nodeTab: "creative"),
+        rightNodeModel(nodeName: NSLocalizedString("play" ), nodeTab: "play"),
+        rightNodeModel(nodeName: NSLocalizedString("apple" ), nodeTab: "apple"),
+        rightNodeModel(nodeName: NSLocalizedString("jobs" ), nodeTab: "jobs"),
+        rightNodeModel(nodeName: NSLocalizedString("deals" ), nodeTab: "deals"),
+        rightNodeModel(nodeName: NSLocalizedString("city" ), nodeTab: "city"),
+        rightNodeModel(nodeName: NSLocalizedString("qna" ), nodeTab: "qna"),
+        rightNodeModel(nodeName: NSLocalizedString("hot"), nodeTab: "hot"),
+        rightNodeModel(nodeName: NSLocalizedString("all"), nodeTab: "all"),
+        rightNodeModel(nodeName: NSLocalizedString("r2" ), nodeTab: "r2"),
     ]
     
     override func viewDidLoad() {
@@ -40,12 +40,16 @@ class RightViewController: UITableViewController {
         cell.textLabel?.textAlignment = .Right
         return cell ;
     }
-    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let node = self.rightNodes[indexPath.row];
+        V2Client.sharedInstance.centerViewController?.refreshPage(node.nodeTab)
+        V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+    }
 }
 
 
 
 struct rightNodeModel {
     var nodeName:String?
-    var nodeTag:String?
+    var nodeTab:String?
 }

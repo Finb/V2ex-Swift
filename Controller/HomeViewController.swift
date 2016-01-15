@@ -16,6 +16,8 @@ import Ji
 
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var topicList:Array<TopicListModel>?
+    private var _tab:String? = nil
+    
     private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
@@ -36,6 +38,8 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             
         }
     }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
@@ -44,15 +48,22 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.right.equalTo(self.view);
         }
-                
-        TopicListModel.getTopicList(){
+        self.refreshPage();
+    }
+    
+    func refreshPage(tab:String? = nil){
+        if let tab = tab {
+            _tab = tab
+        }
+        TopicListModel.getTopicList(_tab){
             [weak self](response:V2Response<[TopicListModel]>) -> Void in
             if response.success {
                 self?.topicList = response.value
-                self?.tableView.reloadData()
+                self?.tableView.fin_reloadData()
             }
         }
     }
+    
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {
@@ -65,7 +76,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         return tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
             cell.bind(self.topicList![indexPath.row]);
         }
-//        return 100;
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

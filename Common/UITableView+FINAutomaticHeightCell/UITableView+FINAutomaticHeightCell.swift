@@ -70,7 +70,6 @@ extension UITableView {
         return height
     }
     
-    
     private struct AssociatedKey {
         static var CellsIdentifier = "me.fin.cellsIdentifier"
         static var HeightsCacheIdentifier = "me.fin.heightsCacheIdentifier"
@@ -129,6 +128,11 @@ extension UITableView {
         set {
             objc_setAssociatedObject(self, &AssociatedKey.HeightsCacheIdentifier, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
+    }
+    
+    public func fin_reloadData(){
+        self.fin_indexPathHeightCache = [[]];
+        self.reloadData();
     }
 
 }

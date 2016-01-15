@@ -104,7 +104,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.topicTitleLabel=V2SpacingLabel();
         self.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         self.topicTitleLabel!.font=v2Font(18);
-        self.topicTitleLabel!.numberOfLines=2;
+        self.topicTitleLabel!.numberOfLines=0;
         self.topicTitleLabel!.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
         self.contentPanel?.addSubview(self.topicTitleLabel!);
         self.topicTitleLabel!.snp_makeConstraints{ (make) -> Void in
