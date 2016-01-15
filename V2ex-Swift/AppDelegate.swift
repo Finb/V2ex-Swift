@@ -34,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.All;
         self.window?.rootViewController = drawerController;
         
+        
+        let fpsLabel = V2FPSLabel(frame: CGRectMake(15, SCREEN_HEIGHT-40, 55, 20));
+        self.window?.addSubview(fpsLabel);
+        
         return true
     }
 

@@ -36,6 +36,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        self.layer.drawsAsynchronously=true;
+        
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();
         self.contentView .addSubview(self.contentPanel!);
@@ -46,7 +48,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.avatarImageView = UIImageView();
         self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
         self.avatarImageView!.layer.cornerRadius = 3;
-        self.avatarImageView?.layer.masksToBounds = true;
+        self.avatarImageView!.layer.masksToBounds = true;
+        self.avatarImageView!.layer.drawsAsynchronously=true;
         self.contentPanel!.addSubview(self.avatarImageView!);
         self.avatarImageView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);

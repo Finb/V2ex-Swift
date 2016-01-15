@@ -36,8 +36,15 @@ class TopicListModel {
                         let userName = aNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content
                         let topicTitle = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0].content
                         let date = aNode.xPath("./table/tr/td[3]/span[3]")[0].content
-                        let lastReplyUserName = aNode.xPath("./table/tr/td[3]/span[3]/strong[1]/a[1]")[0].content
-                        let replies = aNode.xPath("./table/tr/td[4]/a[1]")[0].content
+                        
+                        var lastReplyUserName:String? = nil
+                        if let lastReplyUser = aNode.xPath("./table/tr/td[3]/span[3]/strong[1]/a[1]").first{
+                            lastReplyUserName = lastReplyUser.content
+                        }
+                        var replies:String? = nil;
+                        if let reply = aNode.xPath("./table/tr/td[4]/a[1]").first {
+                            replies = reply.content
+                        }
                         
                         let topic = TopicListModel()
                         topic.avata  = avata
@@ -45,9 +52,12 @@ class TopicListModel {
                         topic.userName  = userName
                         topic.topicTitle  = topicTitle
                         topic.date  = date
-                        topic.lastReplyUserName  = lastReplyUserName
-                        topic.replies  = replies
-                        
+                        if lastReplyUserName != nil {
+                            topic.lastReplyUserName  = lastReplyUserName!
+                        }
+                        if replies != nil {
+                            topic.replies  = replies!
+                        }
                         resultArray.append(topic);
                     }
                 }
