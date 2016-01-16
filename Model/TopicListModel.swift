@@ -14,6 +14,7 @@ import Alamofire
 import Ji
 
 class TopicListModel {
+    var topicId: String?
     var avata: String?
     var nodeName: String?
     var userName: String?
@@ -46,7 +47,25 @@ class TopicListModel {
                             let avata = aNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
                             let nodeName = aNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
                             let userName = aNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content
-                            let topicTitle = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0].content
+//                            let topicTitle = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0].content
+                            
+                            
+                            let node = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0]
+                            let topicTitle = node.content
+                            
+                            var topicIdUrl = node["href"];
+                            
+                            if var id = topicIdUrl {
+                                if let range = id.rangeOfString("/t/") {
+                                    id.replaceRange(range, with: "");
+                                }
+                                if let range = id.rangeOfString("#") {
+                                    id = id.substringToIndex(range.startIndex)
+                                    topicIdUrl = id
+                                }
+                            }
+                            
+                            
                             let date = aNode.xPath("./table/tr/td[3]/span[3]")[0].content
                             
                             var lastReplyUserName:String? = nil
@@ -59,6 +78,7 @@ class TopicListModel {
                             }
                             
                             let topic = TopicListModel()
+                            topic.topicId = topicIdUrl
                             topic.avata  = avata
                             topic.nodeName  = nodeName
                             topic.userName  = userName

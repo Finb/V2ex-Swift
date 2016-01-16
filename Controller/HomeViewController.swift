@@ -83,5 +83,16 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         cell.bind(self.topicList![indexPath.row]);
         return cell;
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let item = self.topicList![indexPath.row]
+        NSLog(item.topicId!);
+        TopicDetailModel.getTopicDetailById(item.topicId!){
+            (response:V2Response<TopicDetailModel?>) -> Void in
+            if let model = response.value {
+                NSLog("%@",model)
+            }
+        }
+    }
 }
 

@@ -13,6 +13,8 @@
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
 		0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */; };
+		06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA51C4A89520024452C /* TopicDetailViewController.swift */; };
+		06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA71C4A8A370024452C /* TopicDetailModel.swift */; };
 		069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069508E31C3F74FF0088D031 /* AppDelegate.swift */; };
 		069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069508EA1C3F74FF0088D031 /* Assets.xcassets */; };
 		069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */; };
@@ -37,6 +39,8 @@
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
 		0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+FINAutomaticHeightCell.swift"; sourceTree = "<group>"; };
+		06662CA51C4A89520024452C /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailViewController.swift; sourceTree = "<group>"; };
+		06662CA71C4A8A370024452C /* TopicDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailModel.swift; sourceTree = "<group>"; };
 		069508E01C3F74FF0088D031 /* V2ex-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "V2ex-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		069508E31C3F74FF0088D031 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		069508EA1C3F74FF0088D031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -130,9 +134,10 @@
 		069508F71C3F75A60088D031 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
 				069839801C478EC300FF7163 /* LeftViewController.swift */,
 				069839821C478ECC00FF7163 /* RightViewController.swift */,
+				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
+				06662CA51C4A89520024452C /* TopicDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -142,6 +147,7 @@
 			children = (
 				0610F1AF1C46136300481402 /* BaseModel.swift */,
 				0610F1B11C4613D800481402 /* TopicListModel.swift */,
+				06662CA71C4A8A370024452C /* TopicDetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -324,8 +330,10 @@
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
+				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
+				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
