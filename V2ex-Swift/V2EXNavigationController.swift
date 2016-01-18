@@ -26,6 +26,7 @@ class V2EXNavigationController: UINavigationController {
         self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clearColor()), forBarMetrics: .Default)
         
         let maskingView = UIView()
+        maskingView.userInteractionEnabled = false
         maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
         self.navigationBar.insertSubview(maskingView, atIndex: 0);
 
@@ -35,6 +36,7 @@ class V2EXNavigationController: UINavigationController {
         }
         
         let frostedView = UIToolbar()
+        frostedView.userInteractionEnabled = false
         frostedView.barStyle = .Default
         maskingView.addSubview(frostedView);
         

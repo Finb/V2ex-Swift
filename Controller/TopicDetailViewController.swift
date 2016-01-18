@@ -10,6 +10,9 @@ import UIKit
 
 class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
 
+    var topicId = "0"
+    private var model:TopicDetailModel?
+    
     private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
@@ -20,9 +23,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             _tableView.estimatedRowHeight=100;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
-            regClass(_tableView, cell: HomeTopicListTableViewCell.self);
-            
-            _tableView.registerClass(HomeTopicListTableViewCell.self , forCellReuseIdentifier: HomeTopicListTableViewCell.Identifier());
+            regClass(_tableView, cell: TopicDetailHeaderCell.self);
             
             _tableView.delegate = self;
             _tableView.dataSource = self;
@@ -33,19 +34,45 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "帖子详情"
+        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        self.view.addSubview(self.tableView);
+        self.tableView.snp_makeConstraints{ (make) -> Void in
+            make.top.right.bottom.left.right.equalTo(self.view);
+        }
+        
+        TopicDetailModel.getTopicDetailById(self.topicId){
+            (response:V2Response<TopicDetailModel?>) -> Void in
+            if let aModel = response.value {
+                self.model = aModel
+                self.tableView.fin_reloadData()
+            }
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1;
+        return 1
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        if self.model != nil{
+            return 1
+        }
+        else {
+            return 0;
+        }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 0;
+        if indexPath.section == 0 && indexPath.row == 1 {
+            return tableView.fin_heightForCellWithIdentifier(TopicDetailHeaderCell.self, indexPath: indexPath) { (cell) -> Void in
+                cell.bind(self.model!);
+            }
+        }
+        return 0 ;
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell();
+        let cell = getCell(tableView, cell: TopicDetailHeaderCell.self, indexPath: indexPath);
+        cell.bind(self.model!);
+        return cell;
     }
     
 }

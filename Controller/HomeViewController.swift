@@ -30,8 +30,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             
             regClass(_tableView, cell: HomeTopicListTableViewCell.self);
             
-            _tableView.registerClass(HomeTopicListTableViewCell.self , forCellReuseIdentifier: HomeTopicListTableViewCell.Identifier());
-            
             _tableView.delegate = self;
             _tableView.dataSource = self;
             return _tableView!;
@@ -86,12 +84,11 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let item = self.topicList![indexPath.row]
-        NSLog(item.topicId!);
-        TopicDetailModel.getTopicDetailById(item.topicId!){
-            (response:V2Response<TopicDetailModel?>) -> Void in
-            if let model = response.value {
-                NSLog("%@",model)
-            }
+        
+        if let id = item.topicId {
+            let topicDetailController = TopicDetailViewController();
+            topicDetailController.topicId = id ;
+            self.navigationController?.pushViewController(topicDetailController, animated: true)
         }
     }
 }

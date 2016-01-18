@@ -49,7 +49,7 @@ class TopicDetailModel: NSObject {
                      
                         model!.topicTitle = aRootNode.xPath("./div[1]/h1").first?.content
                         
-                        model!.topicContent = aRootNode.xPath("./div[2]/div").first?.content
+                        model!.topicContent = aRootNode.xPath("./div[2]/div").first?.rawContent
                         
                         model!.date = aRootNode.xPath("./div[1]/small/text()[2]").first?.content
                         

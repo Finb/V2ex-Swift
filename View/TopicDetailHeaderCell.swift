@@ -1,27 +1,24 @@
 //
-//  HomeTopicListTableViewCell.swift
+//  TopicDetailHeaderCell.swift
 //  V2ex-Swift
 //
-//  Created by huangfeng on 1/8/16.
+//  Created by huangfeng on 1/18/16.
 //  Copyright © 2016 Fin. All rights reserved.
 //
 
 import UIKit
-import Kingfisher
 
-class HomeTopicListTableViewCell: UITableViewCell {
+class TopicDetailHeaderCell: UITableViewCell {
     /// 头像
     var avatarImageView: UIImageView?
     /// 用户名
     var userNameLabel: UILabel?
     /// 日期 和 最后发送人
     var dateAndLastPostUserLabel: UILabel?
-    /// 评论数量
-    var replyCountLabel: UILabel?
-    var replyCountIconImageView: UIImageView?
-    
+
     /// 节点
     var nodeNameLabel: UILabel?
+    
     /// 帖子标题
     var topicTitleLabel: UILabel?
     
@@ -31,6 +28,9 @@ class HomeTopicListTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
@@ -69,24 +69,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.avatarImageView!);
             make.left.equalTo(self.userNameLabel!);
         }
-        
-        self.replyCountLabel = UILabel();
-        self.replyCountLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
-        self.replyCountLabel!.font = v2Font(12)
-        self.contentPanel!.addSubview(self.replyCountLabel!);
-        self.replyCountLabel!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.userNameLabel!);
-            make.right.equalTo(self.contentPanel!).offset(-12);
-        }
-        self.replyCountIconImageView = UIImageView(image: UIImage(imageNamed: "reply_n"))
-        self.replyCountIconImageView?.contentMode = .ScaleAspectFit
-        self.contentPanel?.addSubview(self.replyCountIconImageView!);
-        self.replyCountIconImageView!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.replyCountLabel!);
-            make.width.height.equalTo(18);
-            make.right.equalTo(self.replyCountLabel!.snp_left).offset(-2);
-        }
-        
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.nodeNameLabel!.font = v2Font(11)
@@ -95,10 +77,10 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.nodeNameLabel!.clipsToBounds = true
         self.contentPanel?.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.replyCountLabel!);
-            make.right.equalTo(self.replyCountIconImageView!.snp_left).offset(-4)
-            make.bottom.equalTo(self.replyCountLabel!).offset(1);
-            make.top.equalTo(self.replyCountLabel!).offset(-1);
+            make.centerY.equalTo(self.userNameLabel!);
+            make.right.equalTo(self.contentPanel!.snp_right).offset(-10)
+            make.bottom.equalTo(self.userNameLabel!).offset(1);
+            make.top.equalTo(self.userNameLabel!).offset(-1);
         }
         
         self.topicTitleLabel=V2SpacingLabel();
@@ -124,15 +106,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
     }
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
     
-    func bind(model:TopicListModel){
+    func bind(model:TopicDetailModel){
         self.userNameLabel?.text = model.userName;
         self.dateAndLastPostUserLabel?.text = model.date
         self.topicTitleLabel?.text = model.topicTitle;
@@ -141,10 +116,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
             self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
         }
         
-        self.replyCountLabel?.text = model.replies;
         if let node = model.nodeName{
             self.nodeNameLabel!.text = "  " + node + "  "
         }
-
     }
 }
