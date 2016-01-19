@@ -102,7 +102,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         
         self.contentView.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel!).offset(10);
+            make.bottom.equalTo(self.contentPanel!).offset(0);
         }
         
     }

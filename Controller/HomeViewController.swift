@@ -89,6 +89,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;
             self.navigationController?.pushViewController(topicDetailController, animated: true)
+            tableView .deselectRowAtIndexPath(indexPath, animated: true);
         }
     }
 }

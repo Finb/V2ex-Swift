@@ -12,6 +12,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
 
     var topicId = "0"
     private var model:TopicDetailModel?
+    private var webViewContentCell:TopicDetailWebViewContentCell?
     
     private var _tableView :UITableView!
     private var tableView: UITableView {
@@ -24,7 +25,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
             regClass(_tableView, cell: TopicDetailHeaderCell.self);
-            
+            regClass(_tableView, cell: TopicDetailWebViewContentCell.self);
             _tableView.delegate = self;
             _tableView.dataSource = self;
             return _tableView!;
@@ -55,24 +56,48 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.model != nil{
-            return 1
+            return 2
         }
         else {
             return 0;
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 && indexPath.row == 1 {
-            return tableView.fin_heightForCellWithIdentifier(TopicDetailHeaderCell.self, indexPath: indexPath) { (cell) -> Void in
-                cell.bind(self.model!);
+        if indexPath.section == 0 {
+            if indexPath.row == 0{
+                return tableView.fin_heightForCellWithIdentifier(TopicDetailHeaderCell.self, indexPath: indexPath) { (cell) -> Void in
+                    cell.bind(self.model!);
+                }
+            }
+            if indexPath.row == 1 {
+                if let cell = self.webViewContentCell {
+                    return cell.contentHeight
+                }
+                else {
+                    return 1
+                }
             }
         }
-        return 0 ;
+        return 200 ;
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = getCell(tableView, cell: TopicDetailHeaderCell.self, indexPath: indexPath);
-        cell.bind(self.model!);
-        return cell;
+        if indexPath.section == 0 {
+            if indexPath.row == 0{
+                let cell = getCell(tableView, cell: TopicDetailHeaderCell.self, indexPath: indexPath);
+                cell.bind(self.model!);
+                return cell;
+            }
+            else if indexPath.row == 1{
+                let cell = getCell(tableView, cell: TopicDetailWebViewContentCell.self, indexPath: indexPath)
+                self.webViewContentCell = cell;
+                cell.load(self.model!);
+                cell.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
+                    self?.tableView.reloadData()
+                }
+                return cell
+            }
+        }
+        return UITableViewCell();
     }
     
 }
