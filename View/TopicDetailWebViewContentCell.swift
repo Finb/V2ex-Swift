@@ -10,6 +10,7 @@ import UIKit
 
 public typealias TopicDetailWebViewContentHeightChanged = (CGFloat) -> Void
 
+let HTMLHEADER  = "<html><head><meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' name='viewport'>"
 class TopicDetailWebViewContentCell: UITableViewCell,UIWebViewDelegate {
     
     private var model:TopicDetailModel?
@@ -42,7 +43,13 @@ class TopicDetailWebViewContentCell: UITableViewCell,UIWebViewDelegate {
         }
         self.model = model
         
-        if let html = model.topicContent {
+        if var html = model.topicContent {
+            let style = "<link rel='stylesheet' href = 'file://"
+                + LightBundel.pathForResource("style", ofType: "css")!
+                + "' type='text/css'/></head>" ;
+            
+            html =  HTMLHEADER + style  + html + "</html>"
+            
             self.contentWebView?.loadHTMLString(html, baseURL: nil)
         }
     }
