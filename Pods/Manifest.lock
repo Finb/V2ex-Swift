@@ -15,6 +15,7 @@ PODS:
     - Ji/Ji-libxml
   - Ji/Ji-libxml (1.2.0)
   - Kingfisher (1.9.1)
+  - KVOController (1.0.3)
   - ObjectMapper (1.1.1)
   - SnapKit (0.18.0)
 
@@ -24,6 +25,7 @@ DEPENDENCIES:
   - DrawerController (~> 1.1.0)
   - Ji (~> 1.2.0)
   - Kingfisher (~> 1.9.1)
+  - KVOController (~> 1.0.3)
   - ObjectMapper (~> 1.1.1)
   - SnapKit (~> 0.18.0)
 
@@ -33,6 +35,7 @@ SPEC CHECKSUMS:
   DrawerController: 8fd56e6238399a08c4af054fbea0ef8669cd81f3
   Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
+  KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   ObjectMapper: 4143abed1dbd49b73d75092fe8fa1c88ed6434b7
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
 

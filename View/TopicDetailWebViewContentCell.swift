@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import KVOController
 
 public typealias TopicDetailWebViewContentHeightChanged = (CGFloat) -> Void
 
 let HTMLHEADER  = "<html><head><meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' name='viewport'>"
-class TopicDetailWebViewContentCell: UITableViewCell,UIWebViewDelegate {
+class TopicDetailWebViewContentCell: UITableViewCell {
     
     private var model:TopicDetailModel?
     
@@ -29,11 +30,21 @@ class TopicDetailWebViewContentCell: UITableViewCell,UIWebViewDelegate {
     func setup()->Void{
         self.contentWebView = UIWebView()
         self.contentWebView!.backgroundColor = UIColor.whiteColor()
-        self.contentWebView!.delegate=self;
         self.contentWebView!.scrollView.scrollEnabled = false
         self.contentView.addSubview(self.contentWebView!);
         self.contentWebView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(self.contentView)
+        }
+        
+        self.KVOController.observe(self.contentWebView!.scrollView, keyPath: "contentSize", options: [.New]) {
+            [weak self] (observe, observer, change) -> Void in
+            if let weakSelf = self {
+                let size = change![NSKeyValueChangeNewKey] as! NSValue
+                weakSelf.contentHeight = size.CGSizeValue().height;
+                if let event = weakSelf.contentHeightChanged {
+                    event(weakSelf.contentHeight)
+                }
+            }
         }
     }
     
@@ -51,19 +62,6 @@ class TopicDetailWebViewContentCell: UITableViewCell,UIWebViewDelegate {
             html =  HTMLHEADER + style  + html + "</html>"
             
             self.contentWebView?.loadHTMLString(html, baseURL: nil)
-        }
-    }
-    
-    func webViewDidStartLoad(webView: UIWebView) {
-        self.contentHeight = webView.scrollView.contentSize.height;
-        if let event = contentHeightChanged {
-            event(self.contentHeight)
-        }
-    }
-    func webViewDidFinishLoad(webView: UIWebView) {
-        self.contentHeight = webView.scrollView.contentSize.height;
-        if let event = contentHeightChanged {
-            event(self.contentHeight)
         }
     }
 }

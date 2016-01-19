@@ -21,7 +21,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.estimatedRowHeight=100;
+            _tableView.estimatedRowHeight=200;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
             regClass(_tableView, cell: TopicDetailHeaderCell.self);
@@ -88,13 +88,17 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 return cell;
             }
             else if indexPath.row == 1{
-                let cell = getCell(tableView, cell: TopicDetailWebViewContentCell.self, indexPath: indexPath)
-                self.webViewContentCell = cell;
-                cell.load(self.model!);
-                cell.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
-                    self?.tableView.reloadData()
+                if self.webViewContentCell == nil {
+                    self.webViewContentCell = getCell(tableView, cell: TopicDetailWebViewContentCell.self, indexPath: indexPath);
                 }
-                return cell
+                else {
+                    return self.webViewContentCell!
+                }
+                self.webViewContentCell!.load(self.model!);
+                self.webViewContentCell!.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
+                    self?.tableView.reloadData();
+                }
+                return self.webViewContentCell!
             }
         }
         return UITableViewCell();
