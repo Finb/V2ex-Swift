@@ -12,6 +12,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
 
     var topicId = "0"
     private var model:TopicDetailModel?
+    private var commentsArray:[TopicCommentModel] = []
     private var webViewContentCell:TopicDetailWebViewContentCell?
     
     private var _tableView :UITableView!
@@ -24,10 +25,11 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             _tableView.estimatedRowHeight=200;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
-            regClass(_tableView, cell: TopicDetailHeaderCell.self);
-            regClass(_tableView, cell: TopicDetailWebViewContentCell.self);
-            _tableView.delegate = self;
-            _tableView.dataSource = self;
+            regClass(_tableView, cell: TopicDetailHeaderCell.self)
+            regClass(_tableView, cell: TopicDetailWebViewContentCell.self)
+            regClass(_tableView, cell: TopicDetailCommentCell.self)
+            _tableView.delegate = self
+            _tableView.dataSource = self
             return _tableView!;
             
         }
@@ -39,27 +41,39 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.right.equalTo(self.view);
+            make.top.right.bottom.left.equalTo(self.view);
         }
         
         TopicDetailModel.getTopicDetailById(self.topicId){
-            (response:V2Response<TopicDetailModel?>) -> Void in
-            if let aModel = response.value {
-                self.model = aModel
+            (response:V2Response<(TopicDetailModel?,[TopicCommentModel])>) -> Void in
+            if response.success {
+                
+                if let aModel = response.value.0{
+                    self.model = aModel
+                    self.tableView.fin_reloadData()
+                }
+                
+                self.commentsArray = response.value.1
+                
                 self.tableView.fin_reloadData()
             }
         }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.model != nil{
-            return 2
+        if section == 0 {
+            if self.model != nil{
+                return 2
+            }
+            else{
+                return 0
+            }
         }
         else {
-            return 0;
+            return self.commentsArray.count;
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -76,6 +90,11 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 else {
                     return 1
                 }
+            }
+        }
+        else {
+            return tableView.fin_heightForCellWithIdentifier(TopicDetailCommentCell.self, indexPath: indexPath) { (cell) -> Void in
+                cell.bind(self.commentsArray[indexPath.row])
             }
         }
         return 200 ;
@@ -100,6 +119,11 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 }
                 return self.webViewContentCell!
             }
+        }
+        else {
+            let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
+            cell.bind(self.commentsArray[indexPath.row])
+            return cell
         }
         return UITableViewCell();
     }

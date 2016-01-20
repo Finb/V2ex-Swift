@@ -12,6 +12,7 @@
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
+		06536F591C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06536F581C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift */; };
 		0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */; };
 		06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA51C4A89520024452C /* TopicDetailViewController.swift */; };
 		06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA71C4A8A370024452C /* TopicDetailModel.swift */; };
@@ -40,6 +41,7 @@
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
+		06536F581C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailCommentCell.swift; sourceTree = "<group>"; };
 		0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+FINAutomaticHeightCell.swift"; sourceTree = "<group>"; };
 		06662CA51C4A89520024452C /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailViewController.swift; sourceTree = "<group>"; };
 		06662CA71C4A8A370024452C /* TopicDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailModel.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */,
 				06C673491C4D20A0000F48DA /* TopicDetailHeaderCell.swift */,
 				06D33A5D1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift */,
+				06536F581C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06536F591C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift in Sources */,
 				060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */,
 				06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */,
 				0610F1B01C46136300481402 /* BaseModel.swift in Sources */,

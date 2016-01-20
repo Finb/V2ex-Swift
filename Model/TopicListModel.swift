@@ -47,9 +47,7 @@ class TopicListModel {
                             let avata = aNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
                             let nodeName = aNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
                             let userName = aNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content
-//                            let topicTitle = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0].content
-                            
-                            
+
                             let node = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0]
                             let topicTitle = node.content
                             

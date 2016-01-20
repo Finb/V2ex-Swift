@@ -36,15 +36,13 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             
         }
     }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.right.equalTo(self.view);
+            make.top.right.bottom.left.equalTo(self.view);
         }
         self.refreshPage();
     }
