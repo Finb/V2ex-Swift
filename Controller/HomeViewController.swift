@@ -51,6 +51,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         if let tab = tab {
             _tab = tab
         }
+        //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(_tab){
             [weak self](response:V2Response<[TopicListModel]>) -> Void in
             if response.success {

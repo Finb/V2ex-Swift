@@ -23,6 +23,8 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     var date: String?
     var favorites: String?
     
+    var topicCommentTotalCount: String?
+    
     required init(rootNode: JiNode) {
         let node = rootNode.xPath("./div[1]/a[2]").first
         self.nodeName = node?.content
@@ -65,6 +67,11 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                             topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
                         }
                     }
+                    //获取评论总数
+                    if let commentTotalCount = jiHtml?.xPath("//*[@id='Wrapper']/div/div[3]/div[1]/span") {
+                        topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
+                    }
+                    
                 }
                 let t = V2Response<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
                 completionHandler(t);
