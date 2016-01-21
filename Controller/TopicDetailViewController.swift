@@ -75,8 +75,11 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 return 0
             }
         }
-        else {
+        else if section == 1{
             return self.commentsArray.count;
+        }
+        else {
+            return 0;
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -129,8 +132,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 }
                 self.webViewContentCell!.load(self.model!);
                 self.webViewContentCell!.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
-                    self?.tableView.beginUpdates()
-                    self?.tableView.endUpdates()
+                    self?.tableView.fin_reloadData()
                 }
                 return self.webViewContentCell!
             }
