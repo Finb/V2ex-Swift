@@ -37,7 +37,7 @@ class TopicListModel {
                 params["tab"] = "hot"
             }
             
-            Alamofire.request(.GET, "https://www.v2ex.com", parameters: params, encoding: .URL, headers: CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            Alamofire.request(.GET, "https://www.v2ex.com", parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
                 var resultArray:[TopicListModel] = []
                 
                 if let html = response .result.value{

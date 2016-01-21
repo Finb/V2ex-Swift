@@ -51,7 +51,7 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
             
             let url = "https" + "://www.v2ex.com/t/" + topicId + "?p=1"
             
-            Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
                 var topicModel: TopicDetailModel? = nil
                 var topicCommentsArray : [TopicCommentModel] = []
                 if let html = response .result.value{
