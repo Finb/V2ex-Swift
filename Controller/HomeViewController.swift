@@ -60,12 +60,9 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
                 self?.tableView.fin_reloadData()
             }
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        
         self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: nil);
     }
+    
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {
