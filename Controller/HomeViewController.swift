@@ -45,6 +45,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             make.top.right.bottom.left.equalTo(self.view);
         }
         self.refreshPage();
+
     }
     
     func refreshPage(tab:String? = nil){
@@ -61,6 +62,10 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+        self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: nil);
+    }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {

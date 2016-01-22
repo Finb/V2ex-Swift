@@ -66,10 +66,10 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
 
             //这里有一个问题，
             
-            //如果baseURL 设置为nil，则可以直接引用css文件。
+            //如果baseURL 设置为nil，则可以直接引用本地css文件。
             //但不能加载 地址 //:开头的 的图片。
             
-            //如果将baseUrl 设为 http/https ，则可以加载图片。但是却不能直接引用css文件，
+            //如果将baseUrl 设为 http/https ，则可以加载图片。但是却不能直接引用本地css文件，
             //因为WebView 有同源限制，http/https 与 我们本地css文件的 file:// 是不同源的
             //所以就会导致 css 样式不能加载
             

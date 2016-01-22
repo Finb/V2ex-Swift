@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06098B3E1C52171D00848159 /* LoginViewController.swift */; };
+		06098B411C521A4100848159 /* login-bg-iphone-6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B401C521A4100848159 /* login-bg-iphone-6.jpg */; };
+		06098B431C5232D800848159 /* 32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B421C5232D800848159 /* 32.jpg */; };
 		060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */; };
 		060C4E421C48EC39004FBECC /* V2Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E411C48EC39004FBECC /* V2Client.swift */; };
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
@@ -37,6 +40,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06098B3E1C52171D00848159 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		06098B401C521A4100848159 /* login-bg-iphone-6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-bg-iphone-6.jpg"; sourceTree = "<group>"; };
+		06098B421C5232D800848159 /* 32.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 32.jpg; sourceTree = "<group>"; };
 		060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
 		060C4E411C48EC39004FBECC /* V2Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Client.swift; sourceTree = "<group>"; };
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
@@ -146,6 +152,7 @@
 				069839821C478ECC00FF7163 /* RightViewController.swift */,
 				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
 				06662CA51C4A89520024452C /* TopicDetailViewController.swift */,
+				06098B3E1C52171D00848159 /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -174,6 +181,8 @@
 		0698397A1C47763800FF7163 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				06098B421C5232D800848159 /* 32.jpg */,
+				06098B401C521A4100848159 /* login-bg-iphone-6.jpg */,
 				0698397B1C47766500FF7163 /* Dark.bundle */,
 				0698397C1C47766500FF7163 /* Light.bundle */,
 			);
@@ -278,10 +287,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06098B431C5232D800848159 /* 32.jpg in Resources */,
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
 				0698397D1C47766500FF7163 /* Dark.bundle in Resources */,
 				0698397E1C47766500FF7163 /* Light.bundle in Resources */,
 				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
+				06098B411C521A4100848159 /* login-bg-iphone-6.jpg in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +362,7 @@
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
 				06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
+				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
