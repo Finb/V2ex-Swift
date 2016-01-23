@@ -45,6 +45,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             make.top.right.bottom.left.equalTo(self.view);
         }
         self.refreshPage();
+        self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: nil);        
     }
     
     func refreshPage(tab:String? = nil){
@@ -59,7 +60,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
                 self?.tableView.fin_reloadData()
             }
         }
-        self.navigationController?.presentViewController(LoginViewController(), animated: true, completion: nil);
     }
     
 

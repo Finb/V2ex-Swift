@@ -28,6 +28,7 @@ let DARK_CSS = try! String(contentsOfFile: DarkBundel.pathForResource("style", o
 //站点地址,客户端只有https,禁用http
 let V2EXURL = "https://www.v2ex.com/"
 
+let SEPARATOR_HEIGHT = 1.0 / UIScreen.mainScreen().scale
 
 extension UIImage {
     convenience init? (imageNamed: String){
