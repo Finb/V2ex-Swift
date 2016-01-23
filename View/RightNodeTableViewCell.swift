@@ -33,11 +33,10 @@ class RightNodeTableViewCell: UITableViewCell {
         
         self.nodeNameLabel = UILabel()
         self.nodeNameLabel!.font = v2Font(16)
-        self.nodeNameLabel!.textAlignment = .Right
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         panel.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(panel).offset(25)
+            make.right.equalTo(panel).offset(-25)
             make.centerY.equalTo(panel)
         }
     }

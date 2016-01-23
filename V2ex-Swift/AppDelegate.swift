@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
         drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         drawerController.maximumLeftDrawerWidth=230;
-        drawerController.maximumRightDrawerWidth=140;
+        drawerController.maximumRightDrawerWidth=110;
         drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.PanningCenterView
         drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.All;
         self.window?.rootViewController = drawerController;
