@@ -25,8 +25,3 @@ protocol BaseHtmlModelProtocol {
     init(rootNode:JiNode)
 }
 
-
-struct V2Response<T> {
-    let value:T
-    let success:Bool
-}

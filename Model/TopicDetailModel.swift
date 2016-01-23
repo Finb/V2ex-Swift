@@ -46,10 +46,10 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     
     class func getTopicDetailById(
         topicId: String,
-        completionHandler: V2Response<(TopicDetailModel?,[TopicCommentModel])> -> Void
+        completionHandler: V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])> -> Void
         )->Void{
             
-            let url = "https" + "://www.v2ex.com/t/" + topicId + "?p=1"
+            let url = V2EXURL + "t/" + topicId + "?p=1"
             
             Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
                 var topicModel: TopicDetailModel? = nil
@@ -73,7 +73,8 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                     }
                     
                 }
-                let t = V2Response<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
+                let t = V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
+                
                 completionHandler(t);
             }
             

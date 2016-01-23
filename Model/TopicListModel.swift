@@ -26,7 +26,7 @@ class TopicListModel {
     class func getTopicList(
         tab: String? = nil ,
         nodeName: String? = nil,
-        completionHandler: V2Response<[TopicListModel]> -> Void
+        completionHandler: V2ValueResponse<[TopicListModel]> -> Void
         )->Void{
             
             var params:[String:String] = [:]
@@ -37,7 +37,7 @@ class TopicListModel {
                 params["tab"] = "hot"
             }
             
-            Alamofire.request(.GET, "https://www.v2ex.com", parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            Alamofire.request(.GET, V2EXURL, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
                 var resultArray:[TopicListModel] = []
                 
                 if let html = response .result.value{
@@ -93,7 +93,7 @@ class TopicListModel {
                     }
                 }
                 
-                let t = V2Response<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
+                let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
                 completionHandler(t);
                 
             }

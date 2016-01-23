@@ -45,7 +45,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             make.top.right.bottom.left.equalTo(self.view);
         }
         self.refreshPage();
-
     }
     
     func refreshPage(tab:String? = nil){
@@ -54,7 +53,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         }
         //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(_tab){
-            [weak self](response:V2Response<[TopicListModel]>) -> Void in
+            [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
             if response.success {
                 self?.topicList = response.value
                 self?.tableView.fin_reloadData()

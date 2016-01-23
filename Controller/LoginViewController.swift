@@ -57,6 +57,7 @@ class LoginViewController: UIViewController {
         self.userNameTextField!.font = v2Font(15)
         self.userNameTextField!.layer.cornerRadius = 3;
         self.userNameTextField!.layer.borderWidth = 0.5
+        self.userNameTextField!.keyboardType = .ASCIICapable
         self.userNameTextField!.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
         self.userNameTextField!.placeholder = "        用户名"
         self.userNameTextField!.clearButtonMode = .Always
@@ -76,6 +77,8 @@ class LoginViewController: UIViewController {
         self.passwordTextField!.font = v2Font(15)
         self.passwordTextField!.layer.cornerRadius = 3;
         self.passwordTextField!.layer.borderWidth = 0.5
+        self.passwordTextField!.keyboardType = .ASCIICapable
+        self.passwordTextField!.secureTextEntry = true
         self.passwordTextField!.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
         self.passwordTextField!.placeholder = "        密码"
         self.passwordTextField!.clearButtonMode = .Always
@@ -132,7 +135,34 @@ class LoginViewController: UIViewController {
     }
     
     func loginClick(sneder:UIButton){
-        self.dismissViewControllerAnimated(true, completion: nil);
+        var userName:String?
+        var password:String?
+        if self.userNameTextField!.text?.Lenght > 0{
+            userName = self.userNameTextField!.text! ;
+        }
+        else{
+            self.userNameTextField!.becomeFirstResponder()
+            return;
+        }
+        
+        if self.passwordTextField!.text?.Lenght > 0  {
+            password = self.passwordTextField!.text!
+        }
+        else{
+            self.passwordTextField!.becomeFirstResponder()
+            return;
+        }
+        
+        UserModel.Login(userName!, password: password!){
+            (response:V2Response) -> Void in
+            if response.success {
+                NSLog("登陆成功")
+            }
+            else{
+                NSLog("登陆错误 错误信息:%@",response.message)
+            }
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     override func viewDidAppear(animated: Bool) {
         UIView.animateWithDuration(2) { () -> Void in
