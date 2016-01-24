@@ -15,6 +15,7 @@
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
+		0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */; };
 		064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */; };
 		064D37A61C53C4A8002E7226 /* LeftNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */; };
 		064D37A81C53CB09002E7226 /* RightNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */; };
@@ -53,6 +54,7 @@
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
+		0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXSettings.swift; sourceTree = "<group>"; };
 		064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftUserHeadCell.swift; sourceTree = "<group>"; };
 		064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNodeTableViewCell.swift; sourceTree = "<group>"; };
 		064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightNodeTableViewCell.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */,
 				060C4E411C48EC39004FBECC /* V2Client.swift */,
 				06C532B51C534D3F00258A55 /* V2Response.swift */,
+				0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
+				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
