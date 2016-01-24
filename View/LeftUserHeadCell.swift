@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import KVOController
+import Kingfisher
 
 class LeftUserHeadCell: UITableViewCell {
     /// 头像
@@ -22,6 +24,7 @@ class LeftUserHeadCell: UITableViewCell {
     }
     func setup()->Void{
         self.backgroundColor = UIColor.clearColor()
+        self.selectionStyle = .None
         
         self.avatarImageView = UIImageView()
         self.avatarImageView!.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
@@ -38,11 +41,25 @@ class LeftUserHeadCell: UITableViewCell {
         
         self.userNameLabel = UILabel()
         self.userNameLabel!.text = "请先登录"
+        self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         self.userNameLabel!.font = v2Font(16)
         self.contentView.addSubview(self.userNameLabel!)
         self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView!.snp_bottom).offset(10)
             make.centerX.equalTo(self.avatarImageView!)
         }
+        
+        self.KVOController.observe(V2Client.sharedInstance, keyPath: "username", options: [.Initial , .New]){
+            [weak self] (observe, observer, change) -> Void in
+            if let weakSelf = self {
+                if let user = V2Client.sharedInstance.user {
+                    weakSelf.userNameLabel?.text = user.username
+                    if let avatar = user.avatar_large {
+                        weakSelf.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:"+avatar)!)
+                    }
+                }
+            }
+        }
     }
+    
 }

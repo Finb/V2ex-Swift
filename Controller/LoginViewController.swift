@@ -8,7 +8,12 @@
 
 import UIKit
 
+public typealias LoginSuccessHandel = (String) -> Void
+
 class LoginViewController: UIViewController {
+    
+    var successHandel:LoginSuccessHandel?
+    
     var backgroundImageView : UIImageView?
     var frostedView :UIVisualEffectView?
     var userNameTextField:UITextField?
@@ -133,6 +138,15 @@ class LoginViewController: UIViewController {
             make.centerX.equalTo(vibrancyView)
         }
     }
+
+    override func viewDidAppear(animated: Bool) {
+        UIView.animateWithDuration(2) { () -> Void in
+            self.backgroundImageView!.alpha=1;
+        }
+        UIView.animateWithDuration(20) { () -> Void in
+            self.backgroundImageView?.frame = CGRectMake(-1*( 1000 - SCREEN_WIDTH )/2, 0, SCREEN_HEIGHT+500, SCREEN_HEIGHT+500);
+        }
+    }
     
     func loginClick(sneder:UIButton){
         var userName:String?
@@ -154,23 +168,22 @@ class LoginViewController: UIViewController {
         }
         
         UserModel.Login(userName!, password: password!){
-            (response:V2Response) -> Void in
+            (response:V2ValueResponse<String>) -> Void in
             if response.success {
-                NSLog("登陆成功")
+                let username = response.value!
+                NSLog("登陆成功 %@",username)
+                //保存下用户名
+                V2EXSettings.sharedInstance[kUserName] = username
+                
+                //调用登陆成功回调
+                if let handel = self.successHandel {
+                    handel(username)
+                }
             }
             else{
                 NSLog("登陆错误 错误信息:%@",response.message)
             }
             self.dismissViewControllerAnimated(true, completion: nil)
         }
-    }
-    override func viewDidAppear(animated: Bool) {
-        UIView.animateWithDuration(2) { () -> Void in
-            self.backgroundImageView!.alpha=1;
-        }
-        UIView.animateWithDuration(20) { () -> Void in
-            self.backgroundImageView?.frame = CGRectMake(-1*( 1000 - SCREEN_WIDTH )/2, 0, SCREEN_HEIGHT+500, SCREEN_HEIGHT+500);
-        }
-    }
-    
+    }    
 }

@@ -50,6 +50,10 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
+        
+        if let username = V2EXSettings.sharedInstance[kUserName] {
+            self.getUserInfo(username)
+        }
 
         
     }
@@ -89,8 +93,35 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         }
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let loginViewController = LoginViewController()
+                
+                //登陆成功后，去获取用户信息
+                loginViewController.successHandel = {
+                    [weak self] (username:String) -> Void in
+                    self?.getUserInfo(username)
+                }
+                V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
+            }
+        }
     }
     
     
+    
+    /**
+     获取用户信息
+     */
+    func getUserInfo(userName:String){
+        UserModel.getUserInfoByUsername(userName) {(response:V2ValueResponse<UserModel>) -> Void in
+            if response.success {
+//                self?.tableView.reloadData()
+                NSLog("获取用户信息成功")
+            }
+            else{
+                NSLog("获取用户信息失败")
+            }
+        }
+    }
 
 }

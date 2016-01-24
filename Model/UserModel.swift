@@ -56,7 +56,7 @@ class UserModel: BaseJsonModel {
      - parameter completionHandler: 登陆回调
      */
     class func Login(username:String,password:String ,
-        completionHandler: V2Response -> Void
+        completionHandler: V2ValueResponse<String> -> Void
         ) -> Void{
             V2Client.sharedInstance.removeAllCookies()
         Alamofire.request(.GET, V2EXURL+"signin", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString{
@@ -77,7 +77,7 @@ class UserModel: BaseJsonModel {
                     return;
                 }
             }
-            completionHandler(V2Response(success: false,message: "获取 once 失败"))
+            completionHandler(V2ValueResponse(success: false,message: "获取 once 失败"))
         }
     }
     
@@ -90,7 +90,7 @@ class UserModel: BaseJsonModel {
      - parameter completionHandler: 登陆回调
      */
     class func Login(username:String,password:String ,once:String,
-        completionHandler: V2Response -> Void){
+        completionHandler: V2ValueResponse<String> -> Void){
             let prames = [
                 "once":once,
                 "next":"/",
@@ -106,13 +106,18 @@ class UserModel: BaseJsonModel {
                 if let html = response .result.value{
                     let jiHtml = Ji(htmlString: html);
                     //判断有没有用户头像，如果有，则证明登陆成功了
-                    if jiHtml?.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first != nil{
-                        completionHandler(V2Response(success: true))
-                        return;
+                    if let avatarImg = jiHtml?.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first {
+                        if let username = avatarImg.parent?["href"]{
+                            if username.hasPrefix("/member/") {
+                                let username = username.stringByReplacingOccurrencesOfString("/member/", withString: "")
+                                completionHandler(V2ValueResponse(value: username, success: true))
+                                return;
+                            }
+                        }
                     }
                     
                 }
-                completionHandler(V2Response(success: false,message: "登陆失败"))
+                completionHandler(V2ValueResponse(success: false,message: "登陆失败"))
             }
     }
     
@@ -124,6 +129,7 @@ class UserModel: BaseJsonModel {
             (response : Response<UserModel,NSError>) in
             if let handler = completionHandler {
                 if let model = response.result.value {
+                    V2Client.sharedInstance.user = model
                     handler(V2ValueResponse(value: model, success: true))
                     return ;
                 }
