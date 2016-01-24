@@ -51,12 +51,12 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             (response:V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>) -> Void in
             if response.success {
                 
-                if let aModel = response.value.0{
+                if let aModel = response.value!.0{
                     self.model = aModel
                     self.tableView.fin_reloadData()
                 }
                 
-                self.commentsArray = response.value.1
+                self.commentsArray = response.value!.1
                 
                 self.tableView.fin_reloadData()
             }

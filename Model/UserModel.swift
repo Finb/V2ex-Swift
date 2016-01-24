@@ -9,9 +9,52 @@
 import UIKit
 import Alamofire
 import Ji
+import ObjectMapper
 
-class UserModel: NSObject {
+class UserModel: BaseJsonModel {
+    var status:String?
+    var id:String?
+    var url:String?
+    var username:String?
+    var website:String?
+    var twitter:String?
+    var psn:String?
+    var btc:String?
+    var location:String?
+    var tagline:String?
+    var bio:String?
+    var avatar_mini:String?
+    var avatar_normal:String?
+    var avatar_large:String?
+    var created:String?
+    
+    override func mapping(map: Map) {
+        status <- map["status"]
+        id <- map["id"]
+        url <- map["url"]
+        username <- map["username"]
+        website <- map["website"]
+        twitter <- map["twitter"]
+        psn <- map["psn"]
+        btc <- map["btc"]
+        location <- map["location"]
+        tagline <- map["tagline"]
+        bio <- map["bio"]
+        avatar_mini <- map["avatar_mini"]
+        avatar_normal <- map["avatar_normal"]
+        avatar_large <- map["avatar_large"]
+        created <- map["created"]
+    }
+    
+    
 
+    /**
+     登陆
+     
+     - parameter username:          用户名
+     - parameter password:          密码
+     - parameter completionHandler: 登陆回调
+     */
     class func Login(username:String,password:String ,
         completionHandler: V2Response -> Void
         ) -> Void{
@@ -38,6 +81,14 @@ class UserModel: NSObject {
         }
     }
     
+    /**
+     登陆
+     
+     - parameter username:          用户名
+     - parameter password:          密码
+     - parameter once:              once
+     - parameter completionHandler: 登陆回调
+     */
     class func Login(username:String,password:String ,once:String,
         completionHandler: V2Response -> Void){
             let prames = [
@@ -63,6 +114,22 @@ class UserModel: NSObject {
                 }
                 completionHandler(V2Response(success: false,message: "登陆失败"))
             }
+    }
+    
+    class func getUserInfoByUsername(username:String ,completionHandler:(V2ValueResponse<UserModel> -> Void)? ){
+        let prame = [
+            "username":username
+        ]
+        Alamofire.request(.GET, V2EXURL+"api/members/show.json", parameters: prame, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseObject("") {
+            (response : Response<UserModel,NSError>) in
+            if let handler = completionHandler {
+                if let model = response.result.value {
+                    handler(V2ValueResponse(value: model, success: true))
+                    return ;
+                }
+                handler(V2ValueResponse(success: false,message: "获取用户信息失败"))
+            }
+        }
     }
 
 }

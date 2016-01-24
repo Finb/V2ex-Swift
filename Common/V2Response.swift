@@ -25,11 +25,21 @@ class V2Response: NSObject {
 }
 
 class V2ValueResponse<T>: V2Response {
-    var value:T
+    var value:T?
     
-    init(value:T,success:Bool) {
+    override init(success: Bool) {
+        super.init(success: success)
+    }
+    
+    override init(success:Bool,message:String?) {
+        super.init(success:success)
+        if let message = message {
+            self.message = message
+        }
+    }
+    convenience init(value:T,success:Bool) {
+        self.init(success: success)
         self.value = value
-        super.init(success: success, message: nil)
     }
     convenience init(value:T,success:Bool,message:String?) {
         self.init(value:value,success:success)
