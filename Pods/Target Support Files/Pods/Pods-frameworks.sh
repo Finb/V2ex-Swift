@@ -92,6 +92,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/SnapKit.framework"
+  install_framework "Pods/YYText.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Alamofire.framework"
@@ -102,4 +103,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/ObjectMapper.framework"
   install_framework "Pods/SnapKit.framework"
+  install_framework "Pods/YYText.framework"
 fi
