@@ -12,6 +12,9 @@ import Alamofire
 import Ji
 
 class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
+    var topicId:String?
+    var once: String?
+    
     var avata: String?
     var nodeName: String?
     var nodeUrl: String?
@@ -59,6 +62,8 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                     //获取帖子内容
                     if let aRootNode = jiHtml?.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
                         topicModel = TopicDetailModel(rootNode: aRootNode);
+                        topicModel?.once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]
+                        topicModel?.topicId = topicId
                     }
                     
                     //获取评论
@@ -98,5 +103,22 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         self.favorites =  rootNode.xPath("table/tr/td[3]/span[2]").first?.content
         
         self.comment = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']").first?.content
+    }
+    
+    
+    class func replyWithTopicId(topicId:String,once:String,content:String,
+        completionHandler: V2Response -> Void
+        ) {
+        let url = V2EXURL + "t/" + topicId
+        
+        let prames = [
+            "content":content,
+            "once":once
+        ]
+        
+        Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            NSLog("%@", response.result.value!)
+            completionHandler(V2Response(success: true))
+        }
     }
 }

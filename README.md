@@ -1,7 +1,7 @@
 # V2ex-Swift
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
-[![](https://img.shields.io/badge/done-5%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
+[![](https://img.shields.io/badge/done-10%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
 
 V2EX iOS客户端。
 <br/>使用swift2.0 编写 目标是做出一个与V站网页版功能一致的APP

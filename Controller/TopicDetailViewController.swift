@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
+class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate{
 
     var topicId = "0"
     private var model:TopicDetailModel?
@@ -157,9 +157,35 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
-            let actionSheet = UIActionSheet(title: nil, delegate: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢","隐藏")
+            let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢","隐藏","复制文本")
+            actionSheet.tag = indexPath.row
             actionSheet.showInView(self.view)
         }
     }
+    
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        
+        tableView .deselectRowAtIndexPath(NSIndexPath(forRow: actionSheet.tag, inSection: 1), animated: true);
+        switch buttonIndex {
+        case 1 :
+            let item = self.commentsArray[actionSheet.tag]
+            let replyViewController = ReplyingViewController()
+            replyViewController.atSomeone = "@" + item.userName! + " "
+            replyViewController.topicId = self.model!.topicId
+            replyViewController.once = self.model!.once
+            let nav = V2EXNavigationController(rootViewController:replyViewController)
+            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+            
+        case 2:
+            NSLog("")
+        case 3:
+            NSLog("")
+        case 4:
+            NSLog("")
+        default :
+            NSLog("")
+        }
+    }
+    
     
 }

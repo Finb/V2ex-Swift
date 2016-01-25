@@ -32,6 +32,8 @@
 		0698397E1C47766500FF7163 /* Light.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0698397C1C47766500FF7163 /* Light.bundle */; };
 		069839811C478EC300FF7163 /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839801C478EC300FF7163 /* LeftViewController.swift */; };
 		069839831C478ECC00FF7163 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839821C478ECC00FF7163 /* RightViewController.swift */; };
+		06BB48EE1C56096000A4A909 /* V2EXAtSomeoneBindingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BB48ED1C56096000A4A909 /* V2EXAtSomeoneBindingParser.swift */; };
+		06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BB48EF1C56153A00A4A909 /* WritingViewController.swift */; };
 		06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */; };
 		06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */; };
 		06C532B41C53485700258A55 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C532B31C53485700258A55 /* UserModel.swift */; };
@@ -74,6 +76,8 @@
 		0698397C1C47766500FF7163 /* Light.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Light.bundle; sourceTree = "<group>"; };
 		069839801C478EC300FF7163 /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		069839821C478ECC00FF7163 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
+		06BB48ED1C56096000A4A909 /* V2EXAtSomeoneBindingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXAtSomeoneBindingParser.swift; sourceTree = "<group>"; };
+		06BB48EF1C56153A00A4A909 /* WritingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingViewController.swift; sourceTree = "<group>"; };
 		06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "V2ex+Define.swift"; sourceTree = "<group>"; };
 		06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2SpacingLabel.swift; sourceTree = "<group>"; };
 		06C532B31C53485700258A55 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 				060C4E411C48EC39004FBECC /* V2Client.swift */,
 				06C532B51C534D3F00258A55 /* V2Response.swift */,
 				0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */,
+				06BB48ED1C56096000A4A909 /* V2EXAtSomeoneBindingParser.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
 				06662CA51C4A89520024452C /* TopicDetailViewController.swift */,
 				06098B3E1C52171D00848159 /* LoginViewController.swift */,
+				06BB48EF1C56153A00A4A909 /* WritingViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -388,12 +394,14 @@
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
+				06BB48EE1C56096000A4A909 /* V2EXAtSomeoneBindingParser.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
 				06C582AC1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
+				06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
