@@ -155,4 +155,11 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
         return UITableViewCell();
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 1 {
+            let actionSheet = UIActionSheet(title: nil, delegate: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢","隐藏")
+            actionSheet.showInView(self.view)
+        }
+    }
+    
 }

@@ -41,10 +41,34 @@ class V2Client: NSObject {
     
     dynamic var username:String?
     
+    override init() {
+        super.init()
+        self.setupInMainThread()
+    }
+    
+    func setupInMainThread() {
+        if NSThread.isMainThread() {
+            self.setup()
+        }
+        else {
+            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
+                self.setup()
+            })
+        }
+    }
+    func setup(){
+        self.username = V2EXSettings.sharedInstance[kUserName]
+    }
+    
     /// 是否登陆
     var isLogin:Bool {
         get {
-            return true
+            if self.username?.Lenght > 0 {
+                return true
+            }
+            else {
+                return false
+            }
         }
     }
     

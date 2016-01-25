@@ -51,8 +51,8 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             make.top.right.bottom.left.equalTo(self.view);
         }
         
-        if let username = V2EXSettings.sharedInstance[kUserName] {
-            self.getUserInfo(username)
+        if V2Client.sharedInstance.isLogin {
+            self.getUserInfo(V2Client.sharedInstance.username!)
         }
 
         
