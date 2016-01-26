@@ -19,6 +19,7 @@ PODS:
   - KVOController (1.0.3)
   - ObjectMapper (1.1.1)
   - SnapKit (0.18.0)
+  - SVProgressHUD (2.0-beta)
   - YYText (0.9.18)
 
 DEPENDENCIES:
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - KVOController (~> 1.0.3)
   - ObjectMapper (~> 1.1.1)
   - SnapKit (~> 0.18.0)
+  - SVProgressHUD (~> 2.0-beta)
   - YYText (~> 0.9.18)
 
 SPEC CHECKSUMS:
@@ -43,6 +45,7 @@ SPEC CHECKSUMS:
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   ObjectMapper: 4143abed1dbd49b73d75092fe8fa1c88ed6434b7
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
+  SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
 COCOAPODS: 0.39.0
