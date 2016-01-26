@@ -137,8 +137,23 @@ class LoginViewController: UIViewController {
             make.bottom.equalTo(vibrancyView).offset(-20)
             make.centerX.equalTo(vibrancyView)
         }
-    }
+        
+        let cancelButton = UIButton();
+        cancelButton.contentMode = .Center
+        cancelButton .setImage(UIImage(named: "ic_cancel")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        vibrancyView.contentView.addSubview(cancelButton)
+        cancelButton.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(footLabel)
+            make.right.equalTo(vibrancyView).offset(-5)
+            make.width.height.equalTo(40)
+        }
+        
+        cancelButton.addTarget(self, action: Selector("cancelClick"), forControlEvents: .TouchUpInside)
 
+    }
+    func cancelClick (){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     override func viewDidAppear(animated: Bool) {
         UIView.animateWithDuration(2) { () -> Void in
             self.backgroundImageView!.alpha=1;

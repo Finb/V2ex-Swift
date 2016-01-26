@@ -39,12 +39,35 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
+
+        
+        let leftButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
+        leftButton.contentMode = .Center
+        leftButton.imageEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0)
+        leftButton.setImage(UIImage(named: "ic_menu_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
+        leftButton.addTarget(self, action: Selector("leftClick"), forControlEvents: .TouchUpInside)
+        
+
+        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
+        rightButton.contentMode = .Center
+        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         self.refreshPage();
+    }
+    func leftClick(){
+        V2Client.sharedInstance.drawerController?.toggleLeftDrawerSideAnimated(true, completion: nil)
+    }
+    func rightClick(){
+        V2Client.sharedInstance.drawerController?.toggleRightDrawerSideAnimated(true, completion: nil)
     }
     
     func refreshPage(tab:String? = nil){

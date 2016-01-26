@@ -17,6 +17,7 @@ class V2EXNavigationController: UINavigationController {
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
         
 
+        self.navigationBar.tintColor = V2EXColor.colors.v2_TopicListUserNameColor
         
         self.navigationBar.titleTextAttributes = [
             NSFontAttributeName : UIFont(name: "HelveticaNeue-Bold", size: 20)!,
