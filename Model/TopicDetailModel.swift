@@ -106,19 +106,38 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     }
     
     
-    class func replyWithTopicId(topicId:String,once:String,content:String,
+    class func replyWithTopicId(topic:TopicDetailModel, content:String,
         completionHandler: V2Response -> Void
-        ) {
-        let url = V2EXURL + "t/" + topicId
+        )
+    {
+            
+        if topic.once == nil {
+            completionHandler(V2Response(success: false, message: "once 为 nil，请刷新帖子后重试"))
+        }
+        let url = V2EXURL + "t/" + topic.topicId!
         
         let prames = [
             "content":content,
-            "once":once
+            "once":topic.once!
         ]
         
         Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
-            NSLog("%@", response.result.value!)
-            completionHandler(V2Response(success: true))
+            if let location = response.response?.allHeaderFields["Etag"] as? String{
+                if location.Lenght > 0 {
+                    completionHandler(V2Response(success: true))
+                }
+                else {
+                    completionHandler(V2Response(success: false, message: "回帖失败"))
+                }
+                
+                //不管成功还是失败，更新一下once
+                if let html = response .result.value{
+                    let jiHtml = Ji(htmlString: html);
+                    topic.once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]
+                }
+                return
+            }
+            completionHandler(V2Response(success: false,message: "请求失败"))
         }
     }
 }

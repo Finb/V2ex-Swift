@@ -171,8 +171,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             let item = self.commentsArray[actionSheet.tag]
             let replyViewController = ReplyingViewController()
             replyViewController.atSomeone = "@" + item.userName! + " "
-            replyViewController.topicId = self.model!.topicId
-            replyViewController.once = self.model!.once
+            replyViewController.topicModel = self.model!
             let nav = V2EXNavigationController(rootViewController:replyViewController)
             self.navigationController?.presentViewController(nav, animated: true, completion:nil)
             

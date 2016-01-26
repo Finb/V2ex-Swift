@@ -13,8 +13,7 @@ import YYText
 class WritingViewController: UIViewController ,YYTextViewDelegate {
 
     var textView:YYTextView?
-    var topicId:String?
-    var once:String?
+    var topicModel :TopicDetailModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +69,7 @@ class ReplyingViewController:WritingViewController {
     }
     
     override func rightClick (){
-        TopicCommentModel.replyWithTopicId(self.topicId!, once: self.once!, content: self.textView!.text ) {
+        TopicCommentModel.replyWithTopicId(self.topicModel!, content: self.textView!.text ) {
             (response) in
             if response.success {
                 NSLog("回帖成功")
