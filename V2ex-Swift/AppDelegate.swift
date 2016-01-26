@@ -9,7 +9,7 @@
 import UIKit
 
 import DrawerController
-
+import SVProgressHUD
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #else
         #endif
         
+        SVProgressHUD.setDefaultStyle(.Custom)
+        SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
+        SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
         
         return true
     }

@@ -13,7 +13,6 @@ import Ji
 
 class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     var topicId:String?
-    var once: String?
     
     var avata: String?
     var nodeName: String?
@@ -62,7 +61,6 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                     //获取帖子内容
                     if let aRootNode = jiHtml?.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
                         topicModel = TopicDetailModel(rootNode: aRootNode);
-                        topicModel?.once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]
                         topicModel?.topicId = topicId
                     }
                     
@@ -110,34 +108,37 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         completionHandler: V2Response -> Void
         )
     {
-            
-        if topic.once == nil {
-            completionHandler(V2Response(success: false, message: "once 为 nil，请刷新帖子后重试"))
-        }
         let url = V2EXURL + "t/" + topic.topicId!
         
-        let prames = [
-            "content":content,
-            "once":topic.once!
-        ]
-        
-        Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
-            if let location = response.response?.allHeaderFields["Etag"] as? String{
-                if location.Lenght > 0 {
-                    completionHandler(V2Response(success: true))
-                }
-                else {
-                    completionHandler(V2Response(success: false, message: "回帖失败"))
-                }
+        V2Client.sharedInstance.getOnce(url) { (response) -> Void in
+            if response.success {
+                let prames = [
+                    "content":content,
+                    "once":V2Client.sharedInstance.once!
+                ]
                 
-                //不管成功还是失败，更新一下once
-                if let html = response .result.value{
-                    let jiHtml = Ji(htmlString: html);
-                    topic.once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]
+                Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+                    if let location = response.response?.allHeaderFields["Etag"] as? String{
+                        if location.Lenght > 0 {
+                            completionHandler(V2Response(success: true))
+                        }
+                        else {
+                            completionHandler(V2Response(success: false, message: "回帖失败"))
+                        }
+                        
+                        //不管成功还是失败，更新一下once
+                        if let html = response .result.value{
+                            let jiHtml = Ji(htmlString: html);
+                            V2Client.sharedInstance.once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]
+                        }
+                        return
+                    }
+                    completionHandler(V2Response(success: false,message: "请求失败"))
                 }
-                return
             }
-            completionHandler(V2Response(success: false,message: "请求失败"))
+            else{
+                completionHandler(V2Response(success: false,message: "获取once失败，请重试"))
+            }
         }
     }
 }

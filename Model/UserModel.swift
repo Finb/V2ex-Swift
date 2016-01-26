@@ -59,26 +59,26 @@ class UserModel: BaseJsonModel {
         completionHandler: V2ValueResponse<String> -> Void
         ) -> Void{
             V2Client.sharedInstance.removeAllCookies()
-        Alamofire.request(.GET, V2EXURL+"signin", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString{
-             (response: Response<String,NSError>) -> Void in
-            
-            if let html = response .result.value{
-                let jiHtml = Ji(htmlString: html);
-                //获取帖子内容
-                //取出 once 登录时要用
+            Alamofire.request(.GET, V2EXURL+"signin", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString{
+                (response: Response<String,NSError>) -> Void in
                 
-                var onceStr:String?
-                if let once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]{
-                    onceStr = once
+                if let html = response .result.value{
+                    let jiHtml = Ji(htmlString: html);
+                    //获取帖子内容
+                    //取出 once 登录时要用
+                    
+                    var onceStr:String?
+                    if let once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]{
+                        onceStr = once
+                    }
+                    
+                    if let onceStr = onceStr {
+                        UserModel.Login(username, password: password, once: onceStr, completionHandler: completionHandler)
+                        return;
+                    }
                 }
-                
-                if let onceStr = onceStr {
-                    UserModel.Login(username, password: password, once: onceStr, completionHandler: completionHandler)
-                    return;
-                }
+                completionHandler(V2ValueResponse(success: false,message: "获取 once 失败"))
             }
-            completionHandler(V2ValueResponse(success: false,message: "获取 once 失败"))
-        }
     }
     
     /**

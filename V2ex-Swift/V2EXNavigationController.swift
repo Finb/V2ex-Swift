@@ -20,7 +20,7 @@ class V2EXNavigationController: UINavigationController {
         self.navigationBar.tintColor = V2EXColor.colors.v2_TopicListUserNameColor
         
         self.navigationBar.titleTextAttributes = [
-            NSFontAttributeName : UIFont(name: "HelveticaNeue-Bold", size: 20)!,
+            NSFontAttributeName : v2Font(18),
             NSForegroundColorAttributeName : V2EXColor.colors.v2_TopicListTitleColor
         ]
         

@@ -10,6 +10,8 @@ import UIKit
 
 import YYText
 
+import SVProgressHUD
+
 class WritingViewController: UIViewController ,YYTextViewDelegate {
 
     var textView:YYTextView?
@@ -78,14 +80,15 @@ class ReplyingViewController:WritingViewController {
     }
     
     override func rightClick (){
+        SVProgressHUD.show()
         TopicCommentModel.replyWithTopicId(self.topicModel!, content: self.textView!.text ) {
             (response) in
             if response.success {
-                NSLog("回帖成功")
+                [SVProgressHUD .showSuccessWithStatus("回复成功!")]
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             else{
-                NSLog("回帖失败")
+                SVProgressHUD.showErrorWithStatus(response.message)
             }
         }
     }

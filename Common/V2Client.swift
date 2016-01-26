@@ -8,7 +8,8 @@
 
 import UIKit
 import DrawerController
-
+import Alamofire
+import Ji
 let kUserName = "username"
 
 class V2Client: NSObject {
@@ -40,6 +41,28 @@ class V2Client: NSObject {
     }
     
     dynamic var username:String?
+    
+
+    private var _once:String?
+    //全局once字符串，用于用户各种操作，例如回帖 登陆 。这些操作都需要用的once ，而且这个once是全局统一的
+    var once:String?  {
+        get {
+            //取了之后就删掉,
+            //因为once 只能使用一次，之后就不可再用了，
+            let onceStr = _once
+            _once = nil
+            return onceStr;
+        }
+        set{
+            _once = newValue
+        }
+    }
+    var hasOnce:Bool {
+        get {
+            return _once?.Lenght > 0
+        }
+    }
+    
     
     override init() {
         super.init()
@@ -90,12 +113,33 @@ class V2Client: NSObject {
             }
         }
     }
+    /**
+     打印客户端cookies
+     */
     func printAllCookies(){
         let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         if let cookies = storage.cookies {
             for cookie in cookies {
                 NSLog("name:%@ , value:%@ \n", cookie.name,cookie.value)
             }
+        }
+    }
+    func getOnce(url:String, completionHandler: V2Response -> Void) {
+        if(self.hasOnce){
+            completionHandler(V2Response(success: true))
+            return;
+        }
+        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString {
+            (response: Response<String,NSError>) -> Void in
+            if let html = response .result.value{
+                let jiHtml = Ji(htmlString: html);
+                if let once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]{
+                    self.once = once
+                    completionHandler(V2Response(success: true))
+                    return;
+                }
+            }
+            completionHandler(V2Response(success: false))
         }
     }
 }
