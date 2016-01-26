@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FXBlurView
 
 class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
@@ -42,9 +43,15 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         self.backgroundImageView!.contentMode = .ScaleToFill
         view.addSubview(self.backgroundImageView!)
         
-        let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
+        let frostedView = FXBlurView()
+        frostedView.underlyingView = self.backgroundImageView!
+        frostedView.dynamic = false
         frostedView.frame = self.view.frame
         self.view.addSubview(frostedView)
+        
+//        let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
+//        frostedView.frame = self.view.frame
+//        self.view.addSubview(frostedView)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
