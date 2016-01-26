@@ -65,6 +65,9 @@ class ReplyingViewController:WritingViewController {
             
             self.textView!.selectedRange = NSMakeRange(atSomeone.Lenght, 0);
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         self.textView?.becomeFirstResponder()
     }
     

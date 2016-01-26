@@ -9,6 +9,7 @@ PODS:
   - DrawerController/Core (1.1.0)
   - DrawerController/DrawerVisualStates (1.1.0):
     - DrawerController/Core
+  - FXBlurView (1.6.4)
   - Ji (1.2.0):
     - Ji/Ji (= 1.2.0)
   - Ji/Ji (1.2.0):
@@ -24,6 +25,7 @@ DEPENDENCIES:
   - Alamofire (~> 3.1.4)
   - AlamofireObjectMapper (~> 2.1.0)
   - DrawerController (~> 1.1.0)
+  - FXBlurView (~> 1.6.4)
   - Ji (~> 1.2.0)
   - Kingfisher (~> 1.9.1)
   - KVOController (~> 1.0.3)
@@ -35,6 +37,7 @@ SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
   DrawerController: 8fd56e6238399a08c4af054fbea0ef8669cd81f3
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
