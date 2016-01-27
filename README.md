@@ -15,10 +15,10 @@ V2EX iOS客户端。
 <br/>http://weibo.com/u/3161718545
 
 ##预览
-![](http://imgsrc.baidu.com/forum/w%3D580/sign=374e53126759252da3171d0c049a032c/064dc9fc1e178a8257b6cea8f103738da877e898.jpg)
-![](http://imgsrc.baidu.com/forum/w%3D580/sign=dd3d5328642762d0803ea4b790ed0849/bdb0b0fd5266d0167df57223902bd40734fa35bc.jpg)
-![](http://imgsrc.baidu.com/forum/w%3D580/sign=9b7d3a42992f07085f052a08d925b865/f6e04110b912c8fcdf65dec0fb039245d7882197.jpg)
-
+![](http://ww2.sinaimg.cn/large/0060lm7Tgw1f0e4t4tzzjj30ju0ijtc1.jpg)
+![](http://ww3.sinaimg.cn/large/0060lm7Tgw1f0e4swtysvj30af0ijdgq.jpg)
+![](http://ww2.sinaimg.cn/large/0060lm7Tgw1f0e4swt9lpj30af0ijta8.jpg)
+![](http://ww3.sinaimg.cn/large/0060lm7Tgw1f0e4sw8e04j30af0ijjs6.jpg)
 
 ## LICENSE
 
