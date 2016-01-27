@@ -10,7 +10,7 @@ import UIKit
 import DrawerController
 import Alamofire
 import Ji
-let kUserName = "username"
+let kUserName = "me.fin.username"
 
 class V2Client: NSObject {
     static let sharedInstance = V2Client()

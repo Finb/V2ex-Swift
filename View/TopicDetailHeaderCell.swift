@@ -34,9 +34,6 @@ class TopicDetailHeaderCell: UITableViewCell {
     }
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
-        let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        self.selectedBackgroundView = selectedBackgroundView
         
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();
@@ -75,7 +72,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.nodeNameLabel!.font = v2Font(11)
-        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.9, alpha: 1);
+        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.95, alpha: 1);
         self.nodeNameLabel?.layer.cornerRadius=2;
         self.nodeNameLabel!.clipsToBounds = true
         self.contentPanel?.addSubview(self.nodeNameLabel!)

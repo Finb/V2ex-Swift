@@ -15,6 +15,8 @@ import AlamofireObjectMapper
 import Ji
 import MJRefresh
 
+let kHomeTab = "me.fin.homeTab"
+
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var topicList:Array<TopicListModel>?
     var tab:String? = nil
@@ -41,7 +43,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
-
+        self.tab = V2EXSettings.sharedInstance[kHomeTab]
         
         let leftButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         leftButton.contentMode = .Center
@@ -77,6 +79,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     
     func refreshPage(){
         self.tableView.mj_header.beginRefreshing();
+        V2EXSettings.sharedInstance[kHomeTab] = tab
     }
     
     func refresh(){
