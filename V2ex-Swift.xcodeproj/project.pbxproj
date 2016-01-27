@@ -15,6 +15,13 @@
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
+		063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */; };
+		063C05DC1C589593005B7CA1 /* ic_lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DA1C589593005B7CA1 /* ic_lock@2x.png */; };
+		063C05DD1C589593005B7CA1 /* ic_lock@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DB1C589593005B7CA1 /* ic_lock@3x.png */; };
+		063C05E01C5895A7005B7CA1 /* ic_account_circle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DE1C5895A7005B7CA1 /* ic_account_circle@2x.png */; };
+		063C05E11C5895A7005B7CA1 /* ic_account_circle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DF1C5895A7005B7CA1 /* ic_account_circle@3x.png */; };
+		063C05E41C589B0E005B7CA1 /* ic_arrow_downward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05E21C589B0E005B7CA1 /* ic_arrow_downward@2x.png */; };
+		063C05E51C589B0E005B7CA1 /* ic_arrow_downward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05E31C589B0E005B7CA1 /* ic_arrow_downward@3x.png */; };
 		0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */; };
 		064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */; };
 		064D37A61C53C4A8002E7226 /* LeftNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */; };
@@ -66,6 +73,13 @@
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
+		063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshHeader.swift; sourceTree = "<group>"; };
+		063C05DA1C589593005B7CA1 /* ic_lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_lock@2x.png"; sourceTree = "<group>"; };
+		063C05DB1C589593005B7CA1 /* ic_lock@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_lock@3x.png"; sourceTree = "<group>"; };
+		063C05DE1C5895A7005B7CA1 /* ic_account_circle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_account_circle@2x.png"; sourceTree = "<group>"; };
+		063C05DF1C5895A7005B7CA1 /* ic_account_circle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_account_circle@3x.png"; sourceTree = "<group>"; };
+		063C05E21C589B0E005B7CA1 /* ic_arrow_downward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_arrow_downward@2x.png"; sourceTree = "<group>"; };
+		063C05E31C589B0E005B7CA1 /* ic_arrow_downward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_arrow_downward@3x.png"; sourceTree = "<group>"; };
 		0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXSettings.swift; sourceTree = "<group>"; };
 		064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftUserHeadCell.swift; sourceTree = "<group>"; };
 		064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNodeTableViewCell.swift; sourceTree = "<group>"; };
@@ -225,6 +239,12 @@
 		0698397A1C47763800FF7163 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				063C05E21C589B0E005B7CA1 /* ic_arrow_downward@2x.png */,
+				063C05E31C589B0E005B7CA1 /* ic_arrow_downward@3x.png */,
+				063C05DE1C5895A7005B7CA1 /* ic_account_circle@2x.png */,
+				063C05DF1C5895A7005B7CA1 /* ic_account_circle@3x.png */,
+				063C05DA1C589593005B7CA1 /* ic_lock@2x.png */,
+				063C05DB1C589593005B7CA1 /* ic_lock@3x.png */,
 				06098B421C5232D800848159 /* 32.jpg */,
 				06098B401C521A4100848159 /* login-bg-iphone-6.jpg */,
 				065B26B71C5750BE008F16ED /* ic_more_horiz_36pt@2x.png */,
@@ -248,6 +268,7 @@
 			children = (
 				06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */,
 				060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */,
+				063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -345,16 +366,22 @@
 				06098B431C5232D800848159 /* 32.jpg in Resources */,
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
 				0698397D1C47766500FF7163 /* Dark.bundle in Resources */,
+				063C05DD1C589593005B7CA1 /* ic_lock@3x.png in Resources */,
 				0698397E1C47766500FF7163 /* Light.bundle in Resources */,
 				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
 				06098B411C521A4100848159 /* login-bg-iphone-6.jpg in Resources */,
+				063C05E41C589B0E005B7CA1 /* ic_arrow_downward@2x.png in Resources */,
 				065B26BD1C57510E008F16ED /* ic_menu_36pt@2x.png in Resources */,
 				065B26D61C575424008F16ED /* ic_cancel@3x.png in Resources */,
+				063C05DC1C589593005B7CA1 /* ic_lock@2x.png in Resources */,
 				065B26BA1C5750BE008F16ED /* ic_more_horiz_36pt@3x.png in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,
 				065B26B91C5750BE008F16ED /* ic_more_horiz_36pt@2x.png in Resources */,
+				063C05E01C5895A7005B7CA1 /* ic_account_circle@2x.png in Resources */,
 				065B26BE1C57510E008F16ED /* ic_menu_36pt@3x.png in Resources */,
 				065B26E51C5757D1008F16ED /* ic_chevron_left@2x.png in Resources */,
+				063C05E11C5895A7005B7CA1 /* ic_account_circle@3x.png in Resources */,
+				063C05E51C589B0E005B7CA1 /* ic_arrow_downward@3x.png in Resources */,
 				065B26D51C575424008F16ED /* ic_cancel@2x.png in Resources */,
 				065B26C61C575277008F16ED /* ic_send@3x.png in Resources */,
 				065B26E61C5757D1008F16ED /* ic_chevron_left@3x.png in Resources */,
@@ -441,6 +468,7 @@
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
+				063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */,
 				06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,

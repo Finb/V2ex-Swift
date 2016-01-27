@@ -13,10 +13,11 @@ import Alamofire
 import AlamofireObjectMapper
 
 import Ji
+import MJRefresh
 
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var topicList:Array<TopicListModel>?
-    private var _tab:String? = nil
+    var tab:String? = nil
     
     private var _tableView :UITableView!
     private var tableView: UITableView {
@@ -61,7 +62,10 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
-        self.refreshPage();
+        self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
+            self?.refresh()
+        })
+        self.refreshPage()
     }
     func leftClick(){
         V2Client.sharedInstance.drawerController?.toggleLeftDrawerSideAnimated(true, completion: nil)
@@ -70,20 +74,25 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         V2Client.sharedInstance.drawerController?.toggleRightDrawerSideAnimated(true, completion: nil)
     }
     
-    func refreshPage(tab:String? = nil){
-        if let tab = tab {
-            _tab = tab
-        }
+    func refreshPage(){
+        self.tableView.mj_header.beginRefreshing();
+    }
+    
+    func refresh(){
         //根据 tab name 获取帖子列表
-        TopicListModel.getTopicList(_tab){
+        TopicListModel.getTopicList(tab){
             [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
             if response.success {
-                self?.topicList = response.value
-                self?.tableView.fin_reloadData()
+                if let weakSelf = self {
+                    weakSelf.topicList = response.value
+                    weakSelf.tableView.fin_reloadData()
+                    if weakSelf.tableView.mj_header.isRefreshing() {
+                        weakSelf.tableView.mj_header.endRefreshing()
+                    }
+                }
             }
         }
     }
-    
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {

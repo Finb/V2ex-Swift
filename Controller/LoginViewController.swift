@@ -64,8 +64,14 @@ class LoginViewController: UIViewController {
         self.userNameTextField!.layer.borderWidth = 0.5
         self.userNameTextField!.keyboardType = .ASCIICapable
         self.userNameTextField!.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
-        self.userNameTextField!.placeholder = "        用户名"
+        self.userNameTextField!.placeholder = "用户名"
         self.userNameTextField!.clearButtonMode = .Always
+        
+        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle"));
+        userNameIconImageView.frame = CGRectMake(0, 0, 34, 22)
+        userNameIconImageView.contentMode = .ScaleAspectFit
+        self.userNameTextField!.leftView = userNameIconImageView
+        self.userNameTextField!.leftViewMode = .Always
         
         vibrancyView.contentView.addSubview(self.userNameTextField!);
         
@@ -85,8 +91,15 @@ class LoginViewController: UIViewController {
         self.passwordTextField!.keyboardType = .ASCIICapable
         self.passwordTextField!.secureTextEntry = true
         self.passwordTextField!.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
-        self.passwordTextField!.placeholder = "        密码"
+        self.passwordTextField!.placeholder = "密码"
         self.passwordTextField!.clearButtonMode = .Always
+        
+        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock"));
+        passwordIconImageView.frame = CGRectMake(0, 0, 34, 22)
+        passwordIconImageView.contentMode = .ScaleAspectFit
+        self.passwordTextField!.leftView = passwordIconImageView
+        self.passwordTextField!.leftViewMode = .Always
+
         
         vibrancyView.contentView.addSubview(self.passwordTextField!);
         
