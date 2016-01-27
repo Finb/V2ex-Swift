@@ -1,5 +1,5 @@
 //
-//  V2EXAtSomeoneBindingParser.swift
+//  V2EXMentionedBindingParser.swift
 //  V2ex-Swift
 //
 //  Created by huangfeng on 1/25/16.
@@ -10,7 +10,7 @@ import UIKit
 
 import YYText
 
-class V2EXAtSomeoneBindingParser: NSObject ,YYTextParser{
+class V2EXMentionedBindingParser: NSObject ,YYTextParser{
     var regex:NSRegularExpression
     override init() {
         self.regex = try! NSRegularExpression(pattern: "@(\\S+)\\s", options: [.CaseInsensitive])

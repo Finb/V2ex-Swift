@@ -35,7 +35,7 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         self.textView!.font = v2Font(18)
         self.textView!.delegate = self
         self.textView!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
-        self.textView!.textParser = V2EXAtSomeoneBindingParser()
+        self.textView!.textParser = V2EXMentionedBindingParser()
         textView!.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
         textView?.keyboardDismissMode = .Interactive
         self.view.addSubview(self.textView!)

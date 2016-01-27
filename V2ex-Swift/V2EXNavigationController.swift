@@ -17,7 +17,7 @@ class V2EXNavigationController: UINavigationController {
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
         
 
-        self.navigationBar.tintColor = V2EXColor.colors.v2_TopicListUserNameColor
+        self.navigationBar.tintColor = colorWith255RGB(102, g: 102, b: 102)
         
         self.navigationBar.titleTextAttributes = [
             NSFontAttributeName : v2Font(18),

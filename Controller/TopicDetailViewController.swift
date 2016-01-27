@@ -46,6 +46,13 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             make.top.right.bottom.left.equalTo(self.view);
         }
         
+        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
+        rightButton.contentMode = .Center
+        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+        rightButton.setImage(UIImage(named: "ic_speaker_notes")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+        
         //根据 topicId 获取 帖子信息 、回复。
         TopicDetailModel.getTopicDetailById(self.topicId){
             (response:V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>) -> Void in
@@ -61,6 +68,13 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 self.tableView.fin_reloadData()
             }
         }
+    }
+    
+    func rightClick(){
+        let replyViewController = ReplyingViewController()
+        replyViewController.topicModel = self.model!
+        let nav = V2EXNavigationController(rootViewController:replyViewController)
+        self.navigationController?.presentViewController(nav, animated: true, completion:nil)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
