@@ -34,6 +34,9 @@ class TopicDetailHeaderCell: UITableViewCell {
     }
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        self.selectedBackgroundView = selectedBackgroundView
         
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();

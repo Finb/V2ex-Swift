@@ -32,6 +32,10 @@ class TopicDetailCommentCell: UITableViewCell {
     func setup()->Void{
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
         
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        self.selectedBackgroundView = selectedBackgroundView
+        
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();
         self.contentView .addSubview(self.contentPanel!);
@@ -89,7 +93,10 @@ class TopicDetailCommentCell: UITableViewCell {
             make.bottom.equalTo(self.contentPanel!).offset(0);
         }
         
-
+        self.avatarImageView!.backgroundColor = self.contentPanel!.backgroundColor
+        self.userNameLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        self.dateLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        self.commentLabel!.backgroundColor = self.contentPanel!.backgroundColor
     }
     func bind(model:TopicCommentModel){
         self.userNameLabel?.text = model.userName;

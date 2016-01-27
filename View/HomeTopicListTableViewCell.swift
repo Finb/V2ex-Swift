@@ -90,7 +90,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.nodeNameLabel!.font = v2Font(11)
-        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.9, alpha: 1);
+        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.95, alpha: 1);
         self.nodeNameLabel?.layer.cornerRadius=2;
         self.nodeNameLabel!.clipsToBounds = true
         self.contentPanel?.addSubview(self.nodeNameLabel!)
@@ -120,8 +120,15 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.contentView.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel!).offset(10);
+            make.bottom.equalTo(self.contentPanel!).offset(8);
         }
+        
+        self.avatarImageView!.backgroundColor = self.contentPanel!.backgroundColor
+        self.userNameLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        self.dateAndLastPostUserLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        self.replyCountLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        self.replyCountIconImageView!.backgroundColor = self.contentPanel!.backgroundColor
+        self.topicTitleLabel!.backgroundColor = self.contentPanel!.backgroundColor
         
     }
     required init?(coder aDecoder: NSCoder) {

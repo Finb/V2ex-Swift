@@ -26,6 +26,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
                 return _tableView!;
             }
             _tableView = UITableView();
+            _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
             _tableView.estimatedRowHeight=100;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             

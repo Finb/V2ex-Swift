@@ -69,7 +69,7 @@ class LoginViewController: UIViewController {
         
         let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.imageWithRenderingMode(.AlwaysTemplate));
         userNameIconImageView.frame = CGRectMake(0, 0, 34, 22)
-        userNameIconImageView.tintColor = UIColor(white: 1, alpha: 0.8)
+        userNameIconImageView.tintColor = UIColor.whiteColor()
         userNameIconImageView.contentMode = .ScaleAspectFit
         self.userNameTextField!.leftView = userNameIconImageView
         self.userNameTextField!.leftViewMode = .Always
@@ -98,7 +98,7 @@ class LoginViewController: UIViewController {
         let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.imageWithRenderingMode(.AlwaysTemplate));
         passwordIconImageView.frame = CGRectMake(0, 0, 34, 22)
         passwordIconImageView.contentMode = .ScaleAspectFit
-        userNameIconImageView.tintColor = UIColor(white: 1, alpha: 0.8)
+        userNameIconImageView.tintColor = UIColor.whiteColor()
         self.passwordTextField!.leftView = passwordIconImageView
         self.passwordTextField!.leftViewMode = .Always
 
