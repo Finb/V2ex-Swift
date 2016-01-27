@@ -67,8 +67,9 @@ class LoginViewController: UIViewController {
         self.userNameTextField!.placeholder = "用户名"
         self.userNameTextField!.clearButtonMode = .Always
         
-        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle"));
+        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.imageWithRenderingMode(.AlwaysTemplate));
         userNameIconImageView.frame = CGRectMake(0, 0, 34, 22)
+        userNameIconImageView.tintColor = UIColor(white: 1, alpha: 0.8)
         userNameIconImageView.contentMode = .ScaleAspectFit
         self.userNameTextField!.leftView = userNameIconImageView
         self.userNameTextField!.leftViewMode = .Always
@@ -94,9 +95,10 @@ class LoginViewController: UIViewController {
         self.passwordTextField!.placeholder = "密码"
         self.passwordTextField!.clearButtonMode = .Always
         
-        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock"));
+        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.imageWithRenderingMode(.AlwaysTemplate));
         passwordIconImageView.frame = CGRectMake(0, 0, 34, 22)
         passwordIconImageView.contentMode = .ScaleAspectFit
+        userNameIconImageView.tintColor = UIColor(white: 1, alpha: 0.8)
         self.passwordTextField!.leftView = passwordIconImageView
         self.passwordTextField!.leftViewMode = .Always
 
