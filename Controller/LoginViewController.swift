@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SVProgressHUD
 public typealias LoginSuccessHandel = (String) -> Void
 
 class LoginViewController: UIViewController {
@@ -196,10 +196,11 @@ class LoginViewController: UIViewController {
             self.passwordTextField!.becomeFirstResponder()
             return;
         }
-        
+        SVProgressHUD.showWithStatus("正在登陆")
         UserModel.Login(userName!, password: password!){
             (response:V2ValueResponse<String>) -> Void in
             if response.success {
+                SVProgressHUD.showSuccessWithStatus("登陆成功")
                 let username = response.value!
                 NSLog("登陆成功 %@",username)
                 //保存下用户名
@@ -211,7 +212,7 @@ class LoginViewController: UIViewController {
                 }
             }
             else{
-                NSLog("登陆错误 错误信息:%@",response.message)
+                SVProgressHUD.showErrorWithStatus(response.message)
             }
             self.dismissViewControllerAnimated(true, completion: nil)
         }
