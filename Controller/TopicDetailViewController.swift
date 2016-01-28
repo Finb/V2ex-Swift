@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SVProgressHUD
 class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate{
 
     var topicId = "0"
@@ -203,13 +203,30 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             self.navigationController?.presentViewController(nav, animated: true, completion:nil)
             
         case 2:
-            NSLog("")
+            let item = self.commentsArray[actionSheet.tag]
+            if item.replyId == nil {
+                SVProgressHUD.showErrorWithStatus("回复replyId为空")
+                return;
+            }
+            if self.model?.token == nil {
+                SVProgressHUD.showErrorWithStatus("帖子token为空")
+                return;
+            }
+            TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
+                (response) in
+                if response.success {
+                    SVProgressHUD.showSuccessWithStatus("感谢成功")
+                }
+                else{
+                    SVProgressHUD.showSuccessWithStatus("感谢失败了")
+                }
+            }
         case 3:
-            NSLog("")
+            break;
         case 4:
-            NSLog("")
+            break;
         default :
-            NSLog("")
+            break
         }
     }
     

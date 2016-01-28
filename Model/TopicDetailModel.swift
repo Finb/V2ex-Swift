@@ -27,6 +27,8 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     
     var topicCommentTotalCount: String?
     
+    var token:String?
+    
     required init(rootNode: JiNode) {
         let node = rootNode.xPath("./div[1]/a[2]").first
         self.nodeName = node?.content
@@ -43,6 +45,14 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         self.date = rootNode.xPath("./div[1]/small/text()[2]").first?.content
         
         self.favorites = rootNode.xPath("./div[3]/div/span").first?.content
+        
+        let token = rootNode.xPath("div/div/a[@class='op'][1]").first?["href"]
+        if let token = token {
+            let array = token.componentsSeparatedByString("?t=")
+            if array.count == 2 {
+                self.token = array[1]
+            }
+        }
     }
     
     
@@ -85,12 +95,19 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
 }
 
 class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
+    var replyId:String?
     var avata: String?
     var userName: String?
     var date: String?
     var comment: String?
     var favorites: String?
     required init(rootNode: JiNode) {
+        let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"]
+        if let id = id {
+            if id.hasPrefix("thank_area_") {
+                self.replyId = id.stringByReplacingOccurrencesOfString("thank_area_", withString: "")
+            }
+        }
         
         self.avata = rootNode.xPath("table/tr/td[1]/img").first?["src"]
         
@@ -139,6 +156,20 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             else{
                 completionHandler(V2Response(success: false,message: "获取once失败，请重试"))
             }
+        }
+    }
+    
+    class func replyThankWithReplyId(replyId:String , token:String ,completionHandler: V2Response -> Void) {
+        let url  = V2EXURL + "thank/reply/" + replyId + "?t=" + token
+        Alamofire.request(.POST, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            if response.result.isSuccess {
+                if let result = response.result.value {
+                    if result.Lenght == 0 {
+                        completionHandler(V2Response(success: true))
+                    }
+                }
+            }
+            completionHandler(V2Response(success: false))
         }
     }
 }
