@@ -166,6 +166,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 if let result = response.result.value {
                     if result.Lenght == 0 {
                         completionHandler(V2Response(success: true))
+                        return;
                     }
                 }
             }
