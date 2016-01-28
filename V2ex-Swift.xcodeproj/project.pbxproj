@@ -51,6 +51,7 @@
 		0698397E1C47766500FF7163 /* Light.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0698397C1C47766500FF7163 /* Light.bundle */; };
 		069839811C478EC300FF7163 /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839801C478EC300FF7163 /* LeftViewController.swift */; };
 		069839831C478ECC00FF7163 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839821C478ECC00FF7163 /* RightViewController.swift */; };
+		06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */; };
 		06BB48EE1C56096000A4A909 /* V2EXMentionedBindingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BB48ED1C56096000A4A909 /* V2EXMentionedBindingParser.swift */; };
 		06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BB48EF1C56153A00A4A909 /* WritingViewController.swift */; };
 		06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */; };
@@ -114,6 +115,7 @@
 		0698397C1C47766500FF7163 /* Light.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Light.bundle; sourceTree = "<group>"; };
 		069839801C478EC300FF7163 /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		069839821C478ECC00FF7163 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
+		06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2LoadingView.swift; sourceTree = "<group>"; };
 		06BB48ED1C56096000A4A909 /* V2EXMentionedBindingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXMentionedBindingParser.swift; sourceTree = "<group>"; };
 		06BB48EF1C56153A00A4A909 /* WritingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingViewController.swift; sourceTree = "<group>"; };
 		06C49B6C1C43BFAB00684CA6 /* V2ex+Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "V2ex+Define.swift"; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */,
 				060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */,
 				063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */,
+				06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
+				06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
