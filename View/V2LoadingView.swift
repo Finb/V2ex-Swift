@@ -8,6 +8,14 @@
 
 import UIKit
 
+let noticeString = [
+    "正在拼命加载",
+    "前方发现楼主",
+    "年轻人,不要着急",
+    "让我飞一会儿",
+    "大爷,您又来了?",
+]
+
 class V2LoadingView: UIView {
     var activityIndicatorView:UIActivityIndicatorView?
     init (){
@@ -20,7 +28,7 @@ class V2LoadingView: UIView {
         }
         
         let noticeLabel = UILabel()
-        noticeLabel.text = "正在拼命加载"
+        noticeLabel.text = noticeString[(Int)(arc4random()) % noticeString.count]
         noticeLabel.font = v2Font(10)
         noticeLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.addSubview(noticeLabel)
