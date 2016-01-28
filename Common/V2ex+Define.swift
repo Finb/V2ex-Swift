@@ -34,6 +34,13 @@ extension UIImage {
     convenience init? (imageNamed: String){
         self.init(named: imageNamed, inBundle: CurrentBundel, compatibleWithTraitCollection: nil)
     }
+    class func imageUsedTemplateMode(named:String) -> UIImage? {
+        let image = UIImage(named: named)
+        if image == nil {
+            return nil
+        }
+        return image!.imageWithRenderingMode(.AlwaysTemplate)
+    }
 }
 
 func NSLocalizedString( key:String ) -> String {

@@ -213,9 +213,12 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 return;
             }
             TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
-                (response) in
+                [weak item, weak self](response) in
                 if response.success {
-                    SVProgressHUD.showSuccessWithStatus("感谢成功")
+                    if let weakSelf = self {
+                        item?.favorites++
+                        weakSelf.tableView.reloadData()
+                    }
                 }
                 else{
                     SVProgressHUD.showSuccessWithStatus("感谢失败了")

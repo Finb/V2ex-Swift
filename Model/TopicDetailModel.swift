@@ -100,7 +100,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     var userName: String?
     var date: String?
     var comment: String?
-    var favorites: String?
+    var favorites: Int = 0
     required init(rootNode: JiNode) {
         let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"]
         if let id = id {
@@ -115,7 +115,14 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         self.date = rootNode.xPath("table/tr/td[3]/span").first?.content
         
-        self.favorites =  rootNode.xPath("table/tr/td[3]/span[2]").first?.content
+        if let favorite = rootNode.xPath("table/tr/td[3]/span[2]").first?.content {
+            let array = favorite.componentsSeparatedByString(" ")
+            if array.count == 2 {
+                if let i = Int(array[1]){
+                    self.favorites = i
+                }
+            }
+        }
         
         self.comment = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']").first?.content
     }
