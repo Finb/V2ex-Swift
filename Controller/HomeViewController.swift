@@ -40,6 +40,14 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             
         }
     }
+//    var leftSideView:
+    override func viewWillAppear(animated: Bool) {
+        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .PanningCenterView
+    }
+    override func viewWillDisappear(animated: Bool) {
+        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title="V2EX";

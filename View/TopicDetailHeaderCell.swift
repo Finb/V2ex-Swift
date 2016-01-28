@@ -33,6 +33,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     func setup()->Void{
+        self.selectionStyle = .None
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
         
         self.contentPanel = UIView();
