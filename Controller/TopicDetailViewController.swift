@@ -184,7 +184,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
-            let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢","隐藏")
+            let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢")
             actionSheet.tag = indexPath.row
             actionSheet.showInView(self.view)
         }
@@ -194,7 +194,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
         
         tableView .deselectRowAtIndexPath(NSIndexPath(forRow: actionSheet.tag, inSection: 1), animated: true);
         switch buttonIndex {
-        case 1 :
+        case 1 : //回复
             let item = self.commentsArray[actionSheet.tag]
             let replyViewController = ReplyingViewController()
             replyViewController.atSomeone = "@" + item.userName! + " "
@@ -202,8 +202,9 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
             let nav = V2EXNavigationController(rootViewController:replyViewController)
             self.navigationController?.presentViewController(nav, animated: true, completion:nil)
             
-        case 2:
-            let item = self.commentsArray[actionSheet.tag]
+        case 2://感谢
+            let row = actionSheet.tag
+            let item = self.commentsArray[row]
             if item.replyId == nil {
                 SVProgressHUD.showErrorWithStatus("回复replyId为空")
                 return;
@@ -212,22 +213,20 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 SVProgressHUD.showErrorWithStatus("帖子token为空")
                 return;
             }
+            item.favorites++
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 1)], withRowAnimation: .None)
+            
             TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
                 [weak item, weak self](response) in
                 if response.success {
-                    if let weakSelf = self {
-                        item?.favorites++
-                        weakSelf.tableView.reloadData()
-                    }
                 }
                 else{
                     SVProgressHUD.showSuccessWithStatus("感谢失败了")
+                    //失败后 取消增加的数量
+                    item?.favorites--
+                    self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 1)], withRowAnimation: .None)
                 }
             }
-        case 3:
-            break;
-        case 4:
-            break;
         default :
             break
         }
