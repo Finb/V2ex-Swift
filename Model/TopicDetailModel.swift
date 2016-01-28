@@ -38,7 +38,7 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         
         self.topicTitle = rootNode.xPath("./div[1]/h1").first?.content
         
-        self.topicContent = rootNode.xPath("./div[2]/div").first?.rawContent
+        self.topicContent = rootNode.xPath("./div[@class='cell']/div").first?.rawContent
         
         self.date = rootNode.xPath("./div[1]/small/text()[2]").first?.content
         

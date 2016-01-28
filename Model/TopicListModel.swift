@@ -42,7 +42,7 @@ class TopicListModel {
                 
                 if let html = response .result.value{
                     let jiHtml = Ji(htmlString: html);
-                    if let aRootNode = jiHtml?.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box'][1]/div[@class='cell item']"){
+                    if let aRootNode = jiHtml?.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
                         for aNode in aRootNode {
                             let avata = aNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
                             let nodeName = aNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
