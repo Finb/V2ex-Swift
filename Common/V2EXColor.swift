@@ -39,8 +39,11 @@ protocol V2EXColorProtocol{
     //red
 }
 
-class V2EXDefaultColor: NSObject,V2EXColorProtocol {
+private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     static let sharedInstance = V2EXDefaultColor()
+    private override init(){
+        super.init()
+    }
     
     var v2_backgroundColor : UIColor{
         get{
@@ -71,4 +74,7 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
 
 class V2EXColor :NSObject  {
     static var colors :V2EXColorProtocol = V2EXDefaultColor.sharedInstance;
+    private override init(){
+        super.init()
+    }
 }
