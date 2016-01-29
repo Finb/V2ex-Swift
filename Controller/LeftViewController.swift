@@ -49,10 +49,6 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         frostedView.frame = self.view.frame
         self.view.addSubview(frostedView)
         
-//        let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-//        frostedView.frame = self.view.frame
-//        self.view.addSubview(frostedView)
-        
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
@@ -103,12 +99,6 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 let loginViewController = LoginViewController()
-                
-                //登陆成功后，去获取用户信息
-                loginViewController.successHandel = {
-                    [weak self] (username:String) -> Void in
-                    self?.getUserInfo(username)
-                }
                 V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
             }
         }

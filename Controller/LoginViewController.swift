@@ -210,11 +210,14 @@ class LoginViewController: UIViewController {
                 if let handel = self.successHandel {
                     handel(username)
                 }
+                
+                //获取用户信息
+                UserModel.getUserInfoByUsername(username,completionHandler: nil)
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
             else{
                 SVProgressHUD.showErrorWithStatus(response.message)
             }
-            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }    
 }

@@ -61,10 +61,6 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         frostedView.frame = self.view.frame
         self.view.addSubview(frostedView)
         
-//        let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-//        frostedView.frame = self.view.frame
-//        self.view.addSubview(frostedView)
-        
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);

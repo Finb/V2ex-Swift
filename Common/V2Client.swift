@@ -64,7 +64,7 @@ class V2Client: NSObject {
     }
     
     
-    override init() {
+    private override init() {
         super.init()
         self.setupInMainThread()
     }

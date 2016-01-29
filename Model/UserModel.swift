@@ -127,14 +127,12 @@ class UserModel: BaseJsonModel {
         ]
         Alamofire.request(.GET, V2EXURL+"api/members/show.json", parameters: prame, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseObject("") {
             (response : Response<UserModel,NSError>) in
-            if let handler = completionHandler {
                 if let model = response.result.value {
                     V2Client.sharedInstance.user = model
-                    handler(V2ValueResponse(value: model, success: true))
+                    completionHandler?(V2ValueResponse(value: model, success: true))
                     return ;
                 }
-                handler(V2ValueResponse(success: false,message: "获取用户信息失败"))
-            }
+                completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
         }
     }
 

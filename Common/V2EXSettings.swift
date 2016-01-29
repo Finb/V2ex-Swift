@@ -12,6 +12,9 @@ let keyPrefix =  "me.fin.V2EXSettings."
 
 class V2EXSettings: NSObject {
     static let sharedInstance = V2EXSettings()
+    private override init(){
+        super.init()
+    }
     
     subscript(key:String) -> String? {
         get {
