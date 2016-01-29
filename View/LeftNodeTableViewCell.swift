@@ -33,11 +33,11 @@ class LeftNodeTableViewCell: UITableViewCell {
         }
         
         self.nodeImageView = UIImageView()
-        self.nodeImageView!.backgroundColor = UIColor(white: 0, alpha: 0.1)
+        self.nodeImageView!.tintColor = UIColor(white: 0, alpha: 0.55)
         panel.addSubview(self.nodeImageView!)
         self.nodeImageView!.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(panel)
-            make.left.equalTo(panel).offset(25)
+            make.left.equalTo(panel).offset(20)
             make.width.height.equalTo(25)
         }
         
@@ -46,7 +46,7 @@ class LeftNodeTableViewCell: UITableViewCell {
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         panel.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.nodeImageView!.snp_right).offset(25)
+            make.left.equalTo(self.nodeImageView!.snp_right).offset(20)
             make.centerY.equalTo(self.nodeImageView!)
         }
     }
