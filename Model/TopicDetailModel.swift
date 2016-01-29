@@ -29,6 +29,9 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     
     var token:String?
     
+    override init() {
+        
+    }
     required init(rootNode: JiNode) {
         let node = rootNode.xPath("./div[1]/a[2]").first
         self.nodeName = node?.content

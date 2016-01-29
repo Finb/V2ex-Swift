@@ -42,6 +42,12 @@
 		065B26E61C5757D1008F16ED /* ic_chevron_left@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 065B26E41C5757D1008F16ED /* ic_chevron_left@3x.png */; };
 		06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA51C4A89520024452C /* TopicDetailViewController.swift */; };
 		06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA71C4A8A370024452C /* TopicDetailModel.swift */; };
+		0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */; };
+		0684A1E21C5B4BA500B12437 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684A1E11C5B4BA500B12437 /* NotificationTableViewCell.swift */; };
+		0684A1E51C5B508D00B12437 /* ic_arrow_drop_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0684A1E31C5B508D00B12437 /* ic_arrow_drop_up@2x.png */; };
+		0684A1E61C5B508D00B12437 /* ic_arrow_drop_up@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0684A1E41C5B508D00B12437 /* ic_arrow_drop_up@3x.png */; };
+		0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684A1E71C5B58D600B12437 /* UIButton+Extension.swift */; };
+		0684A1EA1C5B608D00B12437 /* NotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684A1E91C5B608D00B12437 /* NotificationsModel.swift */; };
 		069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069508E31C3F74FF0088D031 /* AppDelegate.swift */; };
 		069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069508EA1C3F74FF0088D031 /* Assets.xcassets */; };
 		069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */; };
@@ -105,6 +111,12 @@
 		065B26E41C5757D1008F16ED /* ic_chevron_left@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_chevron_left@3x.png"; sourceTree = "<group>"; };
 		06662CA51C4A89520024452C /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailViewController.swift; sourceTree = "<group>"; };
 		06662CA71C4A8A370024452C /* TopicDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailModel.swift; sourceTree = "<group>"; };
+		0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
+		0684A1E11C5B4BA500B12437 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		0684A1E31C5B508D00B12437 /* ic_arrow_drop_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_arrow_drop_up@2x.png"; sourceTree = "<group>"; };
+		0684A1E41C5B508D00B12437 /* ic_arrow_drop_up@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_arrow_drop_up@3x.png"; sourceTree = "<group>"; };
+		0684A1E71C5B58D600B12437 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		0684A1E91C5B608D00B12437 /* NotificationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsModel.swift; sourceTree = "<group>"; };
 		069508E01C3F74FF0088D031 /* V2ex-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "V2ex-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		069508E31C3F74FF0088D031 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		069508EA1C3F74FF0088D031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -217,6 +229,7 @@
 				06662CA51C4A89520024452C /* TopicDetailViewController.swift */,
 				06098B3E1C52171D00848159 /* LoginViewController.swift */,
 				06BB48EF1C56153A00A4A909 /* WritingViewController.swift */,
+				0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -228,6 +241,7 @@
 				0610F1B11C4613D800481402 /* TopicListModel.swift */,
 				06662CA71C4A8A370024452C /* TopicDetailModel.swift */,
 				06C532B31C53485700258A55 /* UserModel.swift */,
+				0684A1E91C5B608D00B12437 /* NotificationsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -242,6 +256,7 @@
 				064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */,
 				064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */,
 				064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */,
+				0684A1E11C5B4BA500B12437 /* NotificationTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,6 +264,8 @@
 		0698397A1C47763800FF7163 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0684A1E31C5B508D00B12437 /* ic_arrow_drop_up@2x.png */,
+				0684A1E41C5B508D00B12437 /* ic_arrow_drop_up@3x.png */,
 				06BA47CD1C5A14CD00CE2A0D /* ic_favorite_18pt@2x.png */,
 				06BA47CE1C5A14CD00CE2A0D /* ic_favorite_18pt@3x.png */,
 				063C05EE1C58A15D005B7CA1 /* ic_speaker_notes@2x.png */,
@@ -284,6 +301,7 @@
 				060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */,
 				063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */,
 				06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */,
+				0684A1E71C5B58D600B12437 /* UIButton+Extension.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -381,6 +399,7 @@
 				06098B431C5232D800848159 /* 32.jpg in Resources */,
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
 				06BA47CF1C5A14CD00CE2A0D /* ic_favorite_18pt@2x.png in Resources */,
+				0684A1E61C5B508D00B12437 /* ic_arrow_drop_up@3x.png in Resources */,
 				0698397D1C47766500FF7163 /* Dark.bundle in Resources */,
 				063C05DD1C589593005B7CA1 /* ic_lock@3x.png in Resources */,
 				0698397E1C47766500FF7163 /* Light.bundle in Resources */,
@@ -391,6 +410,7 @@
 				065B26D61C575424008F16ED /* ic_cancel@3x.png in Resources */,
 				063C05F11C58A15D005B7CA1 /* ic_speaker_notes@3x.png in Resources */,
 				063C05DC1C589593005B7CA1 /* ic_lock@2x.png in Resources */,
+				0684A1E51C5B508D00B12437 /* ic_arrow_drop_up@2x.png in Resources */,
 				065B26BA1C5750BE008F16ED /* ic_more_horiz_36pt@3x.png in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,
 				065B26B91C5750BE008F16ED /* ic_more_horiz_36pt@2x.png in Resources */,
@@ -475,6 +495,7 @@
 				064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */,
 				06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */,
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
+				0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
 				06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */,
@@ -486,12 +507,15 @@
 				06C582AC1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
+				0684A1E21C5B4BA500B12437 /* NotificationTableViewCell.swift in Sources */,
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
 				063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */,
 				06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */,
+				0684A1EA1C5B608D00B12437 /* NotificationsModel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
+				0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
 				0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */,
 			);

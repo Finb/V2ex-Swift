@@ -109,6 +109,18 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
             }
         }
+        else if indexPath.section == 1 {
+            if !V2Client.sharedInstance.isLogin {
+                let loginViewController = LoginViewController()
+                V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
+                return
+            }
+            if indexPath.row == 1 {
+                let notificationsViewController = NotificationsViewController()
+                V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(notificationsViewController, animated: true)
+                V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+            }
+        }
     }
     
     
