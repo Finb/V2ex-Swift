@@ -88,13 +88,13 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         else if (indexPath.section == 1) {
             if indexPath.row == 1 {
                 let cell = getCell(tableView, cell: LeftNotifictionCell.self, indexPath: indexPath)
-                cell.nodeImageView!.image = UIImage.imageUsedTemplateMode("ic_notifications")
+                cell.nodeImageView!.image = UIImage.imageUsedTemplateMode("ic_notifications_none")
                 return cell
             }
             else {
                 let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
                 cell.nodeNameLabel!.text = ["个人中心","","我的收藏"][indexPath.row]
-                let names = ["ic_face","","ic_turned_in"]
+                let names = ["ic_face","","ic_turned_in_not"]
                 cell.nodeImageView!.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
                 return cell
             }
