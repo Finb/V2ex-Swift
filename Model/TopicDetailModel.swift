@@ -67,24 +67,28 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                 var topicModel: TopicDetailModel? = nil
                 var topicCommentsArray : [TopicCommentModel] = []
                 if let html = response .result.value{
-                    let jiHtml = Ji(htmlString: html);
-                    //获取帖子内容
-                    if let aRootNode = jiHtml?.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
-                        topicModel = TopicDetailModel(rootNode: aRootNode);
-                        topicModel?.topicId = topicId
-                    }
-                    
-                    //获取评论
-                    if let aRootNode = jiHtml?.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
-                        for aNode in aRootNode {
-                            topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
+                    if  let jiHtml = Ji(htmlString: html) {
+                        //获取帖子内容
+                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
+                            topicModel = TopicDetailModel(rootNode: aRootNode);
+                            topicModel?.topicId = topicId
                         }
+                        
+                        //获取评论
+                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
+                            for aNode in aRootNode {
+                                topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
+                            }
+                        }
+                        //获取评论总数
+                        if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div/div[3]/div[1]/span") {
+                            topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
+                        }
+                        
+                        //更新通知数量
+                        V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                     }
-                    //获取评论总数
-                    if let commentTotalCount = jiHtml?.xPath("//*[@id='Wrapper']/div/div[3]/div[1]/span") {
-                        topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
-                    }
-                    
+
                 }
                 let t = V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
                 

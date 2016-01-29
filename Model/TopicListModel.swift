@@ -23,6 +23,44 @@ class TopicListModel {
     var lastReplyUserName: String?
     var replies: String?
     
+    required init(rootNode: JiNode) {
+        self.avata = rootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
+        self.nodeName = rootNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
+        self.userName = rootNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content
+        
+        let node = rootNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0]
+        self.topicTitle = node.content
+        
+        var topicIdUrl = node["href"];
+        
+        if var id = topicIdUrl {
+            if let range = id.rangeOfString("/t/") {
+                id.replaceRange(range, with: "");
+            }
+            if let range = id.rangeOfString("#") {
+                id = id.substringToIndex(range.startIndex)
+                topicIdUrl = id
+            }
+        }
+        self.topicId = topicIdUrl
+        
+        
+        self.date = rootNode.xPath("./table/tr/td[3]/span[3]")[0].content
+        
+        var lastReplyUserName:String? = nil
+        if let lastReplyUser = rootNode.xPath("./table/tr/td[3]/span[3]/strong[1]/a[1]").first{
+            lastReplyUserName = lastReplyUser.content
+        }
+        self.lastReplyUserName = lastReplyUserName
+        
+        var replies:String? = nil;
+        if let reply = rootNode.xPath("./table/tr/td[4]/a[1]").first {
+            replies = reply.content
+        }
+        self.replies  = replies
+
+    }
+    
     class func getTopicList(
         tab: String? = nil ,
         nodeName: String? = nil,
@@ -44,52 +82,12 @@ class TopicListModel {
                     let jiHtml = Ji(htmlString: html);
                     if let aRootNode = jiHtml?.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
                         for aNode in aRootNode {
-                            let avata = aNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
-                            let nodeName = aNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
-                            let userName = aNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content
-
-                            let node = aNode.xPath("./table/tr/td[3]/span[2]/a[1]")[0]
-                            let topicTitle = node.content
-                            
-                            var topicIdUrl = node["href"];
-                            
-                            if var id = topicIdUrl {
-                                if let range = id.rangeOfString("/t/") {
-                                    id.replaceRange(range, with: "");
-                                }
-                                if let range = id.rangeOfString("#") {
-                                    id = id.substringToIndex(range.startIndex)
-                                    topicIdUrl = id
-                                }
-                            }
-                            
-                            
-                            let date = aNode.xPath("./table/tr/td[3]/span[3]")[0].content
-                            
-                            var lastReplyUserName:String? = nil
-                            if let lastReplyUser = aNode.xPath("./table/tr/td[3]/span[3]/strong[1]/a[1]").first{
-                                lastReplyUserName = lastReplyUser.content
-                            }
-                            var replies:String? = nil;
-                            if let reply = aNode.xPath("./table/tr/td[4]/a[1]").first {
-                                replies = reply.content
-                            }
-                            
-                            let topic = TopicListModel()
-                            topic.topicId = topicIdUrl
-                            topic.avata  = avata
-                            topic.nodeName  = nodeName
-                            topic.userName  = userName
-                            topic.topicTitle  = topicTitle
-                            topic.date  = date
-                            if lastReplyUserName != nil {
-                                topic.lastReplyUserName  = lastReplyUserName!
-                            }
-                            if replies != nil {
-                                topic.replies  = replies!
-                            }
+                            let topic = TopicListModel(rootNode:aNode)
                             resultArray.append(topic);
                         }
+                        
+                        //更新通知数量
+                        V2Client.sharedInstance.getNotificationsCount(jiHtml!.rootNode!)
                     }
                 }
                 

@@ -56,7 +56,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         let leftButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         leftButton.contentMode = .Center
         leftButton.imageEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0)
-        leftButton.setImage(UIImage(named: "ic_menu_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        leftButton.setImage(UIImage.imageUsedTemplateMode("ic_menu_36pt")!, forState: .Normal)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
         leftButton.addTarget(self, action: Selector("leftClick"), forControlEvents: .TouchUpInside)
         
@@ -64,7 +64,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         rightButton.contentMode = .Center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
 

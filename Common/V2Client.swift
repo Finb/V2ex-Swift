@@ -57,18 +57,22 @@ class V2Client: NSObject {
             _once = newValue
         }
     }
+    /// 返回 客户端显示是否有可用的once
     var hasOnce:Bool {
         get {
             return _once?.Lenght > 0
         }
     }
     
+    /// 通知数量
+    dynamic var notificationCount:Int = 0
+    
+    
     
     private override init() {
         super.init()
         self.setupInMainThread()
     }
-    
     func setupInMainThread() {
         if NSThread.isMainThread() {
             self.setup()
@@ -82,6 +86,7 @@ class V2Client: NSObject {
     func setup(){
         self.username = V2EXSettings.sharedInstance[kUserName]
     }
+    
     
     /// 是否登陆
     var isLogin:Bool {
@@ -124,6 +129,12 @@ class V2Client: NSObject {
             }
         }
     }
+    
+    /**
+     获取once
+     
+     - parameter url:               有once存在的url
+     */
     func getOnce(url:String, completionHandler: V2Response -> Void) {
         if(self.hasOnce){
             completionHandler(V2Response(success: true))
@@ -140,6 +151,32 @@ class V2Client: NSObject {
                 }
             }
             completionHandler(V2Response(success: false))
+        }
+    }
+    
+    /**
+     获取并更新通知数量
+     
+     - parameter rootNode: 有Notifications 的节点
+     */
+    func getNotificationsCount(rootNode: JiNode) {
+        let notification = rootNode.xPath("//head/title").first?.content
+        if let notification = notification {
+            
+            self.notificationCount = 0;
+            
+            let regex = try! NSRegularExpression(pattern: "V2EX \\([0-9]+\\)", options: [.CaseInsensitive])
+            regex.enumerateMatchesInString(notification, options: [.WithoutAnchoringBounds], range: NSMakeRange(0, notification.Lenght), usingBlock: { (result, flags, stop) -> Void in
+                if let result = result {
+                    let startIndex = notification.startIndex.advancedBy(result.range.location + 6)
+                    let endIndex = notification.startIndex.advancedBy(result.range.location + result.range.length - 1)
+                    let subRange = Range<String.Index>(start: startIndex, end: endIndex)
+                    let count = notification.substringWithRange(subRange)
+                    if let acount = Int(count) {
+                        self.notificationCount = acount
+                    }
+                }
+            })
         }
     }
 }

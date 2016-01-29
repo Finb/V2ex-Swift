@@ -51,3 +51,33 @@ class LeftNodeTableViewCell: UITableViewCell {
         }
     }
 }
+
+
+class LeftNotifictionCell : LeftNodeTableViewCell{
+    var notifictionCountLabel:UILabel?
+    override func setup() {
+        super.setup()
+        self.nodeNameLabel!.text = "消息提醒"
+        self.notifictionCountLabel = UILabel()
+        self.notifictionCountLabel!.backgroundColor = colorWith255RGB(207, g: 70, b: 71)
+        self.notifictionCountLabel!.font = v2Font(10)
+        self.notifictionCountLabel!.textColor = UIColor.whiteColor()
+        self.notifictionCountLabel!.layer.cornerRadius = 7
+        self.notifictionCountLabel!.layer.masksToBounds = true
+        self.contentView.addSubview(self.notifictionCountLabel!)
+        self.notifictionCountLabel!.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.nodeNameLabel!)
+            make.left.equalTo(self.nodeNameLabel!.snp_right).offset(5)
+            make.height.equalTo(14)
+        }
+        
+        self.KVOController.observe(V2Client.sharedInstance, keyPath: "notificationCount", options: [.Initial,.New]) {  [weak self](cell, clien, change) -> Void in
+            if V2Client.sharedInstance.notificationCount > 0 {
+                self?.notifictionCountLabel!.text = "   \(V2Client.sharedInstance.notificationCount)   "
+            }
+            else{
+                self?.notifictionCountLabel!.text = ""
+            }
+        }
+    }
+}

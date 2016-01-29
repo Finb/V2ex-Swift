@@ -26,6 +26,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             
             regClass(self.tableView, cell: LeftUserHeadCell.self)
             regClass(self.tableView, cell: LeftNodeTableViewCell.self)
+            regClass(self.tableView, cell: LeftNotifictionCell.self)
             
             _tableView.delegate = self;
             _tableView.dataSource = self;
@@ -85,9 +86,15 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             }
         }
         else if (indexPath.section == 1) {
-            let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-            cell.nodeNameLabel!.text = ["个人中心","消息提醒","我的收藏"][indexPath.row]
-            return cell
+            if indexPath.row == 1 {
+                let cell = getCell(tableView, cell: LeftNotifictionCell.self, indexPath: indexPath)
+                return cell
+            }
+            else {
+                let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
+                cell.nodeNameLabel!.text = ["个人中心","","我的收藏"][indexPath.row]
+                return cell
+            }
         }
         else {
             let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
