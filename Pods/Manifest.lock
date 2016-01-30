@@ -20,7 +20,7 @@ PODS:
   - MJRefresh (3.1.0)
   - ObjectMapper (1.1.1)
   - SnapKit (0.18.0)
-  - SVProgressHUD (2.0-beta)
+  - SVProgressHUD (1.1.3)
   - YYText (0.9.18)
 
 DEPENDENCIES:
@@ -34,7 +34,7 @@ DEPENDENCIES:
   - MJRefresh (~> 3.1.0)
   - ObjectMapper (~> 1.1.1)
   - SnapKit (~> 0.18.0)
-  - SVProgressHUD (~> 2.0-beta)
+  - SVProgressHUD (~> 1.1.3)
   - YYText (~> 0.9.18)
 
 SPEC CHECKSUMS:
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   ObjectMapper: 4143abed1dbd49b73d75092fe8fa1c88ed6434b7
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
-  SVProgressHUD: c83337f10ed32d701c423d519059a249973c8662
+  SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
 COCOAPODS: 0.39.0
