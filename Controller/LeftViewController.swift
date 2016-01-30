@@ -123,13 +123,20 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             if indexPath.row == 1 {
                 let notificationsViewController = NotificationsViewController()
                 V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(notificationsViewController, animated: true)
-                V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
             }
+            else if indexPath.row == 2 {
+                let favoritesViewController = FavoritesViewController()
+                V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(favoritesViewController, animated: true)
+            }
+            V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+            
         }
         else if indexPath.section == 2 {
-            let moreViewController = MoreViewController()
-            V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(moreViewController, animated: true)
-            V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+            if indexPath.row == 1 {
+                let moreViewController = MoreViewController()
+                V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(moreViewController, animated: true)
+                V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+            }
         }
     }
     

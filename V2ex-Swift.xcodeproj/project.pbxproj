@@ -87,6 +87,7 @@
 		06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B74A1C5C76190056A673 /* MoreViewController.swift */; };
 		06E4B74E1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */; };
 		06E4B74F1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */; };
+		06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */; };
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
 		26B5242605284C97BB41C134 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61362A97378A23EFC5EDD56C /* Pods.framework */; };
@@ -176,6 +177,7 @@
 		06E4B74A1C5C76190056A673 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_keyboard_arrow_right@2x.png"; sourceTree = "<group>"; };
 		06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_keyboard_arrow_right@3x.png"; sourceTree = "<group>"; };
+		06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
 		06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		2D06E5BE1AAA006DB6071E45 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				06BB48EF1C56153A00A4A909 /* WritingViewController.swift */,
 				0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */,
 				06E4B74A1C5C76190056A673 /* MoreViewController.swift */,
+				06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				069839831C478ECC00FF7163 /* RightViewController.swift in Sources */,
 				06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */,
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
+				06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */,
 				064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */,
 				06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */,
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
