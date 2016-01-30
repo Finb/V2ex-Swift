@@ -169,6 +169,7 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 cell.detailMarkHidden = true
                 cell.titleLabel?.text = self.model?.topicCommentTotalCount
                 cell.titleLabel?.font = v2Font(12)
+                cell.separator?.image = createImageWithColor(self.view.backgroundColor!)
                 return cell
             }
         }

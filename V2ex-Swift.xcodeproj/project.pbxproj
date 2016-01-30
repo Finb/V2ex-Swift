@@ -84,6 +84,9 @@
 		06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C673491C4D20A0000F48DA /* TopicDetailHeaderCell.swift */; };
 		06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D33A5D1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift */; };
 		06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DD400A1C43726600CE293D /* V2EXColor.swift */; };
+		06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B74A1C5C76190056A673 /* MoreViewController.swift */; };
+		06E4B74E1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */; };
+		06E4B74F1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */; };
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
 		26B5242605284C97BB41C134 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61362A97378A23EFC5EDD56C /* Pods.framework */; };
@@ -170,6 +173,9 @@
 		06C673491C4D20A0000F48DA /* TopicDetailHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailHeaderCell.swift; sourceTree = "<group>"; };
 		06D33A5D1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailWebViewContentCell.swift; sourceTree = "<group>"; };
 		06DD400A1C43726600CE293D /* V2EXColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXColor.swift; sourceTree = "<group>"; };
+		06E4B74A1C5C76190056A673 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
+		06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_keyboard_arrow_right@2x.png"; sourceTree = "<group>"; };
+		06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_keyboard_arrow_right@3x.png"; sourceTree = "<group>"; };
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
 		06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		2D06E5BE1AAA006DB6071E45 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -258,6 +264,7 @@
 				06098B3E1C52171D00848159 /* LoginViewController.swift */,
 				06BB48EF1C56153A00A4A909 /* WritingViewController.swift */,
 				0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */,
+				06E4B74A1C5C76190056A673 /* MoreViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -292,6 +299,8 @@
 		0698397A1C47763800FF7163 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */,
+				06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */,
 				0684A20F1C5B769800B12437 /* ic_notifications_none@2x.png */,
 				0684A2101C5B769800B12437 /* ic_notifications_none@3x.png */,
 				0684A20B1C5B768D00B12437 /* ic_turned_in_not@2x.png */,
@@ -447,6 +456,7 @@
 				0684A2111C5B769800B12437 /* ic_notifications_none@2x.png in Resources */,
 				0698397D1C47766500FF7163 /* Dark.bundle in Resources */,
 				063C05DD1C589593005B7CA1 /* ic_lock@3x.png in Resources */,
+				06E4B74E1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png in Resources */,
 				0698397E1C47766500FF7163 /* Light.bundle in Resources */,
 				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
 				06098B411C521A4100848159 /* login-bg-iphone-6.jpg in Resources */,
@@ -475,6 +485,7 @@
 				0684A1F51C5B6F2200B12437 /* ic_notifications@2x.png in Resources */,
 				0684A2121C5B769800B12437 /* ic_notifications_none@3x.png in Resources */,
 				063C05F01C58A15D005B7CA1 /* ic_speaker_notes@2x.png in Resources */,
+				06E4B74F1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png in Resources */,
 				063C05E51C589B0E005B7CA1 /* ic_arrow_downward@3x.png in Resources */,
 				065B26D51C575424008F16ED /* ic_cancel@2x.png in Resources */,
 				065B26C61C575277008F16ED /* ic_send@3x.png in Resources */,
@@ -551,6 +562,7 @@
 				064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */,
 				06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */,
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
+				06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */,
 				0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,

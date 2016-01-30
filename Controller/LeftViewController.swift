@@ -126,6 +126,11 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
             }
         }
+        else if indexPath.section == 2 {
+            let moreViewController = MoreViewController()
+            V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(moreViewController, animated: true)
+            V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+        }
     }
     
     
