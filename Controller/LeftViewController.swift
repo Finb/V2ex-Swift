@@ -117,16 +117,21 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         else if indexPath.section == 1 {
             if !V2Client.sharedInstance.isLogin {
                 let loginViewController = LoginViewController()
-                V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
+                V2Client.sharedInstance.centerNavigation?.presentViewController(loginViewController, animated: true, completion: nil);
                 return
             }
-            if indexPath.row == 1 {
+            if indexPath.row == 0 {
+                let memberViewController = MemberViewController()
+                memberViewController.username = V2Client.sharedInstance.username
+                V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+            }
+            else if indexPath.row == 1 {
                 let notificationsViewController = NotificationsViewController()
-                V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(notificationsViewController, animated: true)
+                V2Client.sharedInstance.centerNavigation?.pushViewController(notificationsViewController, animated: true)
             }
             else if indexPath.row == 2 {
                 let favoritesViewController = FavoritesViewController()
-                V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(favoritesViewController, animated: true)
+                V2Client.sharedInstance.centerNavigation?.pushViewController(favoritesViewController, animated: true)
             }
             V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
             

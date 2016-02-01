@@ -15,7 +15,12 @@
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
+		0611DE591C5F385800933964 /* MemberHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE581C5F385800933964 /* MemberHeaderCell.swift */; };
+		0611DE5B1C5F3ACA00933964 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5A1C5F3ACA00933964 /* MemberModel.swift */; };
+		0611DE5D1C5F4C5C00933964 /* MemberTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5C1C5F4C5C00933964 /* MemberTopicCell.swift */; };
+		0611DE5F1C5F513B00933964 /* MemberReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */; };
 		0623EB211C5EF6BB0016E816 /* NotificationMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */; };
+		0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB221C5F04630016E816 /* MemberViewController.swift */; };
 		063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */; };
 		063C05DC1C589593005B7CA1 /* ic_lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DA1C589593005B7CA1 /* ic_lock@2x.png */; };
 		063C05DD1C589593005B7CA1 /* ic_lock@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DB1C589593005B7CA1 /* ic_lock@3x.png */; };
@@ -103,7 +108,12 @@
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
+		0611DE581C5F385800933964 /* MemberHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberHeaderCell.swift; sourceTree = "<group>"; };
+		0611DE5A1C5F3ACA00933964 /* MemberModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
+		0611DE5C1C5F4C5C00933964 /* MemberTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberTopicCell.swift; sourceTree = "<group>"; };
+		0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyCell.swift; sourceTree = "<group>"; };
 		0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationMenuButton.swift; sourceTree = "<group>"; };
+		0623EB221C5F04630016E816 /* MemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberViewController.swift; sourceTree = "<group>"; };
 		063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshHeader.swift; sourceTree = "<group>"; };
 		063C05DA1C589593005B7CA1 /* ic_lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_lock@2x.png"; sourceTree = "<group>"; };
 		063C05DB1C589593005B7CA1 /* ic_lock@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_lock@3x.png"; sourceTree = "<group>"; };
@@ -199,6 +209,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0611DE571C5F383700933964 /* Member */ = {
+			isa = PBXGroup;
+			children = (
+				0611DE581C5F385800933964 /* MemberHeaderCell.swift */,
+				0611DE5C1C5F4C5C00933964 /* MemberTopicCell.swift */,
+				0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */,
+			);
+			name = Member;
+			sourceTree = "<group>";
+		};
 		0653CFA61C44E09B00E4FC05 /* UITableView+FINAutomaticHeightCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +290,7 @@
 				0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */,
 				06E4B74A1C5C76190056A673 /* MoreViewController.swift */,
 				06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */,
+				0623EB221C5F04630016E816 /* MemberViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -282,6 +303,7 @@
 				06662CA71C4A8A370024452C /* TopicDetailModel.swift */,
 				06C532B31C53485700258A55 /* UserModel.swift */,
 				0684A1E91C5B608D00B12437 /* NotificationsModel.swift */,
+				0611DE5A1C5F3ACA00933964 /* MemberModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,6 +313,7 @@
 			children = (
 				06C49B6E1C43C10500684CA6 /* Control */,
 				06C582AA1C50C86E00F24DBC /* Topic */,
+				0611DE571C5F383700933964 /* Member */,
 				06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */,
 				06C582AB1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift */,
 				064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */,
@@ -567,7 +590,10 @@
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
 				06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */,
 				064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */,
+				0611DE5D1C5F4C5C00933964 /* MemberTopicCell.swift in Sources */,
 				06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */,
+				0611DE5B1C5F3ACA00933964 /* MemberModel.swift in Sources */,
+				0611DE591C5F385800933964 /* MemberHeaderCell.swift in Sources */,
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
 				06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */,
 				0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */,
@@ -583,6 +609,8 @@
 				06C582AC1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
+				0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */,
+				0611DE5F1C5F513B00933964 /* MemberReplyCell.swift in Sources */,
 				0684A1E21C5B4BA500B12437 /* NotificationTableViewCell.swift in Sources */,
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,

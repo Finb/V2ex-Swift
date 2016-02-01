@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         V2Client.sharedInstance.drawerController = drawerController
         V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? HomeViewController
-
+        V2Client.sharedInstance.centerNavigation = centerNav
         #if DEBUG
             let fpsLabel = V2FPSLabel(frame: CGRectMake(15, SCREEN_HEIGHT-40, 55, 20));
             self.window?.addSubview(fpsLabel);

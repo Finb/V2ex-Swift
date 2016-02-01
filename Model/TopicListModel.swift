@@ -22,8 +22,10 @@ class TopicListModel {
     var date: String?
     var lastReplyUserName: String?
     var replies: String?
-    
-    required init(rootNode: JiNode) {
+    init() {
+        
+    }
+    init(rootNode: JiNode) {
         self.avata = rootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']")[0]["src"]
         self.nodeName = rootNode.xPath("./table/tr/td[3]/span[1]/a[1]")[0].content
         self.userName = rootNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]")[0].content

@@ -12,7 +12,9 @@ import UIKit
 func colorWith255RGB(r:CGFloat , g:CGFloat, b:CGFloat) ->UIColor {
     return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 255)
 }
-
+func colorWith255RGBA(r:CGFloat , g:CGFloat, b:CGFloat,a:CGFloat) ->UIColor {
+    return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a/255)
+}
 func createImageWithColor(color:UIColor) -> UIImage{
     let rect=CGRectMake(0.0, 0.0, 1.0, 1.0);
     UIGraphicsBeginImageContext(rect.size);

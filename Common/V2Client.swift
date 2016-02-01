@@ -17,6 +17,7 @@ class V2Client: NSObject {
     
     var drawerController :DrawerController? = nil
     var centerViewController : HomeViewController? = nil
+    var centerNavigation : V2EXNavigationController? = nil
     
     /// 用户信息
     private var _user:UserModel?
