@@ -51,7 +51,7 @@ class FavoritesViewController: UIViewController,UITableViewDataSource,UITableVie
         
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
             self?.refresh()
-            })
+        })
         self.tableView.mj_header.beginRefreshing()
     }
     
@@ -63,11 +63,10 @@ class FavoritesViewController: UIViewController,UITableViewDataSource,UITableVie
                 if let weakSelf = self {
                     weakSelf.topicList = response.value
                     weakSelf.tableView.fin_reloadData()
-                    if weakSelf.tableView.mj_header.isRefreshing() {
-                        weakSelf.tableView.mj_header.endRefreshing()
-                    }
                 }
             }
+            self?.tableView.mj_header.endRefreshing()
+            
             if let view = self?._loadView{
                 view.hide()
             }

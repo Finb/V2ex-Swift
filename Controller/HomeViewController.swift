@@ -53,10 +53,8 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         self.navigationItem.title="V2EX";
         self.tab = V2EXSettings.sharedInstance[kHomeTab]
         
-        let leftButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        leftButton.contentMode = .Center
-        leftButton.imageEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0)
-        leftButton.setImage(UIImage.imageUsedTemplateMode("ic_menu_36pt")!, forState: .Normal)
+        let leftButton = NotificationMenuButton()
+        leftButton.frame = CGRectMake(0, 0, 40, 40)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
         leftButton.addTarget(self, action: Selector("leftClick"), forControlEvents: .TouchUpInside)
         
@@ -94,14 +92,14 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(tab){
             [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
-            if response.success {
-                if let weakSelf = self {
+            if let weakSelf = self {
+                if response.success {
+                    
                     weakSelf.topicList = response.value
                     weakSelf.tableView.fin_reloadData()
-                    if weakSelf.tableView.mj_header.isRefreshing() {
-                        weakSelf.tableView.mj_header.endRefreshing()
-                    }
+                    
                 }
+                weakSelf.tableView.mj_header.endRefreshing()
             }
         }
     }

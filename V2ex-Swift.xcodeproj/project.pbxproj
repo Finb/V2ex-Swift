@@ -15,6 +15,7 @@
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
+		0623EB211C5EF6BB0016E816 /* NotificationMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */; };
 		063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */; };
 		063C05DC1C589593005B7CA1 /* ic_lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DA1C589593005B7CA1 /* ic_lock@2x.png */; };
 		063C05DD1C589593005B7CA1 /* ic_lock@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 063C05DB1C589593005B7CA1 /* ic_lock@3x.png */; };
@@ -102,6 +103,7 @@
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
+		0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationMenuButton.swift; sourceTree = "<group>"; };
 		063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshHeader.swift; sourceTree = "<group>"; };
 		063C05DA1C589593005B7CA1 /* ic_lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_lock@2x.png"; sourceTree = "<group>"; };
 		063C05DB1C589593005B7CA1 /* ic_lock@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_lock@3x.png"; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */,
 				06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */,
 				0684A1E71C5B58D600B12437 /* UIButton+Extension.swift */,
+				0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
 				06BB48EE1C56096000A4A909 /* V2EXMentionedBindingParser.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
+				0623EB211C5EF6BB0016E816 /* NotificationMenuButton.swift in Sources */,
 				06C582AC1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift in Sources */,
 				06C49B701C43C11700684CA6 /* V2SpacingLabel.swift in Sources */,
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
