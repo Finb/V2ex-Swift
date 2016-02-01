@@ -155,8 +155,8 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if tableViewHeader.count > section {
-            return tableViewHeader[section]
+        if tableViewHeader.count > section - 1 {
+            return tableViewHeader[section-1]
         }
         let view = UIView()
         view.backgroundColor = UIColor(white: 1, alpha: 0.6)

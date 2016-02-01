@@ -62,7 +62,10 @@ class MoreViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 6 {
+        if indexPath.row == 4 {
+            UIApplication.sharedApplication().openURL(NSURL(string: "http://finb.github.io/blog/2016/02/01/v2ex-ioske-hu-duan-bug-and-jian-yi/")!)
+        }
+        else if indexPath.row == 6 {
             UIApplication.sharedApplication().openURL(NSURL(string: "https://github.com/Finb/V2ex-Swift")!)
         }
     }
