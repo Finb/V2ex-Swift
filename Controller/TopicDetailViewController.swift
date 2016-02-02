@@ -8,7 +8,7 @@
 
 import UIKit
 import SVProgressHUD
-class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate{
+class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate{
 
     var topicId = "0"
     private var model:TopicDetailModel?
@@ -69,18 +69,10 @@ class TopicDetailViewController: UIViewController, UITableViewDelegate,UITableVi
                 
                 self.tableView.fin_reloadData()
             }
-            if let view = self._loadView{
-                view.hide()
-            }
+            self.hideLoadingView()
         }
         
-        let aloadView = V2LoadingView()
-        aloadView.backgroundColor = self.view.backgroundColor
-        self.view.addSubview(aloadView)
-        aloadView.snp_makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.equalTo(self.view)
-        }
-        self._loadView = aloadView
+        self.showLoadingView()
     }
     
     func rightClick(){

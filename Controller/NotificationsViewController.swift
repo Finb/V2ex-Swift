@@ -8,7 +8,7 @@
 
 import UIKit
 import MJRefresh
-class NotificationsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class NotificationsViewController: BaseViewController,UITableViewDataSource,UITableViewDelegate {
 
     private var notificationsArray:[NotificationsModel] = []
     
@@ -37,30 +37,21 @@ class NotificationsViewController: UIViewController,UITableViewDataSource,UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(self.tableView);
+        self.title = "通知"
+        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
 
-        self.setupLoadingView()
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock:{[weak self] () -> Void in
             self?.refresh()
         })
+        self.showLoadingView()
         self.tableView.mj_header.beginRefreshing();
 
     }
     
-    func setupLoadingView (){
-        self.title = "通知"
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        
-        let aloadView = V2LoadingView()
-        aloadView.backgroundColor = self.view.backgroundColor
-        self.view.addSubview(aloadView)
-        aloadView.snp_makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.equalTo(self.view)
-        }
-        self._loadView = aloadView
-    }
     
     
     func refresh(){

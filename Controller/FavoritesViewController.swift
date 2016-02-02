@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableViewDelegate {
     var topicList:Array<TopicListModel>?
     private var _tableView :UITableView!
     private var tableView: UITableView {
@@ -41,13 +41,7 @@ class FavoritesViewController: UIViewController,UITableViewDataSource,UITableVie
             make.top.right.bottom.left.equalTo(self.view);
         }
         
-        let aloadView = V2LoadingView()
-        aloadView.backgroundColor = self.view.backgroundColor
-        self.view.addSubview(aloadView)
-        aloadView.snp_makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.equalTo(self.view)
-        }
-        self._loadView = aloadView
+        self.showLoadingView()
         
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
             self?.refresh()
@@ -67,9 +61,7 @@ class FavoritesViewController: UIViewController,UITableViewDataSource,UITableVie
             }
             self?.tableView.mj_header.endRefreshing()
             
-            if let view = self?._loadView{
-                view.hide()
-            }
+            self?.hideLoadingView()
         }
     }
     

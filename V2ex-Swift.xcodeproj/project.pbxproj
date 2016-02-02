@@ -94,6 +94,7 @@
 		06E145A21C60A5E600BDD63D /* NodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A11C60A5E600BDD63D /* NodeTableViewCell.swift */; };
 		06E145A41C60A86D00BDD63D /* NodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A31C60A86D00BDD63D /* NodeModel.swift */; };
 		06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A51C60A9F400BDD63D /* Request+Extension.swift */; };
+		06E145A81C60C23300BDD63D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A71C60C23300BDD63D /* BaseViewController.swift */; };
 		06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B74A1C5C76190056A673 /* MoreViewController.swift */; };
 		06E4B74E1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */; };
 		06E4B74F1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */; };
@@ -194,6 +195,7 @@
 		06E145A11C60A5E600BDD63D /* NodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTableViewCell.swift; sourceTree = "<group>"; };
 		06E145A31C60A86D00BDD63D /* NodeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeModel.swift; sourceTree = "<group>"; };
 		06E145A51C60A9F400BDD63D /* Request+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Request+Extension.swift"; sourceTree = "<group>"; };
+		06E145A71C60C23300BDD63D /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		06E4B74A1C5C76190056A673 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		06E4B74C1C5C84350056A673 /* ic_keyboard_arrow_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_keyboard_arrow_right@2x.png"; sourceTree = "<group>"; };
 		06E4B74D1C5C84350056A673 /* ic_keyboard_arrow_right@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_keyboard_arrow_right@3x.png"; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 		069508F71C3F75A60088D031 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				06E145A71C60C23300BDD63D /* BaseViewController.swift */,
 				069839801C478EC300FF7163 /* LeftViewController.swift */,
 				069839821C478ECC00FF7163 /* RightViewController.swift */,
 				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
@@ -617,6 +620,7 @@
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
 				06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */,
 				06E145A41C60A86D00BDD63D /* NodeModel.swift in Sources */,
+				06E145A81C60C23300BDD63D /* BaseViewController.swift in Sources */,
 				0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06E1459F1C609E8500BDD63D /* NodesViewController.swift in Sources */,
