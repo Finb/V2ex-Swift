@@ -46,19 +46,18 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
     
     class func getNotifications(completionHandler: (V2ValueResponse<[NotificationsModel]> -> Void)? = nil){
         
-        Alamofire.request(.GET, V2EXURL+"notifications", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+        Alamofire.request(.GET, V2EXURL+"notifications", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
             var resultArray:[NotificationsModel] = []
             
-            if let html = response .result.value{
-                let jiHtml = Ji(htmlString: html);
-                if let aRootNode = jiHtml?.xPath("//*[@id='Wrapper']/div/div[@class='box']/div[attribute::id]"){
+            if let jiHtml = response.result.value {
+                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box']/div[attribute::id]"){
                     for aNode in aRootNode {
                         let notice = NotificationsModel(rootNode:aNode)
                         resultArray.append(notice);
                     }
                     
                     //更新通知数量
-                    V2Client.sharedInstance.getNotificationsCount(jiHtml!.rootNode!)
+                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
             }
             

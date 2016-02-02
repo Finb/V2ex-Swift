@@ -25,38 +25,36 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
     class func getMemberInfo(username:String , completionHandler: (V2ValueResponse<MemberModel> -> Void)? = nil) {
     
         let url = V2EXURL + "member/" + username
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
-            if let html = response .result.value{
-                if let jiHtml = Ji(htmlString: html){
+        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+            if let jiHtml = response.result.value {
+                
+                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/table/tr")?.first{
                     
-                    if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/table/tr")?.first{
-                        
-                        let member = MemberModel(rootNode: aRootNode);
-                        if let rootNodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[@class='cell item']") {
-                            for rootNode  in rootNodes {
-                                member.topics.append(MemberTopicsModel(memberTopicRootNode:rootNode))
-                            }
+                    let member = MemberModel(rootNode: aRootNode);
+                    if let rootNodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[@class='cell item']") {
+                        for rootNode  in rootNodes {
+                            member.topics.append(MemberTopicsModel(memberTopicRootNode:rootNode))
                         }
-                        
-                        if let rootNodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][3]/div[@class='dock_area']") {
-                            for rootNode in rootNodes {
-                                let replyModel = MemberRepliesModel(rootNode:rootNode)
-
-                                if  let replyNode = rootNode.nextSibling {
-                                    replyModel.reply = replyNode.xPath("./div").first?.content
-                                }
-                                
-                                member.replies.append(replyModel)
-                            }
-                        }
-                        
-                        completionHandler?(V2ValueResponse(value: member, success: true))
-                        
-                        
                     }
+                    
+                    if let rootNodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][3]/div[@class='dock_area']") {
+                        for rootNode in rootNodes {
+                            let replyModel = MemberRepliesModel(rootNode:rootNode)
+                            
+                            if  let replyNode = rootNode.nextSibling {
+                                replyModel.reply = replyNode.xPath("./div").first?.content
+                            }
+                            
+                            member.replies.append(replyModel)
+                        }
+                    }
+                    
+                    completionHandler?(V2ValueResponse(value: member, success: true))
+                    
+                    
                 }
-
             }
+            
             completionHandler?(V2ValueResponse(success: false))
         }
     }

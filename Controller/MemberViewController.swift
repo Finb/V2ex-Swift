@@ -100,7 +100,11 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     }
     override func viewWillDisappear(animated: Bool) {
         V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = 1
-        self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_TopicListTitleColor
+        self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
+    }
+    override func viewDidDisappear(animated: Bool) {
+        V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = 1
+        self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
     }
     
     override func viewDidAppear(animated: Bool) {

@@ -33,12 +33,13 @@ func createImageWithColor(color:UIColor) -> UIImage{
 protocol V2EXColorProtocol{
     //background Color 
     var v2_backgroundColor: UIColor { get }
+    var v2_navigationBarTintColor: UIColor { get }
     
-    // gray
     var v2_TopicListTitleColor : UIColor { get }
     var v2_TopicListUserNameColor : UIColor { get }
     var v2_TopicListDateColor : UIColor { get }
-    //red
+
+    
 }
 
 private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
@@ -50,6 +51,11 @@ private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     var v2_backgroundColor : UIColor{
         get{
             return colorWith255RGB(242, g: 243, b: 245);
+        }
+    }
+    var v2_navigationBarTintColor : UIColor{
+        get{
+            return colorWith255RGB(102, g: 102, b: 102);
         }
     }
     

@@ -141,11 +141,10 @@ class V2Client: NSObject {
             completionHandler(V2Response(success: true))
             return;
         }
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString {
-            (response: Response<String,NSError>) -> Void in
-            if let html = response .result.value{
-                let jiHtml = Ji(htmlString: html);
-                if let once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]{
+        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
+            (response) -> Void in
+            if let jiHtml = response .result.value{
+                if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
                     self.once = once
                     completionHandler(V2Response(success: true))
                     return;

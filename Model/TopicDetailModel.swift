@@ -66,11 +66,10 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
             
             let url = V2EXURL + "t/" + topicId + "?p=1"
             
-            Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                 var topicModel: TopicDetailModel? = nil
                 var topicCommentsArray : [TopicCommentModel] = []
-                if let html = response .result.value{
-                    if  let jiHtml = Ji(htmlString: html) {
+                    if  let jiHtml = response.result.value {
                         //获取帖子内容
                         if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
                             topicModel = TopicDetailModel(rootNode: aRootNode);
@@ -92,7 +91,6 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                         V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                     }
 
-                }
                 let t = V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
                 
                 completionHandler(t);
@@ -148,7 +146,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                     "once":V2Client.sharedInstance.once!
                 ]
                 
-                Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+                Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                     if let location = response.response?.allHeaderFields["Etag"] as? String{
                         if location.Lenght > 0 {
                             completionHandler(V2Response(success: true))
@@ -158,9 +156,8 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                         }
                         
                         //不管成功还是失败，更新一下once
-                        if let html = response .result.value{
-                            let jiHtml = Ji(htmlString: html);
-                            V2Client.sharedInstance.once = jiHtml?.xPath("//*[@name='once'][1]")?.first?["value"]
+                        if let jiHtml = response .result.value{
+                            V2Client.sharedInstance.once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
                         }
                         return
                     }

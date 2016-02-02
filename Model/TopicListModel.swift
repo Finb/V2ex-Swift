@@ -111,45 +111,41 @@ class TopicListModel {
                 params["tab"] = "hot"
             }
             
-            Alamofire.request(.GET, V2EXURL, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            
+            Alamofire.request(.GET, V2EXURL, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                 var resultArray:[TopicListModel] = []
-                
-                if let html = response .result.value{
-                    let jiHtml = Ji(htmlString: html);
-                    if let aRootNode = jiHtml?.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
+                if  let jiHtml = response.result.value{
+                    if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
                         for aNode in aRootNode {
                             let topic = TopicListModel(rootNode:aNode)
                             resultArray.append(topic);
                         }
                         
                         //更新通知数量
-                        V2Client.sharedInstance.getNotificationsCount(jiHtml!.rootNode!)
+                        V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                     }
                 }
                 
                 let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
                 completionHandler(t);
-                
             }
     }
     
     class func getFavoriteList(completionHandler: V2ValueResponse<[TopicListModel]> -> Void){
-        Alamofire.request(.GET, V2EXURL+"my/topics", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+        Alamofire.request(.GET, V2EXURL+"my/topics", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             
-            if let html = response .result.value{
-                let jiHtml = Ji(htmlString: html);
-                if let aRootNode = jiHtml?.xPath("//*[@id='Main']/div[@class='box']/div[@class='cell item']"){
+            if let jiHtml = response.result.value {
+                if let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[@class='cell item']"){
                     for aNode in aRootNode {
                         let topic = TopicListModel(favoritesRootNode:aNode)
                         resultArray.append(topic);
                     }
                     
                     //更新通知数量
-                    V2Client.sharedInstance.getNotificationsCount(jiHtml!.rootNode!)
+                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
             }
-            
             let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
             completionHandler(t);
         }
