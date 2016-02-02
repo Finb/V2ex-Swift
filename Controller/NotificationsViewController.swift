@@ -63,9 +63,7 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
                 }
             }
             self?.tableView.mj_header.endRefreshing()
-            if let view = self?._loadView{
-                view.hide()
-            }
+            self?.hideLoadingView()
         }
     }
     

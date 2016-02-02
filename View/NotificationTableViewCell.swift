@@ -25,6 +25,7 @@ class NotificationTableViewCell: UITableViewCell {
     
     /// 回复正文的背景容器
     var commentPanel: UIView?
+    var dropUpImageView: UIImageView?
     
     /// 整个cell元素的容器
     var contentPanel:UIView?
@@ -53,10 +54,8 @@ class NotificationTableViewCell: UITableViewCell {
         
         self.contentPanel = UIView();
         self.contentPanel!.backgroundColor=UIColor.whiteColor();
+        self.contentPanel!.clipsToBounds = true
         self.contentView .addSubview(self.contentPanel!);
-        self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.top.left.right.equalTo(self.contentView);
-        }
         
         self.avatarImageView = UIImageView();
         self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
@@ -122,12 +121,12 @@ class NotificationTableViewCell: UITableViewCell {
             make.top.left.equalTo(self.commentLabel!).offset(-10)
             make.right.bottom.equalTo(self.commentLabel!).offset(10)
         }
-        let  dropUpImageView = UIImageView()
-        dropUpImageView.image = UIImage.imageUsedTemplateMode("ic_arrow_drop_up")
-        dropUpImageView.contentMode = .ScaleAspectFit
-        dropUpImageView.tintColor = self.commentPanel!.backgroundColor
-        self.contentPanel!.addSubview(dropUpImageView)
-        dropUpImageView.snp_makeConstraints{ (make) -> Void in
+        self.dropUpImageView = UIImageView()
+        self.dropUpImageView!.image = UIImage.imageUsedTemplateMode("ic_arrow_drop_up")
+        self.dropUpImageView!.contentMode = .ScaleAspectFit
+        self.dropUpImageView!.tintColor = self.commentPanel!.backgroundColor
+        self.contentPanel!.addSubview(self.dropUpImageView!)
+        self.dropUpImageView!.snp_makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.commentPanel!.snp_top)
             make.left.equalTo(self.commentPanel!).offset(25)
             make.width.equalTo(10)
@@ -144,7 +143,8 @@ class NotificationTableViewCell: UITableViewCell {
         }
         self.replyButton!.setTitle("回复", forState: .Normal)
         
-        self.contentPanel!.snp_makeConstraints{ (make) -> Void in
+        self.contentPanel!.snp_remakeConstraints{ (make) -> Void in
+            make.top.left.right.equalTo(self.contentView);
             make.bottom.equalTo(self.commentPanel!.snp_bottom).offset(12);
         }
         
@@ -160,10 +160,36 @@ class NotificationTableViewCell: UITableViewCell {
         self.userNameLabel?.text = model.userName
         self.dateLabel?.text = model.date
         self.detailLabel?.text = model.title
-        self.commentLabel?.text = model.reply
+        if let text = model.reply {
+            self.commentLabel!.text = text
+            self.setCommentPanelHidden(false)
+        }
+        else {
+            self.setCommentPanelHidden(true)
+        }
         
         if let avata = model.avata {
             self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+        }
+    }
+    
+    func setCommentPanelHidden(hidden:Bool) {
+        if hidden {
+            self.commentPanel!.hidden = true
+            self.dropUpImageView!.hidden = true
+            self.commentLabel!.text = ""
+            self.contentPanel!.snp_remakeConstraints{ (make) -> Void in
+                make.top.left.right.equalTo(self.contentView);
+                make.bottom.equalTo(self.detailLabel!.snp_bottom).offset(12);
+            }
+        }
+        else{
+            self.commentPanel!.hidden = false
+            self.dropUpImageView!.hidden = false
+            self.contentPanel!.snp_remakeConstraints{ (make) -> Void in
+                make.top.left.right.equalTo(self.contentView);
+                make.bottom.equalTo(self.commentPanel!.snp_bottom).offset(12);
+            }
         }
     }
 

@@ -137,11 +137,15 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             
         }
         else if indexPath.section == 2 {
-            if indexPath.row == 1 {
+            if indexPath.row == 0 {
+                let nodesViewController = NodesViewController()
+                V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(nodesViewController, animated: true)
+            }
+            else if indexPath.row == 1 {
                 let moreViewController = MoreViewController()
                 V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(moreViewController, animated: true)
-                V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
             }
+            V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
         }
     }
     
