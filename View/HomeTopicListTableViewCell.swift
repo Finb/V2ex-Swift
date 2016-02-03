@@ -158,4 +158,17 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
 
     }
+    
+    func bindNodeModel(model:TopicListModel){
+        self.userNameLabel?.text = model.userName;
+        self.dateAndLastPostUserLabel?.text = model.hits
+        self.topicTitleLabel?.text = model.topicTitle;
+        
+        if let avata = model.avata {
+            self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+        }
+        
+        self.replyCountLabel?.text = model.replies;
+        
+    }
 }

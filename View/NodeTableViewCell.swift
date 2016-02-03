@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class NodeTableViewCell: UITableViewCell {
     /// 节点间的 间距
     static let nodeSpacing:CGFloat = 15
@@ -18,6 +17,8 @@ class NodeTableViewCell: UITableViewCell {
     static let fontSize:CGFloat = 15
     
     var labelArray:[UILabel] = []
+    
+    var nodes:[NodeModel]?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -32,16 +33,35 @@ class NodeTableViewCell: UITableViewCell {
         if index < labelArray.count {
             return labelArray[index]
         }
-        
         let label = UILabel()
+        label.userInteractionEnabled = true
         label.font = v2Font(NodeTableViewCell.fontSize)
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         label.backgroundColor = UIColor.whiteColor()
+        
+        let tap = UITapGestureRecognizer(target: self, action: "labelClick:")
+        label.addGestureRecognizer(tap)
+        
         labelArray.append(label)
         self.contentView.addSubview(label)
+    
         return label
     }
+    func labelClick(sender:UITapGestureRecognizer) {
+        let index = labelArray.indexOf(sender.view as! UILabel)
+        if index != nil && index >= 0 && index <= self.nodes?.count {
+            self.pushNodeTopicListController(self.nodes![index!])
+        }
+    }
+    
+    func pushNodeTopicListController(node:NodeModel) {
+        let controller = NodeTopicListViewController()
+        controller.node = node
+        V2Client.sharedInstance.centerNavigation?.pushViewController(controller, animated: true)
+    }
+    
     func bind(nodes:[NodeModel]) {
+        self.nodes = nodes
         for var i = 0 ; i < nodes.count ; i++ {
             let node = nodes[i]
             let label = getLabel(i)

@@ -156,10 +156,12 @@ class V2Client: NSObject {
     
     /**
      获取并更新通知数量
-     
      - parameter rootNode: 有Notifications 的节点
      */
     func getNotificationsCount(rootNode: JiNode) {
+        //这里本想放在 JIHTMLResponseSerializer 自动获取。
+        //但我现在还不确定，是否每个每个页面的title都会带上 未读通知数量
+        //所以先交由 我确定会带的页面 手动获取
         let notification = rootNode.xPath("//head/title").first?.content
         if let notification = notification {
             
