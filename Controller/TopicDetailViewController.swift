@@ -37,7 +37,6 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         }
     }
     
-    private weak var _loadView:V2LoadingView?
     
     override func viewDidLoad() {
         super.viewDidLoad()

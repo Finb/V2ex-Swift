@@ -30,8 +30,6 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
         }
     }
     
-    private weak var _loadView:V2LoadingView?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "我的收藏"

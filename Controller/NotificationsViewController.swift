@@ -32,7 +32,6 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
         }
     }
     
-    private weak var _loadView:V2LoadingView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
