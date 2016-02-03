@@ -130,7 +130,7 @@ class TopicDetailCommentCell: UITableViewCell {
         self.commentLabel?.text = model.comment;
         
         if let avata = model.avata {
-            self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         self.favoriteIconView!.hidden = model.favorites <= 0

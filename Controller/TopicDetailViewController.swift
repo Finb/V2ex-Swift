@@ -75,10 +75,12 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
     }
     
     func rightClick(){
-        let replyViewController = ReplyingViewController()
-        replyViewController.topicModel = self.model!
-        let nav = V2EXNavigationController(rootViewController:replyViewController)
-        self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+        if let model = self.model {
+            let replyViewController = ReplyingViewController()
+            replyViewController.topicModel = model
+            let nav = V2EXNavigationController(rootViewController:replyViewController)
+            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

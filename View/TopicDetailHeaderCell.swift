@@ -114,7 +114,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.topicTitleLabel?.text = model.topicTitle;
         
         if let avata = model.avata {
-            self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         if let node = model.nodeName{
