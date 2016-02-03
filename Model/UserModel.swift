@@ -98,7 +98,8 @@ class UserModel: BaseJsonModel {
             ]
             
             var dict = MOBILE_CLIENT_HEADERS
-            dict["Referer"] = "http://v2ex.com/signin"
+            //为安全，此处使用https
+            dict["Referer"] = "https://v2ex.com/signin"
             //登陆
             Alamofire.request(.POST, V2EXURL+"signin", parameters: prames, encoding: .URL, headers: dict).responseJiHtml{
                 (response) -> Void in
