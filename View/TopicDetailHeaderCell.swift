@@ -25,6 +25,8 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView?
     
+    weak var itemModel:TopicDetailModel?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
@@ -106,9 +108,27 @@ class TopicDetailHeaderCell: UITableViewCell {
             make.bottom.equalTo(self.contentPanel!).offset(0);
         }
         
+        //点击用户头像，跳转到用户主页
+        self.avatarImageView!.userInteractionEnabled = true
+        self.userNameLabel!.userInteractionEnabled = true
+        var userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.avatarImageView!.addGestureRecognizer(userNameTap)
+        userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.userNameLabel!.addGestureRecognizer(userNameTap)
+    }
+    
+    func userNameTap(sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , username = itemModel?.userName {
+            let memberViewController = MemberViewController()
+            memberViewController.username = username
+            V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+        }
     }
     
     func bind(model:TopicDetailModel){
+        
+        self.itemModel = model
+        
         self.userNameLabel?.text = model.userName;
         self.dateAndLastPostUserLabel?.text = model.date
         self.topicTitleLabel?.text = model.topicTitle;

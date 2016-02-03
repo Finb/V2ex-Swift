@@ -26,6 +26,8 @@ class TopicDetailCommentCell: UITableViewCell {
     var favoriteIconView:UIImageView?
     var favoriteLabel:UILabel?
     
+    weak var itemModel:TopicCommentModel?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
@@ -123,8 +125,26 @@ class TopicDetailCommentCell: UITableViewCell {
         self.commentLabel!.backgroundColor = self.contentPanel!.backgroundColor
         self.favoriteIconView!.backgroundColor = self.contentPanel!.backgroundColor
         self.favoriteLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        
+        //点击用户头像，跳转到用户主页
+        self.avatarImageView!.userInteractionEnabled = true
+        self.userNameLabel!.userInteractionEnabled = true
+        var userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.avatarImageView!.addGestureRecognizer(userNameTap)
+        userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.userNameLabel!.addGestureRecognizer(userNameTap)
+    }
+    func userNameTap(sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , username = itemModel?.userName {
+            let memberViewController = MemberViewController()
+            memberViewController.username = username
+            V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+        }
     }
     func bind(model:TopicCommentModel){
+        
+        self.itemModel = model
+        
         self.userNameLabel?.text = model.userName;
         self.dateLabel?.text = model.date
         self.commentLabel?.text = model.comment;

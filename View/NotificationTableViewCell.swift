@@ -33,6 +33,8 @@ class NotificationTableViewCell: UITableViewCell {
     /// 回复按钮
     var replyButton:UIButton?
     
+    weak var itemModel:NotificationsModel?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -155,8 +157,28 @@ class NotificationTableViewCell: UITableViewCell {
         
         self.contentPanel?.backgroundColor = UIColor.whiteColor()
         
+        //点击用户头像，跳转到用户主页
+        self.avatarImageView!.userInteractionEnabled = true
+        self.userNameLabel!.userInteractionEnabled = true
+        var userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.avatarImageView!.addGestureRecognizer(userNameTap)
+        userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.userNameLabel!.addGestureRecognizer(userNameTap)
+        
     }
+    
+    func userNameTap(sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , username = itemModel?.userName {
+            let memberViewController = MemberViewController()
+            memberViewController.username = username
+            V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+        }
+    }
+    
     func bind(model: NotificationsModel){
+        
+        self.itemModel = model
+        
         self.userNameLabel?.text = model.userName
         self.dateLabel?.text = model.date
         self.detailLabel?.text = model.title

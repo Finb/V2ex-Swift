@@ -33,12 +33,17 @@ class HomeTopicListTableViewCell: UITableViewCell {
     
     /// 节点
     var nodeNameLabel: UILabel?
+    var nodeBackgroundImageView:UIImageView?
     /// 帖子标题
     var topicTitleLabel: UILabel?
     
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView?
     
+    weak var itemModel:TopicListModel?
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
@@ -100,8 +105,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.right.equalTo(self.replyCountLabel!.snp_left).offset(-2);
         }
         
-        let nodeBackgroundImageView = UIImageView(image: HomeTopicListTableViewCell.nodeBackgroundImage)
-        self.contentPanel?.addSubview(nodeBackgroundImageView)
+        self.nodeBackgroundImageView = UIImageView(image: HomeTopicListTableViewCell.nodeBackgroundImage)
+        self.contentPanel?.addSubview(self.nodeBackgroundImageView!)
         
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
@@ -115,7 +120,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
 
-        nodeBackgroundImageView.snp_makeConstraints{ (make) -> Void in
+        self.nodeBackgroundImageView!.snp_makeConstraints{ (make) -> Void in
             make.top.bottom.equalTo(self.nodeNameLabel!)
             make.left.equalTo(self.nodeNameLabel!).offset(-5)
             make.right.equalTo(self.nodeNameLabel!).offset(5)
@@ -150,16 +155,33 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.replyCountIconImageView!.backgroundColor = self.contentPanel!.backgroundColor
         self.topicTitleLabel!.backgroundColor = self.contentPanel!.backgroundColor
         
+        //点击用户头像，跳转到用户主页
+        self.avatarImageView!.userInteractionEnabled = true
+        self.userNameLabel!.userInteractionEnabled = true
+        var userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.avatarImageView!.addGestureRecognizer(userNameTap)
+        userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        self.userNameLabel!.addGestureRecognizer(userNameTap)
+        
     }
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    func userNameTap(sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , username = itemModel?.userName {
+            let memberViewController = MemberViewController()
+            memberViewController.username = username
+            V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+        }
     }
+    
+
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
     
     func bind(model:TopicListModel){
+        
+        self.itemModel = model
+        
         self.userNameLabel?.text = model.userName;
         self.dateAndLastPostUserLabel?.text = model.date
         self.topicTitleLabel?.text = model.topicTitle;
@@ -174,10 +196,13 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     
     func bindNodeModel(model:TopicListModel){
+        
+        self.itemModel = model
+        
         self.userNameLabel?.text = model.userName;
         self.dateAndLastPostUserLabel?.text = model.hits
         self.topicTitleLabel?.text = model.topicTitle;
-        
+        self.nodeBackgroundImageView!.hidden = true
         if let avata = model.avata {
             self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
