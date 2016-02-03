@@ -83,9 +83,11 @@ class NodesViewController: BaseViewController,UITableViewDelegate,UITableViewDat
             label?.textColor = V2EXColor.colors.v2_TopicListTitleColor
             label?.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
-        
-        label?.text =  "    " + self.nodeGroupArray![section].groupName!
+        if let name = self.nodeGroupArray![section].groupName {
+            label?.text =  "    " + name
+        }
         return label
+            
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
