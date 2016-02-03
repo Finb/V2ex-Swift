@@ -85,48 +85,4 @@ class NodeTableViewCell: UITableViewCell {
     }
     
     
-
-
-    /**
-     获取节点数据布局
-     
-     - returns: 得到一个节点 占多少行 每行有哪些节点的二维数组
-     */
-    class func getShowRows(nodes:[NodeModel]) -> [[Int]] {
-        
-        var row = 1
-        
-        var rows:[[Int]] = []
-        
-        var tempWidth:CGFloat = 0
-        for var i = 0 ;i < nodes.count ; i++ {
-            
-            if rows.count < row {
-                rows .append([])
-            }
-            
-            let node = nodes[i]
-            if tempWidth == 0 {
-                tempWidth += NodeTableViewCell.leftAndRightSpacing
-            }
-            
-            if tempWidth + node.width + NodeTableViewCell.nodeSpacing > SCREEN_WIDTH - NodeTableViewCell.leftAndRightSpacing
-                && tempWidth > NodeTableViewCell.leftAndRightSpacing {
-                tempWidth = 0
-                i--
-                row++
-                continue
-            }
-            
-            rows[row-1].append(i)
-            if i == 0 {
-                tempWidth += node.width
-            }
-            else {
-                tempWidth += node.width + NodeTableViewCell.nodeSpacing
-            }
-        }
-        
-        return rows
-    }
 }

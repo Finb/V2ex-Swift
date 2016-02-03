@@ -10,6 +10,17 @@ import UIKit
 import Kingfisher
 
 class HomeTopicListTableViewCell: UITableViewCell {
+    //? 为什么用这个圆角图片，而不用layer.cornerRadius
+    // 因为 设置 layer.cornerRadius 太耗系统资源，每次滑动 都需要渲染很多次，所以滑动掉帧
+    // iOS中可以缓存渲染，但效果还是不如直接 用圆角图片
+    
+    /// 节点信息label的圆角背景图
+    static let nodeBackgroundImage =
+    createImageWithColor(UIColor(white: 0.95, alpha: 1),size: CGSizeMake(10, 20))
+        .roundedCornerImageWithCornerRadius(2)
+        .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
+    
+    
     /// 头像
     var avatarImageView: UIImageView?
     /// 用户名
@@ -48,8 +59,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.avatarImageView = UIImageView();
         self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
-        self.avatarImageView!.layer.cornerRadius = 3;
-        self.avatarImageView!.layer.masksToBounds = true;
         self.contentPanel!.addSubview(self.avatarImageView!);
         self.avatarImageView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
@@ -91,18 +100,25 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.right.equalTo(self.replyCountLabel!.snp_left).offset(-2);
         }
         
+        let nodeBackgroundImageView = UIImageView(image: HomeTopicListTableViewCell.nodeBackgroundImage)
+        self.contentPanel?.addSubview(nodeBackgroundImageView)
+        
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.nodeNameLabel!.font = v2Font(11)
-        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.95, alpha: 1);
-        self.nodeNameLabel?.layer.cornerRadius=2;
-        self.nodeNameLabel!.clipsToBounds = true
         self.contentPanel?.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.replyCountLabel!);
-            make.right.equalTo(self.replyCountIconImageView!.snp_left).offset(-4)
+            make.right.equalTo(self.replyCountIconImageView!.snp_left).offset(-9)
             make.bottom.equalTo(self.replyCountLabel!).offset(1);
             make.top.equalTo(self.replyCountLabel!).offset(-1);
+        }
+        
+
+        nodeBackgroundImageView.snp_makeConstraints{ (make) -> Void in
+            make.top.bottom.equalTo(self.nodeNameLabel!)
+            make.left.equalTo(self.nodeNameLabel!).offset(-5)
+            make.right.equalTo(self.nodeNameLabel!).offset(5)
         }
         
         self.topicTitleLabel=V2SpacingLabel();
@@ -149,13 +165,11 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.topicTitleLabel?.text = model.topicTitle;
         
         if let avata = model.avata {
-            self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
         
         self.replyCountLabel?.text = model.replies;
-        if let node = model.nodeName{
-            self.nodeNameLabel!.text = "  " + node + "  "
-        }
+        self.nodeNameLabel!.text = model.nodeName
 
     }
     
@@ -165,7 +179,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.topicTitleLabel?.text = model.topicTitle;
         
         if let avata = model.avata {
-            self.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
         
         self.replyCountLabel?.text = model.replies;

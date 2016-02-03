@@ -46,3 +46,14 @@ extension UIImage {
 func NSLocalizedString( key:String ) -> String {
     return NSLocalizedString(key, comment: "")
 }
+
+
+func dispatch_sync_safely_main_queue(block: ()->()) {
+    if NSThread.isMainThread() {
+        block()
+    } else {
+        dispatch_sync(dispatch_get_main_queue()) {
+            block()
+        }
+    }
+}
