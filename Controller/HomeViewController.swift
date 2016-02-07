@@ -52,7 +52,8 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
         self.tab = V2EXSettings.sharedInstance[kHomeTab]
-
+        self.setupNavigationItem()
+        
         //监听程序即将进入前台运行、进入后台休眠 事件
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground", name: UIApplicationWillEnterForegroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)

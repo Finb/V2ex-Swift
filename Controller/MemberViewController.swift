@@ -77,20 +77,8 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         }
         self._loadView = aloadView
         
-        //根据 topicId 获取 帖子信息 、回复。
-        MemberModel.getMemberInfo(self.username!, completionHandler: { (response) -> Void in
-            if response.success {
-                if let aModel = response.value{
-                    self.model = aModel
-                    self.titleLabel?.text = self.model?.userName
-                    self.tableView.fin_reloadData()
-                }
-                self.tableView.fin_reloadData()
-            }
-            if let view = self._loadView{
-                view.removeFromSuperview()
-            }
-        })
+        self.refreshData()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -124,6 +112,26 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
             coverView.addSubview(self.titleLabel!)
         }
         
+    }
+    
+    func refreshData(){
+        //根据 topicId 获取 帖子信息 、回复。
+        MemberModel.getMemberInfo(self.username!, completionHandler: { (response) -> Void in
+            if response.success {
+                if let aModel = response.value{
+                    self.getDataSuccessfully(aModel)
+                }
+                self.tableView.fin_reloadData()
+            }
+            if let view = self._loadView{
+                view.removeFromSuperview()
+            }
+        })
+    }
+    func getDataSuccessfully(aModel:MemberModel){
+        self.model = aModel
+        self.titleLabel?.text = self.model?.userName
+        self.tableView.fin_reloadData()
     }
     
 // MARK: - UITableViewDataSource
