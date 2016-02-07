@@ -52,20 +52,10 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         super.viewDidLoad()
         self.navigationItem.title="V2EX";
         self.tab = V2EXSettings.sharedInstance[kHomeTab]
-        
-        let leftButton = NotificationMenuButton()
-        leftButton.frame = CGRectMake(0, 0, 40, 40)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-        leftButton.addTarget(self, action: Selector("leftClick"), forControlEvents: .TouchUpInside)
-        
 
-        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        rightButton.contentMode = .Center
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
-
+        //监听程序即将进入前台运行、进入后台休眠 事件
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
@@ -75,6 +65,21 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             self?.refresh()
         })
         self.refreshPage()
+    }
+    func setupNavigationItem(){
+        let leftButton = NotificationMenuButton()
+        leftButton.frame = CGRectMake(0, 0, 40, 40)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
+        leftButton.addTarget(self, action: Selector("leftClick"), forControlEvents: .TouchUpInside)
+        
+        
+        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
+        rightButton.contentMode = .Center
+        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+
     }
     func leftClick(){
         V2Client.sharedInstance.drawerController?.toggleLeftDrawerSideAnimated(true, completion: nil)
@@ -87,7 +92,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         self.tableView.mj_header.beginRefreshing();
         V2EXSettings.sharedInstance[kHomeTab] = tab
     }
-    
     func refresh(){
         //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(tab){
@@ -103,7 +107,19 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             }
         }
     }
-
+    static var lastLeaveTime = NSDate()
+    func applicationWillEnterForeground(){
+        //计算上次离开的时间与当前时间差
+        //如果超过2分钟，则自动刷新本页面。
+        let interval = -1 * HomeViewController.lastLeaveTime.timeIntervalSinceNow
+        if interval > 120 {
+            self.tableView.mj_header.beginRefreshing()
+        }
+    }
+    func applicationDidEnterBackground(){
+        HomeViewController.lastLeaveTime = NSDate()
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {
             return list.count;
