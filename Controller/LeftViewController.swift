@@ -121,7 +121,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 return
             }
             if indexPath.row == 0 {
-                let memberViewController = MemberViewController()
+                let memberViewController = MyCenterViewController()
                 memberViewController.username = V2Client.sharedInstance.username
                 V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
             }
