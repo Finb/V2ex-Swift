@@ -10,6 +10,7 @@ import UIKit
 
 /// 多账户管理
 class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+    private var users:[LocalSecurityAccountModel] = []
     private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
@@ -42,16 +43,21 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             make.width.equalTo(SCREEN_WIDTH)
         }
         
+        for (_,user) in V2UsersKeychain.sharedInstance.users {
+            self.users.append(user)
+        }
+        
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.users.count
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 55
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: AccountListTableViewCell.self, indexPath: indexPath)
+        cell.bind(self.users[indexPath.row])
         return cell
     }
 }

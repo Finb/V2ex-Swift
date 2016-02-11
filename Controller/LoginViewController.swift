@@ -206,6 +206,9 @@ class LoginViewController: UIViewController {
                 //保存下用户名
                 V2EXSettings.sharedInstance[kUserName] = username
                 
+                //将用户名密码保存进keychain （安全保存)
+                V2UsersKeychain.sharedInstance.addUser(username, password: password!)
+                
                 //调用登陆成功回调
                 if let handel = self.successHandel {
                     handel(username)

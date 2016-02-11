@@ -15,6 +15,7 @@ PODS:
   - Ji/Ji (1.2.0):
     - Ji/Ji-libxml
   - Ji/Ji-libxml (1.2.0)
+  - KeychainSwift (3.0.11)
   - Kingfisher (1.9.1)
   - KVOController (1.0.3)
   - MJRefresh (3.1.0)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - DrawerController (~> 1.1.0)
   - FXBlurView (~> 1.6.4)
   - Ji (~> 1.2.0)
+  - KeychainSwift (~> 3.0.11)
   - Kingfisher (~> 1.9.1)
   - KVOController (~> 1.0.3)
   - MJRefresh (~> 3.1.0)
@@ -43,6 +45,7 @@ SPEC CHECKSUMS:
   DrawerController: 8fd56e6238399a08c4af054fbea0ef8669cd81f3
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
+  KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
@@ -51,4 +54,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 9cea7099d6bfe6c666f60bb9e0dcf57938158712
+
+COCOAPODS: 1.0.0.beta.3

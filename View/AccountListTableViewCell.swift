@@ -46,11 +46,13 @@ class AccountListTableViewCell: UITableViewCell {
         self.usedLabel = UILabel()
         self.usedLabel!.textColor = colorWith255RGB(207, g: 70, b: 71)
         self.usedLabel!.font = v2Font(11)
+        self.usedLabel!.text = "正在使用"
         self.contentView.addSubview(self.usedLabel!)
         self.usedLabel!.snp_makeConstraints{ (make) -> Void in
             make.right.equalTo(self.contentView).offset(-15)
             make.centerY.equalTo(self.avatarImageView!)
         }
+        self.usedLabel?.hidden = true;
         
         let separator = UIImageView(image: createImageWithColor(colorWith255RGB(190, g: 190, b: 190)))
         self.contentView.addSubview(separator)
@@ -58,6 +60,19 @@ class AccountListTableViewCell: UITableViewCell {
             make.left.equalTo(self.avatarImageView!.snp_right).offset(5)
             make.right.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)
+        }
+    }
+    
+    func bind(model:LocalSecurityAccountModel) {
+        self.userNameLabel?.text = model.username
+        if let avatar = model.avatar , let url = NSURL(string: avatar) {
+            self.avatarImageView?.kf_setImageWithURL(url)
+        }
+        if V2Client.sharedInstance.username == model.username {
+            self.usedLabel?.hidden = false
+        }
+        else {
+            self.usedLabel?.hidden = true
         }
     }
 }

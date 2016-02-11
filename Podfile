@@ -15,6 +15,7 @@ def pods
     pod 'FXBlurView', '~> 1.6.4'
     pod 'SVProgressHUD', '~> 1.1.3'
     pod 'MJRefresh', '~> 3.1.0'
+    pod 'KeychainSwift', '~> 3.0.11'
 end
 
 target 'V2ex-Swift' do
