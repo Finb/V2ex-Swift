@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 /// 多账户管理
 class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate {
@@ -93,15 +94,60 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let totalNumOfRows = self.tableView(tableView, numberOfRowsInSection: 0)
-        if indexPath.row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
+        if indexPath.row < self.users.count {
+            let user = self.users[indexPath.row]
+            if user.username == V2Client.sharedInstance.username {
+                return;
+            }
+            let alertView = UIAlertView(title: "确定切换到账号 " + user.username! + " 吗?", message: "无论新账号是否登录成功，都会注销当前账号。", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "确定")
+            //这里一个属性两用了，除了用于标记它是切换账号的 alertView, 后面还加上了当前是点击了第几个账号
+            //太懒了，懒得用其他什么写法
+            //同学们注意，这种写法是相当的low的，如果硬要这样写，千万要留下足够的注释解释
+            alertView.tag = 100001 + indexPath.row
+            alertView.show()
+        }
+        else if indexPath.row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
             let alertView = UIAlertView(title: "确定注销当前账号吗？", message: "注销只会退出登录，并不会删除保存在Keychain中的账户名与密码。如需删除，请左滑需要删除的账号，点击删除", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "注销")
+            alertView.tag = 100000
             alertView.show()
         }
     }
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        if buttonIndex == 1 {
+        if alertView.tag > 100000 { //切换账号的alertView
+            if buttonIndex == 0 {
+                return
+            }
             V2Client.sharedInstance.loginOut()
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.tableView.reloadData()
+            
+            let user = self.users[alertView.tag - 100001]
+            
+            if let username = user.username,let password = user.password {
+                SVProgressHUD.showWithStatus("正在登陆")
+                UserModel.Login(username, password: password){
+                    (response:V2ValueResponse<String>) -> Void in
+                    if response.success {
+                        SVProgressHUD.showSuccessWithStatus("登陆成功")
+                        let username = response.value!
+                        NSLog("登陆成功 %@",username)
+                        //保存下用户名
+                        V2EXSettings.sharedInstance[kUserName] = username
+                        //获取用户信息
+                        UserModel.getUserInfoByUsername(username, completionHandler: { (response) -> Void in
+                            self.tableView.reloadData()
+                        })
+                    }
+                    else{
+                        SVProgressHUD.showErrorWithStatus(response.message)
+                    }
+                }
+            }
+        }
+        else { //注销登录的alertView
+            if buttonIndex == 1 {
+                V2Client.sharedInstance.loginOut()
+                self.navigationController?.popToRootViewControllerAnimated(true)
+            }
         }
     }
 }
