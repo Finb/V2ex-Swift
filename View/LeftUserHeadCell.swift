@@ -40,7 +40,6 @@ class LeftUserHeadCell: UITableViewCell {
         }
         
         self.userNameLabel = UILabel()
-        self.userNameLabel!.text = "请先登录"
         self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         self.userNameLabel!.font = v2Font(16)
         self.contentView.addSubview(self.userNameLabel!)
@@ -57,6 +56,10 @@ class LeftUserHeadCell: UITableViewCell {
                     if let avatar = user.avatar_large {
                         weakSelf.avatarImageView?.kf_setImageWithURL(NSURL(string: "https:"+avatar)!)
                     }
+                }
+                else { //没有登录
+                    weakSelf.userNameLabel?.text = "请先登录"
+                    weakSelf.avatarImageView?.image = nil
                 }
             }
         }

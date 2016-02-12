@@ -60,6 +60,7 @@
 		06D300241C6C21B600547CE6 /* AccountsManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300231C6C21B600547CE6 /* AccountsManagerViewController.swift */; };
 		06D300261C6C222F00547CE6 /* AccountListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300251C6C222F00547CE6 /* AccountListTableViewCell.swift */; };
 		06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300271C6C720800547CE6 /* V2UsersKeychain.swift */; };
+		06D3002A1C6D801100547CE6 /* LogoutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300291C6D801100547CE6 /* LogoutTableViewCell.swift */; };
 		06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D33A5D1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift */; };
 		06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DD400A1C43726600CE293D /* V2EXColor.swift */; };
 		06E1459F1C609E8500BDD63D /* NodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E1459E1C609E8500BDD63D /* NodesViewController.swift */; };
@@ -131,6 +132,7 @@
 		06D300231C6C21B600547CE6 /* AccountsManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsManagerViewController.swift; sourceTree = "<group>"; };
 		06D300251C6C222F00547CE6 /* AccountListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListTableViewCell.swift; sourceTree = "<group>"; };
 		06D300271C6C720800547CE6 /* V2UsersKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2UsersKeychain.swift; sourceTree = "<group>"; };
+		06D300291C6D801100547CE6 /* LogoutTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutTableViewCell.swift; sourceTree = "<group>"; };
 		06D33A5D1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailWebViewContentCell.swift; sourceTree = "<group>"; };
 		06DD400A1C43726600CE293D /* V2EXColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXColor.swift; sourceTree = "<group>"; };
 		06E1459E1C609E8500BDD63D /* NodesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodesViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				0611DE5C1C5F4C5C00933964 /* MemberTopicCell.swift */,
 				0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */,
 				06D300251C6C222F00547CE6 /* AccountListTableViewCell.swift */,
+				06D300291C6D801100547CE6 /* LogoutTableViewCell.swift */,
 			);
 			name = Member;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
+				06D3002A1C6D801100547CE6 /* LogoutTableViewCell.swift in Sources */,
 				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
 				06BB48EE1C56096000A4A909 /* V2EXMentionedBindingParser.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,

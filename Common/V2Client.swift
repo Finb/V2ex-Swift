@@ -106,6 +106,12 @@ class V2Client: NSObject {
      */
     func loginOut() {
         removeAllCookies()
+        self.user = nil
+        self.username = nil
+        self.once = nil
+        self.notificationCount = 0
+        //清空settings中的username
+        V2EXSettings.sharedInstance[kUserName] = nil
     }
     
     /**

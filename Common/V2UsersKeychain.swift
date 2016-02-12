@@ -93,12 +93,12 @@ class LocalSecurityAccountModel :NSObject, NSCoding {
     }
     required init?(coder aDecoder: NSCoder){
         self.username = aDecoder.decodeObjectForKey("username") as? String
-        self.username = aDecoder.decodeObjectForKey("password") as? String
-        self.username = aDecoder.decodeObjectForKey("avatar") as? String
+        self.password = aDecoder.decodeObjectForKey("password") as? String
+        self.avatar = aDecoder.decodeObjectForKey("avatar") as? String
     }
     func encodeWithCoder(aCoder: NSCoder){
         aCoder.encodeObject(self.username, forKey: "username")
-        aCoder.encodeObject(self.username, forKey: "password")
-        aCoder.encodeObject(self.username, forKey: "avatar")
+        aCoder.encodeObject(self.password, forKey: "password")
+        aCoder.encodeObject(self.avatar, forKey: "avatar")
     }
 }
