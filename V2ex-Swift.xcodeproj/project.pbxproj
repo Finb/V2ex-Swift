@@ -68,6 +68,8 @@
 		06E145A41C60A86D00BDD63D /* NodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A31C60A86D00BDD63D /* NodeModel.swift */; };
 		06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A51C60A9F400BDD63D /* Request+Extension.swift */; };
 		06E145A81C60C23300BDD63D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A71C60C23300BDD63D /* BaseViewController.swift */; };
+		06E1BA331C7023D900867454 /* V2WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E1BA321C7023D900867454 /* V2WebViewViewController.swift */; };
+		06E1BA371C70280D00867454 /* V2WebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E1BA361C70280D00867454 /* V2WebViewProgressView.swift */; };
 		06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B74A1C5C76190056A673 /* MoreViewController.swift */; };
 		06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */; };
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
@@ -140,6 +142,8 @@
 		06E145A31C60A86D00BDD63D /* NodeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeModel.swift; sourceTree = "<group>"; };
 		06E145A51C60A9F400BDD63D /* Request+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Request+Extension.swift"; sourceTree = "<group>"; };
 		06E145A71C60C23300BDD63D /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		06E1BA321C7023D900867454 /* V2WebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2WebViewViewController.swift; sourceTree = "<group>"; };
+		06E1BA361C70280D00867454 /* V2WebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2WebViewProgressView.swift; sourceTree = "<group>"; };
 		06E4B74A1C5C76190056A673 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
@@ -263,6 +267,7 @@
 				06D300231C6C21B600547CE6 /* AccountsManagerViewController.swift */,
 				06E1459E1C609E8500BDD63D /* NodesViewController.swift */,
 				068910D01C61A44D00D22B4F /* NodeTopicListViewController.swift */,
+				06E1BA321C7023D900867454 /* V2WebViewViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -313,6 +318,7 @@
 		06C49B6E1C43C10500684CA6 /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				06E1BA351C7027C000867454 /* V2WebViewProgress */,
 				06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */,
 				060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */,
 				063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */,
@@ -339,6 +345,14 @@
 				06E145A11C60A5E600BDD63D /* NodeTableViewCell.swift */,
 			);
 			name = Node;
+			sourceTree = "<group>";
+		};
+		06E1BA351C7027C000867454 /* V2WebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				06E1BA361C70280D00867454 /* V2WebViewProgressView.swift */,
+			);
+			path = V2WebViewProgress;
 			sourceTree = "<group>";
 		};
 		8DF88EA187BC60D6EAF15888 /* Pods */ = {
@@ -513,6 +527,7 @@
 				06E145A41C60A86D00BDD63D /* NodeModel.swift in Sources */,
 				06E145A81C60C23300BDD63D /* BaseViewController.swift in Sources */,
 				0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */,
+				06E1BA331C7023D900867454 /* V2WebViewViewController.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				06E1459F1C609E8500BDD63D /* NodesViewController.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
@@ -531,6 +546,7 @@
 				0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */,
 				06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */,
 				0611DE5F1C5F513B00933964 /* MemberReplyCell.swift in Sources */,
+				06E1BA371C70280D00867454 /* V2WebViewProgressView.swift in Sources */,
 				0684A1E21C5B4BA500B12437 /* NotificationTableViewCell.swift in Sources */,
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,

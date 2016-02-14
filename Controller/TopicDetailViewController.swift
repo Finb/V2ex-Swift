@@ -152,7 +152,21 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                 }
                 self.webViewContentCell!.load(self.model!);
                 self.webViewContentCell!.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
-                    self?.tableView.fin_reloadData()
+                    if let weakSelf = self {
+                        //在cell显示在屏幕时更新，否则会崩溃会崩溃会崩溃
+                        if weakSelf.tableView.visibleCells.contains(weakSelf.webViewContentCell!) {
+                            if weakSelf.webViewContentCell?.contentHeight > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
+                                UIView.animateWithDuration(0, animations: { () -> Void in
+                                    self?.tableView.beginUpdates()
+                                    self?.tableView.endUpdates()
+                                })
+                            }
+                            else {
+                                self?.tableView.beginUpdates()
+                                self?.tableView.endUpdates()
+                            }
+                        }
+                    }
                 }
                 return self.webViewContentCell!
             }

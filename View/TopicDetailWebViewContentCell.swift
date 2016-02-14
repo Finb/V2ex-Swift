@@ -31,6 +31,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.contentWebView = UIWebView()
         self.contentWebView!.backgroundColor = UIColor.whiteColor()
         self.contentWebView!.scrollView.scrollEnabled = false
+        self.contentWebView!.delegate = self
         self.contentView.addSubview(self.contentWebView!);
         self.contentWebView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(self.contentView)
@@ -75,5 +76,20 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             
             //所以这里做个了折中方案，baseUrl 使用https ,将css样式写进html。
         }
+    }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        
+        //如果加载的是 自己load 的本地页面 则肯定放过啊
+        if request.URL?.absoluteString == "https:/" {
+            return true
+        }
+        if let scheme = request.URL?.scheme {
+            if ["http","https"].contains(scheme) {
+                V2Client.sharedInstance.centerNavigation?.pushViewController(V2WebViewViewController(url: request.URL!.absoluteString), animated: true)
+                return false
+            }
+        }
+        return true
     }
 }
