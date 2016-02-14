@@ -90,6 +90,24 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             return getCell(tableView, cell: LogoutTableViewCell.self, indexPath: indexPath)
         }
     }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        if indexPath.row < self.users.count{
+            return true
+        }
+        return false
+    }
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            if let username = self.users[indexPath.row].username {
+                self.users.removeAtIndex(indexPath.row)
+                V2UsersKeychain.sharedInstance.removeUser(username)
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+            }
+        }
+    }
+    
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
@@ -107,7 +125,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             alertView.show()
         }
         else if indexPath.row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
-            let alertView = UIAlertView(title: "确定注销当前账号吗？", message: "注销只会退出登录，并不会删除保存在Keychain中的账户名与密码。如需删除，请左滑需要删除的账号，点击删除", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "注销")
+            let alertView = UIAlertView(title: "确定注销当前账号吗？", message: "注销只会退出登录，并不会删除保存在Keychain中的账户名与密码。如需删除，请左滑需要删除的账号，然后点击删除按钮", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "注销")
             alertView.tag = 100000
             alertView.show()
         }
