@@ -16,6 +16,8 @@ def pods
     pod 'SVProgressHUD', '~> 1.1.3'
     pod 'MJRefresh', '~> 3.1.0'
     pod 'KeychainSwift', '~> 3.0.11'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 target 'V2ex-Swift' do

@@ -3,12 +3,15 @@ PODS:
   - AlamofireObjectMapper (2.1.0):
     - Alamofire (~> 3.1.0)
     - ObjectMapper (~> 1.0)
+  - Crashlytics (3.6.0):
+    - Fabric (~> 1.6.3)
   - DrawerController (1.1.0):
     - DrawerController/Core (= 1.1.0)
     - DrawerController/DrawerVisualStates (= 1.1.0)
   - DrawerController/Core (1.1.0)
   - DrawerController/DrawerVisualStates (1.1.0):
     - DrawerController/Core
+  - Fabric (1.6.5)
   - FXBlurView (1.6.4)
   - Ji (1.2.0):
     - Ji/Ji (= 1.2.0)
@@ -27,7 +30,9 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.1.4)
   - AlamofireObjectMapper (~> 2.1.0)
+  - Crashlytics
   - DrawerController (~> 1.1.0)
+  - Fabric
   - FXBlurView (~> 1.6.4)
   - Ji (~> 1.2.0)
   - KeychainSwift (~> 3.0.11)
@@ -42,7 +47,9 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
+  Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
   DrawerController: 8fd56e6238399a08c4af054fbea0ef8669cd81f3
+  Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
@@ -54,6 +61,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
-PODFILE CHECKSUM: 9cea7099d6bfe6c666f60bb9e0dcf57938158712
+PODFILE CHECKSUM: 62a748ba337526d24f071550c9df5d04fcec52da
 
 COCOAPODS: 1.0.0.beta.3

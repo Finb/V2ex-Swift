@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 import DrawerController
 import SVProgressHUD
@@ -46,6 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
         SVProgressHUD.setDefaultMaskType(.Clear)
+        
+        Fabric.with([Crashlytics.self])
         return true
     }
     
