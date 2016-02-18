@@ -10,6 +10,7 @@ import UIKit
 
 import Alamofire
 import Ji
+import YYText
 
 class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     var topicId:String?
@@ -99,6 +100,31 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     }
 }
 
+/// 评论中的图片
+class V2CommentAttachmentImage:UIImageView {
+    var imageURL:String?
+    
+    init(){
+        super.init(frame: CGRectMake(0, 0, 80, 80))
+        self.contentMode = .ScaleAspectFill
+        self.clipsToBounds = true
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func willMoveToSuperview(newSuperview: UIView?) {
+        super.willMoveToSuperview(newSuperview)
+        if self.image != nil {
+            return
+        }
+        if  let imageURL = self.imageURL , let URL = NSURL(string: imageURL) {
+            self.kf_setImageWithURL(URL)
+        }
+    }
+}
+
 class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     var replyId:String?
     var avata: String?
@@ -106,6 +132,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     var date: String?
     var comment: String?
     var favorites: Int = 0
+    var textLayout:YYTextLayout?
     required init(rootNode: JiNode) {
         let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"]
         if let id = id {
@@ -129,7 +156,51 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             }
         }
         
-        self.comment = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']").first?.content
+        //构造评论内容
+        
+        let paragraphStyle = NSMutableParagraphStyle();
+        paragraphStyle.lineSpacing = 5;
+        
+        let commentAttributedString:NSMutableAttributedString = NSMutableAttributedString(string: "")
+        let nodes = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']/node()")
+        for element in nodes {
+
+            if element.name == "text" , let content = element.content{//普通文本
+                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14),NSParagraphStyleAttributeName:paragraphStyle]))
+            }
+                
+                
+            else if element.name == "img" ,let imageURL = element["src"]  {//图片
+                let image = V2CommentAttachmentImage()
+                image.imageURL = imageURL
+                let imageAttributedString = NSMutableAttributedString.yy_attachmentStringWithContent(image, contentMode: .ScaleAspectFit , attachmentSize: CGSizeMake(80, 80), alignToFont: v2Font(14), alignment: .Bottom)
+                imageAttributedString
+                commentAttributedString.appendAttributedString(imageAttributedString)
+            }
+                
+                
+            else if element.name == "a" ,let content = element.content,let url = element["href"]{//超链接
+                let attr = NSMutableAttributedString(string: content)
+                attr.yy_setTextHighlightRange(NSMakeRange(0, content.Lenght),
+                    color: V2EXColor.colors.v2_LinkColor,
+                    backgroundColor: UIColor(white: 0.95, alpha: 1),
+                    userInfo: ["url":url],
+                    tapAction: { (view, text, range, rect) -> Void in
+                        let highlight = text.yy_attribute(YYTextHighlightAttributeName, atIndex: UInt(range.location))
+                        NSLog("%@", highlight!.userInfo!)
+                    }, longPressAction: nil)
+                commentAttributedString.appendAttributedString(attr)
+            }
+                
+                
+            else if let content = element.content{//其他
+                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content))
+            }
+        }
+        let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, SCREEN_HEIGHT))
+        self.textLayout = YYTextLayout(container: textContainer, text: commentAttributedString)
+        self.textLayout?.textBoundingRect
+    
     }
     
     

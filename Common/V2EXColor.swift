@@ -43,7 +43,7 @@ protocol V2EXColorProtocol{
     var v2_TopicListUserNameColor : UIColor { get }
     var v2_TopicListDateColor : UIColor { get }
 
-    
+    var v2_LinkColor : UIColor { get }
 }
 
 private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
@@ -79,6 +79,12 @@ private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     var v2_TopicListDateColor : UIColor{
         get{
             return colorWith255RGB(173, g: 173, b: 173);
+        }
+    }
+    
+    var v2_LinkColor : UIColor {
+        get {
+            return colorWith255RGB(119, g: 128, b: 135)
         }
     }
 }

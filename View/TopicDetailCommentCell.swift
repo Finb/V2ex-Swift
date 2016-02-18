@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YYText
 
 class TopicDetailCommentCell: UITableViewCell {
     /// 头像
@@ -17,7 +18,7 @@ class TopicDetailCommentCell: UITableViewCell {
     var dateLabel: UILabel?
 
     /// 回复正文
-    var commentLabel: UILabel?
+    var commentLabel: YYLabel?
     
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView?
@@ -97,26 +98,21 @@ class TopicDetailCommentCell: UITableViewCell {
             make.left.equalTo(self.userNameLabel!);
         }
         
-        self.commentLabel=V2SpacingLabel();
+        self.commentLabel = YYLabel();
         self.commentLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
-        self.commentLabel!.font=v2Font(14);
-        self.commentLabel!.numberOfLines=0;
-        self.commentLabel!.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
+        self.commentLabel!.font = v2Font(14);
+        self.commentLabel!.numberOfLines = 0;
+        self.commentLabel!.displaysAsynchronously = true
         self.contentPanel?.addSubview(self.commentLabel!);
         self.commentLabel!.snp_makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView!.snp_bottom).offset(12);
             make.left.equalTo(self.avatarImageView!);
             make.right.equalTo(self.contentPanel!).offset(-12);
+            make.bottom.equalTo(self.contentPanel!.snp_bottom).offset(-12)
         }
-        
         
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.commentLabel!.snp_bottom).offset(12);
-        }
-        
-        self.contentView.snp_makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel!).offset(0);
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-SEPARATOR_HEIGHT);
         }
         
         self.avatarImageView!.backgroundColor = self.contentPanel!.backgroundColor
@@ -147,7 +143,9 @@ class TopicDetailCommentCell: UITableViewCell {
         
         self.userNameLabel?.text = model.userName;
         self.dateLabel?.text = model.date
-        self.commentLabel?.text = model.comment;
+        if let layout = model.textLayout {
+            self.commentLabel?.textLayout = layout
+        }
         
         if let avata = model.avata {
             self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
@@ -157,3 +155,5 @@ class TopicDetailCommentCell: UITableViewCell {
         self.favoriteLabel!.text = model.favorites <= 0 ? "" : "\(model.favorites)"
     }
 }
+
+

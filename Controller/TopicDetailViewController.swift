@@ -127,9 +127,8 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         }
        
         else {
-            return tableView.fin_heightForCellWithIdentifier(TopicDetailCommentCell.self, indexPath: indexPath) { (cell) -> Void in
-                cell.bind(self.commentsArray[indexPath.row])
-            }
+            let layout = self.commentsArray[indexPath.row].textLayout!
+            return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12
         }
         
         return 200 ;
