@@ -19,7 +19,7 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
     
     
     /// 刚加载时的进度
-    private var InitialProgressValue:Float = 0.35
+    private var InitialProgressValue:Float = 0.15
     /// 正在加载时的进度
     private var InteractiveProgressValue:Float = 0.75
     /// 快加载完时的进度

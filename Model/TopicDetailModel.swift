@@ -158,15 +158,14 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         //构造评论内容
         
-        let paragraphStyle = NSMutableParagraphStyle();
-        paragraphStyle.lineSpacing = 5;
         
         let commentAttributedString:NSMutableAttributedString = NSMutableAttributedString(string: "")
         let nodes = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']/node()")
         for element in nodes {
 
             if element.name == "text" , let content = element.content{//普通文本
-                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14),NSParagraphStyleAttributeName:paragraphStyle]))
+                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14)]))
+                commentAttributedString.yy_lineSpacing = 5
             }
                 
                 
@@ -180,14 +179,16 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 
                 
             else if element.name == "a" ,let content = element.content,let url = element["href"]{//超链接
-                let attr = NSMutableAttributedString(string: content)
+                let attr = NSMutableAttributedString(string: content ,attributes: [NSFontAttributeName:v2Font(14)])
                 attr.yy_setTextHighlightRange(NSMakeRange(0, content.Lenght),
                     color: V2EXColor.colors.v2_LinkColor,
                     backgroundColor: UIColor(white: 0.95, alpha: 1),
                     userInfo: ["url":url],
                     tapAction: { (view, text, range, rect) -> Void in
-                        let highlight = text.yy_attribute(YYTextHighlightAttributeName, atIndex: UInt(range.location))
-                        NSLog("%@", highlight!.userInfo!)
+                        if let highlight = text.yy_attribute(YYTextHighlightAttributeName, atIndex: UInt(range.location)) ,let url = highlight.userInfo["url"] as? String  {
+                            AnalyzeURLHelper.Analyze(url)
+                        }
+                    
                     }, longPressAction: nil)
                 commentAttributedString.appendAttributedString(attr)
             }

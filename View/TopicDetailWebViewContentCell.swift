@@ -84,12 +84,10 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         if request.URL?.absoluteString == "https:/" {
             return true
         }
-        if let scheme = request.URL?.scheme {
-            if ["http","https"].contains(scheme) {
-                V2Client.sharedInstance.centerNavigation?.pushViewController(V2WebViewViewController(url: request.URL!.absoluteString), animated: true)
-                return false
-            }
+        if let url = request.URL?.absoluteString{
+            return !AnalyzeURLHelper.Analyze(url)
         }
+
         return true
     }
 }
