@@ -21,6 +21,10 @@
 		0611DE5F1C5F513B00933964 /* MemberReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */; };
 		0623EB211C5EF6BB0016E816 /* NotificationMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */; };
 		0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB221C5F04630016E816 /* MemberViewController.swift */; };
+		063671701C7AEDB100B72D9F /* V2Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636716F1C7AEDB100B72D9F /* V2Photo.swift */; };
+		063671721C7AF44300B72D9F /* V2ZoomingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063671711C7AF44300B72D9F /* V2ZoomingScrollView.swift */; };
+		063671741C7AF45B00B72D9F /* V2PhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063671731C7AF45B00B72D9F /* V2PhotoBrowser.swift */; };
+		063671761C7AF55800B72D9F /* V2TapDetectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063671751C7AF55800B72D9F /* V2TapDetectingImageView.swift */; };
 		063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */; };
 		0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */; };
 		064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */; };
@@ -93,6 +97,10 @@
 		0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyCell.swift; sourceTree = "<group>"; };
 		0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationMenuButton.swift; sourceTree = "<group>"; };
 		0623EB221C5F04630016E816 /* MemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberViewController.swift; sourceTree = "<group>"; };
+		0636716F1C7AEDB100B72D9F /* V2Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Photo.swift; sourceTree = "<group>"; };
+		063671711C7AF44300B72D9F /* V2ZoomingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2ZoomingScrollView.swift; sourceTree = "<group>"; };
+		063671731C7AF45B00B72D9F /* V2PhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2PhotoBrowser.swift; sourceTree = "<group>"; };
+		063671751C7AF55800B72D9F /* V2TapDetectingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2TapDetectingImageView.swift; sourceTree = "<group>"; };
 		063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshHeader.swift; sourceTree = "<group>"; };
 		0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXSettings.swift; sourceTree = "<group>"; };
 		064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftUserHeadCell.swift; sourceTree = "<group>"; };
@@ -178,6 +186,17 @@
 				06D300291C6D801100547CE6 /* LogoutTableViewCell.swift */,
 			);
 			name = Member;
+			sourceTree = "<group>";
+		};
+		0636716E1C7AE9E300B72D9F /* V2PhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				0636716F1C7AEDB100B72D9F /* V2Photo.swift */,
+				063671751C7AF55800B72D9F /* V2TapDetectingImageView.swift */,
+				063671711C7AF44300B72D9F /* V2ZoomingScrollView.swift */,
+				063671731C7AF45B00B72D9F /* V2PhotoBrowser.swift */,
+			);
+			path = V2PhotoBrowser;
 			sourceTree = "<group>";
 		};
 		0653CFA61C44E09B00E4FC05 /* UITableView+FINAutomaticHeightCell */ = {
@@ -321,6 +340,7 @@
 		06C49B6E1C43C10500684CA6 /* Control */ = {
 			isa = PBXGroup;
 			children = (
+				0636716E1C7AE9E300B72D9F /* V2PhotoBrowser */,
 				06E1BA351C7027C000867454 /* V2WebViewProgress */,
 				06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */,
 				060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */,
@@ -539,6 +559,7 @@
 				0611DE5D1C5F4C5C00933964 /* MemberTopicCell.swift in Sources */,
 				06D33A5E1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift in Sources */,
 				0611DE5B1C5F3ACA00933964 /* MemberModel.swift in Sources */,
+				063671701C7AEDB100B72D9F /* V2Photo.swift in Sources */,
 				0611DE591C5F385800933964 /* MemberHeaderCell.swift in Sources */,
 				06C532B41C53485700258A55 /* UserModel.swift in Sources */,
 				06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */,
@@ -570,9 +591,12 @@
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
 				06A490681C67018E00F6A063 /* MyCenterViewController.swift in Sources */,
 				063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */,
+				063671721C7AF44300B72D9F /* V2ZoomingScrollView.swift in Sources */,
+				063671741C7AF45B00B72D9F /* V2PhotoBrowser.swift in Sources */,
 				06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */,
 				0684A1EA1C5B608D00B12437 /* NotificationsModel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
+				063671761C7AF55800B72D9F /* V2TapDetectingImageView.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				06D300241C6C21B600547CE6 /* AccountsManagerViewController.swift in Sources */,
 				0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */,

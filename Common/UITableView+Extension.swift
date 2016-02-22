@@ -29,7 +29,7 @@ extension String {
 
 
 /**
- 像tableView 注册 UITableViewCell
+ 向tableView 注册 UITableViewCell
  
  - parameter tableView: tableView
  - parameter cell:      要注册的类名
