@@ -68,5 +68,8 @@ class MoreViewController: UITableViewController {
         else if indexPath.row == 6 {
             UIApplication.sharedApplication().openURL(NSURL(string: "https://github.com/Finb/V2ex-Swift")!)
         }
+        else if indexPath.row == 7 {
+            V2Client.sharedInstance.centerNavigation?.pushViewController(PodsTableViewController(), animated: true)
+        }
     }
 }

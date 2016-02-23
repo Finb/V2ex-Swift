@@ -19,6 +19,8 @@
 		0611DE5B1C5F3ACA00933964 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5A1C5F3ACA00933964 /* MemberModel.swift */; };
 		0611DE5D1C5F4C5C00933964 /* MemberTopicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5C1C5F4C5C00933964 /* MemberTopicCell.swift */; };
 		0611DE5F1C5F513B00933964 /* MemberReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */; };
+		061876891C7C15BC002E9C33 /* PodsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061876881C7C15BC002E9C33 /* PodsTableViewController.swift */; };
+		0618768B1C7C19F0002E9C33 /* PodCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0618768A1C7C19F0002E9C33 /* PodCellTableViewCell.swift */; };
 		0623EB211C5EF6BB0016E816 /* NotificationMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */; };
 		0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB221C5F04630016E816 /* MemberViewController.swift */; };
 		063671701C7AEDB100B72D9F /* V2Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0636716F1C7AEDB100B72D9F /* V2Photo.swift */; };
@@ -95,6 +97,8 @@
 		0611DE5A1C5F3ACA00933964 /* MemberModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
 		0611DE5C1C5F4C5C00933964 /* MemberTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberTopicCell.swift; sourceTree = "<group>"; };
 		0611DE5E1C5F513B00933964 /* MemberReplyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyCell.swift; sourceTree = "<group>"; };
+		061876881C7C15BC002E9C33 /* PodsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodsTableViewController.swift; sourceTree = "<group>"; };
+		0618768A1C7C19F0002E9C33 /* PodCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodCellTableViewCell.swift; sourceTree = "<group>"; };
 		0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationMenuButton.swift; sourceTree = "<group>"; };
 		0623EB221C5F04630016E816 /* MemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberViewController.swift; sourceTree = "<group>"; };
 		0636716F1C7AEDB100B72D9F /* V2Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Photo.swift; sourceTree = "<group>"; };
@@ -290,6 +294,7 @@
 				06E1459E1C609E8500BDD63D /* NodesViewController.swift */,
 				068910D01C61A44D00D22B4F /* NodeTopicListViewController.swift */,
 				06E1BA321C7023D900867454 /* V2WebViewViewController.swift */,
+				061876881C7C15BC002E9C33 /* PodsTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -321,6 +326,7 @@
 				064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */,
 				064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */,
 				0684A1E11C5B4BA500B12437 /* NotificationTableViewCell.swift */,
+				0618768A1C7C19F0002E9C33 /* PodCellTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -551,6 +557,7 @@
 				069839831C478ECC00FF7163 /* RightViewController.swift in Sources */,
 				06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */,
 				065B69111C75ABE1009AAC37 /* AnalyzeURLHelper.swift in Sources */,
+				0618768B1C7C19F0002E9C33 /* PodCellTableViewCell.swift in Sources */,
 				0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */,
 				06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */,
 				0678D2051C61B423007FFCFD /* UIImage+Extension.swift in Sources */,
@@ -568,6 +575,7 @@
 				0684A1E81C5B58D600B12437 /* UIButton+Extension.swift in Sources */,
 				06E1BA331C7023D900867454 /* V2WebViewViewController.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
+				061876891C7C15BC002E9C33 /* PodsTableViewController.swift in Sources */,
 				06E1459F1C609E8500BDD63D /* NodesViewController.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
 				06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */,
