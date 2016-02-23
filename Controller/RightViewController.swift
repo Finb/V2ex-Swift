@@ -50,23 +50,34 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         
-        self.backgroundImageView = UIImageView(image: UIImage(named: "32.jpg"))
+        self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
-        self.backgroundImageView!.contentMode = .ScaleToFill
+        self.backgroundImageView!.contentMode = .Left
         view.addSubview(self.backgroundImageView!)
 
         let frostedView = FXBlurView()
         frostedView.underlyingView = self.backgroundImageView!
         frostedView.dynamic = false
         frostedView.frame = self.view.frame
+        frostedView.tintColor = UIColor.blackColor()
         self.view.addSubview(frostedView)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                self?.backgroundImageView?.image = UIImage(named: "32.jpg")
+            }
+            else{
+                self?.backgroundImageView?.image = UIImage(named: "12.jpg")
+            }
+        }
         
         self.tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, SCREEN_WIDTH, 32))
+        
+
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

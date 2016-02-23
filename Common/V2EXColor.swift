@@ -58,7 +58,7 @@ protocol V2EXColorProtocol{
     var v2_NoticePointColor : UIColor { get }
 }
 
-private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
+class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     static let sharedInstance = V2EXDefaultColor()
     private override init(){
         super.init()
@@ -143,7 +143,7 @@ private class V2EXDefaultColor: NSObject,V2EXColorProtocol {
 
 
 /// Dark Colors
-private class V2EXDarkColor: NSObject,V2EXColorProtocol {
+class V2EXDarkColor: NSObject,V2EXColorProtocol {
     static let sharedInstance = V2EXDarkColor()
     private override init(){
         super.init()
@@ -151,31 +151,31 @@ private class V2EXDarkColor: NSObject,V2EXColorProtocol {
     
     var v2_backgroundColor : UIColor{
         get{
-            return colorWith255RGB(242, g: 243, b: 245);
+            return colorWith255RGB(32, g: 31, b: 35);
         }
     }
     var v2_navigationBarTintColor : UIColor{
         get{
-            return colorWith255RGB(102, g: 102, b: 102);
+            return colorWith255RGB(165, g: 165, b: 165);
         }
     }
     
     
     var v2_TopicListTitleColor : UIColor{
         get{
-            return colorWith255RGB(15, g: 15, b: 15);
+            return colorWith255RGB(145, g: 145, b: 145);
         }
     }
     
     var v2_TopicListUserNameColor : UIColor{
         get{
-            return colorWith255RGB(53, g: 53, b: 53);
+            return colorWith255RGB(125, g: 125, b: 125);
         }
     }
     
     var v2_TopicListDateColor : UIColor{
         get{
-            return colorWith255RGB(173, g: 173, b: 173);
+            return colorWith255RGB(100, g: 100, b: 100);
         }
     }
     
@@ -193,18 +193,18 @@ private class V2EXDarkColor: NSObject,V2EXColorProtocol {
     
     var v2_CellWhiteBackgroundColor :UIColor {
         get {
-            return colorWith255RGB(255, g: 255, b: 255)
+            return colorWith255RGB(35, g: 34, b: 38)
         }
     }
     
     var v2_NodeBackgroundColor : UIColor {
         get {
-            return colorWith255RGB(242, g: 242, b: 242)
+            return colorWith255RGB(40, g: 40, b: 40)
         }
     }
     var v2_SeparatorColor : UIColor {
         get {
-            return colorWith255RGB(190, g: 190, b: 190)
+            return colorWith255RGB(46, g: 45, b: 49)
         }
     }
     
@@ -226,9 +226,53 @@ private class V2EXDarkColor: NSObject,V2EXColorProtocol {
     }
 }
 
+
 class V2EXColor :NSObject  {
-    static var colors :V2EXColorProtocol = V2EXDarkColor.sharedInstance;
+    private static let STYLE_KEY = "styleKey"
+    
+    static let V2EXColorStyleDefault = "Default"
+    static let V2EXColorStyleDark = "Dark"
+    
+    private static var _colors:V2EXColorProtocol?
+    static var colors :V2EXColorProtocol {
+        get{
+            
+            if let c = V2EXColor._colors {
+                return c
+            }
+            else{
+                if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault{
+                    return V2EXDefaultColor.sharedInstance
+                }
+                else{
+                    return V2EXDarkColor.sharedInstance
+                }
+            }
+            
+        }
+        set{
+            V2EXColor._colors = newValue
+        }
+    }
+    
+    dynamic var style:String
+    static let sharedInstance = V2EXColor()
     private override init(){
+        if let style = V2EXSettings.sharedInstance[V2EXColor.STYLE_KEY] {
+            self.style = style
+        }
+        else{
+            self.style = V2EXColor.V2EXColorStyleDefault
+        }
         super.init()
     }
+    func setStyleAndSave(style:String){
+        if self.style == style {
+            return
+        }
+        self.style = style
+        V2EXSettings.sharedInstance[V2EXColor.STYLE_KEY] = style
+        V2EXSettings.sharedInstance.save()
+    }
+    
 }

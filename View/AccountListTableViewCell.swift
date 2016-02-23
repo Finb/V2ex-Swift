@@ -22,6 +22,7 @@ class AccountListTableViewCell: UITableViewCell {
     }
     func setup()->Void{
         self.selectionStyle = .None
+        self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         
         self.avatarImageView = UIImageView()
         self.avatarImageView!.backgroundColor = UIColor(white: 0.9, alpha: 0.3)

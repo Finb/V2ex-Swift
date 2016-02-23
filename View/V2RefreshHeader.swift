@@ -41,11 +41,23 @@ class V2RefreshHeader: MJRefreshHeader {
         super.prepare()
         self.mj_h = 50
         
-        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .White)
         self.addSubview(self.loadingView!)
         
-        self.arrowImage = UIImageView(image: UIImage(named: "ic_arrow_downward"))
+        self.arrowImage = UIImageView(image: UIImage.imageUsedTemplateMode("ic_arrow_downward"))
         self.addSubview(self.arrowImage!)
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                self?.loadingView?.activityIndicatorViewStyle = .Gray
+                self?.arrowImage?.tintColor = UIColor.grayColor()
+            }
+            else{
+                self?.loadingView?.activityIndicatorViewStyle = .White
+                self?.arrowImage?.tintColor = UIColor.grayColor()
+            }
+        }
+        
     }
     
     /**

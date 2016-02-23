@@ -18,7 +18,8 @@ class LogoutTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     func setup()->Void{
-        
+        self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+
         self.textLabel!.text = "注销当前账号"
         self.textLabel!.textAlignment = .Center
         self.textLabel!.textColor = V2EXColor.colors.v2_NoticePointColor

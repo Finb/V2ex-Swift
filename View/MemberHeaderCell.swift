@@ -40,7 +40,7 @@ class MemberHeaderCell: UITableViewCell {
         }
         
         self.userNameLabel = UILabel()
-        self.userNameLabel!.textColor = UIColor(white: 1, alpha: 1)
+        self.userNameLabel!.textColor = UIColor(white: 0.85, alpha: 1)
         self.userNameLabel!.font = v2Font(16)
         self.contentView.addSubview(self.userNameLabel!)
         self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
@@ -49,7 +49,7 @@ class MemberHeaderCell: UITableViewCell {
         }
         
         self.introduceLabel = UILabel()
-        self.introduceLabel!.textColor = UIColor(white: 0.95, alpha: 1)
+        self.introduceLabel!.textColor = UIColor(white: 0.75, alpha: 1)
         self.introduceLabel!.font = v2Font(16)
         self.introduceLabel!.numberOfLines = 2
         self.introduceLabel!.textAlignment = .Center

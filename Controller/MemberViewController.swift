@@ -10,6 +10,8 @@ import UIKit
 import FXBlurView
 
 class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDelegate ,UIScrollViewDelegate {
+    var color:CGFloat = 0
+    
     var username:String?
     var model:MemberModel?
     
@@ -46,7 +48,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
-        self.backgroundImageView = UIImageView(image: UIImage(named: "32.jpg"))
+        self.backgroundImageView = UIImageView(image: UIImage(named: "12.jpg"))
         self.backgroundImageView!.frame = self.view.frame
         self.backgroundImageView!.contentMode = .ScaleToFill
         view.addSubview(self.backgroundImageView!)
@@ -78,6 +80,10 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         self._loadView = aloadView
         
         self.refreshData()
+        
+        if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDark {
+            self.color = 100
+        }
         
     }
     
@@ -171,7 +177,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
             return tableViewHeader[section-1]
         }
         let view = UIView()
-        view.backgroundColor = UIColor(white: 1, alpha: 0.6)
+        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         
         let label = UILabel()
         label.text = ["创建的主题","创建的回复"][section - 1]
@@ -264,7 +270,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
             y = 100 - 100
         }
         //后退按钮颜色
-        self.navigationController?.navigationBar.tintColor = colorWith255RGB(y*2.4+15, g: y*2.4+15, b: y*2.4+15)
+        self.navigationController?.navigationBar.tintColor = colorWith255RGB(y*2.4+self.color, g: y*2.4+self.color, b: y*2.4+self.color)
     }
 }
 

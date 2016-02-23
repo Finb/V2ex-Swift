@@ -43,13 +43,6 @@ class V2EXNavigationController: UINavigationController {
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
         
         
-        self.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
-        
-        self.navigationBar.titleTextAttributes = [
-            NSFontAttributeName : v2Font(18),
-            NSForegroundColorAttributeName : V2EXColor.colors.v2_TopicListTitleColor
-        ]
-        
         self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clearColor()), forBarMetrics: .Default)
         
         let maskingView = UIView()
@@ -65,11 +58,26 @@ class V2EXNavigationController: UINavigationController {
         self.frostedView = UIToolbar()
         self.frostedView!.userInteractionEnabled = false
         self.frostedView!.clipsToBounds = true
-        self.frostedView!.barStyle = .Default
         maskingView.addSubview(self.frostedView!);
         
         self.frostedView!.snp_makeConstraints{ (make) -> Void in
             make.top.bottom.left.right.equalTo(maskingView);
+        }
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            self?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
+            
+            self?.navigationBar.titleTextAttributes = [
+                NSFontAttributeName : v2Font(18),
+                NSForegroundColorAttributeName : V2EXColor.colors.v2_TopicListTitleColor
+            ]
+            
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                self?.frostedView!.barStyle = .Default
+            }
+            else{
+                self?.frostedView!.barStyle = .Black
+            }
         }
     }
 }

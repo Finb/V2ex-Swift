@@ -14,11 +14,12 @@ class PodCellTableViewCell: BaseDetailTableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        
         
         self.titleLabel!.snp_remakeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12)
         }
-        
         self.descriptionLabel = V2SpacingLabel()
         self.descriptionLabel!.font = v2Font(13)
         self.descriptionLabel!.numberOfLines = 0

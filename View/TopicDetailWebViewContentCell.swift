@@ -29,12 +29,19 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     }
     func setup()->Void{
         self.contentWebView = UIWebView()
-        self.contentWebView!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        self.contentWebView!.opaque = false
+        self.contentWebView!.backgroundColor = UIColor.clearColor()
         self.contentWebView!.scrollView.scrollEnabled = false
         self.contentWebView!.delegate = self
         self.contentView.addSubview(self.contentWebView!);
         self.contentWebView!.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(self.contentView)
+        }
+
+        //强制将 UIWebView 设置背景颜色
+        //不然不管怎么设置背景颜色，这B一直是白色，非得我治治他
+        for view in self.contentWebView!.scrollView.subviews {
+            view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         }
         
         self.KVOController.observe(self.contentWebView!.scrollView, keyPath: "contentSize", options: [.New]) {
@@ -48,6 +55,9 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             }
         }
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
     
     func load(model:TopicDetailModel){
         if self.model == model{
@@ -60,7 +70,14 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
 //                + LightBundel.pathForResource("style", ofType: "css")!
 //                + "' type='text/css'/></head>" ;
 
-            let style = "<style>" + LIGHT_CSS + "</style></head>"
+            var css = ""
+            if let _ = V2EXColor.colors as? V2EXDefaultColor {
+                css = LIGHT_CSS
+            }
+            else {
+                css = DARK_CSS
+            }
+            let style = "<style>" + css + "</style></head>"
             html =  HTMLHEADER + style  + html + "</html>"
             
             self.contentWebView?.loadHTMLString(html, baseURL: NSURL(string: "https://"))

@@ -27,6 +27,7 @@ class NodeTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.selectionStyle = .None
+        self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
     }
     
     func getLabel(index:Int) -> UILabel{

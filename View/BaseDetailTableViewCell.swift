@@ -56,6 +56,11 @@ class BaseDetailTableViewCell: UITableViewCell {
     }
     
     func setup()->Void{
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        self.selectedBackgroundView = selectedBackgroundView
+
+        
         self.titleLabel = UILabel()
         self.titleLabel!.font = v2Font(16)
         self.titleLabel!.textColor = V2EXColor.colors.v2_TopicListTitleColor

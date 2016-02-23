@@ -56,7 +56,7 @@ class MemberReplyCell: UITableViewCell {
         self.commentPanel = UIView()
         self.commentPanel!.layer.cornerRadius = 3
         self.commentPanel!.layer.masksToBounds = true
-        self.commentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        self.commentPanel!.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.contentPanel!.addSubview(self.commentPanel!);
         
         self.commentLabel=V2SpacingLabel();

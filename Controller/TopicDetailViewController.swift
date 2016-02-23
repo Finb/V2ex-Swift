@@ -25,6 +25,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
             _tableView.estimatedRowHeight=200;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
+            _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
             regClass(_tableView, cell: TopicDetailHeaderCell.self)
             regClass(_tableView, cell: TopicDetailWebViewContentCell.self)
             regClass(_tableView, cell: TopicDetailCommentCell.self)
@@ -175,6 +176,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                 cell.detailMarkHidden = true
                 cell.titleLabel?.text = self.model?.topicCommentTotalCount
                 cell.titleLabel?.font = v2Font(12)
+                cell.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
                 cell.separator?.image = createImageWithColor(self.view.backgroundColor!)
                 return cell
             }

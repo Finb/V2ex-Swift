@@ -39,7 +39,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         
-        self.backgroundImageView = UIImageView(image: UIImage(named: "32.jpg"))
+        self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
         self.backgroundImageView!.contentMode = .ScaleToFill
         view.addSubview(self.backgroundImageView!)
@@ -47,6 +47,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         let frostedView = FXBlurView()
         frostedView.underlyingView = self.backgroundImageView!
         frostedView.dynamic = false
+        frostedView.tintColor = UIColor.blackColor()
         frostedView.frame = self.view.frame
         self.view.addSubview(frostedView)
         
@@ -59,6 +60,14 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             self.getUserInfo(V2Client.sharedInstance.username!)
         }
 
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                self?.backgroundImageView?.image = UIImage(named: "32.jpg")
+            }
+            else{
+                self?.backgroundImageView?.image = UIImage(named: "12.jpg")
+            }
+        }
         
     }
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

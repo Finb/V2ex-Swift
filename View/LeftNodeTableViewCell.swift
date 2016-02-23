@@ -43,7 +43,7 @@ class LeftNodeTableViewCell: UITableViewCell {
         
         self.nodeNameLabel = UILabel()
         self.nodeNameLabel!.font = v2Font(16)
-        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         panel.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
             make.left.equalTo(self.nodeImageView!.snp_right).offset(20)
