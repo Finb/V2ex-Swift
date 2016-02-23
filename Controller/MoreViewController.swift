@@ -30,7 +30,7 @@ class MoreViewController: UITableViewController {
         cell.selectionStyle = .None
         
         //设置标题
-        cell.titleLabel?.text = ["","阅读设置","","去商店评分","提出BUG或改进", "","关注本项目源代码","开源库","关于"][indexPath.row]
+        cell.titleLabel?.text = ["","阅读设置","","去商店评分","提出BUG或改进", "","关注本项目源代码","开源库","版本号"][indexPath.row]
         
         //设置颜色
         if [0,2,5].contains(indexPath.row) {
@@ -41,7 +41,7 @@ class MoreViewController: UITableViewController {
         }
         
         //设置右侧箭头
-        if [0,1,2,5].contains(indexPath.row) {
+        if [0,1,2,5,8].contains(indexPath.row) {
             cell.detailMarkHidden = true
         }
         else {
@@ -62,7 +62,11 @@ class MoreViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 4 {
+        if indexPath.row == 3 {
+            let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1078157349"
+            UIApplication.sharedApplication().openURL(NSURL(string: str)!)
+        }
+        else if indexPath.row == 4 {
             UIApplication.sharedApplication().openURL(NSURL(string: "http://finb.github.io/blog/2016/02/01/v2ex-ioske-hu-duan-bug-and-jian-yi/")!)
         }
         else if indexPath.row == 6 {
