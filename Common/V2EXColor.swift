@@ -187,7 +187,7 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
     
     var v2_TextViewBackgroundColor :UIColor {
         get {
-            return colorWith255RGB(255, g: 255, b: 255)
+            return colorWith255RGB(35, g: 34, b: 38)
         }
     }
     
