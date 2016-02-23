@@ -74,9 +74,11 @@ class V2EXNavigationController: UINavigationController {
             
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.frostedView!.barStyle = .Default
+                UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
             }
             else{
                 self?.frostedView!.barStyle = .Black
+                UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true);
             }
         }
     }
