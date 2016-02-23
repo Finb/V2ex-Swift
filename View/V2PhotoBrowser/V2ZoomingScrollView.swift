@@ -22,6 +22,9 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             if let _ = self._photo?.underlyingImage {
                 self.displayImage()
             }
+            else {
+                self._photo?.performLoadUnderlyingImageAndNotify()
+            }
         }
     }
 
@@ -29,19 +32,26 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         super.init(frame: CGRectZero)
         self.photoImageView.tapDelegate = self
         self.photoImageView.contentMode = .Center
-        self.photoImageView.backgroundColor = UIColor.redColor()
+        self.photoImageView.backgroundColor = UIColor.blackColor()
         self.addSubview(self.photoImageView)
         
-        self.backgroundColor = UIColor.blackColor()
         self.delegate = self
         self.showsHorizontalScrollIndicator = false
         self.showsVerticalScrollIndicator = false
         self.decelerationRate = UIScrollViewDecelerationRateFast
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadingDidEndNotification:", name: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
 
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func loadingDidEndNotification(notification:NSNotification){
+        if notification.object as? V2Photo == self.photo , let _ = self._photo?.underlyingImage {
+            self.displayImage()
+        }
     }
 
     func prepareForReuse(){
@@ -171,4 +181,33 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.layoutIfNeeded()
     }
     
+    func singleTapDetected(imageView: UIImageView, touch: UITouch) {
+        // Zoom
+        if (self.zoomScale != self.minimumZoomScale && self.zoomScale != self.initialZoomScaleWithMinScale()) {
+            
+            // Zoom out
+            self.setZoomScale(self.minimumZoomScale, animated: true)
+            
+        }
+    }
+    
+    func doubleTapDetected(imageView: UIImageView, touch: UITouch) {
+        // Zoom
+        if (self.zoomScale != self.minimumZoomScale && self.zoomScale != self.initialZoomScaleWithMinScale()) {
+            
+            // Zoom out
+            self.setZoomScale(self.minimumZoomScale, animated: true)
+            
+        } else {
+            
+            let touchPoint = touch.locationInView(imageView)
+            // Zoom in to twice the size
+            let newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
+            let xsize = self.bounds.size.width / newZoomScale;
+            let ysize = self.bounds.size.height / newZoomScale;
+            self.zoomToRect(CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize), animated: true)
+            
+        }
+
+    }
 }

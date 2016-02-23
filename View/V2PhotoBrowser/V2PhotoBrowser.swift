@@ -45,7 +45,7 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         self.pagingScrollView.delegate = self
         self.pagingScrollView.showsHorizontalScrollIndicator = false
         self.pagingScrollView.showsVerticalScrollIndicator = false
-        self.pagingScrollView.backgroundColor = UIColor.blackColor()
+        self.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 1)
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
         self.addSubview(self.pagingScrollView)
         self.reloadData()
@@ -58,6 +58,7 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         frame.size.width += 2 * V2PhotoBrowser.PADDING
         self.pagingScrollView.frame = frame
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
+        self.tilePages()
     }
     
     //MARK: Frame Calculations
@@ -123,7 +124,6 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         while self.pagingScrollView.subviews.count > 0 {
             self.pagingScrollView.subviews.last?.removeFromSuperview()
         }
-        self.setNeedsLayout()
         
     }
     
@@ -136,13 +136,11 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         iFirstIndex = min (self.numberOfPhotos() - 1,iFirstIndex)
         iLastIndex = max(0,iLastIndex)
         iLastIndex = min (self.numberOfPhotos() - 1,iLastIndex)
-
         var pageIndex = 0
         for page in self.visiblePages {
             if let page = page as? V2ZoomingScrollView {
                 pageIndex = page.index
                 if pageIndex < iFirstIndex || pageIndex > iLastIndex {
-                    NSLog("removed: %i", pageIndex)
                     self.recycledPages.addObject(page)
                     page.prepareForReuse()
                     page.removeFromSuperview()

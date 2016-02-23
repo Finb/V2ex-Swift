@@ -18,24 +18,37 @@ class V2TapDetectingImageView: UIImageView {
     init() {
         super.init(frame: CGRectZero)
         self.userInteractionEnabled = true
+        
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+        
         let touch = touches.first
         let tapCount = touch?.tapCount
         if let tapCount = tapCount {
             switch (tapCount) {
             case 1:
-                self.tapDelegate?.singleTapDetected?(self, touch: touch!)
+                self.performSelector("handleSingleTap:", withObject: touch! , afterDelay: 0.3)
             case 2:
-                self.tapDelegate?.doubleTapDetected?(self, touch: touch!)
+                self.handleDoubleTap(touch!)
+                
             default :break;
             }
         }
         self.nextResponder()?.touchesEnded(touches, withEvent: event)
+    }
+    
+    func handleSingleTap(touch:UITouch){
+        self.tapDelegate?.singleTapDetected?(self, touch: touch)
+    }
+    
+    func handleDoubleTap(touch:UITouch){
+        self.tapDelegate?.doubleTapDetected?(self, touch: touch)
     }
 }
