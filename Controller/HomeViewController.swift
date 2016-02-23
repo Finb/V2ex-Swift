@@ -28,7 +28,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+
             _tableView.estimatedRowHeight=100;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
@@ -66,6 +66,10 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             self?.refresh()
         })
         self.refreshPage()
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        }
     }
     func setupNavigationItem(){
         let leftButton = NotificationMenuButton()

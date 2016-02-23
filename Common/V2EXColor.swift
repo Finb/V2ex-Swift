@@ -270,6 +270,14 @@ class V2EXColor :NSObject  {
         if self.style == style {
             return
         }
+        
+        if style == V2EXColor.V2EXColorStyleDefault {
+            V2EXColor.colors = V2EXDefaultColor.sharedInstance
+        }
+        else{
+            V2EXColor.colors = V2EXDarkColor.sharedInstance
+        }
+        
         self.style = style
         V2EXSettings.sharedInstance[V2EXColor.STYLE_KEY] = style
         V2EXSettings.sharedInstance.save()

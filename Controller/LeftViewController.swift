@@ -12,6 +12,7 @@ import FXBlurView
 class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
     var backgroundImageView:UIImageView?
+    var frostedView = FXBlurView()
     
     private var _tableView :UITableView!
     private var tableView: UITableView {
@@ -44,7 +45,6 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         self.backgroundImageView!.contentMode = .ScaleToFill
         view.addSubview(self.backgroundImageView!)
         
-        let frostedView = FXBlurView()
         frostedView.underlyingView = self.backgroundImageView!
         frostedView.dynamic = false
         frostedView.tintColor = UIColor.blackColor()
@@ -67,6 +67,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             else{
                 self?.backgroundImageView?.image = UIImage(named: "12.jpg")
             }
+            self?.frostedView.updateAsynchronously(true, completion: nil)
         }
         
     }

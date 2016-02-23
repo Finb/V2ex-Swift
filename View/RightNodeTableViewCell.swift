@@ -24,7 +24,6 @@ class RightNodeTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         
         let panel = UIView()
-        panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
         self.contentView.addSubview(panel)
         panel.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
@@ -33,11 +32,15 @@ class RightNodeTableViewCell: UITableViewCell {
         
         self.nodeNameLabel = UILabel()
         self.nodeNameLabel!.font = v2Font(16)
-        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         panel.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
             make.right.equalTo(panel).offset(-25)
             make.centerY.equalTo(panel)
+        }
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
+            self?.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         }
     }
 

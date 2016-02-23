@@ -164,9 +164,8 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         for element in nodes {
 
             if element.name == "text" , let content = element.content{//普通文本
-                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14)]))
+                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14) , NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
                 commentAttributedString.yy_lineSpacing = 5
-                commentAttributedString.yy_color = V2EXColor.colors.v2_TopicListTitleColor
             }
                 
                 
@@ -196,8 +195,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 
                 
             else if let content = element.content{//其他
-                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content))
-                commentAttributedString.yy_color = V2EXColor.colors.v2_TopicListTitleColor
+                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
             }
         }
         let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, SCREEN_HEIGHT))

@@ -12,7 +12,7 @@ class LeftNodeTableViewCell: UITableViewCell {
     
     var nodeImageView: UIImageView?
     var nodeNameLabel: UILabel?
-    
+    var panel = UIView()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
@@ -24,8 +24,6 @@ class LeftNodeTableViewCell: UITableViewCell {
         self.selectionStyle = .None
         self.backgroundColor = UIColor.clearColor()
         
-        let panel = UIView()
-        panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
         self.contentView.addSubview(panel)
         panel.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
@@ -33,7 +31,6 @@ class LeftNodeTableViewCell: UITableViewCell {
         }
         
         self.nodeImageView = UIImageView()
-        self.nodeImageView!.tintColor =  V2EXColor.colors.v2_LeftNodeTintColor
         panel.addSubview(self.nodeImageView!)
         self.nodeImageView!.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(panel)
@@ -43,29 +40,37 @@ class LeftNodeTableViewCell: UITableViewCell {
         
         self.nodeNameLabel = UILabel()
         self.nodeNameLabel!.font = v2Font(16)
-        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         panel.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
             make.left.equalTo(self.nodeImageView!.snp_right).offset(20)
             make.centerY.equalTo(self.nodeImageView!)
         }
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (obj, color, change) -> Void in
+            self?.configureColor()
+        }
+        
+    }
+    func configureColor(){
+        self.panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
+        self.nodeImageView!.tintColor =  V2EXColor.colors.v2_LeftNodeTintColor
+        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
     }
 }
 
 
 class LeftNotifictionCell : LeftNodeTableViewCell{
-    var notifictionCountLabel:UILabel?
+    var notifictionCountLabel:UILabel = UILabel()
     override func setup() {
         super.setup()
         self.nodeNameLabel!.text = "消息提醒"
-        self.notifictionCountLabel = UILabel()
-        self.notifictionCountLabel!.backgroundColor = V2EXColor.colors.v2_NoticePointColor
-        self.notifictionCountLabel!.font = v2Font(10)
-        self.notifictionCountLabel!.textColor = UIColor.whiteColor()
-        self.notifictionCountLabel!.layer.cornerRadius = 7
-        self.notifictionCountLabel!.layer.masksToBounds = true
-        self.contentView.addSubview(self.notifictionCountLabel!)
-        self.notifictionCountLabel!.snp_makeConstraints{ (make) -> Void in
+        self.notifictionCountLabel.font = v2Font(10)
+        self.notifictionCountLabel.textColor = UIColor.whiteColor()
+        self.notifictionCountLabel.layer.cornerRadius = 7
+        self.notifictionCountLabel.layer.masksToBounds = true
+        self.notifictionCountLabel.backgroundColor = V2EXColor.colors.v2_NoticePointColor
+        self.contentView.addSubview(self.notifictionCountLabel)
+        self.notifictionCountLabel.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.nodeNameLabel!)
             make.left.equalTo(self.nodeNameLabel!.snp_right).offset(5)
             make.height.equalTo(14)
@@ -73,11 +78,12 @@ class LeftNotifictionCell : LeftNodeTableViewCell{
         
         self.KVOController.observe(V2Client.sharedInstance, keyPath: "notificationCount", options: [.Initial,.New]) {  [weak self](cell, clien, change) -> Void in
             if V2Client.sharedInstance.notificationCount > 0 {
-                self?.notifictionCountLabel!.text = "   \(V2Client.sharedInstance.notificationCount)   "
+                self?.notifictionCountLabel.text = "   \(V2Client.sharedInstance.notificationCount)   "
             }
             else{
-                self?.notifictionCountLabel!.text = ""
+                self?.notifictionCountLabel.text = ""
             }
         }
     }
+    
 }

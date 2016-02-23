@@ -40,7 +40,7 @@ class LeftUserHeadCell: UITableViewCell {
         }
         
         self.userNameLabel = UILabel()
-        self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+        
         self.userNameLabel!.font = v2Font(16)
         self.contentView.addSubview(self.userNameLabel!)
         self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
@@ -62,6 +62,10 @@ class LeftUserHeadCell: UITableViewCell {
                     weakSelf.avatarImageView?.image = nil
                 }
             }
+        }
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            self?.userNameLabel?.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         }
     }
     

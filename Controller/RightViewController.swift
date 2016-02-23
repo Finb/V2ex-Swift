@@ -25,6 +25,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     ]
     
     var backgroundImageView:UIImageView?
+    var frostedView = FXBlurView()
     
     private var _tableView :UITableView!
     private var tableView: UITableView {
@@ -55,7 +56,6 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         self.backgroundImageView!.contentMode = .Left
         view.addSubview(self.backgroundImageView!)
 
-        let frostedView = FXBlurView()
         frostedView.underlyingView = self.backgroundImageView!
         frostedView.dynamic = false
         frostedView.frame = self.view.frame
@@ -73,6 +73,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             else{
                 self?.backgroundImageView?.image = UIImage(named: "12.jpg")
             }
+            self?.frostedView.updateAsynchronously(true, completion: nil)
         }
         
         self.tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, SCREEN_WIDTH, 32))

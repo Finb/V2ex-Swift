@@ -26,8 +26,8 @@ h3 {
 hr {
     border: none;
     height: 1px;
-    color: #e2e2e2;
-    background-color: #e2e2e2;
+    color: #919191;
+    background-color: #232226;
     margin-bottom: 1em;
 }
 
@@ -50,7 +50,7 @@ pre a {
 }
 
 code {
-    background-color: #f8f8f8;
+    background-color: #232226;
     padding: 1px 2px 1px 2px;
     border-radius: 2px;
     font-family: 'Consolas', 'Panic Sans', 'DejaVu Sans Mono',
@@ -75,7 +75,7 @@ ol {
 }
 
 a:link, a:visited, a:active {
-    color: #778087;
+    color: #999999;
     text-decoration: none;
     word-break: break-all;
 }

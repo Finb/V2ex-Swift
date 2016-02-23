@@ -15,11 +15,14 @@ class HomeTopicListTableViewCell: UITableViewCell {
     // iOS中可以缓存渲染，但效果还是不如直接 用圆角图片
     
     /// 节点信息label的圆角背景图
-    static let nodeBackgroundImage =
-    createImageWithColor( V2EXColor.colors.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
+    static var nodeBackgroundImage_Default =
+    createImageWithColor( V2EXDefaultColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
         .roundedCornerImageWithCornerRadius(2)
         .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
-    
+    static var nodeBackgroundImage_Dark =
+    createImageWithColor( V2EXDarkColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
+        .roundedCornerImageWithCornerRadius(2)
+        .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
     
     /// 头像
     var avatarImageView: UIImageView?
@@ -49,14 +52,12 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.setup();
     }
     func setup()->Void{
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        
         
         let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.selectedBackgroundView = selectedBackgroundView
         
         self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView .addSubview(self.contentPanel!);
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
@@ -71,7 +72,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.userNameLabel = UILabel();
-        self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
         self.userNameLabel!.font=v2Font(14);
         self.contentPanel! .addSubview(self.userNameLabel!);
         self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
@@ -80,7 +80,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.dateAndLastPostUserLabel = UILabel();
-        self.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_TopicListDateColor;
+
         self.dateAndLastPostUserLabel!.font=v2Font(12);
         self.contentPanel?.addSubview(self.dateAndLastPostUserLabel!);
         self.dateAndLastPostUserLabel!.snp_makeConstraints{ (make) -> Void in
@@ -89,7 +89,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.replyCountLabel = UILabel();
-        self.replyCountLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
+
         self.replyCountLabel!.font = v2Font(12)
         self.contentPanel!.addSubview(self.replyCountLabel!);
         self.replyCountLabel!.snp_makeConstraints{ (make) -> Void in
@@ -105,11 +105,11 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.right.equalTo(self.replyCountLabel!.snp_left).offset(-2);
         }
         
-        self.nodeBackgroundImageView = UIImageView(image: HomeTopicListTableViewCell.nodeBackgroundImage)
+        self.nodeBackgroundImageView = UIImageView()
         self.contentPanel?.addSubview(self.nodeBackgroundImageView!)
         
         self.nodeNameLabel = UILabel();
-        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
+
         self.nodeNameLabel!.font = v2Font(11)
         self.contentPanel?.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
@@ -127,7 +127,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         self.topicTitleLabel=V2SpacingLabel();
-        self.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         self.topicTitleLabel!.font=v2Font(18);
         self.topicTitleLabel!.numberOfLines=0;
         self.topicTitleLabel!.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
@@ -148,12 +147,31 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentPanel!).offset(8);
         }
         
-        self.avatarImageView!.backgroundColor = self.contentPanel!.backgroundColor
-        self.userNameLabel!.backgroundColor = self.contentPanel!.backgroundColor
-        self.dateAndLastPostUserLabel!.backgroundColor = self.contentPanel!.backgroundColor
-        self.replyCountLabel!.backgroundColor = self.contentPanel!.backgroundColor
-        self.replyCountIconImageView!.backgroundColor = self.contentPanel!.backgroundColor
-        self.topicTitleLabel!.backgroundColor = self.contentPanel!.backgroundColor
+        
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                self?.nodeBackgroundImageView?.image = HomeTopicListTableViewCell.nodeBackgroundImage_Default
+            }
+            else{
+                self?.nodeBackgroundImageView?.image = HomeTopicListTableViewCell.nodeBackgroundImage_Dark
+            }
+            
+            self?.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+            self?.selectedBackgroundView!.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
+            self?.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_TopicListDateColor;
+            self?.replyCountLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+            
+            self?.avatarImageView!.backgroundColor = self?.contentPanel!.backgroundColor
+            self?.userNameLabel!.backgroundColor = self?.contentPanel!.backgroundColor
+            self?.dateAndLastPostUserLabel!.backgroundColor = self?.contentPanel!.backgroundColor
+            self?.replyCountLabel!.backgroundColor = self?.contentPanel!.backgroundColor
+            self?.replyCountIconImageView!.backgroundColor = self?.contentPanel!.backgroundColor
+            self?.topicTitleLabel!.backgroundColor = self?.contentPanel!.backgroundColor
+        }
         
         //点击用户头像，跳转到用户主页
         self.avatarImageView!.userInteractionEnabled = true

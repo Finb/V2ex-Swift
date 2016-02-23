@@ -11,12 +11,16 @@ import UIKit
 class MoreViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        
         self.title = "更多"
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
         
+        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]){[weak self] (nav, color, change) -> Void in
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.tableView.reloadData()
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -62,7 +66,10 @@ class MoreViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 3 {
+        if indexPath.row == 1 {
+            V2Client.sharedInstance.centerNavigation?.pushViewController(SettingsTableViewController(), animated: true)
+        }
+        else if indexPath.row == 3 {
             let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1078157349"
             UIApplication.sharedApplication().openURL(NSURL(string: str)!)
         }
