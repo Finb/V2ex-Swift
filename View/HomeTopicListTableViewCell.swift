@@ -16,7 +16,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
     
     /// 节点信息label的圆角背景图
     static let nodeBackgroundImage =
-    createImageWithColor(UIColor(white: 0.95, alpha: 1),size: CGSizeMake(10, 20))
+    createImageWithColor( V2EXColor.colors.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
         .roundedCornerImageWithCornerRadius(2)
         .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
     
@@ -56,7 +56,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.selectedBackgroundView = selectedBackgroundView
         
         self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor=UIColor.whiteColor();
+        self.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView .addSubview(self.contentPanel!);
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);

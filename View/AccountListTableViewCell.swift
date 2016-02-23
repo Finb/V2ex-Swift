@@ -44,7 +44,7 @@ class AccountListTableViewCell: UITableViewCell {
         }
         
         self.usedLabel = UILabel()
-        self.usedLabel!.textColor = colorWith255RGB(207, g: 70, b: 71)
+        self.usedLabel!.textColor = V2EXColor.colors.v2_NoticePointColor
         self.usedLabel!.font = v2Font(11)
         self.usedLabel!.text = "正在使用"
         self.contentView.addSubview(self.usedLabel!)
@@ -54,7 +54,7 @@ class AccountListTableViewCell: UITableViewCell {
         }
         self.usedLabel?.hidden = true;
         
-        let separator = UIImageView(image: createImageWithColor(colorWith255RGB(190, g: 190, b: 190)))
+        let separator = UIImageView(image: createImageWithColor(V2EXColor.colors.v2_SeparatorColor))
         self.contentView.addSubview(separator)
         separator.snp_makeConstraints{ (make) -> Void in
             make.left.equalTo(self.avatarImageView!.snp_right).offset(5)

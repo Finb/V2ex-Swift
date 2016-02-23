@@ -29,7 +29,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     }
     func setup()->Void{
         self.contentWebView = UIWebView()
-        self.contentWebView!.backgroundColor = UIColor.whiteColor()
+        self.contentWebView!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentWebView!.scrollView.scrollEnabled = false
         self.contentWebView!.delegate = self
         self.contentView.addSubview(self.contentWebView!);

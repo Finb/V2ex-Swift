@@ -55,7 +55,7 @@ class NotificationTableViewCell: UITableViewCell {
         self.selectedBackgroundView = selectedBackgroundView
         
         self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor=UIColor.whiteColor();
+        self.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentPanel!.clipsToBounds = true
         self.contentView .addSubview(self.contentPanel!);
         
@@ -155,7 +155,7 @@ class NotificationTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentPanel!).offset(0);
         }
         
-        self.contentPanel?.backgroundColor = UIColor.whiteColor()
+        self.contentPanel?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         
         //点击用户头像，跳转到用户主页
         self.avatarImageView!.userInteractionEnabled = true

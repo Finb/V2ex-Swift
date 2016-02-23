@@ -31,7 +31,7 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.textView = YYTextView()
-        self.textView!.backgroundColor = UIColor.whiteColor()
+        self.textView!.backgroundColor = V2EXColor.colors.v2_TextViewBackgroundColor
         self.textView!.font = v2Font(18)
         self.textView!.delegate = self
         self.textView!.textColor = V2EXColor.colors.v2_TopicListUserNameColor

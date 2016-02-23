@@ -35,7 +35,7 @@ class MemberReplyCell: UITableViewCell {
         self.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor = UIColor(white: 1, alpha: 0.9);
+        self.contentPanel!.backgroundColor =  V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView .addSubview(self.contentPanel!);
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
@@ -56,7 +56,7 @@ class MemberReplyCell: UITableViewCell {
         self.commentPanel = UIView()
         self.commentPanel!.layer.cornerRadius = 3
         self.commentPanel!.layer.masksToBounds = true
-        self.commentPanel!.backgroundColor = UIColor(white: 0.9, alpha: 0.9) ;
+        self.commentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentPanel!.addSubview(self.commentPanel!);
         
         self.commentLabel=V2SpacingLabel();

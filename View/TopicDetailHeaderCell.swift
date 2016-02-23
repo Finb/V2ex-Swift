@@ -39,7 +39,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
         
         self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor=UIColor.whiteColor();
+        self.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView .addSubview(self.contentPanel!);
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
@@ -75,7 +75,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.nodeNameLabel!.font = v2Font(11)
-        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.95, alpha: 1);
+        self.nodeNameLabel!.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
         self.nodeNameLabel?.layer.cornerRadius=2;
         self.nodeNameLabel!.clipsToBounds = true
         self.contentPanel?.addSubview(self.nodeNameLabel!)

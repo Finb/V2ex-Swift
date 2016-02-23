@@ -24,7 +24,7 @@ class RightNodeTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         
         let panel = UIView()
-        panel.backgroundColor = UIColor(white: 1, alpha: 0.3)
+        panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
         self.contentView.addSubview(panel)
         panel.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)

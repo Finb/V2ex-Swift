@@ -37,11 +37,11 @@ class MoreViewController: UITableViewController {
             cell.backgroundColor = self.tableView.backgroundColor
         }
         else{
-            cell.backgroundColor = UIColor.whiteColor()
+            cell.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         }
         
         //设置右侧箭头
-        if [0,1,2,5,8].contains(indexPath.row) {
+        if [0,2,5,8].contains(indexPath.row) {
             cell.detailMarkHidden = true
         }
         else {

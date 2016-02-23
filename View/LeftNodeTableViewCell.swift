@@ -25,7 +25,7 @@ class LeftNodeTableViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         
         let panel = UIView()
-        panel.backgroundColor = UIColor(white: 1, alpha: 0.3)
+        panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
         self.contentView.addSubview(panel)
         panel.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
@@ -33,7 +33,7 @@ class LeftNodeTableViewCell: UITableViewCell {
         }
         
         self.nodeImageView = UIImageView()
-        self.nodeImageView!.tintColor = UIColor(white: 0, alpha: 0.55)
+        self.nodeImageView!.tintColor =  V2EXColor.colors.v2_LeftNodeTintColor
         panel.addSubview(self.nodeImageView!)
         self.nodeImageView!.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(panel)
@@ -59,7 +59,7 @@ class LeftNotifictionCell : LeftNodeTableViewCell{
         super.setup()
         self.nodeNameLabel!.text = "消息提醒"
         self.notifictionCountLabel = UILabel()
-        self.notifictionCountLabel!.backgroundColor = colorWith255RGB(207, g: 70, b: 71)
+        self.notifictionCountLabel!.backgroundColor = V2EXColor.colors.v2_NoticePointColor
         self.notifictionCountLabel!.font = v2Font(10)
         self.notifictionCountLabel!.textColor = UIColor.whiteColor()
         self.notifictionCountLabel!.layer.cornerRadius = 7

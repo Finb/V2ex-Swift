@@ -85,7 +85,7 @@ class BaseDetailTableViewCell: UITableViewCell {
             make.centerY.equalTo(self.contentView)
         }
         
-        self.separator = UIImageView(image: createImageWithColor(colorWith255RGB(190, g: 190, b: 190)))
+        self.separator = UIImageView(image: createImageWithColor( V2EXColor.colors.v2_SeparatorColor ))
         self.contentView.addSubview(self.separator!)
         self.separator!.snp_makeConstraints{ (make) -> Void in
             make.left.right.bottom.equalTo(self.contentView)

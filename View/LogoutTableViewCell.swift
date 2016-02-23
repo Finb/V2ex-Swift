@@ -21,9 +21,9 @@ class LogoutTableViewCell: UITableViewCell {
         
         self.textLabel!.text = "注销当前账号"
         self.textLabel!.textAlignment = .Center
-        self.textLabel!.textColor = colorWith255RGB(207, g: 70, b: 71)
+        self.textLabel!.textColor = V2EXColor.colors.v2_NoticePointColor
         
-        let separator = UIImageView(image: createImageWithColor(colorWith255RGB(190, g: 190, b: 190)))
+        let separator = UIImageView(image: createImageWithColor(V2EXColor.colors.v2_SeparatorColor))
         self.contentView.addSubview(separator)
         separator.snp_makeConstraints{ (make) -> Void in
             make.left.equalTo(self.contentView)

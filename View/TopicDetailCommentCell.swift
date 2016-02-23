@@ -44,7 +44,7 @@ class TopicDetailCommentCell: UITableViewCell {
         self.selectedBackgroundView = selectedBackgroundView
         
         self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor=UIColor.whiteColor();
+        self.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView .addSubview(self.contentPanel!);
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);

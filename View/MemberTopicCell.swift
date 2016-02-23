@@ -70,7 +70,7 @@ class MemberTopicCell: UITableViewCell {
         self.nodeNameLabel = UILabel();
         self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.nodeNameLabel!.font = v2Font(11)
-        self.nodeNameLabel!.backgroundColor = UIColor(white: 0.95, alpha: 1);
+        self.nodeNameLabel!.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
         self.nodeNameLabel?.layer.cornerRadius=2;
         self.nodeNameLabel!.clipsToBounds = true
         self.contentPanel?.addSubview(self.nodeNameLabel!)

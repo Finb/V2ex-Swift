@@ -37,7 +37,7 @@ class NodeTableViewCell: UITableViewCell {
         label.userInteractionEnabled = true
         label.font = v2Font(NodeTableViewCell.fontSize)
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
-        label.backgroundColor = UIColor.whiteColor()
+        label.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         
         let tap = UITapGestureRecognizer(target: self, action: "labelClick:")
         label.addGestureRecognizer(tap)
