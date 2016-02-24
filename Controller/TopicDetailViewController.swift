@@ -113,8 +113,8 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
             }
             
             else if indexPath.row == 1 {
-                if let cell = self.webViewContentCell {
-                    return cell.contentHeight
+                if self.webViewContentCell?.contentHeight > 0 {
+                    return self.webViewContentCell!.contentHeight
                 }
                 else {
                     return 1
@@ -129,7 +129,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
        
         else {
             let layout = self.commentsArray[indexPath.row].textLayout!
-            return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12
+            return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
         }
         
         return 200 ;
