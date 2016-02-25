@@ -27,6 +27,8 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             }
         }
     }
+    
+    weak var photoBrowser:V2PhotoBrowser?
 
     init(browser:V2PhotoBrowser){
         super.init(frame: CGRectZero)
@@ -41,6 +43,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.decelerationRate = UIScrollViewDecelerationRateFast
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadingDidEndNotification:", name: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
+        self.photoBrowser = browser
 
     }
 
@@ -107,7 +110,8 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.maximumZoomScale = maxScale
         self.minimumZoomScale = minScale
         
-        self.zoomScale = self.initialZoomScaleWithMinScale()
+//        self.zoomScale = self.initialZoomScaleWithMinScale()
+        self.zoomScale = self.minimumZoomScale
         
         if self.zoomScale != minScale {
             self.contentOffset = CGPointMake((imageSize.width * self.zoomScale - boundsSize.width) / 2.0,
@@ -188,6 +192,9 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             // Zoom out
             self.setZoomScale(self.minimumZoomScale, animated: true)
             
+        }
+        else {
+            self.photoBrowser?.dismiss()
         }
     }
     

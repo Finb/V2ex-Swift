@@ -9,22 +9,29 @@
 //https://github.com/mwaterfall/MWPhotoBrowser
 
 import UIKit
+import INSImageView
 
 @objc protocol V2PhotoBrowserDelegate {
     func numberOfPhotosInPhotoBrowser(photoBrowser:V2PhotoBrowser) -> Int
-    func photoAtIndex(photoBrowser:V2PhotoBrowser, index:Int) -> V2Photo
+    func photoAtIndexInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> V2Photo
     
+    func guideImageInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> UIImage?
+    func guideContentModeInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> UIViewContentMode
+    func guideFrameInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> CGRect
 }
 
 
-class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
+class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTransitioningDelegate {
     static let PADDING:CGFloat = 10
+    
+    /// 引导guideImageView，用于引导进入动画和退出动画
+    private var guideImageView:INSImageView = INSImageView()
     
     weak var delegate:V2PhotoBrowserDelegate?
     
     private var  photoCount = NSNotFound
     private var photos:[NSObject] = []
-    private var currentPageIndex = 0
+    var currentPageIndex = 0
     
     private var visiblePages:NSMutableSet = []
     private var recycledPages:NSMutableSet = []
@@ -33,32 +40,43 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
     
     init(delegate:V2PhotoBrowserDelegate){
         self.delegate = delegate
-        super.init(frame: CGRectZero)
+        super.init(nibName: nil, bundle: nil)
         self.setup()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     func setup(){
+        self.transitioningDelegate = self
+        
         self.pagingScrollView.pagingEnabled = true
         self.pagingScrollView.delegate = self
         self.pagingScrollView.showsHorizontalScrollIndicator = false
         self.pagingScrollView.showsVerticalScrollIndicator = false
-        self.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 1)
+        self.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 0)
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
-        self.addSubview(self.pagingScrollView)
-        self.reloadData()
+        self.view.addSubview(self.pagingScrollView)
+        
+        self.guideImageView.clipsToBounds = true
+        self.view.addSubview(self.guideImageView)
+        
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        var frame = self.bounds
+    override func viewDidLoad() {
+        self.layoutSubviews()
+    }
+    
+    func dismiss(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func layoutSubviews() {
+        var frame = self.view.bounds
         frame.origin.x -= V2PhotoBrowser.PADDING
         frame.size.width += 2 * V2PhotoBrowser.PADDING
         self.pagingScrollView.frame = frame
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
-        self.tilePages()
     }
     
     //MARK: Frame Calculations
@@ -93,7 +111,7 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         if index < self.photos.count {
             if self.photos[index].isKindOfClass(NSNull.self) {
                 if let delegate = self.delegate {
-                    let photo = delegate.photoAtIndex(self, index: index)
+                    let photo = delegate.photoAtIndexInPhotoBrowser(self, index: index)
                     self.photos[index] = photo
                     return photo
                 }
@@ -124,6 +142,8 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         while self.pagingScrollView.subviews.count > 0 {
             self.pagingScrollView.subviews.last?.removeFromSuperview()
         }
+        
+        self.tilePages()
         
     }
     
@@ -204,5 +224,80 @@ class V2PhotoBrowser: UIView ,UIScrollViewDelegate {
         index = max (0,index)
         index = min(self.numberOfPhotos() - 1 , index)
         self.currentPageIndex = index
+    }
+    
+    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return V2PhotoBrowserTransionPresent()
+    }
+    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return V2PhotoBrowserTransionDismiss()
+    }
+}
+
+class V2PhotoBrowserTransionPresent:NSObject,UIViewControllerAnimatedTransitioning {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+        return 0.3
+    }
+    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! V2PhotoBrowser
+        let container = transitionContext.containerView()
+        container!.addSubview(toVC.view)
+        if let delegate = toVC.delegate{
+            toVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(toVC, index: toVC.currentPageIndex)
+            
+            toVC.guideImageView.image = delegate.guideImageInPhotoBrowser(toVC, index: toVC.currentPageIndex)
+            
+            toVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(toVC, index: toVC.currentPageIndex)
+        }
+    
+    
+        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            toVC.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 1)
+            toVC.guideImageView.frame = toVC.view.bounds
+            if toVC.guideImageView.originalImage?.size.width > SCREEN_WIDTH || toVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
+                toVC.guideImageView.contentMode = .ScaleAspectFit
+            }
+            else{
+                toVC.guideImageView.contentMode = .Center
+            }
+            }) { (finished: Bool) -> Void in
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                toVC.reloadData()
+                toVC.guideImageView.hidden = true
+        }
+    }
+}
+
+class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioning {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+        return 0.3
+    }
+    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! V2PhotoBrowser
+        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+
+        let container = transitionContext.containerView()
+        container!.addSubview(toVC.view)
+        container!.bringSubviewToFront(fromVC.view)
+        
+        fromVC.guideImageView.hidden = false
+        
+        while fromVC.pagingScrollView.subviews.count > 0 {
+            fromVC.pagingScrollView.subviews.last?.removeFromSuperview()
+        }
+        
+        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            fromVC.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 0)
+            if let delegate = fromVC.delegate{
+                fromVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
+                
+                fromVC.guideImageView.image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
+                
+                fromVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
+            }
+            
+            }) { (finished: Bool) -> Void in
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+        }
     }
 }

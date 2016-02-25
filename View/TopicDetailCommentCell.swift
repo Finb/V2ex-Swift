@@ -9,7 +9,7 @@
 import UIKit
 import YYText
 
-class TopicDetailCommentCell: UITableViewCell {
+class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelegate , V2PhotoBrowserDelegate{
     /// 头像
     var avatarImageView: UIImageView?
     /// 用户名
@@ -138,13 +138,19 @@ class TopicDetailCommentCell: UITableViewCell {
         }
     }
     func bind(model:TopicCommentModel){
-        
         self.itemModel = model
         
         self.userNameLabel?.text = model.userName;
         self.dateLabel?.text = model.date
         if let layout = model.textLayout {
             self.commentLabel?.textLayout = layout
+            if layout.attachments != nil {
+                for attachment in layout.attachments {
+                    if let attachment = attachment as? YYTextAttachment ,  let image = attachment.content as? V2CommentAttachmentImage{
+                        image.delegate = self
+                    }
+                }
+            }
         }
         
         if let avata = model.avata {
@@ -153,6 +159,42 @@ class TopicDetailCommentCell: UITableViewCell {
         
         self.favoriteIconView!.hidden = model.favorites <= 0
         self.favoriteLabel!.text = model.favorites <= 0 ? "" : "\(model.favorites)"
+    }
+    
+    /**
+     点击图片
+     */
+    func V2CommentAttachmentImageSingleTap(imageView: V2CommentAttachmentImage) {
+        let photoBrowser = V2PhotoBrowser(delegate: self)
+        photoBrowser.currentPageIndex = imageView.index
+        V2Client.sharedInstance.centerNavigation!.presentViewController(photoBrowser, animated: true, completion: nil)
+    }
+    
+    //MARK V2PhotoBrowser Delegate
+    func numberOfPhotosInPhotoBrowser(photoBrowser: V2PhotoBrowser) -> Int {
+        return self.itemModel!.images.count
+    }
+    func photoAtIndexInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> V2Photo {
+        let photo = V2Photo(url: NSURL(string: self.itemModel!.images[index] as! String)!)
+        return photo
+    }
+    func guideContentModeInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
+        if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+            return image.contentMode
+        }
+        return .Center
+    }
+    func guideFrameInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
+                if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+            return image .convertRect(image.bounds, toView: UIApplication.sharedApplication().keyWindow!)
+        }
+        return CGRectZero
+    }
+    func guideImageInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
+        if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+            return image.image
+        }
+        return nil
     }
 }
 

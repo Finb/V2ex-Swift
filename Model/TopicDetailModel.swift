@@ -11,7 +11,7 @@ import UIKit
 import Alamofire
 import Ji
 import YYText
-
+import Kingfisher
 class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     var topicId:String?
     
@@ -99,17 +99,25 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
             
     }
 }
-
+protocol V2CommentAttachmentImageTapDelegate : class {
+    func V2CommentAttachmentImageSingleTap(imageView:V2CommentAttachmentImage)
+}
 /// 评论中的图片
 class V2CommentAttachmentImage:UIImageView {
+    /// 父容器中第几张图片
+    var index:Int = 0
+    
+    /// 图片地址
     var imageURL:String?
+    
+    weak var delegate : V2CommentAttachmentImageTapDelegate?
     
     init(){
         super.init(frame: CGRectMake(0, 0, 80, 80))
         self.contentMode = .ScaleAspectFill
         self.clipsToBounds = true
+        self.userInteractionEnabled = true
     }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -120,8 +128,29 @@ class V2CommentAttachmentImage:UIImageView {
             return
         }
         if  let imageURL = self.imageURL , let URL = NSURL(string: imageURL) {
-            self.kf_setImageWithURL(URL)
+            self.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+                if let image = image {
+                    if image.size.width < 80 && image.size.height < 80 {
+                        self.contentMode = .BottomLeft
+                    }
+                }
+            })
         }
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first
+        let tapCount = touch?.tapCount
+        if let tapCount = tapCount {
+            if tapCount == 1 {
+                self.handleSingleTap(touch!)
+            }
+        }
+        //取消后续的事件响应
+        self.nextResponder()?.touchesCancelled(touches, withEvent: event)
+    }
+    func handleSingleTap(touch:UITouch){
+        self.delegate?.V2CommentAttachmentImageSingleTap(self)
     }
 }
 
@@ -133,7 +162,10 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     var comment: String?
     var favorites: Int = 0
     var textLayout:YYTextLayout?
+    var images:NSMutableArray = NSMutableArray()
     required init(rootNode: JiNode) {
+        super.init()
+        
         let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"]
         if let id = id {
             if id.hasPrefix("thank_area_") {
@@ -161,8 +193,15 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         let commentAttributedString:NSMutableAttributedString = NSMutableAttributedString(string: "")
         let nodes = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']/node()")
+        
+        self.preformAttributedString(commentAttributedString, nodes: nodes)
+        
+        let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, SCREEN_HEIGHT))
+        self.textLayout = YYTextLayout(container: textContainer, text: commentAttributedString)
+    }
+    func preformAttributedString(commentAttributedString:NSMutableAttributedString,nodes:[JiNode]) {
         for element in nodes {
-
+            
             if element.name == "text" , let content = element.content{//普通文本
                 commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14) , NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
                 commentAttributedString.yy_lineSpacing = 5
@@ -173,24 +212,34 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 let image = V2CommentAttachmentImage()
                 image.imageURL = imageURL
                 let imageAttributedString = NSMutableAttributedString.yy_attachmentStringWithContent(image, contentMode: .ScaleAspectFit , attachmentSize: CGSizeMake(80, 80), alignToFont: v2Font(14), alignment: .Bottom)
-                imageAttributedString
+                
                 commentAttributedString.appendAttributedString(imageAttributedString)
+                
+                image.index = self.images.count
+                self.images.addObject(imageURL)
             }
                 
                 
             else if element.name == "a" ,let content = element.content,let url = element["href"]{//超链接
-                let attr = NSMutableAttributedString(string: content ,attributes: [NSFontAttributeName:v2Font(14)])
-                attr.yy_setTextHighlightRange(NSMakeRange(0, content.Lenght),
-                    color: V2EXColor.colors.v2_LinkColor,
-                    backgroundColor: UIColor(white: 0.95, alpha: 1),
-                    userInfo: ["url":url],
-                    tapAction: { (view, text, range, rect) -> Void in
-                        if let highlight = text.yy_attribute(YYTextHighlightAttributeName, atIndex: UInt(range.location)) ,let url = highlight.userInfo["url"] as? String  {
-                            AnalyzeURLHelper.Analyze(url)
-                        }
-                    
-                    }, longPressAction: nil)
-                commentAttributedString.appendAttributedString(attr)
+                //递归处理所有子节点
+                let subNodes = element.xPath("./node()")
+                if subNodes.count > 0 {
+                    self.preformAttributedString(commentAttributedString, nodes: subNodes)
+                }
+                if content.Lenght > 0 {
+                    let attr = NSMutableAttributedString(string: content ,attributes: [NSFontAttributeName:v2Font(14)])
+                    attr.yy_setTextHighlightRange(NSMakeRange(0, content.Lenght),
+                        color: V2EXColor.colors.v2_LinkColor,
+                        backgroundColor: UIColor(white: 0.95, alpha: 1),
+                        userInfo: ["url":url],
+                        tapAction: { (view, text, range, rect) -> Void in
+                            if let highlight = text.yy_attribute(YYTextHighlightAttributeName, atIndex: UInt(range.location)) ,let url = highlight.userInfo["url"] as? String  {
+                                AnalyzeURLHelper.Analyze(url)
+                            }
+                            
+                        }, longPressAction: nil)
+                    commentAttributedString.appendAttributedString(attr)
+                }
             }
                 
                 
@@ -198,12 +247,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
             }
         }
-        let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, SCREEN_HEIGHT))
-        self.textLayout = YYTextLayout(container: textContainer, text: commentAttributedString)
-        self.textLayout?.textBoundingRect
-    
     }
-    
     
     class func replyWithTopicId(topic:TopicDetailModel, content:String,
         completionHandler: V2Response -> Void
