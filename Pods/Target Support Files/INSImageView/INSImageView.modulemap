@@ -1,0 +1,6 @@
+framework module INSImageView {
+  umbrella header "INSImageView-umbrella.h"
+
+  export *
+  module * { export * }
+}

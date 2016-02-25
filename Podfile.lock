@@ -13,6 +13,7 @@ PODS:
     - DrawerController/Core
   - Fabric (1.6.5)
   - FXBlurView (1.6.4)
+  - INSImageView (0.1.5)
   - Ji (1.2.0):
     - Ji/Ji (= 1.2.0)
   - Ji/Ji (1.2.0):
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - DrawerController (~> 1.1.0)
   - Fabric
   - FXBlurView (~> 1.6.4)
+  - INSImageView (~> 0.1.5)
   - Ji (~> 1.2.0)
   - KeychainSwift (~> 3.0.11)
   - Kingfisher (~> 1.9.1)
@@ -51,6 +53,7 @@ SPEC CHECKSUMS:
   DrawerController: 8fd56e6238399a08c4af054fbea0ef8669cd81f3
   Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  INSImageView: 53d61eb556aab51902d6eda4f1f97535cb24511f
   Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
@@ -61,6 +64,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
-PODFILE CHECKSUM: 62a748ba337526d24f071550c9df5d04fcec52da
+PODFILE CHECKSUM: 71f6dfe90f1108aa89af12c3a1b3581e0fa4bf86
 
 COCOAPODS: 1.0.0.beta.3
