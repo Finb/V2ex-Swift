@@ -61,7 +61,12 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
                 }
                 else{
                     var frame = fromVC.guideImageView.frame
-                    frame.origin.y += fromVC.view.frame.size.height
+                    if fromVC.transitionController.direction == .Downwards {
+                        frame.origin.y += fromVC.view.frame.size.height
+                    }
+                    else {
+                        frame.origin.y += 0 - frame.size.height
+                    }
                     fromVC.guideImageView.frame = frame
                 }
             }

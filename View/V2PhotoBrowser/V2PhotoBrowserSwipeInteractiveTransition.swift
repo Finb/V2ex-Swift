@@ -6,55 +6,63 @@
 //  Copyright © 2016 Fin. All rights reserved.
 //
 
-import UIKit
+import UIKit.UIGestureRecognizerSubclass
+import CXSwipeGestureRecognizer
 
-class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransition {
+class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransition ,CXSwipeGestureRecognizerDelegate {
     weak var browser:V2PhotoBrowser?
     
     var interacting:Bool = false
+    private var dismissing  = false
     
     var shouldComplete:Bool = false
     
-    var firstX:CGFloat = 0
-    var firstY:CGFloat = 0
+    var direction:CXSwipeGestureDirection = .None
     
     func prepareGestureRecognizerInView(view:UIView){
-        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "handleGesture:"))
+        let gestureRecognizer = CXSwipeGestureRecognizer()
+        gestureRecognizer.delegate = self
+        view.addGestureRecognizer(gestureRecognizer)
     }
-    
-    func handleGesture(gestureRecognizer:UIPanGestureRecognizer){
-        let translation = gestureRecognizer.translationInView(gestureRecognizer.view!)
-        switch gestureRecognizer.state {
-        case .Began:
-            self.firstX = translation.x
-            self.firstX = translation.y
-            
-            self.interacting = true
-            self.browser?.dismissViewControllerAnimated(true, completion: nil)
-            
-        case .Changed:
-            var fraction = Float(translation.y / self.browser!.view.bounds.size.height)
-            fraction = fminf(fmaxf(fraction, 0.0), 1.0)
-            
-            self.shouldComplete = abs(fraction) > 0.3
-            
-            self.updateInteractiveTransition(CGFloat(abs(fraction)))
+    func swipeGestureRecognizerDidStart(gestureRecognizer: CXSwipeGestureRecognizer!){
+        self.interacting = true
+    }
+    func swipeGestureRecognizerDidUpdate(gestureRecognizer: CXSwipeGestureRecognizer!){
 
-        case .Cancelled , .Ended:
-            self.interacting = false
-            if self.shouldComplete && gestureRecognizer.state != .Cancelled {
-                self.finishInteractiveTransition()
-            }
-            else{
-                print(gestureRecognizer.velocityInView(gestureRecognizer.view!).y)
-                if abs(gestureRecognizer.velocityInView(gestureRecognizer.view!).y) > 1000 {
-                    self.finishInteractiveTransition()
-                }
-                else{
-                    self.cancelInteractiveTransition()
-                }
-            }
-        default:break
+        if gestureRecognizer.currentDirection() == .Downwards || gestureRecognizer.currentDirection() == .Upwards {
+            
         }
+        else{
+            gestureRecognizer.state = .Cancelled
+            self.dismissing = false
+            self.cancelInteractiveTransition()
+            return
+        }
+        
+        
+        if !self.dismissing {
+            self.dismissing = true
+            self.browser?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+
+        self.direction = gestureRecognizer.currentDirection()
+        
+        var fraction = Float(gestureRecognizer.translationInDirection(gestureRecognizer.currentDirection()) / self.browser!.view.bounds.size.height)
+        fraction = fminf(fmaxf(fraction, 0.0), 1.0)
+        self.shouldComplete = abs(fraction) > 0.3
+        self.updateInteractiveTransition(CGFloat(abs(fraction)))
+    }
+    func swipeGestureRecognizerDidFinish(gestureRecognizer: CXSwipeGestureRecognizer!){
+        self.dismissing = false
+        self.interacting = false
+        if self.shouldComplete || gestureRecognizer.velocityInDirection(gestureRecognizer.currentDirection()) > 1000{
+            self.finishInteractiveTransition()
+        }
+        else{
+            self.cancelInteractiveTransition()
+            self.direction = .None
+        }
+        
     }
 }
