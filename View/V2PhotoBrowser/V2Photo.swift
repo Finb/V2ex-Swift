@@ -46,8 +46,6 @@ class V2Photo :NSObject{
                         "photo":self
                     ]
                     NSNotificationCenter.defaultCenter().postNotificationName(V2Photo.V2PHOTO_PROGRESS_NOTIFICATION, object: dict)
-                    NSLog("progress : %f", progress)
-                    
                     }){ (image, error, imageURL, originalData) -> () in
                         
                         dispatch_sync_safely_main_queue({ () -> () in

@@ -44,9 +44,13 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadingDidEndNotification:", name: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
         self.photoBrowser = browser
-
+        
     }
-
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.singleTap()
+        self.nextResponder()?.touchesEnded(touches, withEvent: event)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -184,7 +188,11 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.setNeedsLayout()
         self.layoutIfNeeded()
     }
-    
+    func singleTap(){
+        if self.zoomScale == self.minimumZoomScale{
+            self.photoBrowser?.dismiss()
+        }
+    }
     func singleTapDetected(imageView: UIImageView, touch: UITouch) {
         // Zoom
         if (self.zoomScale != self.minimumZoomScale && self.zoomScale != self.initialZoomScaleWithMinScale()) {

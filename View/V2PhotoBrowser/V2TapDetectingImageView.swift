@@ -26,7 +26,6 @@ class V2TapDetectingImageView: UIImageView {
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
         NSObject.cancelPreviousPerformRequestsWithTarget(self)
         
         let touch = touches.first
@@ -41,7 +40,8 @@ class V2TapDetectingImageView: UIImageView {
             default :break;
             }
         }
-        self.nextResponder()?.touchesEnded(touches, withEvent: event)
+//        不继续传递事件了
+//        self.nextResponder()?.touchesEnded(touches, withEvent: event)
     }
     
     func handleSingleTap(touch:UITouch){

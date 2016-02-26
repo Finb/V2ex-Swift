@@ -15,8 +15,17 @@ import INSImageView
     func numberOfPhotosInPhotoBrowser(photoBrowser:V2PhotoBrowser) -> Int
     func photoAtIndexInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> V2Photo
     
+    /**
+     引导动画的Image
+     */
     func guideImageInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> UIImage?
+    /**
+     引导动画的ContentMode
+     */
     func guideContentModeInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> UIViewContentMode
+    /**
+     引导动画在window上的位置
+     */
     func guideFrameInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> CGRect
 }
 
@@ -31,7 +40,20 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     private var  photoCount = NSNotFound
     private var photos:[NSObject] = []
-    var currentPageIndex = 0
+    
+    private var _currentPageIndex = 0
+    var currentPageIndex:Int {
+        get {
+            return _currentPageIndex
+        }
+        set {
+            if _currentPageIndex == newValue || newValue < 0 || newValue >= self.numberOfPhotos() {
+                return
+            }
+            _currentPageIndex = newValue
+            self.jumpPageAtIndex(_currentPageIndex)
+        }
+    }
     
     private var visiblePages:NSMutableSet = []
     private var recycledPages:NSMutableSet = []
@@ -48,36 +70,75 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         fatalError("init(coder:) has not been implemented")
     }
     func setup(){
+        self.view.backgroundColor = UIColor(white: 0, alpha: 0)
         self.transitioningDelegate = self
         
         self.pagingScrollView.pagingEnabled = true
         self.pagingScrollView.delegate = self
         self.pagingScrollView.showsHorizontalScrollIndicator = false
         self.pagingScrollView.showsVerticalScrollIndicator = false
-        self.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 0)
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
         self.view.addSubview(self.pagingScrollView)
         
-        self.guideImageView.clipsToBounds = true
-        self.view.addSubview(self.guideImageView)
-        
-    }
-    
-    override func viewDidLoad() {
-        self.layoutSubviews()
-    }
-    
-    func dismiss(){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func layoutSubviews() {
         var frame = self.view.bounds
         frame.origin.x -= V2PhotoBrowser.PADDING
         frame.size.width += 2 * V2PhotoBrowser.PADDING
         self.pagingScrollView.frame = frame
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
+        
+        /// 一进来时，是隐藏，等引导动画结束时再显示
+        self.pagingScrollView.hidden = true
+        
+
+        self.guideImageView.clipsToBounds = true
+        self.view.addSubview(self.guideImageView)
+        
+        self.reloadData()
+        
+        self.jumpPageAtIndex(self.currentPageIndex)
+        
     }
+    
+    override func viewDidLoad() {
+     
+    }
+    override func viewWillAppear(animated: Bool) {
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+    }
+    override func viewWillDisappear(animated: Bool) {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
+    }
+    func dismiss(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func jumpPageAtIndex(index:Int){
+        if self.isViewLoaded() {
+            let pageFrame = self.frameForPageAtIndex(_currentPageIndex)
+            self.pagingScrollView.setContentOffset(CGPointMake(pageFrame.origin.x - V2PhotoBrowser.PADDING, 0), animated: false)
+        }
+    }
+    
+    func guideImageViewHidden(hidden:Bool){
+        if hidden {
+            self.guideImageView.hidden = true
+            self.pagingScrollView.hidden = false
+        }
+        else {
+            if self.guideImageView.originalImage != nil{
+                //隐藏引导动画图
+                self.guideImageView.hidden = false
+                
+                //隐藏真正的图片浏览器,等引导动画完后再显示
+                self.pagingScrollView.hidden = true
+            }
+            else {
+                //如果没有图片，则直接显示真正的图片浏览器
+                self.guideImageViewHidden(true)
+            }
+        }
+    }
+    
     
     //MARK: Frame Calculations
     
@@ -134,9 +195,9 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         
         // Update current page index
         if (numberOfPhotos > 0) {
-            self.currentPageIndex = max(0, min(self.currentPageIndex, numberOfPhotos - 1));
+            self._currentPageIndex = max(0, min(self._currentPageIndex, numberOfPhotos - 1));
         } else {
-            self.currentPageIndex = 0;
+            self._currentPageIndex = 0;
         }
         
         while self.pagingScrollView.subviews.count > 0 {
@@ -223,8 +284,10 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         var index = Int ( floorf( Float(CGRectGetMidX(visibleBounds) / CGRectGetWidth(visibleBounds)) ) )
         index = max (0,index)
         index = min(self.numberOfPhotos() - 1 , index)
-        self.currentPageIndex = index
+        self._currentPageIndex = index
     }
+    
+    
     
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return V2PhotoBrowserTransionPresent()
@@ -239,31 +302,37 @@ class V2PhotoBrowserTransionPresent:NSObject,UIViewControllerAnimatedTransitioni
         return 0.3
     }
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+        
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! V2PhotoBrowser
         let container = transitionContext.containerView()
         container!.addSubview(toVC.view)
+        
+        //给引导动画赋值
         if let delegate = toVC.delegate{
             toVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(toVC, index: toVC.currentPageIndex)
-            
             toVC.guideImageView.image = delegate.guideImageInPhotoBrowser(toVC, index: toVC.currentPageIndex)
-            
             toVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(toVC, index: toVC.currentPageIndex)
         }
-    
-    
+        
+        //显示引导动画的imageView
+        toVC.guideImageViewHidden(false)
+        
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            toVC.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 1)
+            toVC.view.backgroundColor = UIColor(white: 0, alpha: 1)
             toVC.guideImageView.frame = toVC.view.bounds
+            
+            //如果图片过小，则直接中间原图显示 ，否则fit
             if toVC.guideImageView.originalImage?.size.width > SCREEN_WIDTH || toVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
                 toVC.guideImageView.contentMode = .ScaleAspectFit
             }
             else{
                 toVC.guideImageView.contentMode = .Center
             }
+            
             }) { (finished: Bool) -> Void in
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-                toVC.reloadData()
-                toVC.guideImageView.hidden = true
+                //隐藏引导动画
+                toVC.guideImageViewHidden(true)
         }
     }
 }
@@ -273,6 +342,7 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
         return 0.3
     }
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+       
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! V2PhotoBrowser
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
 
@@ -280,20 +350,37 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
         container!.addSubview(toVC.view)
         container!.bringSubviewToFront(fromVC.view)
         
-        fromVC.guideImageView.hidden = false
+        //显示引导动画，隐藏真正的照片浏览器
+        //如果引导动画的图片没有加载完或加载失败，则显示真正的照片浏览器 渐变隐藏它
+        fromVC.guideImageViewHidden(false)
         
-        while fromVC.pagingScrollView.subviews.count > 0 {
-            fromVC.pagingScrollView.subviews.last?.removeFromSuperview()
+        if let delegate = fromVC.delegate ,image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex) {
+            fromVC.guideImageView.image = image
+            //如果图片过小，则直接中间原图显示 ，否则fit
+            if fromVC.guideImageView.originalImage?.size.width > SCREEN_WIDTH || fromVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
+                fromVC.guideImageView.contentMode = .ScaleAspectFit
+            }
+            else{
+                fromVC.guideImageView.contentMode = .Center
+            }
+            
+            //重布局一下，因为有可能左右切换图片隐藏时 布局不对
+            fromVC.guideImageView.setNeedsLayout()
+            fromVC.guideImageView.layoutIfNeeded()
         }
         
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            fromVC.pagingScrollView.backgroundColor = UIColor(white: 0, alpha: 0)
-            if let delegate = fromVC.delegate{
-                fromVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
-                
-                fromVC.guideImageView.image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
-                
-                fromVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
+            fromVC.view.backgroundColor = UIColor(white: 0, alpha: 0)
+
+            //如果guideImageView是隐藏的，则证明图片没有加载完不能显示，则渐变隐藏整个browser
+            if fromVC.guideImageView.hidden {
+                fromVC.pagingScrollView.alpha = 0
+            }
+            else{
+                if let delegate = fromVC.delegate {
+                    fromVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
+                    fromVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
+                }
             }
             
             }) { (finished: Bool) -> Void in
