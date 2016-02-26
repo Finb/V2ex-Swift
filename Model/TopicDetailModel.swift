@@ -221,9 +221,9 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 
                 
             else if element.name == "a" ,let content = element.content,let url = element["href"]{//超链接
-                //递归处理所有子节点
+                //递归处理所有子节点,主要是处理下 a标签下包含的img标签
                 let subNodes = element.xPath("./node()")
-                if subNodes.count > 0 {
+                if subNodes.first?.name != "text" && subNodes.count > 0 {
                     self.preformAttributedString(commentAttributedString, nodes: subNodes)
                 }
                 if content.Lenght > 0 {
