@@ -34,7 +34,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     static let PADDING:CGFloat = 10
     
     /// 引导guideImageView，用于引导进入动画和退出动画
-    private var guideImageView:INSImageView = INSImageView()
+    var guideImageView:INSImageView = INSImageView()
     
     weak var delegate:V2PhotoBrowserDelegate?
     
@@ -57,8 +57,9 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     private var visiblePages:NSMutableSet = []
     private var recycledPages:NSMutableSet = []
-    private var pagingScrollView = UIScrollView()
+    var pagingScrollView = UIScrollView()
     
+    var transitionController = V2PhotoBrowserSwipeInteractiveTransition()
     
     init(delegate:V2PhotoBrowserDelegate){
         self.delegate = delegate
@@ -99,14 +100,21 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         
     }
     
+    
     override func viewDidLoad() {
-     
+        self.transitionController.browser = self
+        self.transitionController.prepareGestureRecognizerInView(self.pagingScrollView)
     }
-    override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+    
+    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return self.transitionController.interacting ? self.transitionController : nil
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+//        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
     }
     override func viewWillDisappear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
+//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
     }
     func dismiss(){
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -297,94 +305,5 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     }
 }
 
-class V2PhotoBrowserTransionPresent:NSObject,UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return 0.3
-    }
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! V2PhotoBrowser
-        let container = transitionContext.containerView()
-        container!.addSubview(toVC.view)
-        
-        //给引导动画赋值
-        if let delegate = toVC.delegate{
-            toVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(toVC, index: toVC.currentPageIndex)
-            toVC.guideImageView.image = delegate.guideImageInPhotoBrowser(toVC, index: toVC.currentPageIndex)
-            toVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(toVC, index: toVC.currentPageIndex)
-        }
-        
-        //显示引导动画的imageView
-        toVC.guideImageViewHidden(false)
-        
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            toVC.view.backgroundColor = UIColor(white: 0, alpha: 1)
-            toVC.guideImageView.frame = toVC.view.bounds
-            
-            //如果图片过小，则直接中间原图显示 ，否则fit
-            if toVC.guideImageView.originalImage?.size.width > SCREEN_WIDTH || toVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
-                toVC.guideImageView.contentMode = .ScaleAspectFit
-            }
-            else{
-                toVC.guideImageView.contentMode = .Center
-            }
-            
-            }) { (finished: Bool) -> Void in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-                //隐藏引导动画
-                toVC.guideImageViewHidden(true)
-        }
-    }
-}
 
-class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return 0.3
-    }
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-       
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! V2PhotoBrowser
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
 
-        let container = transitionContext.containerView()
-        container!.addSubview(toVC.view)
-        container!.bringSubviewToFront(fromVC.view)
-        
-        //显示引导动画，隐藏真正的照片浏览器
-        //如果引导动画的图片没有加载完或加载失败，则显示真正的照片浏览器 渐变隐藏它
-        fromVC.guideImageViewHidden(false)
-        
-        if let delegate = fromVC.delegate ,image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex) {
-            fromVC.guideImageView.image = image
-            //如果图片过小，则直接中间原图显示 ，否则fit
-            if fromVC.guideImageView.originalImage?.size.width > SCREEN_WIDTH || fromVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
-                fromVC.guideImageView.contentMode = .ScaleAspectFit
-            }
-            else{
-                fromVC.guideImageView.contentMode = .Center
-            }
-            
-            //重布局一下，因为有可能左右切换图片隐藏时 布局不对
-            fromVC.guideImageView.setNeedsLayout()
-            fromVC.guideImageView.layoutIfNeeded()
-        }
-        
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            fromVC.view.backgroundColor = UIColor(white: 0, alpha: 0)
-
-            //如果guideImageView是隐藏的，则证明图片没有加载完不能显示，则渐变隐藏整个browser
-            if fromVC.guideImageView.hidden {
-                fromVC.pagingScrollView.alpha = 0
-            }
-            else{
-                if let delegate = fromVC.delegate {
-                    fromVC.guideImageView.frame = delegate.guideFrameInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
-                    fromVC.guideImageView.contentMode = delegate.guideContentModeInPhotoBrowser(fromVC, index: fromVC.currentPageIndex)
-                }
-            }
-            
-            }) { (finished: Bool) -> Void in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
-    }
-}
