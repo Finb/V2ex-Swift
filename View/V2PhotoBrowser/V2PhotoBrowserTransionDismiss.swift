@@ -27,9 +27,6 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
         container!.addSubview(toVC.view)
         container!.bringSubviewToFront(fromVC.view)
         
-        //显示引导动画，隐藏真正的照片浏览器
-        //如果引导动画的图片没有加载完或加载失败，则显示真正的照片浏览器 渐变隐藏它
-        fromVC.guideImageViewHidden(false)
         
         if let delegate = fromVC.delegate ,image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex) {
             fromVC.guideImageView.image = image
@@ -45,6 +42,10 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
             fromVC.guideImageView.setNeedsLayout()
             fromVC.guideImageView.layoutIfNeeded()
         }
+        
+        //显示引导动画，隐藏真正的照片浏览器
+        //如果引导动画的图片没有加载完或加载失败，则显示真正的照片浏览器 渐变隐藏它
+        fromVC.guideImageViewHidden(false)
         
         let animations = { () -> Void in
             fromVC.view.backgroundColor = UIColor(white: 0, alpha: 0)
