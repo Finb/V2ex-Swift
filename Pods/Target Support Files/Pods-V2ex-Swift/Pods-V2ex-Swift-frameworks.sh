@@ -86,6 +86,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-V2ex-Swift/Alamofire.framework"
   install_framework "Pods-V2ex-Swift/AlamofireObjectMapper.framework"
+  install_framework "Pods-V2ex-Swift/CXSwipeGestureRecognizer.framework"
   install_framework "Pods-V2ex-Swift/DrawerController.framework"
   install_framework "Pods-V2ex-Swift/FXBlurView.framework"
   install_framework "Pods-V2ex-Swift/INSImageView.framework"
@@ -102,6 +103,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-V2ex-Swift/Alamofire.framework"
   install_framework "Pods-V2ex-Swift/AlamofireObjectMapper.framework"
+  install_framework "Pods-V2ex-Swift/CXSwipeGestureRecognizer.framework"
   install_framework "Pods-V2ex-Swift/DrawerController.framework"
   install_framework "Pods-V2ex-Swift/FXBlurView.framework"
   install_framework "Pods-V2ex-Swift/INSImageView.framework"

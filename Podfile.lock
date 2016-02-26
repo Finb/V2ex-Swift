@@ -5,6 +5,7 @@ PODS:
     - ObjectMapper (~> 1.0)
   - Crashlytics (3.6.0):
     - Fabric (~> 1.6.3)
+  - CXSwipeGestureRecognizer (1.0.2)
   - DrawerController (1.1.0):
     - DrawerController/Core (= 1.1.0)
     - DrawerController/DrawerVisualStates (= 1.1.0)
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - Alamofire (~> 3.1.4)
   - AlamofireObjectMapper (~> 2.1.0)
   - Crashlytics
+  - CXSwipeGestureRecognizer (~> 1.0.2)
   - DrawerController (~> 1.1.0)
   - Fabric
   - FXBlurView (~> 1.6.4)
@@ -50,6 +52,7 @@ SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
   Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
+  CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
   DrawerController: 8fd56e6238399a08c4af054fbea0ef8669cd81f3
   Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -64,6 +67,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
-PODFILE CHECKSUM: 71f6dfe90f1108aa89af12c3a1b3581e0fa4bf86
+PODFILE CHECKSUM: cd192aa6bb878f865adf4b2b83b027f00e106dec
 
 COCOAPODS: 1.0.0.beta.3

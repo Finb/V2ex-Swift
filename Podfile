@@ -17,6 +17,7 @@ def pods
     pod 'MJRefresh', '~> 3.1.0'
     pod 'KeychainSwift', '~> 3.0.11'
     pod 'INSImageView', '~> 0.1.5'
+    pod 'CXSwipeGestureRecognizer', '~> 1.0.2'
     pod 'Fabric'
     pod 'Crashlytics'
 end
