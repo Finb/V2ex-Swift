@@ -49,7 +49,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
         SVProgressHUD.setDefaultMaskType(.Clear)
         
-        Fabric.with([Crashlytics.self])
+        /**
+        DEBUG 模式下不统计任何信息，如果你需要使用Crashlytics ，请自行申请账号替换我的Key
+        */
+        #if DEBUG
+        #else
+            Fabric.with([Crashlytics.self])
+        #endif
         return true
     }
     

@@ -42,6 +42,8 @@ class PodsTableViewController: UITableViewController {
         PodModel(name: "MJRefresh", description: "An easy way to use pull-to-refresh.",URL: "https://github.com/CoderMJLee/MJRefresh"),
         
         PodModel(name: "KeychainSwiftAPI", description: "This Keychain Swift API library is a wrapper of iOS C Keychain Framework.",URL: "https://github.com/deniskr/KeychainSwiftAPI"),
+        
+        PodModel(name: "INSImageView", description: "A UIImageView that allows for animations between UIViewContentModes.",URL: "https://github.com/instilio/INSImageView"),
     ]
     
     override func viewDidLoad() {
