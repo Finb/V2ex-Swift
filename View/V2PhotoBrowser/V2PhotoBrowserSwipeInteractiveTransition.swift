@@ -60,7 +60,7 @@ class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransi
     func swipeGestureRecognizerDidFinish(gestureRecognizer: CXSwipeGestureRecognizer!){
         self.dismissing = false
         self.interacting = false
-        if self.shouldComplete || gestureRecognizer.velocityInDirection(gestureRecognizer.currentDirection()) > 800{
+        if self.shouldComplete || gestureRecognizer.velocityInDirection(gestureRecognizer.currentDirection()) > 600{
             self.finishInteractiveTransition()
         }
         else{

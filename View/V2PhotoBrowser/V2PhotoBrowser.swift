@@ -111,10 +111,10 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     }
     
     override func viewDidAppear(animated: Bool) {
-//        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
     }
     override func viewWillDisappear(animated: Bool) {
-//        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
     }
     func dismiss(){
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -191,11 +191,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         }
         return nil
     }
-    
-    func currentPage() ->V2ZoomingScrollView? {
-        
-    }
-    
+
     func reloadData(){
         self.photoCount = NSNotFound
         
