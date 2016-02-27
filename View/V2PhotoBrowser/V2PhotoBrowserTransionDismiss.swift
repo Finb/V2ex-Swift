@@ -78,7 +78,9 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
         }
         
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveLinear, animations: animations, completion: completion)
+        let  options = fromVC.transitionController.interacting ? UIViewAnimationOptions.CurveLinear : UIViewAnimationOptions.CurveEaseInOut
+        
+        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: options, animations: animations, completion: completion)
     }
 
 }
