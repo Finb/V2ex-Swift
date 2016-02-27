@@ -33,10 +33,7 @@ class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransi
     }
     func swipeGestureRecognizerDidUpdate(gestureRecognizer: CXSwipeGestureRecognizer!){
 
-        if gestureRecognizer.currentDirection() == .Downwards || gestureRecognizer.currentDirection() == .Upwards {
-            
-        }
-        else{
+        if (gestureRecognizer.currentDirection() != .Downwards && gestureRecognizer.currentDirection() != .Upwards) || !self.interacting{
             gestureRecognizer.state = .Cancelled
             self.dismissing = false
             self.cancelInteractiveTransition()
