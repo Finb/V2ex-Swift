@@ -23,19 +23,27 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
                 self.displayImage()
             }
             else {
+                self.loadingView.hidden = false
+                self.loadingView.startAnimating()
                 self._photo?.performLoadUnderlyingImageAndNotify()
             }
         }
     }
     
+    private var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+
     weak var photoBrowser:V2PhotoBrowser?
 
     init(browser:V2PhotoBrowser){
         super.init(frame: CGRectZero)
         self.photoImageView.tapDelegate = self
         self.photoImageView.contentMode = .Center
-        self.photoImageView.backgroundColor = UIColor.blackColor()
+        self.photoImageView.backgroundColor = UIColor.clearColor()
         self.addSubview(self.photoImageView)
+        
+        self.addSubview(self.loadingView)
+        self.loadingView.startAnimating()
+        self.loadingView.center = browser.view.center
         
         self.delegate = self
         self.showsHorizontalScrollIndicator = false
@@ -56,6 +64,8 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
     }
     
     func loadingDidEndNotification(notification:NSNotification){
+        self.loadingView.hidden = true
+        self.loadingView.stopAnimating()
         if notification.object as? V2Photo == self.photo , let _ = self._photo?.underlyingImage {
             self.displayImage()
         }
@@ -82,6 +92,8 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             
             self.setMaxMinZoomScalesForCurrentBounds()
             
+            self.loadingView.hidden = true
+            self.loadingView.stopAnimating()
         }
         self.setNeedsLayout()
     }
@@ -189,11 +201,17 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.layoutIfNeeded()
     }
     func singleTap(){
-        if self.zoomScale == self.minimumZoomScale{
-            self.photoBrowser?.dismiss()
-        }
+        self.handelSingleTap()
     }
     func singleTapDetected(imageView: UIImageView, touch: UITouch) {
+        self.handelSingleTap()
+    }
+    func handelSingleTap(){
+        
+        if self.photo?.underlyingImage == nil {
+            self.photoBrowser?.dismiss()
+        }
+        
         // Zoom
         if (self.zoomScale != self.minimumZoomScale && self.zoomScale != self.initialZoomScaleWithMinScale()) {
             

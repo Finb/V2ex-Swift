@@ -103,7 +103,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     override func viewDidLoad() {
         self.transitionController.browser = self
-        self.transitionController.prepareGestureRecognizerInView(self.pagingScrollView)
+        self.transitionController.prepareGestureRecognizerInView(self.view)
     }
     
     func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
@@ -190,6 +190,10 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
             }
         }
         return nil
+    }
+    
+    func currentPage() ->V2ZoomingScrollView? {
+        
     }
     
     func reloadData(){

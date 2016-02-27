@@ -19,8 +19,12 @@ class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransi
     
     var direction:CXSwipeGestureDirection = .None
     
+    var gestureRecognizer = CXSwipeGestureRecognizer()
+    
     func prepareGestureRecognizerInView(view:UIView){
-        let gestureRecognizer = CXSwipeGestureRecognizer()
+        
+        gestureRecognizer.view?.removeGestureRecognizer(gestureRecognizer)
+        
         gestureRecognizer.delegate = self
         view.addGestureRecognizer(gestureRecognizer)
     }
@@ -56,7 +60,7 @@ class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransi
     func swipeGestureRecognizerDidFinish(gestureRecognizer: CXSwipeGestureRecognizer!){
         self.dismissing = false
         self.interacting = false
-        if self.shouldComplete || gestureRecognizer.velocityInDirection(gestureRecognizer.currentDirection()) > 1000{
+        if self.shouldComplete || gestureRecognizer.velocityInDirection(gestureRecognizer.currentDirection()) > 800{
             self.finishInteractiveTransition()
         }
         else{
