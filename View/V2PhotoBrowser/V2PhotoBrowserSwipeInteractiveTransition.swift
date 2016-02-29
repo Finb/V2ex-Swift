@@ -35,8 +35,7 @@ class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransi
 
         if (gestureRecognizer.currentDirection() != .Downwards && gestureRecognizer.currentDirection() != .Upwards) || !self.interacting{
             gestureRecognizer.state = .Cancelled
-            self.dismissing = false
-            self.cancelInteractiveTransition()
+            self.cancel()
             return
         }
         
@@ -61,9 +60,15 @@ class V2PhotoBrowserSwipeInteractiveTransition: UIPercentDrivenInteractiveTransi
             self.finishInteractiveTransition()
         }
         else{
-            self.cancelInteractiveTransition()
-            self.direction = .None
+            self.cancel()
         }
         
+    }
+    
+    func cancel(){
+        self.dismissing = false
+        self.interacting = false
+        self.direction = .None
+        self.cancelInteractiveTransition()
     }
 }
