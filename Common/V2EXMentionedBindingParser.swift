@@ -33,7 +33,7 @@ class V2EXMentionedBindingParser: NSObject ,YYTextParser{
                 let binding = YYTextBinding()
                 binding.deleteConfirm = true ;
                 text.yy_setTextBinding(binding, range: bindlingRange)
-                text.yy_setColor(UIColor(colorLiteralRed: 0, green: 0.519, blue: 1, alpha: 1), range: bindlingRange)
+                text.yy_setColor(colorWith255RGB(0, g: 132, b: 255), range: bindlingRange)
             }
         }
         return false;

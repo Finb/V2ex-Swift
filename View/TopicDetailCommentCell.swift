@@ -185,7 +185,7 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
         return .Center
     }
     func guideFrameInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
-                if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+        if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
             return image .convertRect(image.bounds, toView: UIApplication.sharedApplication().keyWindow!)
         }
         return CGRectZero
