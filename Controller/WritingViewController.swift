@@ -80,6 +80,10 @@ class ReplyingViewController:WritingViewController {
     }
     
     override func rightClick (){
+        if self.textView?.text == nil || self.textView?.text.Lenght <= 0 {
+            return;
+        }
+        
         SVProgressHUD.show()
         TopicCommentModel.replyWithTopicId(self.topicModel!, content: self.textView!.text ) {
             (response) in

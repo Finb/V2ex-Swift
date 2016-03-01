@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import YYText
 
 class HomeTopicListTableViewCell: UITableViewCell {
     //? 为什么用这个圆角图片，而不用layer.cornerRadius
@@ -38,12 +39,12 @@ class HomeTopicListTableViewCell: UITableViewCell {
     var nodeNameLabel: UILabel?
     var nodeBackgroundImageView:UIImageView?
     /// 帖子标题
-    var topicTitleLabel: UILabel?
+    var topicTitleLabel: YYLabel?
     
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView?
     
-    weak var itemModel:TopicListModel?
+    var itemModel:TopicListModel?
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -126,26 +127,24 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.right.equalTo(self.nodeNameLabel!).offset(5)
         }
         
-        self.topicTitleLabel=V2SpacingLabel();
+        self.topicTitleLabel = YYLabel();
+        self.topicTitleLabel!.textVerticalAlignment = .Top
         self.topicTitleLabel!.font=v2Font(18);
+        self.topicTitleLabel!.displaysAsynchronously = true
         self.topicTitleLabel!.numberOfLines=0;
-        self.topicTitleLabel!.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
         self.contentPanel?.addSubview(self.topicTitleLabel!);
         self.topicTitleLabel!.snp_makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView!.snp_bottom).offset(12);
             make.left.equalTo(self.avatarImageView!);
             make.right.equalTo(self.contentPanel!).offset(-12);
+            make.bottom.equalTo(self.contentView).offset(-8)
         }
         
         
         self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.topicTitleLabel!.snp_bottom).offset(12);
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-8);
         }
         
-        self.contentView.snp_makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel!).offset(8);
-        }
         
         
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
@@ -196,36 +195,35 @@ class HomeTopicListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func bind(model:TopicListModel){
-        
-        self.itemModel = model
-        
+    func superBind(model:TopicListModel){
         self.userNameLabel?.text = model.userName;
-        self.dateAndLastPostUserLabel?.text = model.date
-        self.topicTitleLabel?.text = model.topicTitle;
-        
+        if let layout = model.topicTitleLayout {
+            //如果新旧model标题相同,则不需要赋值
+            //不然layout需要重新绘制，会造成刷新闪烁
+            if layout.text.string == self.itemModel?.topicTitleLayout?.text.string {
+                return
+            }
+            else{
+                self.topicTitleLabel?.textLayout = layout
+            }
+        }
         if let avata = model.avata {
             self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
-        
         self.replyCountLabel?.text = model.replies;
+        
+        self.itemModel = model
+    }
+    
+    func bind(model:TopicListModel){
+        self.superBind(model)
+        self.dateAndLastPostUserLabel?.text = model.date
         self.nodeNameLabel!.text = model.nodeName
-
     }
     
     func bindNodeModel(model:TopicListModel){
-        
-        self.itemModel = model
-        
-        self.userNameLabel?.text = model.userName;
+        self.superBind(model)
         self.dateAndLastPostUserLabel?.text = model.hits
-        self.topicTitleLabel?.text = model.topicTitle;
         self.nodeBackgroundImageView!.hidden = true
-        if let avata = model.avata {
-            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
-        }
-        
-        self.replyCountLabel?.text = model.replies;
-        
     }
 }

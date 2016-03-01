@@ -14,6 +14,8 @@ class V2RefreshFooter: MJRefreshAutoFooter {
     var loadingView:UIActivityIndicatorView?
     var stateLabel:UILabel?
     
+    var centerOffset:CGFloat = 0
+    
     private var _noMoreDataStateString:String?
     var noMoreDataStateString:String? {
         get{
@@ -31,6 +33,7 @@ class V2RefreshFooter: MJRefreshAutoFooter {
             case .Idle:
                 self.stateLabel?.text = nil
                 self.loadingView?.hidden = true
+                self.loadingView?.stopAnimating()
             case .Refreshing:
                 self.stateLabel?.text = nil
                 self.loadingView?.hidden = false
@@ -38,6 +41,7 @@ class V2RefreshFooter: MJRefreshAutoFooter {
             case .NoMoreData:
                 self.stateLabel?.text = self.noMoreDataStateString
                 self.loadingView?.hidden = true
+                self.loadingView?.stopAnimating()
             default:break
             }
         }
@@ -56,15 +60,16 @@ class V2RefreshFooter: MJRefreshAutoFooter {
         self.stateLabel = UILabel(frame: CGRectMake(0, 0, 300, 40))
         self.stateLabel?.textAlignment = .Center
         self.stateLabel!.font = v2Font(12)
-        self.stateLabel!.textColor = UIColor(white: 0, alpha: 0.3)
         self.addSubview(self.stateLabel!)
         
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.loadingView?.activityIndicatorViewStyle = .Gray
+                self?.stateLabel!.textColor = UIColor(white: 0, alpha: 0.3)
             }
             else{
                 self?.loadingView?.activityIndicatorViewStyle = .White
+                self?.stateLabel!.textColor = UIColor(white: 1, alpha: 0.3)
             }
         }
         
@@ -75,8 +80,8 @@ class V2RefreshFooter: MJRefreshAutoFooter {
      */
     override func placeSubviews(){
         super.placeSubviews()
-        self.loadingView!.center = CGPointMake(self.mj_w/2, self.mj_h/2);
-        self.stateLabel!.center = CGPointMake(self.mj_w/2, self.mj_h/2);
+        self.loadingView!.center = CGPointMake(self.mj_w/2, self.mj_h/2 + self.centerOffset);
+        self.stateLabel!.center = CGPointMake(self.mj_w/2, self.mj_h/2  + self.centerOffset);
     }
 
 }

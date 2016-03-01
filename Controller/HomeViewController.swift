@@ -30,7 +30,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             }
             _tableView = UITableView();
 
-            _tableView.estimatedRowHeight=100;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
             regClass(_tableView, cell: HomeTopicListTableViewCell.self);
@@ -67,9 +66,11 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         })
         self.refreshPage()
         
-        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
+        let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
         })
+        footer.centerOffset = -4
+        self.tableView.mj_footer = footer
         
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
@@ -115,7 +116,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             if response.success {
                 
                 self.topicList = response.value
-                self.tableView.fin_reloadData()
+                self.tableView.reloadData()
                 
                 //判断标签是否能加载下一页, 不能就提示下
                 let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
@@ -149,7 +150,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             if response.success {
                 if response.value?.count > 0 {
                     self.topicList! += response.value!
-                    self.tableView.fin_reloadData()
+                    self.tableView.reloadData()
                 }
             }
             else{
@@ -181,13 +182,11 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var height = tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
-            cell.bind(self.topicList![indexPath.row]);
-        }
-        //最后一个cell 不需要下面的间隔
-        if indexPath.row == self.tableView(tableView, numberOfRowsInSection: indexPath.section) - 1 {
-            height -= 8
-        }
+        let item = self.topicList![indexPath.row]
+        let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
+        //          上间隔   头像高度  头像下间隔       标题高度    标题下间隔 cell间隔
+        let height = 12    +  35     +  12      + titleHeight   + 12      + 8
+
         return height
     }
     

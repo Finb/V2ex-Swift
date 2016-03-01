@@ -19,6 +19,7 @@ class V2RefreshHeader: MJRefreshHeader {
             case .Idle:
                 self.loadingView?.hidden = true
                 self.arrowImage?.hidden = false
+                self.loadingView?.stopAnimating()
             case .Pulling:
                 self.loadingView?.hidden = false
                 self.arrowImage?.hidden = true

@@ -12,29 +12,37 @@ import ObjectMapper
 import Alamofire
 
 import Ji
+import YYText
+import KVOController
 
-class TopicListModel {
+class TopicListModel:NSObject {
     var topicId: String?
     var avata: String?
     var nodeName: String?
     var userName: String?
     var topicTitle: String?
+    var topicTitleAttributedString: NSMutableAttributedString?
+    var topicTitleLayout: YYTextLayout?
+    
     var date: String?
     var lastReplyUserName: String?
     var replies: String?
     
     var hits: String?
     
-    init() {
+    override init() {
         
     }
     init(rootNode: JiNode) {
+        super.init()
+        
         self.avata = rootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
         self.nodeName = rootNode.xPath("./table/tr/td[3]/span[1]/a[1]").first?.content
         self.userName = rootNode.xPath("./table/tr/td[3]/span[1]/strong[1]/a[1]").first?.content
         
         let node = rootNode.xPath("./table/tr/td[3]/span[2]/a[1]").first
         self.topicTitle = node?.content
+        self.setupTitleLayout()
         
         var topicIdUrl = node?["href"];
         
@@ -66,12 +74,14 @@ class TopicListModel {
 
     }
     init(favoritesRootNode:JiNode) {
+        super.init()
         self.avata = favoritesRootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
         self.nodeName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/a[1]").first?.content
         self.userName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/strong[1]/a").first?.content
         
         let node = favoritesRootNode.xPath("./table/tr/td[3]/span/a[1]").first
         self.topicTitle = node?.content
+        self.setupTitleLayout()
         
         var topicIdUrl = node?["href"];
         
@@ -101,11 +111,13 @@ class TopicListModel {
     }
     
     init(nodeRootNode:JiNode) {
+        super.init()
         self.avata = nodeRootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
         self.userName = nodeRootNode.xPath("./table/tr/td[3]/span[2]/strong").first?.content
         
         let node = nodeRootNode.xPath("./table/tr/td[3]/span/a[1]").first
         self.topicTitle = node?.content
+        self.setupTitleLayout()
         
         var topicIdUrl = node?["href"];
         
@@ -131,6 +143,25 @@ class TopicListModel {
             replies = reply.content
         }
         self.replies  = replies
+    }
+    
+    func setupTitleLayout(){
+        if let title = self.topicTitle {
+            self.topicTitleAttributedString = NSMutableAttributedString(string: title,
+                attributes: [
+                    NSFontAttributeName:v2Font(18),
+                    NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor,
+                ])
+            self.topicTitleAttributedString?.yy_lineSpacing = 3
+            
+            //监听颜色配置文件变化，当有变化时，改变自身颜色
+            self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New], block: {[weak self] (_, _, _) -> Void in
+                if let str = self?.topicTitleAttributedString {
+                    str.yy_color = V2EXColor.colors.v2_TopicListTitleColor
+                    self?.topicTitleLayout = YYTextLayout(containerSize: CGSizeMake(SCREEN_WIDTH-24, 9999), text: self?.topicTitleAttributedString)
+                }
+                })
+        }
     }
     
     /**

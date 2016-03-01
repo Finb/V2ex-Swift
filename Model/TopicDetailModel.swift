@@ -196,7 +196,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         self.preformAttributedString(commentAttributedString, nodes: nodes)
         
-        let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, SCREEN_HEIGHT))
+        let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, 9999))
         self.textLayout = YYTextLayout(container: textContainer, text: commentAttributedString)
     }
     func preformAttributedString(commentAttributedString:NSMutableAttributedString,nodes:[JiNode]) {

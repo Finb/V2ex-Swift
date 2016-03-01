@@ -22,7 +22,6 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             }
             _tableView = UITableView();
             _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-            _tableView.estimatedRowHeight=200;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
             regClass(_tableView, cell: HomeTopicListTableViewCell.self)
@@ -54,9 +53,11 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             })
         self.tableView.mj_header.beginRefreshing()
         
-        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
+        let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
-        })
+            })
+        footer.centerOffset = -4
+        self.tableView.mj_footer = footer
         
     }
     func refresh(){
@@ -74,7 +75,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             if response.success {
                 if let weakSelf = self {
                     weakSelf.topicList = response.value
-                    weakSelf.tableView.fin_reloadData()
+                    weakSelf.tableView.reloadData()
                 }
             }
             self?.tableView.mj_header.endRefreshing()
@@ -97,7 +98,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             if response.success {
                 if let weakSelf = self , value = response.value  {
                     weakSelf.topicList! += value
-                    weakSelf.tableView.fin_reloadData()
+                    weakSelf.tableView.reloadData()
                 }
                 else{
                     self?.currentPage-- ;
@@ -115,9 +116,11 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
-            cell.bindNodeModel(self.topicList![indexPath.row]);
-        }
+        let item = self.topicList![indexPath.row]
+        let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
+        //          上间隔   头像高度  头像下间隔       标题高度    标题下间隔 cell间隔
+        let height = 12    +  35     +  12      + titleHeight   + 12      + 8
+        return height
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
