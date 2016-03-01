@@ -84,6 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-V2ex-Swift/OnePasswordExtension.framework"
   install_framework "Pods-V2ex-Swift/Alamofire.framework"
   install_framework "Pods-V2ex-Swift/AlamofireObjectMapper.framework"
   install_framework "Pods-V2ex-Swift/CXSwipeGestureRecognizer.framework"
@@ -101,6 +102,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-V2ex-Swift/YYText.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-V2ex-Swift/OnePasswordExtension.framework"
   install_framework "Pods-V2ex-Swift/Alamofire.framework"
   install_framework "Pods-V2ex-Swift/AlamofireObjectMapper.framework"
   install_framework "Pods-V2ex-Swift/CXSwipeGestureRecognizer.framework"

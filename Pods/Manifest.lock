@@ -1,4 +1,5 @@
 PODS:
+  - 1PasswordExtension (1.8)
   - Alamofire (3.1.4)
   - AlamofireObjectMapper (2.1.0):
     - Alamofire (~> 3.1.0)
@@ -30,6 +31,7 @@ PODS:
   - YYText (0.9.18)
 
 DEPENDENCIES:
+  - 1PasswordExtension (~> 1.8)
   - Alamofire (~> 3.1.4)
   - AlamofireObjectMapper (~> 2.1.0)
   - Crashlytics
@@ -49,6 +51,7 @@ DEPENDENCIES:
   - YYText (~> 0.9.18)
 
 SPEC CHECKSUMS:
+  1PasswordExtension: 627d5aecf210c7636968faf5a4c3546c9531385b
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
   Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
@@ -67,6 +70,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: f098883789a7336ff3e13653ba7c7cb1a07ca560
 
-PODFILE CHECKSUM: cd192aa6bb878f865adf4b2b83b027f00e106dec
+PODFILE CHECKSUM: dcc5976ca49cf9a10c7a469c9dc48b8bf0c1684c
 
 COCOAPODS: 1.0.0.beta.3
