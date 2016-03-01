@@ -82,6 +82,7 @@
 		06E145A81C60C23300BDD63D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E145A71C60C23300BDD63D /* BaseViewController.swift */; };
 		06E1BA331C7023D900867454 /* V2WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E1BA321C7023D900867454 /* V2WebViewViewController.swift */; };
 		06E1BA371C70280D00867454 /* V2WebViewProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E1BA361C70280D00867454 /* V2WebViewProgressView.swift */; };
+		06E2E0821C8526A000D56116 /* V2RefreshFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E2E0811C8526A000D56116 /* V2RefreshFooter.swift */; };
 		06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B74A1C5C76190056A673 /* MoreViewController.swift */; };
 		06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */; };
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
@@ -168,6 +169,7 @@
 		06E145A71C60C23300BDD63D /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		06E1BA321C7023D900867454 /* V2WebViewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2WebViewViewController.swift; sourceTree = "<group>"; };
 		06E1BA361C70280D00867454 /* V2WebViewProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2WebViewProgressView.swift; sourceTree = "<group>"; };
+		06E2E0811C8526A000D56116 /* V2RefreshFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshFooter.swift; sourceTree = "<group>"; };
 		06E4B74A1C5C76190056A673 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				06C49B6F1C43C11700684CA6 /* V2SpacingLabel.swift */,
 				060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */,
 				063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */,
+				06E2E0811C8526A000D56116 /* V2RefreshFooter.swift */,
 				06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */,
 				0684A1E71C5B58D600B12437 /* UIButton+Extension.swift */,
 				0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */,
@@ -618,6 +621,7 @@
 				06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */,
 				0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */,
 				06A490681C67018E00F6A063 /* MyCenterViewController.swift in Sources */,
+				06E2E0821C8526A000D56116 /* V2RefreshFooter.swift in Sources */,
 				063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */,
 				063671721C7AF44300B72D9F /* V2ZoomingScrollView.swift in Sources */,
 				063671741C7AF45B00B72D9F /* V2PhotoBrowser.swift in Sources */,

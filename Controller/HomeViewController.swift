@@ -20,6 +20,7 @@ let kHomeTab = "me.fin.homeTab"
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var topicList:Array<TopicListModel>?
     var tab:String? = nil
+    var currentPage = 0
     
     private var _tableView :UITableView!
     private var tableView: UITableView {
@@ -40,7 +41,6 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             
         }
     }
-//    var leftSideView:
     override func viewWillAppear(animated: Bool) {
         V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .PanningCenterView
     }
@@ -66,6 +66,10 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
             self?.refresh()
         })
         self.refreshPage()
+        
+        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
+            self?.getNextPage()
+        })
         
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
@@ -100,18 +104,56 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     func refresh(){
         //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(tab){
-            [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
-            if let weakSelf = self {
-                if response.success {
-                    
-                    weakSelf.topicList = response.value
-                    weakSelf.tableView.fin_reloadData()
-                    
+            (response:V2ValueResponse<[TopicListModel]>) -> Void in
+            
+            if response.success {
+                
+                self.topicList = response.value
+                self.tableView.fin_reloadData()
+                
+                //判断标签是否能加载下一页, 不能就提示下
+                let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
+                if self.tab == nil || self.tab == "all" {
+                    refreshFooter.noMoreDataStateString = nil
+                    refreshFooter.resetNoMoreData()
                 }
-                weakSelf.tableView.mj_header.endRefreshing()
+                else{
+                    refreshFooter.noMoreDataStateString = "没更多帖子了,只有【\(NSLocalizedString("all"))】标签能翻页"
+                    refreshFooter.endRefreshingWithNoMoreData()
+                }
+                
+                //重置page
+                self.currentPage = 0
+                
             }
+            self.tableView.mj_header.endRefreshing()
         }
     }
+    
+    func getNextPage(){
+        if self.topicList == nil || self.topicList?.count <= 0{
+            self.tableView.mj_footer.endRefreshing()
+            return;
+        }
+        //根据 tab name 获取帖子列表
+        self.currentPage++
+        TopicListModel.getTopicList(tab,page: self.currentPage){
+            (response:V2ValueResponse<[TopicListModel]>) -> Void in
+            
+            if response.success {
+                if response.value?.count > 0 {
+                    self.topicList! += response.value!
+                    self.tableView.fin_reloadData()
+                }
+            }
+            else{
+                //加载失败，重置page
+                self.currentPage--
+            }
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+    
     static var lastLeaveTime = NSDate()
     func applicationWillEnterForeground(){
         //计算上次离开的时间与当前时间差
@@ -133,9 +175,14 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
+        var height = tableView.fin_heightForCellWithIdentifier(HomeTopicListTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
             cell.bind(self.topicList![indexPath.row]);
         }
+        //最后一个cell 不需要下面的间隔
+        if indexPath.row == self.tableView(tableView, numberOfRowsInSection: indexPath.section) - 1 {
+            height -= 8
+        }
+        return height
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

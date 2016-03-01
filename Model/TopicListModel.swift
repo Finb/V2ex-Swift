@@ -140,6 +140,7 @@ class TopicListModel {
      */
     class func getTopicList(
         tab: String? = nil ,
+        page:Int = 0 ,
         completionHandler: V2ValueResponse<[TopicListModel]> -> Void
         )->Void{
             
@@ -148,11 +149,17 @@ class TopicListModel {
                 params["tab"]=tab
             }
             else {
-                params["tab"] = "hot"
+                params["tab"] = "all"
             }
             
+            var url = V2EXURL
+            if params["tab"] == "all" && page > 0 {
+                params.removeAll()
+                params["p"] = "\(page)"
+                url = V2EXURL + "recent"
+            }
             
-            Alamofire.request(.GET, V2EXURL, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+            Alamofire.request(.GET, url, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                 var resultArray:[TopicListModel] = []
                 if  let jiHtml = response.result.value{
                     if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
