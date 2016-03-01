@@ -8,6 +8,8 @@
 
 import UIKit
 import SVProgressHUD
+import OnePasswordExtension
+
 public typealias LoginSuccessHandel = (String) -> Void
 
 class LoginViewController: UIViewController {
@@ -101,6 +103,18 @@ class LoginViewController: UIViewController {
         userNameIconImageView.tintColor = UIColor.whiteColor()
         self.passwordTextField!.leftView = passwordIconImageView
         self.passwordTextField!.leftViewMode = .Always
+        
+        if OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
+            let onepasswordButton = UIImageView(image: UIImage(named: "onepassword-button")?.imageWithRenderingMode(.AlwaysTemplate))
+            onepasswordButton.userInteractionEnabled = true
+            onepasswordButton.frame = CGRectMake(0, 0, 34, 22)
+            onepasswordButton.contentMode = .ScaleAspectFit
+            onepasswordButton.tintColor = UIColor.whiteColor()
+            self.passwordTextField!.rightView = onepasswordButton
+            self.passwordTextField!.rightViewMode = .Always
+            
+            onepasswordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "findLoginFrom1Password"))
+        }
 
         
         vibrancyView.contentView.addSubview(self.passwordTextField!);
@@ -165,6 +179,17 @@ class LoginViewController: UIViewController {
         
         cancelButton.addTarget(self, action: Selector("cancelClick"), forControlEvents: .TouchUpInside)
 
+    }
+    func findLoginFrom1Password(){
+        OnePasswordExtension.sharedExtension().findLoginForURLString("v2ex.com", forViewController: self, sender: nil) { (loginDictionary, errpr) -> Void in
+            if loginDictionary?.count > 0 {
+                self.userNameTextField?.text = loginDictionary![AppExtensionUsernameKey] as? String
+                self.passwordTextField?.text = loginDictionary![AppExtensionPasswordKey] as? String
+                
+                //密码赋值后，点确认按钮
+                self.loginClick(self.loginButton!)
+            }
+        }
     }
     func cancelClick (){
         self.dismissViewControllerAnimated(true, completion: nil)
