@@ -56,6 +56,8 @@ protocol V2EXColorProtocol{
     
     /// 小红点背景颜色
     var v2_NoticePointColor : UIColor { get }
+    
+    var v2_ButtonBackgroundColor : UIColor { get }
 }
 
 class V2EXDefaultColor: NSObject,V2EXColorProtocol {
@@ -139,6 +141,11 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
             return colorWith255RGB(207, g: 70, b: 71)
         }
     }
+    var v2_ButtonBackgroundColor : UIColor {
+        get {
+            return colorWith255RGB(80, g: 97, b: 109)
+        }
+    }
 }
 
 
@@ -220,6 +227,11 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
     }
     
     var v2_NoticePointColor : UIColor {
+        get {
+            return colorWith255RGB(207, g: 70, b: 71)
+        }
+    }
+    var v2_ButtonBackgroundColor : UIColor {
         get {
             return colorWith255RGB(207, g: 70, b: 71)
         }
