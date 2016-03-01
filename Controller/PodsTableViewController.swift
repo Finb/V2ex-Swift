@@ -44,6 +44,8 @@ class PodsTableViewController: UITableViewController {
         PodModel(name: "KeychainSwiftAPI", description: "This Keychain Swift API library is a wrapper of iOS C Keychain Framework.",URL: "https://github.com/deniskr/KeychainSwiftAPI"),
         
         PodModel(name: "INSImageView", description: "A UIImageView that allows for animations between UIViewContentModes.",URL: "https://github.com/instilio/INSImageView"),
+        
+        PodModel(name: "CXSwipeGestureRecognizer", description: "UIPanGestureRecognizer subclass that takes much of the effort out of recognizing directional swipes.",URL: "https://github.com/dclelland/CXSwipeGestureRecognizer"),
     ]
     
     override func viewDidLoad() {

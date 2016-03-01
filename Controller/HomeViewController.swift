@@ -102,6 +102,12 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         V2EXSettings.sharedInstance[kHomeTab] = tab
     }
     func refresh(){
+        
+        //如果有上拉加载更多 正在执行，则取消它
+        if self.tableView.mj_footer.isRefreshing() {
+            self.tableView.mj_footer.endRefreshing()
+        }
+        
         //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(tab){
             (response:V2ValueResponse<[TopicListModel]>) -> Void in

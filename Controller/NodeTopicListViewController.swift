@@ -12,6 +12,8 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
     var node:NodeModel?
     
     private var topicList:Array<TopicListModel>?
+    var currentPage = 1
+    
     private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
@@ -52,10 +54,22 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             })
         self.tableView.mj_header.beginRefreshing()
         
+        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
+            self?.getNextPage()
+        })
+        
     }
     func refresh(){
+
+        self.currentPage = 1
+        
+        //如果有上拉加载更多 正在执行，则取消它
+        if self.tableView.mj_footer.isRefreshing() {
+            self.tableView.mj_footer.endRefreshing()
+        }
+        
         //根据 tab name 获取帖子列表
-        TopicListModel.getTopicList(self.node!.nodeId!, page: 1){
+        TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
             [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
             if response.success {
                 if let weakSelf = self {
@@ -66,6 +80,30 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             self?.tableView.mj_header.endRefreshing()
             
             self?.hideLoadingView()
+        }
+    }
+    
+    func getNextPage(){
+        
+        if self.topicList == nil || self.topicList?.count <= 0{
+            self.tableView.mj_footer.endRefreshing()
+            return;
+        }
+        
+        self.currentPage++
+
+        TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
+            [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
+            if response.success {
+                if let weakSelf = self , value = response.value  {
+                    weakSelf.topicList! += value
+                    weakSelf.tableView.fin_reloadData()
+                }
+                else{
+                    self?.currentPage-- ;
+                }
+            }
+            self?.tableView.mj_footer.endRefreshing()
         }
     }
     
