@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+import YYText
 
 class V2EXNavigationController: UINavigationController {
     
@@ -75,10 +75,20 @@ class V2EXNavigationController: UINavigationController {
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.frostedView!.barStyle = .Default
                 UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
+                
+                //全局键盘颜色
+                UITextView.appearance().keyboardAppearance = .Light
+                UITextField.appearance().keyboardAppearance = .Light
+                YYTextView.appearance().keyboardAppearance = .Light
+                
             }
             else{
                 self?.frostedView!.barStyle = .Black
                 UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true);
+                
+                UITextView.appearance().keyboardAppearance = .Dark
+                UITextField.appearance().keyboardAppearance = .Dark
+                YYTextView.appearance().keyboardAppearance = .Dark
             }
         }
     }
