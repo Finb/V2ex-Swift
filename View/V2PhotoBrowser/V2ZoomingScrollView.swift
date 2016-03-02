@@ -54,6 +54,9 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.photoBrowser = browser
         
     }
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.singleTap()
         self.nextResponder()?.touchesEnded(touches, withEvent: event)
