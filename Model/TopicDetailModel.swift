@@ -29,6 +29,8 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     var topicCommentTotalCount: String?
     
     var token:String?
+
+    var totalPages:Int = 1
     
     override init() {
         
@@ -70,33 +72,62 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
             Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                 var topicModel: TopicDetailModel? = nil
                 var topicCommentsArray : [TopicCommentModel] = []
-                    if  let jiHtml = response.result.value {
-                        //获取帖子内容
-                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
-                            topicModel = TopicDetailModel(rootNode: aRootNode);
-                            topicModel?.topicId = topicId
-                        }
-                        
-                        //获取评论
-                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
-                            for aNode in aRootNode {
-                                topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
-                            }
-                        }
-                        //获取评论总数
-                        if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div/div[3]/div[1]/span") {
-                            topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
-                        }
-                        
-                        //更新通知数量
-                        V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                if  let jiHtml = response.result.value {
+                    //获取帖子内容
+                    if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]")?.first{
+                        topicModel = TopicDetailModel(rootNode: aRootNode);
+                        topicModel?.topicId = topicId
                     }
-
+                    
+                    //获取评论
+                    if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
+                        for aNode in aRootNode {
+                            topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
+                        }
+                    }
+                    
+                    //获取评论总数
+                    if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div/div[3]/div[1]/span") {
+                        topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
+                    }
+                    
+                    //获取页数总数
+                    if let commentTotalPages = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[last()]/a[last()]")?.first?.content {
+                        if let pages = Int(commentTotalPages) {
+                            topicModel?.totalPages = pages
+                        }
+                    }
+                    
+                    //更新通知数量
+                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                }
+                
                 let t = V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
                 
                 completionHandler(t);
             }
-            
+    }
+    
+    class func getTopicCommentsById(
+        topicId: String,
+        page:Int,
+        completionHandler: V2ValueResponse<[TopicCommentModel]> -> Void
+        ) {
+            let url = V2EXURL + "t/" + topicId + "?p=\(page)"
+            Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+                var topicCommentsArray : [TopicCommentModel] = []
+                if  let jiHtml = response.result.value {
+                    //获取评论
+                    if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
+                        for aNode in aRootNode {
+                            topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
+                        }
+                    }
+                    
+                }
+                let t = V2ValueResponse(value: topicCommentsArray, success: response.result.isSuccess)
+                completionHandler(t);
+            }
     }
 }
 protocol V2CommentAttachmentImageTapDelegate : class {

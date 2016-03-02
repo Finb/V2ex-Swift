@@ -138,16 +138,22 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
         }
     }
     func bind(model:TopicCommentModel){
-        self.itemModel = model
+        
         
         self.userNameLabel?.text = model.userName;
         self.dateLabel?.text = model.date
-        if let layout = model.textLayout {
-            self.commentLabel?.textLayout = layout
-            if layout.attachments != nil {
-                for attachment in layout.attachments {
-                    if let attachment = attachment as? YYTextAttachment ,  let image = attachment.content as? V2CommentAttachmentImage{
-                        image.delegate = self
+
+        
+        if model != self.itemModel {
+            //如果新旧model相同,则不需要赋值
+            //不然layout需要重新绘制，会造成刷新闪烁
+            if let layout = model.textLayout {
+                self.commentLabel?.textLayout = layout
+                if layout.attachments != nil {
+                    for attachment in layout.attachments {
+                        if let attachment = attachment as? YYTextAttachment ,  let image = attachment.content as? V2CommentAttachmentImage{
+                            image.delegate = self
+                        }
                     }
                 }
             }
@@ -159,6 +165,8 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
         
         self.favoriteIconView!.hidden = model.favorites <= 0
         self.favoriteLabel!.text = model.favorites <= 0 ? "" : "\(model.favorites)"
+        
+        self.itemModel = model
     }
     
     /**

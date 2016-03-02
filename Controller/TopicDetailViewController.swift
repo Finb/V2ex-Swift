@@ -11,6 +11,8 @@ import SVProgressHUD
 class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate{
 
     var topicId = "0"
+    var currentPage = 1
+
     private var model:TopicDetailModel?
     private var commentsArray:[TopicCommentModel] = []
     private var webViewContentCell:TopicDetailWebViewContentCell?
@@ -22,7 +24,6 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.estimatedRowHeight=200;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
             _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
@@ -62,15 +63,18 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                 
                 if let aModel = response.value!.0{
                     self.model = aModel
-                    self.tableView.fin_reloadData()
                 }
                 
                 self.commentsArray = response.value!.1
                 
-                self.tableView.fin_reloadData()
+                self.tableView.reloadData()
             }
             self.hideLoadingView()
         }
+        
+        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
+            self?.getNextPage()
+        })
         
         self.showLoadingView()
     }
@@ -82,6 +86,40 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
             let nav = V2EXNavigationController(rootViewController:replyViewController)
             self.navigationController?.presentViewController(nav, animated: true, completion:nil)
         }
+    }
+    
+    func getNextPage(){
+        if self.model == nil || self.commentsArray.count <= 0 {
+            self.endRefreshingWithNoMoreData("暂无评论")
+            return;
+        }
+        self.currentPage++
+        
+        if self.currentPage > self.model?.totalPages {
+            self.endRefreshingWithNoMoreData("没有更多评论了")
+            return;
+        }
+        
+        TopicDetailModel.getTopicCommentsById(self.topicId, page: self.currentPage) { (response) -> Void in
+            if response.success {
+                self.commentsArray += response.value!
+                self.tableView.reloadData()
+                self.tableView.mj_footer.endRefreshing()
+                
+                if self.currentPage == self.model?.totalPages {
+                    self.endRefreshingWithNoMoreData("没有更多评论了")
+                }
+                
+            }
+            else{
+                self.currentPage--
+            }
+        }
+    }
+    
+    func endRefreshingWithNoMoreData(noMoreString:String){
+        (self.tableView.mj_footer as! V2RefreshFooter).noMoreDataStateString = noMoreString
+        self.tableView.mj_footer.endRefreshingWithNoMoreData()
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
