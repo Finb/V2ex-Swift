@@ -134,7 +134,7 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
         if let _ = self.itemModel , username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
-            V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+            V2Client.sharedInstance.topNavigationController.pushViewController(memberViewController, animated: true)
         }
     }
     func bind(model:TopicCommentModel){
@@ -175,7 +175,7 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
     func V2CommentAttachmentImageSingleTap(imageView: V2CommentAttachmentImage) {
         let photoBrowser = V2PhotoBrowser(delegate: self)
         photoBrowser.currentPageIndex = imageView.index
-        V2Client.sharedInstance.centerNavigation!.presentViewController(photoBrowser, animated: true, completion: nil)
+        V2Client.sharedInstance.topNavigationController.presentViewController(photoBrowser, animated: true, completion: nil)
     }
     
     //MARK V2PhotoBrowser Delegate

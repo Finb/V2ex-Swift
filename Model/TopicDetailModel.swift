@@ -362,10 +362,10 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 }
             }
         }
-        //只有自己 还查看个毛线对话
-        if users.count <= 1 {
-            return []
-        }
+//        //只有自己 还查看个毛线对话
+//        if users.count <= 1 {
+//            return []
+//        }
 
         for comment in allCommentsArray {
             if let username = comment.userName {

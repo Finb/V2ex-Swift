@@ -88,16 +88,16 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     }
     
     override func viewWillAppear(animated: Bool) {
-        V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = 0
+        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 0
         self.dealNavigationBarTintColor()
-        V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = self.tableView.contentOffset.y / 100
+        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y / 100
     }
     override func viewWillDisappear(animated: Bool) {
-        V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = 1
+        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 1
         self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
     }
     override func viewDidDisappear(animated: Bool) {
-        V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = 1
+        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 1
         self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
     }
     
@@ -257,7 +257,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     }
     
     func dealNavigationAlpha(){
-        V2Client.sharedInstance.centerNavigation?.navigationBarAlpha = self.tableView.contentOffset.y/100
+        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y/100
     }
     
     func dealNavigationBarTintColor(){

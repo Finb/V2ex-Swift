@@ -281,8 +281,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
             if relevantComments.count <= 0 {
                 return;
             }
-            let controller = RelevantCommentsViewController()
-            controller.commentsArray = relevantComments
+            let controller = RelevantCommentsNav(comments: relevantComments)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         default :
             break

@@ -19,6 +19,22 @@ class V2Client: NSObject {
     var centerViewController : HomeViewController? = nil
     var centerNavigation : V2EXNavigationController? = nil
     
+    // 当前程序中，最上层的 NavigationController
+    var topNavigationController : UINavigationController {
+        get{
+            return V2Client.getTopNavigationController(V2Client.sharedInstance.centerNavigation!)
+        }
+    }
+    
+    private class func getTopNavigationController(currentNavigationController:UINavigationController) -> UINavigationController {
+        if let topNav = currentNavigationController.visibleViewController?.navigationController{
+            if topNav != currentNavigationController && topNav.isKindOfClass(UINavigationController.self){
+                return getTopNavigationController(topNav)
+            }
+        }
+        return currentNavigationController
+    }
+    
     /// 用户信息
     private var _user:UserModel?
     var user:UserModel? {

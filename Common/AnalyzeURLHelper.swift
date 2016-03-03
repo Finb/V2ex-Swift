@@ -22,18 +22,18 @@ class AnalyzeURLHelper {
                 if let username = result.params["value"] {
                     let memberViewController = MemberViewController()
                     memberViewController.username = username
-                    V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
+                    V2Client.sharedInstance.topNavigationController.pushViewController(memberViewController, animated: true)
                 }
             case .URL:
                 if let url = result.params["value"] {
                     let controller = V2WebViewViewController(url: url)
-                    V2Client.sharedInstance.centerNavigation?.pushViewController(controller, animated: true)
+                    V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
                 }
             case .Topic:
                 if let topicID = result.params["value"] {
                     let controller = TopicDetailViewController()
                     controller.topicId = topicID
-                    V2Client.sharedInstance.centerNavigation?.pushViewController(controller, animated: true)
+                    V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
                 }
             case .Undefined:break
             }
