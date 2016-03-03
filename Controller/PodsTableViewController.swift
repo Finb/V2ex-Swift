@@ -46,6 +46,10 @@ class PodsTableViewController: UITableViewController {
         PodModel(name: "INSImageView", description: "A UIImageView that allows for animations between UIViewContentModes.",URL: "https://github.com/instilio/INSImageView"),
         
         PodModel(name: "CXSwipeGestureRecognizer", description: "UIPanGestureRecognizer subclass that takes much of the effort out of recognizing directional swipes.",URL: "https://github.com/dclelland/CXSwipeGestureRecognizer"),
+        
+        PodModel(name: "Shimmer", description: "An easy way to add a simple, shimmering effect to any view in an iOS app.",URL: "https://github.com/facebook/Shimmer"),
+        
+        PodModel(name: "OnePasswordExtension", description: "1Password Extension for iOS Apps",URL: "https://github.com/AgileBits/onepassword-app-extension"),
     ]
     
     override func viewDidLoad() {

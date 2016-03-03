@@ -98,6 +98,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-V2ex-Swift/MJRefresh.framework"
   install_framework "Pods-V2ex-Swift/ObjectMapper.framework"
   install_framework "Pods-V2ex-Swift/SVProgressHUD.framework"
+  install_framework "Pods-V2ex-Swift/Shimmer.framework"
   install_framework "Pods-V2ex-Swift/SnapKit.framework"
   install_framework "Pods-V2ex-Swift/YYText.framework"
 fi
@@ -116,6 +117,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-V2ex-Swift/MJRefresh.framework"
   install_framework "Pods-V2ex-Swift/ObjectMapper.framework"
   install_framework "Pods-V2ex-Swift/SVProgressHUD.framework"
+  install_framework "Pods-V2ex-Swift/Shimmer.framework"
   install_framework "Pods-V2ex-Swift/SnapKit.framework"
   install_framework "Pods-V2ex-Swift/YYText.framework"
 fi

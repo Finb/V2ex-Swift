@@ -19,6 +19,7 @@ def pods
     pod 'INSImageView', '~> 0.1.5'
     pod 'CXSwipeGestureRecognizer', '~> 1.0.2'
     pod '1PasswordExtension', '~> 1.8'
+    pod 'Shimmer', '~> 1.0.2'
     pod 'Fabric'
     pod 'Crashlytics'
 end
