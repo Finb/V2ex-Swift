@@ -31,6 +31,7 @@
 		063671761C7AF55800B72D9F /* V2TapDetectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063671751C7AF55800B72D9F /* V2TapDetectingImageView.swift */; };
 		063C05D91C5889E1005B7CA1 /* V2RefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */; };
 		0648F4AC1C54FC3F00475567 /* V2EXSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */; };
+		064BD2651C880ADB00B55558 /* RelevantCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064BD2641C880ADB00B55558 /* RelevantCommentsViewController.swift */; };
 		064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */; };
 		064D37A61C53C4A8002E7226 /* LeftNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */; };
 		064D37A81C53CB09002E7226 /* RightNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */; };
@@ -115,6 +116,7 @@
 		063671751C7AF55800B72D9F /* V2TapDetectingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2TapDetectingImageView.swift; sourceTree = "<group>"; };
 		063C05D81C5889E1005B7CA1 /* V2RefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2RefreshHeader.swift; sourceTree = "<group>"; };
 		0648F4AB1C54FC3F00475567 /* V2EXSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXSettings.swift; sourceTree = "<group>"; };
+		064BD2641C880ADB00B55558 /* RelevantCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelevantCommentsViewController.swift; sourceTree = "<group>"; };
 		064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftUserHeadCell.swift; sourceTree = "<group>"; };
 		064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNodeTableViewCell.swift; sourceTree = "<group>"; };
 		064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightNodeTableViewCell.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				069839821C478ECC00FF7163 /* RightViewController.swift */,
 				069508FA1C3F75C70088D031 /* HomeViewController.swift */,
 				06662CA51C4A89520024452C /* TopicDetailViewController.swift */,
+				064BD2641C880ADB00B55558 /* RelevantCommentsViewController.swift */,
 				06098B3E1C52171D00848159 /* LoginViewController.swift */,
 				06BB48EF1C56153A00A4A909 /* WritingViewController.swift */,
 				0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */,
@@ -569,6 +572,7 @@
 				0678D20C1C61EAA8007FFCFD /* UIImageView+Extension.swift in Sources */,
 				060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */,
 				064D37A81C53CB09002E7226 /* RightNodeTableViewCell.swift in Sources */,
+				064BD2651C880ADB00B55558 /* RelevantCommentsViewController.swift in Sources */,
 				068910D11C61A44D00D22B4F /* NodeTopicListViewController.swift in Sources */,
 				06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */,
 				06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */,

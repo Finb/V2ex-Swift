@@ -194,6 +194,8 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     var favorites: Int = 0
     var textLayout:YYTextLayout?
     var images:NSMutableArray = NSMutableArray()
+    
+    var textAttributedString:NSMutableAttributedString?
     required init(rootNode: JiNode) {
         super.init()
         
@@ -220,15 +222,13 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         }
         
         //构造评论内容
-        
-        
         let commentAttributedString:NSMutableAttributedString = NSMutableAttributedString(string: "")
         let nodes = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']/node()")
-        
         self.preformAttributedString(commentAttributedString, nodes: nodes)
-        
         let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, 9999))
         self.textLayout = YYTextLayout(container: textContainer, text: commentAttributedString)
+        
+        self.textAttributedString = commentAttributedString
     }
     func preformAttributedString(commentAttributedString:NSMutableAttributedString,nodes:[JiNode]) {
         for element in nodes {
@@ -330,5 +330,55 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             }
             completionHandler(V2Response(success: false))
         }
+    }
+    
+    /**
+     用某一条评论，获取和这条评论有关的所有评论
+     
+     - parameter array: 所有的评论数组
+     - parameter firstComment: 这条评论
+     
+     - returns: 某一条评论相关的评论，里面包含它自己
+     */
+    class func getRelevantCommentsInArray(allCommentsArray:[TopicCommentModel], firstComment:TopicCommentModel) -> [TopicCommentModel] {
+        
+        var relevantComments:[TopicCommentModel] = []
+        
+        //获取到所有YYTextHighlight ，用以之后获取 这条评论@了多少用户
+        var textHighlights:[YYTextHighlight] = []
+        firstComment.textAttributedString!.enumerateAttribute(YYTextHighlightAttributeName, inRange: NSMakeRange(0, firstComment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
+            if let highlight = attribute as? YYTextHighlight {
+                textHighlights.append(highlight)
+            }
+        }
+        
+        //获取这条评论 @ 了多少用户
+        var users:Set<String> = [firstComment.userName!]
+        for highlight in textHighlights {
+            if let url = highlight.userInfo["url"] as? String{
+                let result = AnalyzURLResult(url: url)
+                if result.type == .Member ,let username = result.params["value"]{
+                    users.insert(username)
+                }
+            }
+        }
+        //只有自己 还查看个毛线对话
+        if users.count <= 1 {
+            return []
+        }
+
+        for comment in allCommentsArray {
+            if let username = comment.userName {
+                if users.contains(username) {
+                    relevantComments.append(comment)
+                }
+            }
+            //只找到点击的位置，之后就不找了
+            if comment == firstComment {
+                break;
+            }
+        }
+
+        return relevantComments
     }
 }

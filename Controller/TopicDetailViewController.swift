@@ -231,7 +231,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
-            let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢")
+            let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢" ,"查看对话")
             actionSheet.tag = indexPath.row
             actionSheet.showInView(self.view)
         }
@@ -274,6 +274,16 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                     self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 1)], withRowAnimation: .None)
                 }
             }
+        case 3:
+            let row = actionSheet.tag
+            let item = self.commentsArray[row]
+            let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
+            if relevantComments.count <= 0 {
+                return;
+            }
+            let controller = RelevantCommentsViewController()
+            controller.commentsArray = relevantComments
+            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         default :
             break
         }
