@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Ji
 import ObjectMapper
-
+import SVProgressHUD
 class UserModel: BaseJsonModel {
     var status:String?
     var id:String?
@@ -140,7 +140,29 @@ class UserModel: BaseJsonModel {
                 completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
         }
     }
-
+    
+    
+    class func dailyRedeem() {
+        V2Client.sharedInstance.getOnce { (response) -> Void in
+            if response.success {
+                Alamofire.request(.GET, V2EXURL + "mission/daily/redeem?once=" + V2Client.sharedInstance.once! , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
+                    if let jiHtml = response .result.value{
+                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.first {
+                            if aRootNode.content == "已成功领取每日登录奖励" {
+                                print("每日登陆奖励 领取成功")
+                                dispatch_sync_safely_main_queue({ () -> () in
+                                    SVProgressHUD.showInfoWithStatus("已成功领取每日登录奖励", maskType: .None)
+                                })
+                            }
+                            response.request?.URL
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+    }
 }
 
 

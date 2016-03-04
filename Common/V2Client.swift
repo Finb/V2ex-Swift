@@ -158,7 +158,7 @@ class V2Client: NSObject {
      
      - parameter url:               有once存在的url
      */
-    func getOnce(url:String, completionHandler: V2Response -> Void) {
+    func getOnce(url:String = V2EXURL+"signin" , completionHandler: V2Response -> Void) {
         if(self.hasOnce){
             completionHandler(V2Response(success: true))
             return;

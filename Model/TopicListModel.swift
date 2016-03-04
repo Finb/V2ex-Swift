@@ -202,6 +202,16 @@ class TopicListModel:NSObject {
                         //更新通知数量
                         V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                     }
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                        //领取奖励
+                        if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='inner']/a[@href='/mission/daily']")?.first {
+                            if aRootNode.content == "领取今日的登录奖励" {
+                                print("有登陆奖励可领取")
+                                UserModel.dailyRedeem()
+                            }
+                        }
+                    }
                 }
                 
                 let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
