@@ -11,7 +11,7 @@ V2EX第三方客户端，为浏览V2EX带来更多便利
 
 
 ## 联系我
-<br/>如果你有任何疑问，都可以联系我。
+如果你有任何疑问，都可以联系我。
 <br/>我很乐意为你解惑，或者一起学习交流。
 <br/>Weibo: http://weibo.com/u/3161718545
 <br/>Telegram group:  https://telegram.me/joinchat/Bq3krQdtFoAEcK36E799Lg
