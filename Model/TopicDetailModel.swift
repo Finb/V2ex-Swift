@@ -358,7 +358,6 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             
             if let username = comment.userName {
                 if users.contains(username) {
-                    relevantComments += getRelevantCommentsInArray(allCommentsArray, firstComment: comment)
                     relevantComments.append(comment)
                 }
             }
