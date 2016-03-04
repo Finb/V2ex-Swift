@@ -344,32 +344,21 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         var relevantComments:[TopicCommentModel] = []
         
-        //获取到所有YYTextHighlight ，用以之后获取 这条评论@了多少用户
-        var textHighlights:[YYTextHighlight] = []
-        firstComment.textAttributedString!.enumerateAttribute(YYTextHighlightAttributeName, inRange: NSMakeRange(0, firstComment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
-            if let highlight = attribute as? YYTextHighlight {
-                textHighlights.append(highlight)
-            }
-        }
-        
-        //获取这条评论 @ 了多少用户
-        var users:Set<String> = [firstComment.userName!]
-        for highlight in textHighlights {
-            if let url = highlight.userInfo["url"] as? String{
-                let result = AnalyzURLResult(url: url)
-                if result.type == .Member ,let username = result.params["value"]{
-                    users.insert(username)
-                }
-            }
-        }
-//        //只有自己 还查看个毛线对话
-//        if users.count <= 1 {
-//            return []
-//        }
+        var users = getUsersInComment(firstComment)
+        users.insert(firstComment.userName!)
 
         for comment in allCommentsArray {
+            
+            //判断评论中是否只@了其他用户，是的话则证明这条评论是和别人讲的，不属于当前对话
+            let commentUsers = getUsersInComment(comment)
+            let intersectUsers = commentUsers.intersect(users)
+            if commentUsers.count > 0 && intersectUsers.count <= 0 {
+                continue;
+            }
+            
             if let username = comment.userName {
                 if users.contains(username) {
+                    relevantComments += getRelevantCommentsInArray(allCommentsArray, firstComment: comment)
                     relevantComments.append(comment)
                 }
             }
@@ -380,5 +369,30 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         }
 
         return relevantComments
+    }
+    
+    //获取评论中 @ 了多少用户
+    class func getUsersInComment(comment:TopicCommentModel) -> Set<String>  {
+        
+        //获取到所有YYTextHighlight ，用以之后获取 这条评论@了多少用户
+        var textHighlights:[YYTextHighlight] = []
+        comment.textAttributedString!.enumerateAttribute(YYTextHighlightAttributeName, inRange: NSMakeRange(0, comment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
+            if let highlight = attribute as? YYTextHighlight {
+                textHighlights.append(highlight)
+            }
+        }
+        
+        //获取这条评论 @ 了多少用户
+        var users:Set<String> = []
+        for highlight in textHighlights {
+            if let url = highlight.userInfo["url"] as? String{
+                let result = AnalyzURLResult(url: url)
+                if result.type == .Member ,let username = result.params["value"]{
+                    users.insert(username)
+                }
+            }
+        }
+        
+        return users
     }
 }
