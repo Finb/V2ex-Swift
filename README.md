@@ -1,4 +1,5 @@
 ##V2ex-Swift
+V2EX第三方客户端，为浏览V2EX带来更多便利
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
 [![](https://img.shields.io/badge/done-50%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
@@ -9,13 +10,11 @@
 </a>
 
 
-## 注意
-
-项目主要是用于学习交流Swift ， 可能有不完善或错误的地方。
-<br/>
-<br/>如果你有任何疑问，都可以微博私信联系我。
+## 联系我
+如果你有任何疑问，都可以联系我。
 <br/>我很乐意为你解惑，或者一起学习交流。
-<br/>http://weibo.com/u/3161718545
+<br/>Weibo: http://weibo.com/u/3161718545
+<br/>Email: fin.uuid@gmail.com
 <br/>
 ##预览
 ![](http://ww1.sinaimg.cn/large/0060lm7Tgw1f1dtb12v4gj30af0ijtaa.jpg)
