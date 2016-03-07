@@ -96,15 +96,15 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     }
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        
         //如果加载的是 自己load 的本地页面 则肯定放过啊
-        if request.URL?.absoluteString == "https:/" {
+        if navigationType == .Other {
             return true
         }
-        if let url = request.URL?.absoluteString{
-            return !AnalyzeURLHelper.Analyze(url)
+        else if navigationType == .LinkClicked {
+            if let url = request.URL?.absoluteString{
+                return !AnalyzeURLHelper.Analyze(url)
+            }
         }
-
         return true
     }
 }
