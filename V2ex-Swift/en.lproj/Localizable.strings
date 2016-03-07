@@ -5,14 +5,27 @@
   Created by huangfeng on 1/14/16.
   Copyright © 2016 Fin. All rights reserved.
 */
-tech     = "Technology";
-creative = "Creative";
-play     = "Play";
+
+tech     = "技术";
+creative = "创意";
+play     = "好玩";
 apple    = "Apple";
-jobs     = "Jobs";
-deals    = "Deals";
-city     = "City";
-qna      = "Ask&Answer";
-hot      = "Hot";
-all      = "All";
+jobs     = "酷工作";
+deals    = "交易";
+city     = "城市";
+qna      = "问与答";
+hot      = "最热";
+all      = "全部";
 r2       = "R2";
+
+//tech     = "Technology";
+//creative = "Creative";
+//play     = "Play";
+//apple    = "Apple";
+//jobs     = "Jobs";
+//deals    = "Deals";
+//city     = "City";
+//qna      = "Ask&Answer";
+//hot      = "Hot";
+//all      = "All";
+//r2       = "R2";
