@@ -89,6 +89,7 @@
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
+		B118530A1C8D31470067773A /* TopMostViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11853091C8D31470067773A /* TopMostViewController+Extension.swift */; };
 		E6CF51642632624E565E3ABE /* Pods_V2ex_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2168789C1B9CBD1DF1A5A619 /* Pods_V2ex_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -182,6 +183,7 @@
 		52700928D2B67AA24FBCC006 /* Pods-V2ex-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		61362A97378A23EFC5EDD56C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8659DB1BFBA4E17FA63A4C14 /* Pods-V2ex-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.release.xcconfig"; sourceTree = "<group>"; };
+		B11853091C8D31470067773A /* TopMostViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TopMostViewController+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 				0678D20B1C61EAA8007FFCFD /* UIImageView+Extension.swift */,
 				06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */,
 				06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */,
+				B11853091C8D31470067773A /* TopMostViewController+Extension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				063671761C7AF55800B72D9F /* V2TapDetectingImageView.swift in Sources */,
 				06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
+				B118530A1C8D31470067773A /* TopMostViewController+Extension.swift in Sources */,
 				06D300241C6C21B600547CE6 /* AccountsManagerViewController.swift in Sources */,
 				0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,

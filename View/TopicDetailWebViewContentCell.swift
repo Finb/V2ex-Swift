@@ -8,11 +8,12 @@
 
 import UIKit
 import KVOController
+import SafariServices
 
 public typealias TopicDetailWebViewContentHeightChanged = (CGFloat) -> Void
 
 let HTMLHEADER  = "<html><head><title>test</title><meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' name='viewport'>"
-class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
+class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate, SFSafariViewControllerDelegate {
     
     private var model:TopicDetailModel?
     
@@ -97,6 +98,17 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
+        if #available(iOS 9.0, *) {
+            if navigationType == .LinkClicked {
+                if let url = request.URL {
+                    let safariVC = SFSafariViewController(URL: url)
+                    safariVC.delegate = self
+                    UIApplication.topMostViewController()?.presentViewController(safariVC, animated: true, completion: nil)
+                    return false
+                }
+            }
+        }
+        
         //如果加载的是 自己load 的本地页面 则肯定放过啊
         if request.URL?.absoluteString == "https:/" {
             return true
@@ -104,7 +116,6 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         if let url = request.URL?.absoluteString{
             return !AnalyzeURLHelper.Analyze(url)
         }
-
         return true
     }
 }
