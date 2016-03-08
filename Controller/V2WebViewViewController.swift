@@ -8,7 +8,7 @@
 
 import UIKit
 
-class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate {
+class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2ActivityViewDataSource {
     var webViewProgress: V2WebViewProgress?
     var webViewProgressView: V2WebViewProgressView?
     var webView:UIWebView?
@@ -54,6 +54,14 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate {
         self.closeButton!.addTarget(self, action: "pop", forControlEvents: .TouchUpInside)
         
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(customView: backbtn),UIBarButtonItem(customView: self.closeButton!)]
+        
+        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
+        rightButton.contentMode = .Center
+        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
+        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+        
         
         self.webViewProgress = V2WebViewProgress()
         self.webViewProgress!.delegate = self
@@ -110,5 +118,31 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate {
     }
     deinit{
         NSLog("webview deinit")
+    }
+    
+    //MARK: - V2ActivityView
+    func rightClick(){
+        let activityView = V2ActivityViewController()
+        activityView.dataSource = self
+        self.navigationController!.presentViewController(activityView, animated: true, completion: nil)
+    }
+    func V2ActivityView(activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
+        return 1
+    }
+    func V2ActivityView(activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: NSIndexPath) -> V2Activity {
+        return V2Activity(title: ["Safari"][indexPath.row], image: UIImage(named: ["ic_explore_48pt"][indexPath.row])!)
+    }
+    func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        activityView.dismiss()
+        if  let url = self.webView?.request?.URL {
+            if url.absoluteString.Lenght > 0 {
+                UIApplication.sharedApplication().openURL(url)
+                return;
+            }
+        }
+        if let url = NSURL(string: self.url) {
+            UIApplication.sharedApplication().openURL(url)
+        }
+        
     }
 }
