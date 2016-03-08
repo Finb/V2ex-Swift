@@ -12,6 +12,7 @@
 		06098B431C5232D800848159 /* 32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B421C5232D800848159 /* 32.jpg */; };
 		060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */; };
 		060C4E421C48EC39004FBECC /* V2Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E411C48EC39004FBECC /* V2Client.swift */; };
+		060C72571C8D6100000F4D2F /* V2ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C72561C8D6100000F4D2F /* V2ActivityViewController.swift */; };
 		0610F1B01C46136300481402 /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1AF1C46136300481402 /* BaseModel.swift */; };
 		0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B11C4613D800481402 /* TopicListModel.swift */; };
 		0610F1B41C46491800481402 /* V2EXNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0610F1B31C46491800481402 /* V2EXNavigationController.swift */; };
@@ -98,6 +99,7 @@
 		06098B421C5232D800848159 /* 32.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 32.jpg; sourceTree = "<group>"; };
 		060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
 		060C4E411C48EC39004FBECC /* V2Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Client.swift; sourceTree = "<group>"; };
+		060C72561C8D6100000F4D2F /* V2ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2ActivityViewController.swift; sourceTree = "<group>"; };
 		0610F1AF1C46136300481402 /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
 		0610F1B11C4613D800481402 /* TopicListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicListModel.swift; sourceTree = "<group>"; };
 		0610F1B31C46491800481402 /* V2EXNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXNavigationController.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 				06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */,
 				0684A1E71C5B58D600B12437 /* UIButton+Extension.swift */,
 				0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */,
+				060C72561C8D6100000F4D2F /* V2ActivityViewController.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -623,6 +626,7 @@
 				06C532B61C534D3F00258A55 /* V2Response.swift in Sources */,
 				0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */,
 				06E145A61C60A9F400BDD63D /* Request+Extension.swift in Sources */,
+				060C72571C8D6100000F4D2F /* V2ActivityViewController.swift in Sources */,
 				0611DE5F1C5F513B00933964 /* MemberReplyCell.swift in Sources */,
 				06E1BA371C70280D00867454 /* V2WebViewProgressView.swift in Sources */,
 				0684A1E21C5B4BA500B12437 /* NotificationTableViewCell.swift in Sources */,
