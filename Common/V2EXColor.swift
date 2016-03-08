@@ -143,7 +143,7 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     }
     var v2_ButtonBackgroundColor : UIColor {
         get {
-            return colorWith255RGB(80, g: 97, b: 109)
+            return colorWith255RGB(85, g: 172, b: 238)
         }
     }
 }
