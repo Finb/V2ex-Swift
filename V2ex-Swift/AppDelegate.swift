@@ -22,14 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow();
         self.window?.frame=UIScreen.mainScreen().bounds;
-        self.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         self.window?.makeKeyAndVisible();
-        
+
         let centerNav = V2EXNavigationController(rootViewController: HomeViewController());
         let leftViewController = LeftViewController();
         let rightViewController = RightViewController();
         let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
-        drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        
+        self.window?.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {(nav, color, change) -> Void in
+            self.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
+            drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        }
+        
+        
         drawerController.maximumLeftDrawerWidth=230;
         drawerController.maximumRightDrawerWidth=110;
         drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.PanningCenterView
@@ -47,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
-        SVProgressHUD.setDefaultMaskType(.Clear)
+        SVProgressHUD.setDefaultMaskType(.None)
         
         /**
         DEBUG 模式下不统计任何信息，如果你需要使用Crashlytics ，请自行申请账号替换我的Key
