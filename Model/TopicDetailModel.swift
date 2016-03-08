@@ -129,6 +129,63 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
                 completionHandler(t);
             }
     }
+    
+    /**
+     感谢主题
+     */
+    class func topicThankWithTopicId(topicId:String , token:String ,completionHandler: V2Response -> Void) {
+        let url  = V2EXURL + "thank/topic/" + topicId + "?t=" + token
+        Alamofire.request(.POST, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            if response.result.isSuccess {
+                if let result = response.result.value {
+                    if result.Lenght == 0 {
+                        completionHandler(V2Response(success: true))
+                        return;
+                    }
+                }
+            }
+            completionHandler(V2Response(success: false))
+        }
+    }
+    
+    /**
+     收藏主题
+     */
+    class func favoriteTopicWithTopicId(topicId:String , token:String ,completionHandler: V2Response -> Void) {
+        let url  = V2EXURL + "favorite/topic/" + topicId + "?t=" + token
+        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+            if response.result.isSuccess {
+                completionHandler(V2Response(success: true))
+            }
+            else{
+                completionHandler(V2Response(success: false))
+            }
+        }
+    }
+    /**
+     忽略主题
+     */
+    class func ignoreTopicWithTopicId(topicId:String ,completionHandler: V2Response -> Void) {
+        
+        V2Client.sharedInstance.getOnce { (response) -> Void in
+            if response.success ,let once = V2Client.sharedInstance.once {
+                let url  = V2EXURL + "ignore/topic/" + topicId + "?once=" + once
+                Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+                    if response.result.isSuccess {
+                        completionHandler(V2Response(success: true))
+                        return
+                    }
+                    else{
+                        completionHandler(V2Response(success: false))
+                    }
+                }
+            }
+            else{
+                completionHandler(V2Response(success: false))
+            }
+        }
+    }
+    
 }
 protocol V2CommentAttachmentImageTapDelegate : class {
     func V2CommentAttachmentImageSingleTap(imageView:V2CommentAttachmentImage)

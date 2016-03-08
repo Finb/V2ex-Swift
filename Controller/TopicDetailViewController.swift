@@ -8,7 +8,7 @@
 
 import UIKit
 import SVProgressHUD
-class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate{
+class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate ,V2ActivityViewDataSource{
 
     var topicId = "0"
     var currentPage = 1
@@ -39,7 +39,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         }
     }
     
-    
+    //MARK: - 页面事件
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "帖子详情"
@@ -52,7 +52,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         rightButton.contentMode = .Center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage(named: "ic_speaker_notes")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
         
@@ -79,14 +79,6 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         self.showLoadingView()
     }
     
-    func rightClick(){
-        if let model = self.model {
-            let replyViewController = ReplyingViewController()
-            replyViewController.topicModel = model
-            let nav = V2EXNavigationController(rootViewController:replyViewController)
-            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
-        }
-    }
     
     func getNextPage(){
         if self.model == nil || self.commentsArray.count <= 0 {
@@ -122,6 +114,8 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         self.tableView.mj_footer.endRefreshingWithNoMoreData()
     }
     
+
+    //MARK: - UITableView DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -285,6 +279,105 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         default :
             break
+        }
+    }
+    
+    //MARK: - V2ActivityView
+    
+    //只在activityView 显示在屏幕上持有它，如果activityView释放了，这里也一起释放。
+    weak var activityView:V2ActivityViewController?
+    func rightClick(){
+        if  self.model != nil {
+            let activityView = V2ActivityViewController()
+            activityView.dataSource = self
+            self.navigationController!.presentViewController(activityView, animated: true, completion: nil)
+            self.activityView = activityView
+        }
+    }
+    
+    func reply(){
+        self.activityView?.dismiss()
+        let replyViewController = ReplyingViewController()
+        replyViewController.topicModel = self.model!
+        let nav = V2EXNavigationController(rootViewController:replyViewController)
+        self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+    }
+    
+    
+    func V2ActivityView(activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
+        return 4
+    }
+    func V2ActivityView(activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: NSIndexPath) -> V2Activity {
+        return V2Activity(title: ["忽略","收藏","感谢","Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][indexPath.row])!)
+    }
+    func V2ActivityView(activityView:V2ActivityViewController ,heightForFooterInSection section: Int) -> CGFloat{
+        return 45
+    }
+    func V2ActivityView(activityView:V2ActivityViewController ,viewForFooterInSection section: Int) ->UIView?{
+        let view = UIView()
+        view.backgroundColor = V2EXColor.colors.v2_ButtonBackgroundColor
+        
+        let label = UILabel()
+        label.font = v2Font(18)
+        label.text = "回  复"
+        label.textAlignment = .Center
+        label.textColor = UIColor.whiteColor()
+        view.addSubview(label)
+        label.snp_makeConstraints{ (make) -> Void in
+            make.top.right.bottom.left.equalTo(view)
+        }
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "reply"))
+        
+        return view
+    }
+    
+    /// 忽略成功后调用的闭包
+    var ignoreTopicHandler : ((String) -> Void)?
+    func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        activityView.dismiss()
+        switch indexPath.row {
+        case 0:
+            SVProgressHUD.show()
+            if let topicId = self.model?.topicId  {
+                TopicDetailModel.ignoreTopicWithTopicId(topicId, completionHandler: {[weak self] (response) -> Void in
+                    if response.success {
+                        SVProgressHUD.showSuccessWithStatus("忽略成功")
+                        self?.navigationController?.popViewControllerAnimated(true)
+                        self?.ignoreTopicHandler?(topicId)
+                    }
+                    else{
+                        SVProgressHUD.showErrorWithStatus("忽略失败")
+                    }
+                })
+            }
+        case 1:
+            SVProgressHUD.show()
+            if let topicId = self.model?.topicId ,let token = self.model?.token {
+                TopicDetailModel.favoriteTopicWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
+                    if response.success {
+                        SVProgressHUD.showSuccessWithStatus("收藏成功")
+                    }
+                    else{
+                        SVProgressHUD.showErrorWithStatus("收藏失败")
+                    }
+                })
+            }
+        case 2:
+            SVProgressHUD.show()
+            if let topicId = self.model?.topicId ,let token = self.model?.token {
+                TopicDetailModel.topicThankWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
+                    if response.success {
+                        SVProgressHUD.showSuccessWithStatus("成功送了一波铜币")
+                    }
+                    else{
+                        SVProgressHUD.showErrorWithStatus("没感谢成功，再试一下吧")
+                    }
+                })
+            }
+        case 3:
+            UIApplication.sharedApplication().openURL(NSURL(string: V2EXURL + "t/" + self.model!.topicId!)!)
+        default: break
         }
     }
     

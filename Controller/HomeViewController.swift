@@ -202,9 +202,38 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;
+            topicDetailController.ignoreTopicHandler = {[weak self] (topicId) in
+                self?.performSelector("ignoreTopicHandler:", withObject: topicId, afterDelay: 0.6)
+            }
             self.navigationController?.pushViewController(topicDetailController, animated: true)
             tableView .deselectRowAtIndexPath(indexPath, animated: true);
         }
+    }
+    
+    func ignoreTopicHandler(topicId:String) {
+        let index = self.topicList?.indexOf({$0.topicId == topicId })
+        if index == nil {
+            return
+        }
+        
+        //看当前忽略的cell 是否在可视列表里
+        let indexPaths = self.tableView.indexPathsForVisibleRows
+        let visibleIndex =  indexPaths?.indexOf({$0.row == index})
+        
+        self.topicList?.removeAtIndex(index!)
+        //如果不在可视列表，则直接reloadData 就可以
+        if visibleIndex == nil {
+            self.tableView.reloadData()
+        }
+        
+        //如果在可视列表，则动画删除它
+        self.tableView.beginUpdates()
+        
+        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index!, inSection: 0)], withRowAnimation: .Fade)
+        
+        self.tableView.endUpdates()
+        
+
     }
 }
 
