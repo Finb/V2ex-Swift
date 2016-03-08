@@ -63,6 +63,9 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
     
     var panel:UIToolbar = UIToolbar()
     
+    /**
+     当前不考虑复用，每一行最多支持4个cell
+     */
     func numberOfCellsInSection(section:Int) -> Int{
         if var cells = dataSource?.V2ActivityView(self, numberOfCellsInSection: section) {
             if cells > 4 {
@@ -151,9 +154,10 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             }
             
             //setupFoterView
-            self.setupFoterView(i)
+            self.setupFooterView(i)
         }
     }
+    //配置每组的cell
     private func setupSectionView(_section:Int) -> UIView {
         let sectionView = UIView()
 
@@ -173,7 +177,8 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         return sectionView
         
     }
-    private func setupFoterView(_section:Int) {
+    //配置每组的 footerView
+    private func setupFooterView(_section:Int) {
         if let view = dataSource?.V2ActivityView?(self, viewForFooterInSection: _section) {
             var height = dataSource?.V2ActivityView?(self, heightForFooterInSection: _section)
             if height == nil {
@@ -193,7 +198,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             }
         }
     }
-    
+    //配置每个cell
     private func setupCellView(index:Int , currentSection:Int) -> UIView {
         let cellView = UIView()
         
