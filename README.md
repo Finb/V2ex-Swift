@@ -1,22 +1,35 @@
 ##V2ex-Swift
-V2EX第三方客户端，为浏览V2EX带来更多便利
+This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
 [![](https://img.shields.io/badge/done-50%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
 <br/>
-##试用
+##Download
 <a target='_blank' href='https://itunes.apple.com/app/id1078157349'>
 <img src='http://ww2.sinaimg.cn/large/0060lm7Tgw1f1hgrs1ebwj308102q0sp.jpg' width='144' height='49' />
 </a>
 
+##How to build
+1)  Clone the repository
+```
+$ git clone https://github.com/Finb/V2ex-Swift.git
+```
+2) Open the workspace in Xcode
+```
+$ open "V2ex-Swift.xcworkspace"
+```
+3) Compile and run the app in your simulator or iOS device
 
-## 联系我
-如果你有任何疑问，都可以联系我。
-<br/>我很乐意为你解惑，或者一起学习交流。
-<br/>Weibo: http://weibo.com/u/3161718545
+##Requirements
+* Xcode 7.2+
+* iOS8+
+
+## Questions
+If you have questions about any aspect of this project, please feel free to contact me with the following email
 <br/>Email: fin.uuid@gmail.com
+<br/>or Weibo: <a href = 'http://weibo.com/u/3161718545' >@Finuuid</a>
 <br/>
-##预览
+##Screenshots
 ![](http://ww1.sinaimg.cn/large/0060lm7Tgw1f1dtb12v4gj30af0ijtaa.jpg)
 ![](http://ww1.sinaimg.cn/large/0060lm7Tgw1f1dtb1o68aj30af0ijmz0.jpg)
 ![](http://ww4.sinaimg.cn/large/0060lm7Tgw1f1dtb1yzxhj30af0ijtas.jpg)
