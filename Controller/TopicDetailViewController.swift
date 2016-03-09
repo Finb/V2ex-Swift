@@ -336,6 +336,11 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
     var ignoreTopicHandler : ((String) -> Void)?
     func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         activityView.dismiss()
+        //                                     用safari打开是不用登录的
+        if !V2Client.sharedInstance.isLogin && indexPath.row != 3 {
+            SVProgressHUD.showWithStatus("请先登录")
+            return;
+        }
         switch indexPath.row {
         case 0:
             SVProgressHUD.show()
