@@ -1,0 +1,9 @@
+/* color */
+
+a:link, a:visited, a:active {
+    color: #778087;
+}
+body {
+    color: #000;
+    background-color:#FFF;
+}

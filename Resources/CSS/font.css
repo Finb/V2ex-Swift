@@ -1,4 +1,3 @@
-
 /* font-size */
 h1 {
     font-size: 18px;
@@ -18,15 +17,4 @@ pre {
 
 body {
     font-size: 14px;
-}
-
-
-/* color */
-
-a:link, a:visited, a:active {
-    color: #778087;
-}
-body {
-    color: #919191;
-    background-color:#232226;
 }
