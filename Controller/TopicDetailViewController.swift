@@ -8,11 +8,11 @@
 
 import UIKit
 import SVProgressHUD
-class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITableViewDataSource ,UIActionSheetDelegate ,V2ActivityViewDataSource{
-
+class TopicDetailViewController: BaseViewController{
+    
     var topicId = "0"
     var currentPage = 1
-
+    
     private var model:TopicDetailModel?
     private var commentsArray:[TopicCommentModel] = []
     private var webViewContentCell:TopicDetailWebViewContentCell?
@@ -38,6 +38,11 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
             
         }
     }
+    /// 忽略帖子成功后 ，调用的闭包
+    var ignoreTopicHandler : ((String) -> Void)?
+    //点击右上角more按钮后，弹出的 activityView
+    //只在activityView 显示在屏幕上持有它，如果activityView释放了，这里也一起释放。
+    private weak var activityView:V2ActivityViewController?
     
     //MARK: - 页面事件
     override func viewDidLoad() {
@@ -74,12 +79,26 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         
         self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
-        })
+            })
         
         self.showLoadingView()
     }
     
+    /**
+     点击右上角 more 按钮
+     */
+    func rightClick(){
+        if  self.model != nil {
+            let activityView = V2ActivityViewController()
+            activityView.dataSource = self
+            self.navigationController!.presentViewController(activityView, animated: true, completion: nil)
+            self.activityView = activityView
+        }
+    }
     
+    /**
+     获取下一页评论，如果有的话
+     */
     func getNextPage(){
         if self.model == nil || self.commentsArray.count <= 0 {
             self.endRefreshingWithNoMoreData("暂无评论")
@@ -109,13 +128,20 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         }
     }
     
+    /**
+     禁用上拉加载更多，并显示一个字符串提醒
+     */
     func endRefreshingWithNoMoreData(noMoreString:String){
         (self.tableView.mj_footer as! V2RefreshFooter).noMoreDataStateString = noMoreString
         self.tableView.mj_footer.endRefreshingWithNoMoreData()
     }
-    
+}
 
-    //MARK: - UITableView DataSource
+
+
+
+//MARK: - UITableView DataSource
+extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -143,7 +169,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                     cell.bind(self.model!);
                 }
             }
-            
+                
             else if indexPath.row == 1 {
                 if self.webViewContentCell?.contentHeight > 0 {
                     return self.webViewContentCell!.contentHeight
@@ -152,13 +178,13 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                     return 1
                 }
             }
-            
+                
             else if indexPath.row == 2 {
                 return 45
             }
             
         }
-       
+            
         else {
             let layout = self.commentsArray[indexPath.row].textLayout!
             return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
@@ -202,7 +228,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                 }
                 return self.webViewContentCell!
             }
-            
+                
             else if indexPath.row == 2 {
                 let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
                 cell.detailMarkHidden = true
@@ -225,85 +251,106 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
-            let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢" ,"查看对话")
-            actionSheet.tag = indexPath.row
-            actionSheet.showInView(self.view)
+            self.selectedRowWithActionSheet(indexPath)
         }
     }
-    
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+}
+
+
+
+
+//MARK: - actionSheet
+extension TopicDetailViewController: UIActionSheetDelegate {
+    func selectedRowWithActionSheet(indexPath:NSIndexPath){
+        self.tableView.deselectRowAtIndexPath(indexPath, animated: true);
+
+        //这段代码也可以执行，但是当点击时，会有个0.3秒的dismiss动画。
+        //然后再弹出回复页面或者查看对话页面。感觉太长了，暂时不用
+//        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+//        let replyAction = UIAlertAction(title: "回复", style: .Default) { _ in
+//            self.replyComment(indexPath.row)
+//        }
+//        let thankAction = UIAlertAction(title: "感谢", style: .Default) { _ in
+//            self.thankComment(indexPath.row)
+//        }
+//        let relevantCommentsAction = UIAlertAction(title: "查看对话", style: .Default) { _ in
+//            self.relevantComment(indexPath.row)
+//        }
+//        let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
+//        //将action全加进actionSheet
+//        [replyAction,thankAction,relevantCommentsAction,cancelAction].forEach { (action) -> () in
+//            actionSheet.addAction(action)
+//        }
+//        self.navigationController?.presentViewController(actionSheet, animated: true, completion: nil)
         
-        tableView .deselectRowAtIndexPath(NSIndexPath(forRow: actionSheet.tag, inSection: 1), animated: true);
-        switch buttonIndex {
-        case 1 : //回复
-            let item = self.commentsArray[actionSheet.tag]
-            let replyViewController = ReplyingViewController()
-            replyViewController.atSomeone = "@" + item.userName! + " "
-            replyViewController.topicModel = self.model!
-            let nav = V2EXNavigationController(rootViewController:replyViewController)
-            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
-            
-        case 2://感谢
-            let row = actionSheet.tag
-            let item = self.commentsArray[row]
-            if item.replyId == nil {
-                SVProgressHUD.showErrorWithStatus("回复replyId为空")
-                return;
-            }
-            if self.model?.token == nil {
-                SVProgressHUD.showErrorWithStatus("帖子token为空")
-                return;
-            }
-            item.favorites++
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 1)], withRowAnimation: .None)
-            
-            TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
-                [weak item, weak self](response) in
-                if response.success {
-                }
-                else{
-                    SVProgressHUD.showSuccessWithStatus("感谢失败了")
-                    //失败后 取消增加的数量
-                    item?.favorites--
-                    self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row, inSection: 1)], withRowAnimation: .None)
-                }
-            }
-        case 3:
-            let row = actionSheet.tag
-            let item = self.commentsArray[row]
-            let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
-            if relevantComments.count <= 0 {
-                return;
-            }
-            let controller = RelevantCommentsNav(comments: relevantComments)
-            self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        default :
-            break
+        //这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
+        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢" ,"查看对话")
+        actionSheet.tag = indexPath.row
+        actionSheet.showInView(self.view)
+        
+    }
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex > 0 && buttonIndex <= 3 {
+            self.performSelector(["replyComment:","thankComment:","relevantComment:"][buttonIndex - 1], withObject: actionSheet.tag)
         }
     }
-    
-    //MARK: - V2ActivityView
-    
-    //只在activityView 显示在屏幕上持有它，如果activityView释放了，这里也一起释放。
-    weak var activityView:V2ActivityViewController?
-    func rightClick(){
-        if  self.model != nil {
-            let activityView = V2ActivityViewController()
-            activityView.dataSource = self
-            self.navigationController!.presentViewController(activityView, animated: true, completion: nil)
-            self.activityView = activityView
+    func replyComment(row:NSNumber){
+        if !V2Client.sharedInstance.isLogin {
+            SVProgressHUD.showInfoWithStatus("请先登录")
+            return;
         }
-    }
-    
-    func reply(){
-        self.activityView?.dismiss()
+        let item = self.commentsArray[row as Int]
         let replyViewController = ReplyingViewController()
+        replyViewController.atSomeone = "@" + item.userName! + " "
         replyViewController.topicModel = self.model!
         let nav = V2EXNavigationController(rootViewController:replyViewController)
         self.navigationController?.presentViewController(nav, animated: true, completion:nil)
     }
-    
-    
+    func thankComment(row:NSNumber){
+        if !V2Client.sharedInstance.isLogin {
+            SVProgressHUD.showInfoWithStatus("请先登录")
+            return;
+        }
+        let item = self.commentsArray[row as Int]
+        if item.replyId == nil {
+            SVProgressHUD.showErrorWithStatus("回复replyId为空")
+            return;
+        }
+        if self.model?.token == nil {
+            SVProgressHUD.showErrorWithStatus("帖子token为空")
+            return;
+        }
+        item.favorites++
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
+        
+        TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
+            [weak item, weak self](response) in
+            if response.success {
+            }
+            else{
+                SVProgressHUD.showSuccessWithStatus("感谢失败了")
+                //失败后 取消增加的数量
+                item?.favorites--
+                self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
+            }
+        }
+    }
+    func relevantComment(row:NSNumber){
+        let item = self.commentsArray[row as Int]
+        let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
+        if relevantComments.count <= 0 {
+            return;
+        }
+        let controller = RelevantCommentsNav(comments: relevantComments)
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+}
+
+
+
+
+//MARK: - V2ActivityView
+extension TopicDetailViewController: V2ActivityViewDataSource {
     func V2ActivityView(activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
         return 4
     }
@@ -332,13 +379,11 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         return view
     }
     
-    /// 忽略成功后调用的闭包
-    var ignoreTopicHandler : ((String) -> Void)?
     func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         activityView.dismiss()
         //                                     用safari打开是不用登录的
         if !V2Client.sharedInstance.isLogin && indexPath.row != 3 {
-            SVProgressHUD.showWithStatus("请先登录")
+            SVProgressHUD.showInfoWithStatus("请先登录")
             return;
         }
         switch indexPath.row {
@@ -354,7 +399,7 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
                     else{
                         SVProgressHUD.showErrorWithStatus("忽略失败")
                     }
-                })
+                    })
             }
         case 1:
             SVProgressHUD.show()
@@ -386,5 +431,12 @@ class TopicDetailViewController: BaseViewController, UITableViewDelegate,UITable
         }
     }
     
+    func reply(){
+        self.activityView?.dismiss()
+        let replyViewController = ReplyingViewController()
+        replyViewController.topicModel = self.model!
+        let nav = V2EXNavigationController(rootViewController:replyViewController)
+        self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+    }
     
 }

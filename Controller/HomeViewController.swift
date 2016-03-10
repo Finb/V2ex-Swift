@@ -17,7 +17,7 @@ import MJRefresh
 
 let kHomeTab = "me.fin.homeTab"
 
-class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
+class HomeViewController: UIViewController {
     var topicList:Array<TopicListModel>?
     var tab:String? = nil
     var currentPage = 0
@@ -173,14 +173,17 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     func applicationDidEnterBackground(){
         HomeViewController.lastLeaveTime = NSDate()
     }
-    
+}
+
+
+//MARK: - TableViewDataSource
+extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {
             return list.count;
         }
         return 0;
     }
-    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let item = self.topicList![indexPath.row]
         let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
@@ -236,4 +239,3 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
 
     }
 }
-
