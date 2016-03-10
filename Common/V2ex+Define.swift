@@ -38,3 +38,11 @@ func dispatch_sync_safely_main_queue(block: ()->()) {
         }
     }
 }
+
+func v2Font(fontSize: CGFloat) -> UIFont {
+    return UIFont.systemFontOfSize(fontSize);
+}
+
+func v2ScaleFont(fontSize: CGFloat) -> UIFont{
+    return v2Font(fontSize * CGFloat(V2Style.sharedInstance.fontScale))
+}

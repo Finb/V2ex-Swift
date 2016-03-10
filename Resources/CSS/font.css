@@ -1,20 +1,20 @@
 /* font-size */
 h1 {
-    font-size: 18px;
+    font-size: <H1_FONT_SIZE>px; /* Default 18 */
 }
 
 h2 {
-    font-size: 18px;
+    font-size: <H2_FONT_SIZE>px; /* Default 18 */
 }
 
 h3 {
-    font-size: 16px;
+    font-size: <H3_FONT_SIZE>px; /* Default 16 */
 }
 
 pre {
-    font-size: 13px;
+    font-size: <PRE_FONT_SIZE>px; /* Default 13 */
 }
 
 body {
-    font-size: 14px;
+    font-size: <BODY_FONT_SIZE>px; /* Default 14 */
 }

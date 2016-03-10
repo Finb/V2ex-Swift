@@ -291,7 +291,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         for element in nodes {
             
             if element.name == "text" , let content = element.content{//普通文本
-                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2Font(14) , NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
+                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2ScaleFont(14) , NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
                 commentAttributedString.yy_lineSpacing = 5
             }
                 
@@ -299,7 +299,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             else if element.name == "img" ,let imageURL = element["src"]  {//图片
                 let image = V2CommentAttachmentImage()
                 image.imageURL = imageURL
-                let imageAttributedString = NSMutableAttributedString.yy_attachmentStringWithContent(image, contentMode: .ScaleAspectFit , attachmentSize: CGSizeMake(80, 80), alignToFont: v2Font(14), alignment: .Bottom)
+                let imageAttributedString = NSMutableAttributedString.yy_attachmentStringWithContent(image, contentMode: .ScaleAspectFit , attachmentSize: CGSizeMake(80, 80), alignToFont: v2ScaleFont(14), alignment: .Bottom)
                 
                 commentAttributedString.appendAttributedString(imageAttributedString)
                 
@@ -315,7 +315,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                     self.preformAttributedString(commentAttributedString, nodes: subNodes)
                 }
                 if content.Lenght > 0 {
-                    let attr = NSMutableAttributedString(string: content ,attributes: [NSFontAttributeName:v2Font(14)])
+                    let attr = NSMutableAttributedString(string: content ,attributes: [NSFontAttributeName:v2ScaleFont(14)])
                     attr.yy_setTextHighlightRange(NSMakeRange(0, content.Lenght),
                         color: V2EXColor.colors.v2_LinkColor,
                         backgroundColor: UIColor(white: 0.95, alpha: 1),

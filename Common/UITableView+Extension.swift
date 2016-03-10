@@ -50,9 +50,3 @@ func regClass(tableView:UITableView , cell:AnyClass)->Void {
 func getCell<T: UITableViewCell>(tableView:UITableView ,cell: T.Type ,indexPath:NSIndexPath) -> T {
     return tableView.dequeueReusableCellWithIdentifier("\(cell)", forIndexPath: indexPath) as! T ;
 }
-
-func v2Font(fontSize: CGFloat) -> UIFont {
-    return UIFont.systemFontOfSize(fontSize);
-//    return UIFont(name: "Helvetica", size: fontSize);
-}
-
