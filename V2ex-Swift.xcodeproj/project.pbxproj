@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06098B3E1C52171D00848159 /* LoginViewController.swift */; };
-		06098B411C521A4100848159 /* login-bg-iphone-6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B401C521A4100848159 /* login-bg-iphone-6.jpg */; };
 		06098B431C5232D800848159 /* 32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B421C5232D800848159 /* 32.jpg */; };
 		060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */; };
 		060C4E421C48EC39004FBECC /* V2Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E411C48EC39004FBECC /* V2Client.swift */; };
@@ -56,8 +55,6 @@
 		069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */; };
 		069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069508FA1C3F75C70088D031 /* HomeViewController.swift */; };
 		069839761C4773D600FF7163 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 069839781C4773D600FF7163 /* Localizable.strings */; };
-		0698397D1C47766500FF7163 /* Dark.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0698397B1C47766500FF7163 /* Dark.bundle */; };
-		0698397E1C47766500FF7163 /* Light.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0698397C1C47766500FF7163 /* Light.bundle */; };
 		069839811C478EC300FF7163 /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839801C478EC300FF7163 /* LeftViewController.swift */; };
 		069839831C478ECC00FF7163 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839821C478ECC00FF7163 /* RightViewController.swift */; };
 		06A490681C67018E00F6A063 /* MyCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A490671C67018E00F6A063 /* MyCenterViewController.swift */; };
@@ -71,6 +68,10 @@
 		06C532B61C534D3F00258A55 /* V2Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C532B51C534D3F00258A55 /* V2Response.swift */; };
 		06C582AC1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C582AB1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift */; };
 		06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C673491C4D20A0000F48DA /* TopicDetailHeaderCell.swift */; };
+		06D0EE1D1C9159DA003095FF /* baseStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 06D0EE1C1C9159DA003095FF /* baseStyle.css */; };
+		06D0EE1F1C915CAD003095FF /* V2Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D0EE1E1C915CAD003095FF /* V2Style.swift */; };
+		06D0EE221C916304003095FF /* lightStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 06D0EE201C916304003095FF /* lightStyle.css */; };
+		06D0EE231C916304003095FF /* darkStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = 06D0EE211C916304003095FF /* darkStyle.css */; };
 		06D300241C6C21B600547CE6 /* AccountsManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300231C6C21B600547CE6 /* AccountsManagerViewController.swift */; };
 		06D300261C6C222F00547CE6 /* AccountListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300251C6C222F00547CE6 /* AccountListTableViewCell.swift */; };
 		06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D300271C6C720800547CE6 /* V2UsersKeychain.swift */; };
@@ -95,7 +96,6 @@
 
 /* Begin PBXFileReference section */
 		06098B3E1C52171D00848159 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		06098B401C521A4100848159 /* login-bg-iphone-6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-bg-iphone-6.jpg"; sourceTree = "<group>"; };
 		06098B421C5232D800848159 /* 32.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 32.jpg; sourceTree = "<group>"; };
 		060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
 		060C4E411C48EC39004FBECC /* V2Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Client.swift; sourceTree = "<group>"; };
@@ -146,8 +146,6 @@
 		069508FA1C3F75C70088D031 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		069839771C4773D600FF7163 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		069839791C47740B00FF7163 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		0698397B1C47766500FF7163 /* Dark.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Dark.bundle; sourceTree = "<group>"; };
-		0698397C1C47766500FF7163 /* Light.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Light.bundle; sourceTree = "<group>"; };
 		069839801C478EC300FF7163 /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
 		069839821C478ECC00FF7163 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
 		06A490671C67018E00F6A063 /* MyCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCenterViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +159,10 @@
 		06C532B51C534D3F00258A55 /* V2Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Response.swift; sourceTree = "<group>"; };
 		06C582AB1C50C8DC00F24DBC /* BaseDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDetailTableViewCell.swift; sourceTree = "<group>"; };
 		06C673491C4D20A0000F48DA /* TopicDetailHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailHeaderCell.swift; sourceTree = "<group>"; };
+		06D0EE1C1C9159DA003095FF /* baseStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = baseStyle.css; sourceTree = "<group>"; };
+		06D0EE1E1C915CAD003095FF /* V2Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2Style.swift; sourceTree = "<group>"; };
+		06D0EE201C916304003095FF /* lightStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = lightStyle.css; sourceTree = "<group>"; };
+		06D0EE211C916304003095FF /* darkStyle.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = darkStyle.css; sourceTree = "<group>"; };
 		06D300231C6C21B600547CE6 /* AccountsManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountsManagerViewController.swift; sourceTree = "<group>"; };
 		06D300251C6C222F00547CE6 /* AccountListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListTableViewCell.swift; sourceTree = "<group>"; };
 		06D300271C6C720800547CE6 /* V2UsersKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2UsersKeychain.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				06BB48ED1C56096000A4A909 /* V2EXMentionedBindingParser.swift */,
 				06D300271C6C720800547CE6 /* V2UsersKeychain.swift */,
 				065B69101C75ABE1009AAC37 /* AnalyzeURLHelper.swift */,
+				06D0EE1E1C915CAD003095FF /* V2Style.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -360,9 +363,9 @@
 			children = (
 				0618768C1C7C5F8C002E9C33 /* 12.jpg */,
 				06098B421C5232D800848159 /* 32.jpg */,
-				06098B401C521A4100848159 /* login-bg-iphone-6.jpg */,
-				0698397B1C47766500FF7163 /* Dark.bundle */,
-				0698397C1C47766500FF7163 /* Light.bundle */,
+				06D0EE1C1C9159DA003095FF /* baseStyle.css */,
+				06D0EE201C916304003095FF /* lightStyle.css */,
+				06D0EE211C916304003095FF /* darkStyle.css */,
 				06A4907B1C67058800F6A063 /* Media.xcassets */,
 			);
 			path = Resources;
@@ -495,12 +498,12 @@
 				06098B431C5232D800848159 /* 32.jpg in Resources */,
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
 				0618768D1C7C5F8C002E9C33 /* 12.jpg in Resources */,
-				0698397D1C47766500FF7163 /* Dark.bundle in Resources */,
-				0698397E1C47766500FF7163 /* Light.bundle in Resources */,
 				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
-				06098B411C521A4100848159 /* login-bg-iphone-6.jpg in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,
 				06A4907C1C67058800F6A063 /* Media.xcassets in Resources */,
+				06D0EE221C916304003095FF /* lightStyle.css in Resources */,
+				06D0EE231C916304003095FF /* darkStyle.css in Resources */,
+				06D0EE1D1C9159DA003095FF /* baseStyle.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +596,7 @@
 				067FF8C21C804B9C009538F7 /* V2PhotoBrowserTransionDismiss.swift in Sources */,
 				06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */,
 				0678D2051C61B423007FFCFD /* UIImage+Extension.swift in Sources */,
+				06D0EE1F1C915CAD003095FF /* V2Style.swift in Sources */,
 				06D300261C6C222F00547CE6 /* AccountListTableViewCell.swift in Sources */,
 				064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */,
 				0611DE5D1C5F4C5C00933964 /* MemberTopicCell.swift in Sources */,

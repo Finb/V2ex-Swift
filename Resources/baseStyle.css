@@ -1,5 +1,4 @@
 h1 {
-    font-size: 18px;
     font-weight: 500;
     line-height: 140%;
     margin: 5px 0px 15px 0px;
@@ -7,7 +6,6 @@ h1 {
 }
 
 h2 {
-    font-size: 18px;
     font-weight: 500;
     line-height: 100%;
     margin: 20px 0px 20px 0px;
@@ -16,7 +14,6 @@ h2 {
 }
 
 h3 {
-    font-size: 16px;
     font-weight: 500;
     line-height: 100%;
     margin: 5px 0px 20px 0px;
@@ -26,15 +23,12 @@ h3 {
 hr {
     border: none;
     height: 1px;
-    color: #e2e2e2;
-    background-color: #e2e2e2;
     margin-bottom: 1em;
 }
 
 pre {
     font-family: 'Consolas', 'Panic Sans', 'Consolas', 'DejaVu Sans Mono',
     'Bitstream Vera Sans Mono', 'Menlo', 'Microsoft Yahei', monospace;
-    font-size: 13px;
     letter-spacing: 0.015em;
     line-height: 120%;
     padding: 0.5em;
@@ -50,7 +44,6 @@ pre a {
 }
 
 code {
-    background-color: #f8f8f8;
     padding: 1px 2px 1px 2px;
     border-radius: 2px;
     font-family: 'Consolas', 'Panic Sans', 'DejaVu Sans Mono',
@@ -75,7 +68,6 @@ ol {
 }
 
 a:link, a:visited, a:active {
-    color: #778087;
     text-decoration: none;
     word-break: break-all;
 }
@@ -91,10 +83,9 @@ a:link, a:visited, a:active {
 /* *******************************    ******************************* */
 body {
     -webkit-text-size-adjust: none;
-    font-size: 14px;
     line-height: 1.75;
-    color: #000;
     word-wrap: break-word;
     max-height: 20em;
     padding: 5px;
 }
+

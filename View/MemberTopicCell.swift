@@ -58,7 +58,7 @@ class MemberTopicCell: UITableViewCell {
             make.centerY.equalTo(self.dateAndLastPostUserLabel!);
             make.right.equalTo(self.contentPanel!).offset(-12);
         }
-        self.replyCountIconImageView = UIImageView(image: UIImage(imageNamed: "reply_n"))
+        self.replyCountIconImageView = UIImageView(image: UIImage(named: "reply_n"))
         self.replyCountIconImageView?.contentMode = .ScaleAspectFit
         self.contentPanel?.addSubview(self.replyCountIconImageView!);
         self.replyCountIconImageView!.snp_makeConstraints{ (make) -> Void in

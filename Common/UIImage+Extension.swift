@@ -33,4 +33,12 @@ extension UIImage {
 
         return image
     }
+    
+    class func imageUsedTemplateMode(named:String) -> UIImage? {
+        let image = UIImage(named: named)
+        if image == nil {
+            return nil
+        }
+        return image!.imageWithRenderingMode(.AlwaysTemplate)
+    }
 }
