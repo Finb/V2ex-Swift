@@ -66,18 +66,8 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.model = model
         
         if var html = model.topicContent {
-//            let style = "<link rel='stylesheet' href = 'file://"
-//                + LightBundel.pathForResource("style", ofType: "css")!
-//                + "' type='text/css'/></head>" ;
 
-            var css = ""
-            if let _ = V2EXColor.colors as? V2EXDefaultColor {
-                css = LIGHT_CSS
-            }
-            else {
-                css = DARK_CSS
-            }
-            let style = "<style>" + css + "</style></head>"
+            let style = "<style>" + V2Style.sharedInstance.CSS + "</style></head>"
             html =  HTMLHEADER + style  + html + "</html>"
             
             self.contentWebView?.loadHTMLString(html, baseURL: NSURL(string: "https://"))
