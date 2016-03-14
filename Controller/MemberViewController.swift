@@ -105,7 +105,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         
         if self.titleLabel == nil {
             let frame = self.titleView!.frame
-            CGRectMake(frame.origin.x * -1, frame.origin.y * -1, SCREEN_WIDTH, 64)
+
             let coverView = UIView(frame: CGRectMake(frame.origin.x * -1, frame.origin.y * -1 - 20, SCREEN_WIDTH, 64))
             coverView.clipsToBounds = true
             self.titleView!.addSubview(coverView)

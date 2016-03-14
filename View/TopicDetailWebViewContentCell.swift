@@ -49,9 +49,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             if let weakSelf = self {
                 let size = change![NSKeyValueChangeNewKey] as! NSValue
                 weakSelf.contentHeight = size.CGSizeValue().height;
-                if let event = weakSelf.contentHeightChanged {
-                    event(weakSelf.contentHeight)
-                }
+                weakSelf.contentHeightChanged?(weakSelf.contentHeight)
             }
         }
     }
