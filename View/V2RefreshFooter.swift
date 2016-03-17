@@ -62,6 +62,8 @@ class V2RefreshFooter: MJRefreshAutoFooter {
         self.stateLabel!.font = v2Font(12)
         self.addSubview(self.stateLabel!)
         
+        self.noMoreDataStateString = "没有更多数据了"
+        
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.loadingView?.activityIndicatorViewStyle = .Gray

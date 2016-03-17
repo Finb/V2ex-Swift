@@ -251,22 +251,31 @@ class TopicListModel:NSObject {
      获取我的收藏帖子列表
      
      */
-    class func getFavoriteList(completionHandler: V2ValueResponse<[TopicListModel]> -> Void){
-        Alamofire.request(.GET, V2EXURL+"my/topics", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+    class func getFavoriteList(page:Int = 1, completionHandler: V2ValueResponse<([TopicListModel],Int)> -> Void){
+        Alamofire.request(.GET, V2EXURL+"my/topics?p=\(page)", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
-            
+            var maxPage = 1
             if let jiHtml = response.result.value {
                 if let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[@class='cell item']"){
                     for aNode in aRootNode {
                         let topic = TopicListModel(favoritesRootNode:aNode)
                         resultArray.append(topic);
                     }
-                    
-                    //更新通知数量
-                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                }
+                //更新通知数量
+                V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                
+                //获取最大页码 只有第一页需要获取maxPage
+                if page <= 1
+                ,let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[last()]/table/tr/td/a[@class='page_normal']")?.last
+                , let page = aRootNode.content
+                , let pageInt = Int(page)
+                {
+                    maxPage = pageInt
                 }
             }
-            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
+            
+            let t = V2ValueResponse<([TopicListModel],Int)>(value:(resultArray,maxPage), success: response.result.isSuccess)
             completionHandler(t);
         }
     }

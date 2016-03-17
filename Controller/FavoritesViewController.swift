@@ -9,7 +9,10 @@
 import UIKit
 
 class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableViewDelegate {
-    var topicList:Array<TopicListModel>?
+    var topicList:[TopicListModel]?
+    var currentPage = 1
+    //最大的Page
+    var maxPage = 1
     private var _tableView :UITableView!
     private var tableView: UITableView {
         get{
@@ -44,21 +47,52 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
             self?.refresh()
         })
         self.tableView.mj_header.beginRefreshing()
+        
+        let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
+            self?.getNextPage()
+            })
+        footer.centerOffset = -4
+        self.tableView.mj_footer = footer
     }
     
     func refresh(){
         //根据 tab name 获取帖子列表
+        self.currentPage = 1
         TopicListModel.getFavoriteList{
-            [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
+            [weak self](response) -> Void in
             if response.success {
-                if let weakSelf = self {
-                    weakSelf.topicList = response.value
+                if let weakSelf = self , let list = response.value?.0 , let maxPage = response.value?.1{
+                    weakSelf.topicList = list
+                    weakSelf.maxPage = maxPage
                     weakSelf.tableView.reloadData()
                 }
             }
             self?.tableView.mj_header.endRefreshing()
             
             self?.hideLoadingView()
+        }
+    }
+    func getNextPage(){
+        if self.topicList == nil || self.topicList?.count <= 0 {
+            self.tableView.mj_footer.endRefreshing()
+            return;
+        }
+        if self.currentPage >= maxPage {
+            self.tableView.mj_footer.endRefreshingWithNoMoreData()
+            return;
+        }
+        self.currentPage++
+        TopicListModel.getFavoriteList(self.currentPage) {[weak self] (response) -> Void in
+            if response.success {
+                if let weakSelf = self ,let list = response.value?.0 {
+                    weakSelf.topicList! += list
+                    weakSelf.tableView.reloadData()
+                }
+                else{
+                    self?.currentPage--
+                }
+            }
+            self?.tableView.mj_footer.endRefreshing()
         }
     }
     
