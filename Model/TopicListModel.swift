@@ -149,7 +149,7 @@ class TopicListModel:NSObject {
         if let title = self.topicTitle {
             self.topicTitleAttributedString = NSMutableAttributedString(string: title,
                 attributes: [
-                    NSFontAttributeName:v2Font(18),
+                    NSFontAttributeName:v2Font(16),
                     NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor,
                 ])
             self.topicTitleAttributedString?.yy_lineSpacing = 3
