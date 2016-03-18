@@ -44,15 +44,9 @@ class V2Client: NSObject {
         set {
             //保证给user赋值是在主线程进行的
             //原因是 有很多UI可能会监听这个属性，这个属性发生更改时，那些UI也会相应的修改自己，所以要在主线程操作
-            if NSThread.isMainThread() {
+            dispatch_sync_safely_main_queue { 
                 self._user = newValue
-                self.username = newValue?.username 
-            }
-            else {
-                dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                    self._user = newValue
-                    self.username = newValue?.username
-                })
+                self.username = newValue?.username
             }
         }
     }
@@ -88,16 +82,12 @@ class V2Client: NSObject {
     
     private override init() {
         super.init()
-        self.setupInMainThread()
-    }
-    func setupInMainThread() {
-        if NSThread.isMainThread() {
+        dispatch_sync_safely_main_queue {
             self.setup()
-        }
-        else {
-            dispatch_sync(dispatch_get_main_queue(), { () -> Void in
-                self.setup()
-            })
+            //如果客户端是登陆状态，则去验证一下登陆有没有过期
+            if self.isLogin {
+                self.verifyLoginStatus()
+            }
         }
     }
     func setup(){
@@ -201,6 +191,25 @@ class V2Client: NSObject {
                     }
                 }
             })
+        }
+    }
+    
+    /**
+     验证客户端登陆状态
+     
+     - returns: ture: 正常登陆 ,false: 登陆过期，没登陆
+     */
+    func verifyLoginStatus() {
+        Alamofire.request(.GET, V2EXURL + "new", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
+            if response.request?.URL?.absoluteString == response.response?.URL?.absoluteString {
+                //登陆正常
+            }
+            else{
+                //没有登陆 ,注销客户端
+                dispatch_sync_safely_main_queue({ () -> () in
+                    self.loginOut()
+                })
+            }
         }
     }
 }

@@ -64,6 +64,7 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
                 if let weakSelf = self , let list = response.value?.0 , let maxPage = response.value?.1{
                     weakSelf.topicList = list
                     weakSelf.maxPage = maxPage
+                    weakSelf.tableView.mj_footer.resetNoMoreData()
                     weakSelf.tableView.reloadData()
                 }
             }
