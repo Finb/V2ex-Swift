@@ -139,68 +139,81 @@ class TopicDetailViewController: BaseViewController{
 
 
 
-
 //MARK: - UITableView DataSource
+enum TopicDetailTableViewSection: Int {
+    case Header = 0, Comment, Other
+}
+
+enum TopicDetailHeaderComponent: Int {
+    case Title = 0,  WebViewContent, Other
+}
+
 extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        let _section = TopicDetailTableViewSection(rawValue: section)!
+        switch _section {
+        case .Header:
             if self.model != nil{
                 return 3
             }
             else{
                 return 0
             }
-        }
-        else if section == 1{
+        case .Comment:
             return self.commentsArray.count;
-        }
-        else {
+        case .Other:
             return 0;
         }
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            
-            if indexPath.row == 0{
+        let _section = TopicDetailTableViewSection(rawValue: indexPath.section)!
+        var _headerComponent = TopicDetailHeaderComponent.Other
+        if let headerComponent = TopicDetailHeaderComponent(rawValue: indexPath.row) {
+            _headerComponent = headerComponent
+        }
+        switch _section {
+        case .Header:
+            switch _headerComponent {
+            case .Title:
                 return tableView.fin_heightForCellWithIdentifier(TopicDetailHeaderCell.self, indexPath: indexPath) { (cell) -> Void in
                     cell.bind(self.model!);
                 }
-            }
-                
-            else if indexPath.row == 1 {
+            case .WebViewContent:
                 if self.webViewContentCell?.contentHeight > 0 {
                     return self.webViewContentCell!.contentHeight
                 }
                 else {
                     return 1
                 }
-            }
-                
-            else if indexPath.row == 2 {
+            case .Other:
                 return 45
             }
-            
-        }
-            
-        else {
+        case .Comment:
             let layout = self.commentsArray[indexPath.row].textLayout!
             return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
+        case .Other:
+            return 200
         }
-        
-        return 200 ;
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            if indexPath.row == 0{
+        let _section = TopicDetailTableViewSection(rawValue: indexPath.section)!
+        var _headerComponent = TopicDetailHeaderComponent.Other
+        if let headerComponent = TopicDetailHeaderComponent(rawValue: indexPath.row) {
+            _headerComponent = headerComponent
+        }
+
+        switch _section {
+        case .Header:
+            switch _headerComponent {
+            case .Title:
                 //帖子标题
                 let cell = getCell(tableView, cell: TopicDetailHeaderCell.self, indexPath: indexPath);
                 cell.bind(self.model!);
                 return cell;
-            }
-            else if indexPath.row == 1{
+            case .WebViewContent:
                 //帖子内容
                 if self.webViewContentCell == nil {
                     self.webViewContentCell = getCell(tableView, cell: TopicDetailWebViewContentCell.self, indexPath: indexPath);
@@ -227,9 +240,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                     }
                 }
                 return self.webViewContentCell!
-            }
-                
-            else if indexPath.row == 2 {
+            case .Other:
                 let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
                 cell.detailMarkHidden = true
                 cell.titleLabel?.text = self.model?.topicCommentTotalCount
@@ -238,15 +249,13 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 cell.separator?.image = createImageWithColor(self.view.backgroundColor!)
                 return cell
             }
-        }
-            
-        else if indexPath.section == 1{
-            //帖子评论
+        case .Comment:
             let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
             cell.bind(self.commentsArray[indexPath.row])
             return cell
+        case .Other:
+            return UITableViewCell();
         }
-        return UITableViewCell();
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -348,8 +357,11 @@ extension TopicDetailViewController: UIActionSheetDelegate {
 
 
 
-
 //MARK: - V2ActivityView
+enum V2ActivityViewTopicDetailAction : Int {
+    case Block = 0, Favorite, Grade, Explore
+}
+
 extension TopicDetailViewController: V2ActivityViewDataSource {
     func V2ActivityView(activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
         return 4
@@ -386,8 +398,9 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             SVProgressHUD.showInfoWithStatus("请先登录")
             return;
         }
-        switch indexPath.row {
-        case 0:
+        let action = V2ActivityViewTopicDetailAction(rawValue: indexPath.row)!
+        switch action {
+        case .Block:
             SVProgressHUD.show()
             if let topicId = self.model?.topicId  {
                 TopicDetailModel.ignoreTopicWithTopicId(topicId, completionHandler: {[weak self] (response) -> Void in
@@ -401,7 +414,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                     })
             }
-        case 1:
+        case .Favorite:
             SVProgressHUD.show()
             if let topicId = self.model?.topicId ,let token = self.model?.token {
                 TopicDetailModel.favoriteTopicWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
@@ -413,7 +426,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                 })
             }
-        case 2:
+        case .Grade:
             SVProgressHUD.show()
             if let topicId = self.model?.topicId ,let token = self.model?.token {
                 TopicDetailModel.topicThankWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
@@ -425,9 +438,8 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                 })
             }
-        case 3:
+        case .Explore:
             UIApplication.sharedApplication().openURL(NSURL(string: V2EXURL + "t/" + self.model!.topicId!)!)
-        default: break
         }
     }
     
