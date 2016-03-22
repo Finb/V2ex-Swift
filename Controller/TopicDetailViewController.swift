@@ -304,19 +304,17 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         }
     }
     func replyComment(row:NSNumber){
-        if !V2Client.sharedInstance.isLogin {
-            SVProgressHUD.showInfoWithStatus("请先登录")
-            return;
+        V2Client.sharedInstance.ensureLoginWithHandler {
+            let item = self.commentsArray[row as Int]
+            let replyViewController = ReplyingViewController()
+            replyViewController.atSomeone = "@" + item.userName! + " "
+            replyViewController.topicModel = self.model!
+            let nav = V2EXNavigationController(rootViewController:replyViewController)
+            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
         }
-        let item = self.commentsArray[row as Int]
-        let replyViewController = ReplyingViewController()
-        replyViewController.atSomeone = "@" + item.userName! + " "
-        replyViewController.topicModel = self.model!
-        let nav = V2EXNavigationController(rootViewController:replyViewController)
-        self.navigationController?.presentViewController(nav, animated: true, completion:nil)
     }
     func thankComment(row:NSNumber){
-        if !V2Client.sharedInstance.isLogin {
+        guard V2Client.sharedInstance.isLogin else {
             SVProgressHUD.showInfoWithStatus("请先登录")
             return;
         }
@@ -393,8 +391,8 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
     
     func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         activityView.dismiss()
-        //                                     用safari打开是不用登录的
-        if !V2Client.sharedInstance.isLogin && indexPath.row != 3 {
+        // 用safari打开是不用登录的
+        guard V2Client.sharedInstance.isLogin || indexPath.row == V2ActivityViewTopicDetailAction.Explore.rawValue else {
             SVProgressHUD.showInfoWithStatus("请先登录")
             return;
         }
@@ -445,10 +443,12 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
     
     func reply(){
         self.activityView?.dismiss()
-        let replyViewController = ReplyingViewController()
-        replyViewController.topicModel = self.model!
-        let nav = V2EXNavigationController(rootViewController:replyViewController)
-        self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+        V2Client.sharedInstance.ensureLoginWithHandler {
+            let replyViewController = ReplyingViewController()
+            replyViewController.topicModel = self.model!
+            let nav = V2EXNavigationController(rootViewController:replyViewController)
+            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+        }
     }
     
 }

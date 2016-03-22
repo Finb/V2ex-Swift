@@ -10,6 +10,8 @@ import UIKit
 import DrawerController
 import Alamofire
 import Ji
+import SVProgressHUD
+
 let kUserName = "me.fin.username"
 
 class V2Client: NSObject {
@@ -106,7 +108,14 @@ class V2Client: NSObject {
             }
         }
     }
-    
+
+    func ensureLoginWithHandler(handler:()->()) {
+        guard isLogin else {
+            SVProgressHUD.showInfoWithStatus("请先登录")
+            return;
+        }
+        handler()
+    }
     /**
      退出登录
      */
