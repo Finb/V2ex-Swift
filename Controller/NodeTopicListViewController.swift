@@ -91,7 +91,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             return;
         }
         
-        self.currentPage++
+        self.currentPage += 1
 
         TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
             [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
@@ -101,7 +101,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
                     weakSelf.tableView.reloadData()
                 }
                 else{
-                    self?.currentPage-- ;
+                    self?.currentPage -= 1
                 }
             }
             self?.tableView.mj_footer.endRefreshing()
