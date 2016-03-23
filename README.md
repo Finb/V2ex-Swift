@@ -21,7 +21,7 @@ $ open "V2ex-Swift.xcworkspace"
 3) Compile and run the app in your simulator or iOS device
 
 ##Requirements
-* Xcode 7.2+
+* Xcode 7.3+
 * iOS8+
 
 ## Questions
