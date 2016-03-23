@@ -47,6 +47,18 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         self.topicTitle = rootNode.xPath("./div[1]/h1").first?.content
         
         self.topicContent = rootNode.xPath("./div[@class='cell']/div").first?.rawContent
+        if self.topicContent == nil {
+            self.topicContent = ""
+        }
+        // Append
+        let appendNodes = rootNode.xPath("./div[@class='subtle']") ;
+        
+        for node in appendNodes {
+            if let content =  node.rawContent {
+                self.topicContent! += content
+            }
+        }
+        
         
         self.date = rootNode.xPath("./div[1]/small/text()[2]").first?.content
         

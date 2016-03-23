@@ -27,8 +27,6 @@ hr {
 }
 
 pre {
-    font-family: 'Consolas', 'Panic Sans', 'Consolas', 'DejaVu Sans Mono',
-    'Bitstream Vera Sans Mono', 'Menlo', 'Microsoft Yahei', monospace;
     letter-spacing: 0.015em;
     line-height: 120%;
     padding: 0.5em;
@@ -46,8 +44,6 @@ pre a {
 code {
     padding: 1px 2px 1px 2px;
     border-radius: 2px;
-    font-family: 'Consolas', 'Panic Sans', 'DejaVu Sans Mono',
-    'Bitstream Vera Sans Mono', 'Menlo', 'Microsoft Yahei', monospace;
 }
 
 
@@ -82,10 +78,13 @@ a:link, a:visited, a:active {
 
 /* *******************************    ******************************* */
 body {
+    font-family: 'Helvetica', monospace;
     -webkit-text-size-adjust: none;
     line-height: 1.75;
     word-wrap: break-word;
     max-height: 20em;
     padding: 5px;
 }
-
+.subtle {
+    padding: 5px;
+}

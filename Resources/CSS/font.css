@@ -18,3 +18,9 @@ pre {
 body {
     font-size: <BODY_FONT_SIZE>px; /* Default 14 */
 }
+.subtle {
+    font-size : <SUBTLE_FONT_SIZE>px; /* Default 12 */
+}
+.subtle .fade {
+    font-size : <SUBTLE_FADE_FONT_SIZE>px; /* Default 10 */
+}

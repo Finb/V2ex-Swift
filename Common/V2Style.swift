@@ -85,6 +85,8 @@ let FONT_SIZE_ARRAY = [
     V2FontSize(labelName:"<H3_FONT_SIZE>",defaultFontSize:16),
     V2FontSize(labelName:"<PRE_FONT_SIZE>",defaultFontSize:13),
     V2FontSize(labelName:"<BODY_FONT_SIZE>",defaultFontSize:14),
+    V2FontSize(labelName:"<SUBTLE_FONT_SIZE>",defaultFontSize:12),
+    V2FontSize(labelName:"<SUBTLE_FADE_FONT_SIZE>",defaultFontSize:10),
 ]
 
 struct V2FontSize {

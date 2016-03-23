@@ -7,3 +7,9 @@ body {
     color: #919191;
     background-color:#232226;
 }
+.subtle {
+    /*    background-color: #F1F2F4;*/
+}
+.subtle .fade {
+    color:#646464;
+}
