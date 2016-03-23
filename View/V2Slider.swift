@@ -16,7 +16,7 @@ class V2Slider: UISlider {
         self.minimumValue = 0
         self.maximumValue = 16
         self.value = (V2Style.sharedInstance.fontScale - 0.8 ) / 0.5 * 10
-        self.addTarget(self, action: "valueChanged:", forControlEvents: [.ValueChanged])
+        self.addTarget(self, action: #selector(V2Slider.valueChanged(_:)), forControlEvents: [.ValueChanged])
         
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {_ in
             self.minimumTrackTintColor = V2EXColor.colors.v2_TopicListTitleColor

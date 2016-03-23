@@ -112,7 +112,7 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
     func webViewDidStartLoad(webView: UIWebView) {
         delegate?.webViewDidStartLoad?(webView)
         
-        self.loadingCount++
+        self.loadingCount += 1
         self.maxLoadCount = max(self.maxLoadCount, self.loadingCount)
         self.progress = InitialProgressValue
     }
@@ -128,7 +128,7 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
     }
     
     func handleCompleteProgress(webView:UIWebView){
-        self.loadingCount--
+        self.loadingCount -= 1
         self.incrementProgress()
         
         let readyState = webView.stringByEvaluatingJavaScriptFromString("document.readyState")

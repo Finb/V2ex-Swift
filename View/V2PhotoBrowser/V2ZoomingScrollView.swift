@@ -50,7 +50,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.showsVerticalScrollIndicator = false
         self.decelerationRate = UIScrollViewDecelerationRateFast
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadingDidEndNotification:", name: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(V2ZoomingScrollView.loadingDidEndNotification(_:)), name: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
         self.photoBrowser = browser
         
     }

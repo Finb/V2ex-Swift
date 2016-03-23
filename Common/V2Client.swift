@@ -193,7 +193,7 @@ class V2Client: NSObject {
                 if let result = result {
                     let startIndex = notification.startIndex.advancedBy(result.range.location + 6)
                     let endIndex = notification.startIndex.advancedBy(result.range.location + result.range.length - 1)
-                    let subRange = Range<String.Index>(start: startIndex, end: endIndex)
+                    let subRange = Range<String.Index>(startIndex ..< endIndex)
                     let count = notification.substringWithRange(subRange)
                     if let acount = Int(count) {
                         self.notificationCount = acount

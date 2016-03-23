@@ -197,7 +197,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         
         let numberOfPhotos = self.numberOfPhotos()
         self.photos = []
-        for var i = 0; i < numberOfPhotos; i++ {
+        for _ in 0 ..< numberOfPhotos {
             self.photos.append(NSNull())
         }
         
@@ -243,7 +243,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
             self.recycledPages.removeObject(self.recycledPages.anyObject()!)
         }
         
-        for var index = iFirstIndex ; index <= iLastIndex ;index++ {
+        for index in iFirstIndex ... iLastIndex {
             if !self.isDisplayingPageForIndex(index) {
                 var page = self.dequeueRecycledPage()
                 if page == nil {

@@ -40,7 +40,7 @@ class NodeTableViewCell: UITableViewCell {
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         label.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         
-        let tap = UITapGestureRecognizer(target: self, action: "labelClick:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(NodeTableViewCell.labelClick(_:)))
         label.addGestureRecognizer(tap)
         
         labelArray.append(label)
@@ -63,7 +63,7 @@ class NodeTableViewCell: UITableViewCell {
     
     func bind(nodes:[NodeModel]) {
         self.nodes = nodes
-        for var i = 0 ; i < nodes.count ; i++ {
+        for i in 0  ..< nodes.count  {
             let node = nodes[i]
             let label = getLabel(i)
             label.hidden = false
@@ -80,7 +80,7 @@ class NodeTableViewCell: UITableViewCell {
             })
         }
         
-        for var i = nodes.count ; i < labelArray.count ; i++ {
+        for i in nodes.count  ..< labelArray.count  {
             labelArray[i].hidden = true
         }
     }

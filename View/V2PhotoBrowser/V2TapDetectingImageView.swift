@@ -33,7 +33,7 @@ class V2TapDetectingImageView: UIImageView {
         if let tapCount = tapCount {
             switch (tapCount) {
             case 1:
-                self.performSelector("handleSingleTap:", withObject: touch! , afterDelay: 0.3)
+                self.performSelector(#selector(V2TapDetectingImageView.handleSingleTap(_:)), withObject: touch! , afterDelay: 0.3)
             case 2:
                 self.handleDoubleTap(touch!)
                 

@@ -59,7 +59,7 @@ class NodeGroupModel: NSObject ,BaseHtmlModelProtocol{
         var rows:[[Int]] = []
         
         var tempWidth:CGFloat = 0
-        for var i = 0 ;i < nodes.count ; i += 1 {
+        for var i in 0 ..< nodes.count {
             
             if rows.count < row {
                 rows .append([])

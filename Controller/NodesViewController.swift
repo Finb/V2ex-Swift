@@ -100,7 +100,7 @@ class NodesViewController: BaseViewController,UITableViewDelegate,UITableViewDat
 
         var nodes:[NodeModel] = []
         
-        for var i = rows.first! ; i <= rows.last! ; i++ {
+        for i in rows.first! ... rows.last! {
             nodes.append(group.children[i])
         }
         

@@ -20,14 +20,14 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "写东西"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .Plain, target: self, action: Selector("leftClick"))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .Plain, target: self, action: #selector(WritingViewController.leftClick))
 
         let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         rightButton.contentMode = .Center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20)
         rightButton.setImage(UIImage(named: "ic_send")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(WritingViewController.rightClick), forControlEvents: .TouchUpInside)
         
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.textView = YYTextView()

@@ -78,7 +78,7 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
         let cell = getCell(tableView, cell: NotificationTableViewCell.self, indexPath: indexPath)
         cell.bind(self.notificationsArray[indexPath.row])
         if cell.replyButton?.allTargets().count <= 0 {
-            cell.replyButton?.addTarget(self, action: Selector("replyClick:"), forControlEvents: .TouchUpInside)
+            cell.replyButton?.addTarget(self, action: #selector(NotificationsViewController.replyClick(_:)), forControlEvents: .TouchUpInside)
         }
         cell.replyButton?.tag = indexPath.row
         return cell
