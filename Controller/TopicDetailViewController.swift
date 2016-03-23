@@ -59,8 +59,8 @@ class TopicDetailViewController: BaseViewController{
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
         rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
-        
+        rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), forControlEvents: .TouchUpInside)
+
         //根据 topicId 获取 帖子信息 、回复。
         TopicDetailModel.getTopicDetailById(self.topicId){
             (response:V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>) -> Void in
@@ -104,7 +104,7 @@ class TopicDetailViewController: BaseViewController{
             self.endRefreshingWithNoMoreData("暂无评论")
             return;
         }
-        self.currentPage++
+        self.currentPage += 1
         
         if self.currentPage > self.model?.totalPages {
             self.endRefreshingWithNoMoreData("没有更多评论了")
@@ -123,7 +123,7 @@ class TopicDetailViewController: BaseViewController{
                 
             }
             else{
-                self.currentPage--
+                self.currentPage -= 1
             }
         }
     }
@@ -300,7 +300,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
     }
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex > 0 && buttonIndex <= 3 {
-            self.performSelector(["replyComment:","thankComment:","relevantComment:"][buttonIndex - 1], withObject: actionSheet.tag)
+            self.performSelector([#selector(TopicDetailViewController.replyComment(_:)),#selector(TopicDetailViewController.thankComment(_:)),#selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1], withObject: actionSheet.tag)
         }
     }
     func replyComment(row:NSNumber){
@@ -327,7 +327,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             SVProgressHUD.showErrorWithStatus("帖子token为空")
             return;
         }
-        item.favorites++
+        item.favorites += 1
         self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
         
         TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
@@ -337,7 +337,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             else{
                 SVProgressHUD.showSuccessWithStatus("感谢失败了")
                 //失败后 取消增加的数量
-                item?.favorites--
+                item?.favorites -= 1
                 self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
             }
         }
@@ -384,7 +384,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             make.top.right.bottom.left.equalTo(view)
         }
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "reply"))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(TopicDetailViewController.reply)))
         
         return view
     }
