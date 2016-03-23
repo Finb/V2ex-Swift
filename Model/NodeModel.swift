@@ -59,7 +59,7 @@ class NodeGroupModel: NSObject ,BaseHtmlModelProtocol{
         var rows:[[Int]] = []
         
         var tempWidth:CGFloat = 0
-        for var i = 0 ;i < nodes.count ; i++ {
+        for var i = 0 ;i < nodes.count ; i += 1 {
             
             if rows.count < row {
                 rows .append([])
@@ -73,8 +73,8 @@ class NodeGroupModel: NSObject ,BaseHtmlModelProtocol{
             if tempWidth + node.width + NodeTableViewCell.nodeSpacing > SCREEN_WIDTH - NodeTableViewCell.leftAndRightSpacing
                 && tempWidth > NodeTableViewCell.leftAndRightSpacing {
                     tempWidth = 0
-                    i--
-                    row++
+                    i -= 1
+                    row += 1
                     continue
             }
             

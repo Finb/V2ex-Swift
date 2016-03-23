@@ -122,9 +122,9 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             make.left.top.right.bottom.equalTo(cancelPanel)
         }
         
-        cancelButton.addTarget(self, action: "dismiss", forControlEvents: .TouchUpInside)
+        cancelButton.addTarget(self, action: #selector(V2ActivityViewController.dismiss), forControlEvents: .TouchUpInside)
         
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "dismiss"))
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(V2ActivityViewController.dismiss)))
     }
     
     func dismiss(){
@@ -222,7 +222,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         }
         
         button.indexPath = NSIndexPath(forRow: index, inSection: currentSection)
-        button.addTarget(self, action: "cellDidSelected:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(V2ActivityViewController.cellDidSelected(_:)), forControlEvents: .TouchUpInside)
         
         
         let titleLabel = UILabel()

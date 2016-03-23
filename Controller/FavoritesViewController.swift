@@ -82,7 +82,7 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
             self.tableView.mj_footer.endRefreshingWithNoMoreData()
             return;
         }
-        self.currentPage++
+        self.currentPage += 1
         TopicListModel.getFavoriteList(self.currentPage) {[weak self] (response) -> Void in
             if response.success {
                 if let weakSelf = self ,let list = response.value?.0 {
@@ -90,7 +90,7 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
                     weakSelf.tableView.reloadData()
                 }
                 else{
-                    self?.currentPage--
+                    self?.currentPage -= 1
                 }
             }
             self?.tableView.mj_footer.endRefreshing()

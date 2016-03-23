@@ -75,8 +75,8 @@ extension UIImageView {
 }
 
 func fin_defaultImageModification() -> ((image:UIImage) -> UIImage) {
-    return { (var image) -> UIImage in
-        image = image.roundedCornerImageWithCornerRadius(3)
-        return image
+    return { ( image) -> UIImage in
+        let roundedImage = image.roundedCornerImageWithCornerRadius(3)
+        return roundedImage
     }
 }

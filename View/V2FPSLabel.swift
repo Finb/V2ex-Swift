@@ -18,11 +18,12 @@ class V2FPSLabel: UILabel {
 
     private let _defaultSize = CGSizeMake(55, 20);
     
-    override init(var frame: CGRect) {
+    override init(frame: CGRect) {
+        var targetFrame = frame
         if frame.size.width == 0 && frame.size.height == 0{
-            frame.size = _defaultSize
+            targetFrame.size = _defaultSize
         }
-        super.init(frame: frame)
+        super.init(frame: targetFrame)
         self.layer.cornerRadius = 5
         self.clipsToBounds = true
         self.textAlignment = .Center
@@ -31,7 +32,7 @@ class V2FPSLabel: UILabel {
         self.backgroundColor = UIColor(white: 0, alpha: 0.7)
         self.font = UIFont(name: "Menlo", size: 14)
         weak var weakSelf = self
-        _link = CADisplayLink(target: weakSelf!, selector:"tick:" );
+        _link = CADisplayLink(target: weakSelf!, selector:#selector(V2FPSLabel.tick(_:)) );
         _link!.addToRunLoop(NSRunLoop .mainRunLoop(), forMode:NSRunLoopCommonModes)
     }
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +45,7 @@ class V2FPSLabel: UILabel {
             return
         }
         
-        _count++
+        _count += 1
         let delta = link.timestamp - _lastTime
         if delta < 1 {
             return

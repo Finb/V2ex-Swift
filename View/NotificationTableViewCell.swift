@@ -160,9 +160,9 @@ class NotificationTableViewCell: UITableViewCell {
         //点击用户头像，跳转到用户主页
         self.avatarImageView!.userInteractionEnabled = true
         self.userNameLabel!.userInteractionEnabled = true
-        var userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        var userNameTap = UITapGestureRecognizer(target: self, action: #selector(NotificationTableViewCell.userNameTap(_:)))
         self.avatarImageView!.addGestureRecognizer(userNameTap)
-        userNameTap = UITapGestureRecognizer(target: self, action: "userNameTap:")
+        userNameTap = UITapGestureRecognizer(target: self, action: #selector(NotificationTableViewCell.userNameTap(_:)))
         self.userNameLabel!.addGestureRecognizer(userNameTap)
         
     }

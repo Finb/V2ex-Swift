@@ -39,7 +39,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         backbtn.setTitleColor(self.navigationController?.navigationBar.tintColor, forState: .Normal)
         backbtn.contentHorizontalAlignment = .Left
         
-        backbtn.addTarget(self, action: "back", forControlEvents: .TouchUpInside)
+        backbtn.addTarget(self, action: #selector(V2WebViewViewController.back), forControlEvents: .TouchUpInside)
         
         
         self.closeButton = UIButton(type: .Custom)
@@ -51,7 +51,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.closeButton!.titleLabel?.font = v2Font(14)
         self.closeButton!.hidden = true
         
-        self.closeButton!.addTarget(self, action: "pop", forControlEvents: .TouchUpInside)
+        self.closeButton!.addTarget(self, action: #selector(V2WebViewViewController.pop), forControlEvents: .TouchUpInside)
         
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(customView: backbtn),UIBarButtonItem(customView: self.closeButton!)]
         
@@ -60,7 +60,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
         rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(V2WebViewViewController.rightClick), forControlEvents: .TouchUpInside)
         
         
         self.webViewProgress = V2WebViewProgress()

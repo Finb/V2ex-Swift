@@ -54,8 +54,8 @@ class HomeViewController: UIViewController {
         self.setupNavigationItem()
         
         //监听程序即将进入前台运行、进入后台休眠 事件
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationWillEnterForeground", name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
@@ -80,7 +80,7 @@ class HomeViewController: UIViewController {
         let leftButton = NotificationMenuButton()
         leftButton.frame = CGRectMake(0, 0, 40, 40)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-        leftButton.addTarget(self, action: Selector("leftClick"), forControlEvents: .TouchUpInside)
+        leftButton.addTarget(self, action: #selector(HomeViewController.leftClick), forControlEvents: .TouchUpInside)
         
         
         let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
@@ -88,7 +88,7 @@ class HomeViewController: UIViewController {
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
         rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: Selector("rightClick"), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), forControlEvents: .TouchUpInside)
 
     }
     func leftClick(){
@@ -143,7 +143,7 @@ class HomeViewController: UIViewController {
             return;
         }
         //根据 tab name 获取帖子列表
-        self.currentPage++
+        self.currentPage += 1
         TopicListModel.getTopicList(tab,page: self.currentPage){
             (response:V2ValueResponse<[TopicListModel]>) -> Void in
             
@@ -155,7 +155,7 @@ class HomeViewController: UIViewController {
             }
             else{
                 //加载失败，重置page
-                self.currentPage--
+                self.currentPage -= 1
             }
             self.tableView.mj_footer.endRefreshing()
         }
@@ -206,7 +206,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;
             topicDetailController.ignoreTopicHandler = {[weak self] (topicId) in
-                self?.performSelector("ignoreTopicHandler:", withObject: topicId, afterDelay: 0.6)
+                self?.performSelector(#selector(HomeViewController.ignoreTopicHandler(_:)), withObject: topicId, afterDelay: 0.6)
             }
             self.navigationController?.pushViewController(topicDetailController, animated: true)
             tableView .deselectRowAtIndexPath(indexPath, animated: true);
