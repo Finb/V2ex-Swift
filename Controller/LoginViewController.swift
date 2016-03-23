@@ -37,12 +37,12 @@ class LoginViewController: UIViewController {
             onepasswordButton.tintColor = UIColor.whiteColor()
             self.passwordTextField.rightView = onepasswordButton
             self.passwordTextField.rightViewMode = .Always
-            onepasswordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "findLoginFrom1Password"))
+            onepasswordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(LoginViewController.findLoginFrom1Password)))
         }
         
         //绑定事件
-        self.loginButton.addTarget(self, action: Selector("loginClick:"), forControlEvents: .TouchUpInside)
-        self.cancelButton.addTarget(self, action: Selector("cancelClick"), forControlEvents: .TouchUpInside)
+        self.loginButton.addTarget(self, action: #selector(LoginViewController.loginClick(_:)), forControlEvents: .TouchUpInside)
+        self.cancelButton.addTarget(self, action: #selector(LoginViewController.cancelClick), forControlEvents: .TouchUpInside)
     }
     override func viewDidAppear(animated: Bool) {
         UIView.animateWithDuration(2) { () -> Void in
