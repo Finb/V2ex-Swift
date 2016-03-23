@@ -391,12 +391,14 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
     
     func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         activityView.dismiss()
-        // 用safari打开是不用登录的
-        guard V2Client.sharedInstance.isLogin || indexPath.row == V2ActivityViewTopicDetailAction.Explore.rawValue else {
+        let action = V2ActivityViewTopicDetailAction(rawValue: indexPath.row)!
+        
+        guard V2Client.sharedInstance.isLogin
+            // 用safari打开是不用登录的
+            || action == V2ActivityViewTopicDetailAction.Explore else {
             SVProgressHUD.showInfoWithStatus("请先登录")
             return;
         }
-        let action = V2ActivityViewTopicDetailAction(rawValue: indexPath.row)!
         switch action {
         case .Block:
             SVProgressHUD.show()

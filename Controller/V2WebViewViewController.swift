@@ -68,6 +68,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         
         self.webView = UIWebView()
         self.webView!.backgroundColor = self.view.backgroundColor
+        self.webView!.scalesPageToFit = true
         self.webView!.delegate = self.webViewProgress
         self.view.addSubview(self.webView!)
         self.webView!.snp_makeConstraints{ (make) -> Void in
