@@ -43,7 +43,11 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
         }
         
     }
-    
+}
+
+
+//MARK: - Request
+extension NotificationsModel {
     class func getNotifications(completionHandler: (V2ValueResponse<[NotificationsModel]> -> Void)? = nil){
         
         Alamofire.request(.GET, V2EXURL+"notifications", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
@@ -67,4 +71,5 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
         }
         
     }
+
 }

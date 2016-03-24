@@ -31,7 +31,7 @@ class TopicListModel:NSObject {
     var hits: String?
     
     override init() {
-        
+        super.init()
     }
     init(rootNode: JiNode) {
         super.init()
@@ -163,7 +163,10 @@ class TopicListModel:NSObject {
                 })
         }
     }
-    
+}
+
+//MARK: - Request
+extension TopicListModel {
     /**
      获取首页帖子列表
      
@@ -174,49 +177,49 @@ class TopicListModel:NSObject {
         page:Int = 0 ,
         completionHandler: V2ValueResponse<[TopicListModel]> -> Void
         )->Void{
-            
-            var params:[String:String] = [:]
-            if let tab = tab {
-                params["tab"]=tab
-            }
-            else {
-                params["tab"] = "all"
-            }
-            
-            var url = V2EXURL
-            if params["tab"] == "all" && page > 0 {
-                params.removeAll()
-                params["p"] = "\(page)"
-                url = V2EXURL + "recent"
-            }
-            
-            Alamofire.request(.GET, url, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-                var resultArray:[TopicListModel] = []
-                if  let jiHtml = response.result.value{
-                    if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
-                        for aNode in aRootNode {
-                            let topic = TopicListModel(rootNode:aNode)
-                            resultArray.append(topic);
-                        }
-                        
-                        //更新通知数量
-                        V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+        
+        var params:[String:String] = [:]
+        if let tab = tab {
+            params["tab"]=tab
+        }
+        else {
+            params["tab"] = "all"
+        }
+        
+        var url = V2EXURL
+        if params["tab"] == "all" && page > 0 {
+            params.removeAll()
+            params["p"] = "\(page)"
+            url = V2EXURL + "recent"
+        }
+        
+        Alamofire.request(.GET, url, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+            var resultArray:[TopicListModel] = []
+            if  let jiHtml = response.result.value{
+                if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
+                    for aNode in aRootNode {
+                        let topic = TopicListModel(rootNode:aNode)
+                        resultArray.append(topic);
                     }
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-                        //领取奖励
-                        if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='inner']/a[@href='/mission/daily']")?.first {
-                            if aRootNode.content == "领取今日的登录奖励" {
-                                print("有登陆奖励可领取")
-                                UserModel.dailyRedeem()
-                            }
+                    //更新通知数量
+                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                }
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                    //领取奖励
+                    if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='inner']/a[@href='/mission/daily']")?.first {
+                        if aRootNode.content == "领取今日的登录奖励" {
+                            print("有登陆奖励可领取")
+                            UserModel.dailyRedeem()
                         }
                     }
                 }
-                
-                let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
-                completionHandler(t);
             }
+            
+            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
+            completionHandler(t);
+        }
     }
     
     class func getTopicList(
@@ -224,26 +227,26 @@ class TopicListModel:NSObject {
         page:Int,
         completionHandler: V2ValueResponse<[TopicListModel]> -> Void
         )->Void{
-            
-            let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
-            
-            Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-                var resultArray:[TopicListModel] = []
-                if  let jiHtml = response.result.value{
-                    if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']"){
-                        for aNode in aRootNode {
-                            let topic = TopicListModel(nodeRootNode: aNode)
-                            resultArray.append(topic);
-                        }
-                        
-                        //更新通知数量
-                        V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+        
+        let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
+        
+        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+            var resultArray:[TopicListModel] = []
+            if  let jiHtml = response.result.value{
+                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']"){
+                    for aNode in aRootNode {
+                        let topic = TopicListModel(nodeRootNode: aNode)
+                        resultArray.append(topic);
                     }
+                    
+                    //更新通知数量
+                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
-                
-                let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
-                completionHandler(t);
             }
+            
+            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
+            completionHandler(t);
+        }
     }
     
     
@@ -267,9 +270,9 @@ class TopicListModel:NSObject {
                 
                 //获取最大页码 只有第一页需要获取maxPage
                 if page <= 1
-                ,let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[last()]/table/tr/td/a[@class='page_normal']")?.last
-                , let page = aRootNode.content
-                , let pageInt = Int(page)
+                    ,let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[last()]/table/tr/td/a[@class='page_normal']")?.last
+                    , let page = aRootNode.content
+                    , let pageInt = Int(page)
                 {
                     maxPage = pageInt
                 }
@@ -279,5 +282,5 @@ class TopicListModel:NSObject {
             completionHandler(t);
         }
     }
-    
+
 }
