@@ -84,13 +84,14 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDark {
             self.color = 100
         }
-        
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 0
         self.dealNavigationBarTintColor()
         (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y / 100
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true);
+
     }
     override func viewWillDisappear(animated: Bool) {
         (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 1
@@ -224,7 +225,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;
             self.navigationController?.pushViewController(topicDetailController, animated: true)
-            tableView .deselectRowAtIndexPath(indexPath, animated: true);
+            tableView.deselectRowAtIndexPath(indexPath, animated: true);
         }
 
     }
@@ -234,7 +235,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         let offsetY = scrollView.contentOffset.y
         
         //navigationBar 的透明度
-        self .dealNavigationAlpha()
+        self.dealNavigationAlpha()
         
         //后退按钮颜色
         self.dealNavigationBarTintColor()
@@ -251,9 +252,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
             y = offsetY - 92
         }
         self.titleLabel?.center = CGPointMake(SCREEN_WIDTH/2, 64 - y + 6.5)
-        
-        
-        
+
     }
     
     func dealNavigationAlpha(){
@@ -265,9 +264,11 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
         var y = 100 - offsetY
         if offsetY < 0 {
             y = 100-0
+            UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true);
         }
         else if offsetY > 100 {
             y = 100 - 100
+            UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
         }
         //后退按钮颜色
         self.navigationController?.navigationBar.tintColor = colorWith255RGB(y*2.4+self.color, g: y*2.4+self.color, b: y*2.4+self.color)
