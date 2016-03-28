@@ -30,7 +30,7 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     
     var token:String?
 
-    var totalPages:Int = 1
+    var commentTotalPages:Int = 1
     
     override init() {
         
@@ -109,7 +109,7 @@ extension TopicDetailModel {
                 //获取页数总数
                 if let commentTotalPages = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[last()]/a[last()]")?.first?.content {
                     if let pages = Int(commentTotalPages) {
-                        topicModel?.totalPages = pages
+                        topicModel?.commentTotalPages = pages
                     }
                 }
                 
