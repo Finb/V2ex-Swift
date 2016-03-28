@@ -73,6 +73,10 @@ class TopicDetailViewController: BaseViewController{
                 self.commentsArray = response.value!.1
                 
                 self.tableView.reloadData()
+
+                if (self.tableView.contentSize.height <= CGRectGetHeight(self.tableView.bounds)) {
+                    self.endRefreshingWithNoMoreData()
+                }
             }
             self.hideLoadingView()
         }
@@ -101,13 +105,13 @@ class TopicDetailViewController: BaseViewController{
      */
     func getNextPage(){
         if self.model == nil || self.commentsArray.count <= 0 {
-            self.endRefreshingWithNoMoreData("暂无评论")
+            self.endRefreshingWithNoDataAtAll()
             return;
         }
         self.currentPage += 1
         
         if self.currentPage > self.model?.totalPages {
-            self.endRefreshingWithNoMoreData("没有更多评论了")
+            self.endRefreshingWithNoMoreData()
             return;
         }
         
@@ -118,7 +122,7 @@ class TopicDetailViewController: BaseViewController{
                 self.tableView.mj_footer.endRefreshing()
                 
                 if self.currentPage == self.model?.totalPages {
-                    self.endRefreshingWithNoMoreData("没有更多评论了")
+                    self.endRefreshingWithNoMoreData()
                 }
                 
             }
@@ -131,9 +135,17 @@ class TopicDetailViewController: BaseViewController{
     /**
      禁用上拉加载更多，并显示一个字符串提醒
      */
-    func endRefreshingWithNoMoreData(noMoreString:String){
-        (self.tableView.mj_footer as! V2RefreshFooter).noMoreDataStateString = noMoreString
+    func endRefreshingWithStateString(string:String){
+        (self.tableView.mj_footer as! V2RefreshFooter).noMoreDataStateString = string
         self.tableView.mj_footer.endRefreshingWithNoMoreData()
+    }
+
+    func endRefreshingWithNoDataAtAll() {
+        self.endRefreshingWithStateString("暂无评论")
+    }
+
+    func endRefreshingWithNoMoreData() {
+        self.endRefreshingWithStateString("没有更多评论了")
     }
 }
 
