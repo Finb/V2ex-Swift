@@ -74,8 +74,11 @@ class TopicDetailViewController: BaseViewController{
                 
                 self.tableView.reloadData()
 
-                if (self.tableView.contentSize.height <= CGRectGetHeight(self.tableView.bounds)) {
+                if (self.model?.commentTotalPages == 1) {
                     self.endRefreshingWithNoMoreData()
+                }
+                if (self.commentsArray.count == 0) {
+                    self.endRefreshingWithNoDataAtAll()
                 }
             }
             self.hideLoadingView()
@@ -110,7 +113,7 @@ class TopicDetailViewController: BaseViewController{
         }
         self.currentPage += 1
         
-        if self.currentPage > self.model?.totalPages {
+        if self.currentPage > self.model?.commentTotalPages {
             self.endRefreshingWithNoMoreData()
             return;
         }
@@ -121,10 +124,9 @@ class TopicDetailViewController: BaseViewController{
                 self.tableView.reloadData()
                 self.tableView.mj_footer.endRefreshing()
                 
-                if self.currentPage == self.model?.totalPages {
+                if self.currentPage == self.model?.commentTotalPages {
                     self.endRefreshingWithNoMoreData()
                 }
-                
             }
             else{
                 self.currentPage -= 1
