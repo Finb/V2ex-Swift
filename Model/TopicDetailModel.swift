@@ -114,7 +114,7 @@ extension TopicDetailModel {
                 }
                 
                 //更新通知数量
-                V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
             }
             
             let t = V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>(value:(topicModel,topicCommentsArray), success: response.result.isSuccess)
@@ -182,8 +182,8 @@ extension TopicDetailModel {
      */
     class func ignoreTopicWithTopicId(topicId:String ,completionHandler: V2Response -> Void) {
         
-        V2Client.sharedInstance.getOnce { (response) -> Void in
-            if response.success ,let once = V2Client.sharedInstance.once {
+        V2User.sharedInstance.getOnce { (response) -> Void in
+            if response.success ,let once = V2User.sharedInstance.once {
                 let url  = V2EXURL + "ignore/topic/" + topicId + "?once=" + once
                 Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
                     if response.result.isSuccess {

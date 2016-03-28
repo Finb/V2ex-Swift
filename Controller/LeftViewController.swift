@@ -56,8 +56,8 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             make.top.right.bottom.left.equalTo(self.view);
         }
         
-        if V2Client.sharedInstance.isLogin {
-            self.getUserInfo(V2Client.sharedInstance.username!)
+        if V2User.sharedInstance.isLogin {
+            self.getUserInfo(V2User.sharedInstance.username!)
         }
 
         self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
@@ -120,26 +120,26 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                if !V2Client.sharedInstance.isLogin {
+                if !V2User.sharedInstance.isLogin {
                     let loginViewController = LoginViewController()
                     V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
                 }else{
                     let memberViewController = MyCenterViewController()
-                    memberViewController.username = V2Client.sharedInstance.username
+                    memberViewController.username = V2User.sharedInstance.username
                     V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
                     V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
                 }
             }
         }
         else if indexPath.section == 1 {
-            if !V2Client.sharedInstance.isLogin {
+            if !V2User.sharedInstance.isLogin {
                 let loginViewController = LoginViewController()
                 V2Client.sharedInstance.centerNavigation?.presentViewController(loginViewController, animated: true, completion: nil);
                 return
             }
             if indexPath.row == 0 {
                 let memberViewController = MyCenterViewController()
-                memberViewController.username = V2Client.sharedInstance.username
+                memberViewController.username = V2User.sharedInstance.username
                 V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
             }
             else if indexPath.row == 1 {
