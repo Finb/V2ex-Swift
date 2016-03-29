@@ -203,7 +203,7 @@ extension TopicListModel {
                     }
                     
                     //更新通知数量
-                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                    V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
                 
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
@@ -240,7 +240,7 @@ extension TopicListModel {
                     }
                     
                     //更新通知数量
-                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                    V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
             }
             
@@ -266,7 +266,7 @@ extension TopicListModel {
                     }
                 }
                 //更新通知数量
-                V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 
                 //获取最大页码 只有第一页需要获取maxPage
                 if page <= 1

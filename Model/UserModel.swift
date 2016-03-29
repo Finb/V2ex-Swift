@@ -59,7 +59,7 @@ extension UserModel{
     class func Login(username:String,password:String ,
                      completionHandler: V2ValueResponse<String> -> Void
         ) -> Void{
-        V2Client.sharedInstance.removeAllCookies()
+        V2User.sharedInstance.removeAllCookies()
         Alamofire.request(.GET, V2EXURL+"signin", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
             (response) -> Void in
             
@@ -128,7 +128,7 @@ extension UserModel{
         Alamofire.request(.GET, V2EXURL+"api/members/show.json", parameters: prame, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseObject("") {
             (response : Response<UserModel,NSError>) in
             if let model = response.result.value {
-                V2Client.sharedInstance.user = model
+                V2User.sharedInstance.user = model
                 
                 //将头像更新进 keychain保存的users中
                 if let avatar = model.avatar_large {
@@ -144,9 +144,9 @@ extension UserModel{
     
     
     class func dailyRedeem() {
-        V2Client.sharedInstance.getOnce { (response) -> Void in
+        V2User.sharedInstance.getOnce { (response) -> Void in
             if response.success {
-                Alamofire.request(.GET, V2EXURL + "mission/daily/redeem?once=" + V2Client.sharedInstance.once! , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
+                Alamofire.request(.GET, V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
                     if let jiHtml = response .result.value{
                         if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.first {
                             if aRootNode.content == "已成功领取每日登录奖励" {

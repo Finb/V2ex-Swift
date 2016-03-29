@@ -318,7 +318,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         }
     }
     func replyComment(row:NSNumber){
-        V2Client.sharedInstance.ensureLoginWithHandler {
+        V2User.sharedInstance.ensureLoginWithHandler {
             let item = self.commentsArray[row as Int]
             let replyViewController = ReplyingViewController()
             replyViewController.atSomeone = "@" + item.userName! + " "
@@ -328,7 +328,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         }
     }
     func thankComment(row:NSNumber){
-        guard V2Client.sharedInstance.isLogin else {
+        guard V2User.sharedInstance.isLogin else {
             SVProgressHUD.showInfoWithStatus("请先登录")
             return;
         }
@@ -407,7 +407,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         activityView.dismiss()
         let action = V2ActivityViewTopicDetailAction(rawValue: indexPath.row)!
         
-        guard V2Client.sharedInstance.isLogin
+        guard V2User.sharedInstance.isLogin
             // 用safari打开是不用登录的
             || action == V2ActivityViewTopicDetailAction.Explore else {
             SVProgressHUD.showInfoWithStatus("请先登录")
@@ -459,7 +459,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
     
     func reply(){
         self.activityView?.dismiss()
-        V2Client.sharedInstance.ensureLoginWithHandler {
+        V2User.sharedInstance.ensureLoginWithHandler {
             let replyViewController = ReplyingViewController()
             replyViewController.topicModel = self.model!
             let nav = V2EXNavigationController(rootViewController:replyViewController)

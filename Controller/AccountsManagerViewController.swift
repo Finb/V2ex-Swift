@@ -119,7 +119,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         let totalNumOfRows = self.tableView(tableView, numberOfRowsInSection: 0)
         if indexPath.row < self.users.count {
             let user = self.users[indexPath.row]
-            if user.username == V2Client.sharedInstance.username {
+            if user.username == V2User.sharedInstance.username {
                 return;
             }
             let alertView = UIAlertView(title: "确定切换到账号 " + user.username! + " 吗?", message: "无论新账号是否登录成功，都会注销当前账号。", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "确定")
@@ -140,7 +140,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             if buttonIndex == 0 {
                 return
             }
-            V2Client.sharedInstance.loginOut()
+            V2User.sharedInstance.loginOut()
             self.tableView.reloadData()
             
             let user = self.users[alertView.tag - 100001]
@@ -168,7 +168,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         }
         else { //注销登录的alertView
             if buttonIndex == 1 {
-                V2Client.sharedInstance.loginOut()
+                V2User.sharedInstance.loginOut()
                 self.navigationController?.popToRootViewControllerAnimated(true)
             }
         }
