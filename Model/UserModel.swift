@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import Ji
 import ObjectMapper
-import SVProgressHUD
+
 class UserModel: BaseJsonModel {
     var status:String?
     var id:String?
@@ -152,7 +152,7 @@ extension UserModel{
                             if aRootNode.content == "已成功领取每日登录奖励" {
                                 print("每日登陆奖励 领取成功")
                                 dispatch_sync_safely_main_queue({ () -> () in
-                                    SVProgressHUD.showInfoWithStatus("已成功领取每日登录奖励", maskType: .None)
+                                    V2Inform("已成功领取每日登录奖励")
                                 })
                             }
                             response.request?.URL

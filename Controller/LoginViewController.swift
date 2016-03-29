@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SVProgressHUD
 import OnePasswordExtension
 
 public typealias LoginSuccessHandel = (String) -> Void
@@ -86,11 +85,11 @@ class LoginViewController: UIViewController {
             self.passwordTextField.becomeFirstResponder()
             return;
         }
-        SVProgressHUD.showWithStatus("正在登陆")
+        V2BeginLoadingWithStatus("正在登陆")
         UserModel.Login(userName!, password: password!){
             (response:V2ValueResponse<String>) -> Void in
             if response.success {
-                SVProgressHUD.showSuccessWithStatus("登陆成功")
+                V2Success("登陆成功")
                 let username = response.value!
                 NSLog("登陆成功 %@",username)
                 //保存下用户名
@@ -109,7 +108,7 @@ class LoginViewController: UIViewController {
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             else{
-                SVProgressHUD.showErrorWithStatus(response.message)
+                V2Error(response.message)
             }
         }
     }    

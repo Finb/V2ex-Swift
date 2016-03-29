@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import SVProgressHUD
 import Ji
 
 let kUserName = "me.fin.username"
@@ -88,7 +87,7 @@ class V2User: NSObject {
 
     func ensureLoginWithHandler(handler:()->()) {
         guard isLogin else {
-            SVProgressHUD.showInfoWithStatus("请先登录")
+            V2Inform("请先登录")
             return;
         }
         handler()

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SVProgressHUD
 
 /// 多账户管理
 class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate {
@@ -146,11 +145,11 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             let user = self.users[alertView.tag - 100001]
             
             if let username = user.username,let password = user.password {
-                SVProgressHUD.showWithStatus("正在登陆")
+                V2BeginLoadingWithStatus("正在登陆")
                 UserModel.Login(username, password: password){
                     (response:V2ValueResponse<String>) -> Void in
                     if response.success {
-                        SVProgressHUD.showSuccessWithStatus("登陆成功")
+                        V2Success("登陆成功")
                         let username = response.value!
                         NSLog("登陆成功 %@",username)
                         //保存下用户名
@@ -161,7 +160,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
                         })
                     }
                     else{
-                        SVProgressHUD.showErrorWithStatus(response.message)
+                        V2Error(response.message)
                     }
                 }
             }
