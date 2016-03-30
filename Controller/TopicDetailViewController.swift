@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SVProgressHUD
+
 class TopicDetailViewController: BaseViewController{
     
     var topicId = "0"
@@ -329,16 +329,16 @@ extension TopicDetailViewController: UIActionSheetDelegate {
     }
     func thankComment(row:NSNumber){
         guard V2User.sharedInstance.isLogin else {
-            SVProgressHUD.showInfoWithStatus("请先登录")
+            V2Inform("请先登录")
             return;
         }
         let item = self.commentsArray[row as Int]
         if item.replyId == nil {
-            SVProgressHUD.showErrorWithStatus("回复replyId为空")
+            V2Error("回复replyId为空")
             return;
         }
         if self.model?.token == nil {
-            SVProgressHUD.showErrorWithStatus("帖子token为空")
+            V2Error("帖子token为空")
             return;
         }
         item.favorites += 1
@@ -349,7 +349,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             if response.success {
             }
             else{
-                SVProgressHUD.showSuccessWithStatus("感谢失败了")
+                V2Error("感谢失败了")
                 //失败后 取消增加的数量
                 item?.favorites -= 1
                 self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
@@ -410,45 +410,45 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         guard V2User.sharedInstance.isLogin
             // 用safari打开是不用登录的
             || action == V2ActivityViewTopicDetailAction.Explore else {
-            SVProgressHUD.showInfoWithStatus("请先登录")
+            V2Inform("请先登录")
             return;
         }
         switch action {
         case .Block:
-            SVProgressHUD.show()
+            V2BeginLoading()
             if let topicId = self.model?.topicId  {
                 TopicDetailModel.ignoreTopicWithTopicId(topicId, completionHandler: {[weak self] (response) -> Void in
                     if response.success {
-                        SVProgressHUD.showSuccessWithStatus("忽略成功")
+                        V2Success("忽略成功")
                         self?.navigationController?.popViewControllerAnimated(true)
                         self?.ignoreTopicHandler?(topicId)
                     }
                     else{
-                        SVProgressHUD.showErrorWithStatus("忽略失败")
+                        V2Error("忽略失败")
                     }
                     })
             }
         case .Favorite:
-            SVProgressHUD.show()
+            V2BeginLoading()
             if let topicId = self.model?.topicId ,let token = self.model?.token {
                 TopicDetailModel.favoriteTopicWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
                     if response.success {
-                        SVProgressHUD.showSuccessWithStatus("收藏成功")
+                        V2Success("收藏成功")
                     }
                     else{
-                        SVProgressHUD.showErrorWithStatus("收藏失败")
+                        V2Error("收藏失败")
                     }
                 })
             }
         case .Grade:
-            SVProgressHUD.show()
+            V2BeginLoading()
             if let topicId = self.model?.topicId ,let token = self.model?.token {
                 TopicDetailModel.topicThankWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
                     if response.success {
-                        SVProgressHUD.showSuccessWithStatus("成功送了一波铜币")
+                        V2Success("成功送了一波铜币")
                     }
                     else{
-                        SVProgressHUD.showErrorWithStatus("没感谢成功，再试一下吧")
+                        V2Error("没感谢成功，再试一下吧")
                     }
                 })
             }
