@@ -33,7 +33,7 @@ class V2User: NSObject {
     dynamic var username:String?
 
     private var _once:String?
-    //全局once字符串，用于用户各种操作，例如回帖 登陆 。这些操作都需要用的once ，而且这个once是全局统一的
+    //全局once字符串，用于用户各种操作，例如回帖 登录 。这些操作都需要用的once ，而且这个once是全局统一的
     var once:String?  {
         get {
             //取了之后就删掉,
@@ -62,7 +62,7 @@ class V2User: NSObject {
         super.init()
         dispatch_sync_safely_main_queue {
             self.setup()
-            //如果客户端是登陆状态，则去验证一下登陆有没有过期
+            //如果客户端是登录状态，则去验证一下登录有没有过期
             if self.isLogin {
                 self.verifyLoginStatus()
             }
@@ -73,7 +73,7 @@ class V2User: NSObject {
     }
 
 
-    /// 是否登陆
+    /// 是否登录
     var isLogin:Bool {
         get {
             if self.username?.Lenght > 0 {
@@ -180,17 +180,17 @@ class V2User: NSObject {
     }
 
     /**
-     验证客户端登陆状态
+     验证客户端登录状态
 
-     - returns: ture: 正常登陆 ,false: 登陆过期，没登陆
+     - returns: ture: 正常登录 ,false: 登录过期，没登录
      */
     func verifyLoginStatus() {
         Alamofire.request(.GET, V2EXURL + "new", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
             if response.request?.URL?.absoluteString == response.response?.URL?.absoluteString {
-                //登陆正常
+                //登录正常
             }
             else{
-                //没有登陆 ,注销客户端
+                //没有登录 ,注销客户端
                 dispatch_sync_safely_main_queue({ () -> () in
                     self.loginOut()
                 })
