@@ -73,13 +73,15 @@ class TopicDetailViewController: BaseViewController{
                 self.commentsArray = response.value!.1
                 
                 self.tableView.reloadData()
-
-                if (self.model?.commentTotalPages == 1) {
-                    self.endRefreshingWithNoMoreData()
-                }
-                if (self.commentsArray.count == 0) {
-                    self.endRefreshingWithNoDataAtAll()
-                }
+                
+                //由于UITableView的动画会让这个提示有一个小跳动，这里暂不处理评论加载更多的提示
+                
+//                if (self.model?.commentTotalPages == 1) {
+//                    self.endRefreshingWithNoMoreData()
+//                }
+//                if (self.commentsArray.count == 0) {
+//                    self.endRefreshingWithNoDataAtAll()
+//                }
             }
             self.hideLoadingView()
         }
