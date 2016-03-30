@@ -27,8 +27,8 @@ class NotificationMenuButton: UIButton {
             make.right.equalTo(self).offset(-6)
         }
         
-        self.KVOController.observe(V2Client.sharedInstance, keyPath: "notificationCount", options: [.Initial,.New]) {  [weak self](cell, clien, change) -> Void in
-            if V2Client.sharedInstance.notificationCount > 0 {
+        self.KVOController.observe(V2User.sharedInstance, keyPath: "notificationCount", options: [.Initial,.New]) {  [weak self](cell, clien, change) -> Void in
+            if V2User.sharedInstance.notificationCount > 0 {
                 self?.aPointImageView!.hidden = false
             }
             else{

@@ -7,10 +7,8 @@
 //
 
 import UIKit
-
 import YYText
 
-import SVProgressHUD
 
 class WritingViewController: UIViewController ,YYTextViewDelegate {
 
@@ -84,16 +82,16 @@ class ReplyingViewController:WritingViewController {
         if self.textView?.text == nil || self.textView?.text.Lenght <= 0 {
             return;
         }
-        
-        SVProgressHUD.showWithMaskType(.Clear)
+
+        V2ProgressHUD.showWithClearMask()
         TopicCommentModel.replyWithTopicId(self.topicModel!, content: self.textView!.text ) {
             (response) in
             if response.success {
-                [SVProgressHUD .showSuccessWithStatus("回复成功!")]
+                V2Success("回复成功!")
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
             else{
-                SVProgressHUD.showErrorWithStatus(response.message)
+                V2Error(response.message)
             }
         }
     }

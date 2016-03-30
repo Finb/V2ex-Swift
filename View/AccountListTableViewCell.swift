@@ -69,7 +69,7 @@ class AccountListTableViewCell: UITableViewCell {
         if let avatar = model.avatar , let url = NSURL(string: avatar) {
             self.avatarImageView?.kf_setImageWithURL(url)
         }
-        if V2Client.sharedInstance.username == model.username {
+        if V2User.sharedInstance.username == model.username {
             self.usedLabel?.hidden = false
         }
         else {

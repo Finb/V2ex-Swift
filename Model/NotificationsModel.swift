@@ -61,7 +61,7 @@ extension NotificationsModel {
                     }
                     
                     //更新通知数量
-                    V2Client.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
+                    V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
             }
             
