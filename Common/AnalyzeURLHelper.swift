@@ -79,22 +79,19 @@ class AnalyzURLResult :NSObject {
                         return ;
                     }
 
-                    let index = AnalyzURLResult.patterns.indexOf(pattern)!
-
-                    switch index {
-                    case 0:
-                        self.type = .URL
+                    self.type = AnalyzURLResultType(rawValue: AnalyzURLResult.patterns.indexOf(pattern)!)!
+                    
+                    switch self.type {
+                    case .URL:
                         self.params["value"] = url
 
-                    case 1 :
-                        self.type = .Member
+                    case .Member :
                         if  let range = url.rangeOfString("/member/") {
                             let username = url.substringFromIndex(range.endIndex)
                             self.params["value"] = username
                         }
 
-                    case 2:
-                        self.type = .Topic
+                    case .Topic:
                         if  let range = url.rangeOfString("/t/") {
                             var topicID = url.substringFromIndex(range.endIndex)
 
