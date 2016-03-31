@@ -11,23 +11,23 @@ import UIKit
 class AnalyzeURLHelper {
     /**
      分析URL 进行相应的操作
-     
+
      - parameter url: 各种URL 例如https://baidu.com 、/member/finab 、/t/100000
      */
     class func Analyze(url:String) -> Bool {
         let result = AnalyzURLResult(url: url)
         dispatch_sync_safely_main_queue { () -> () in
             switch result.type {
+            case .URL:
+                if let url = result.params["value"] {
+                    let controller = V2WebViewViewController(url: url)
+                    V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
+                }
             case .Member:
                 if let username = result.params["value"] {
                     let memberViewController = MemberViewController()
                     memberViewController.username = username
                     V2Client.sharedInstance.topNavigationController.pushViewController(memberViewController, animated: true)
-                }
-            case .URL:
-                if let url = result.params["value"] {
-                    let controller = V2WebViewViewController(url: url)
-                    V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
                 }
             case .Topic:
                 if let topicID = result.params["value"] {
@@ -61,11 +61,11 @@ enum AnalyzURLResultType : Int {
 class AnalyzURLResult :NSObject {
     var type:AnalyzURLResultType = .Undefined
     var params:[String:String] = [:]
-    
+
     private static let patterns = [
-        "(v2ex.com)?/member/[a-zA-Z0-9_]+$",
         "^(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?",
-        "(v2ex.com)?/t/[0-9]+#?(reply)?[0-9]*$",
+        "(v2ex.com)?/member/[a-zA-Z0-9_]+$",
+        "(v2ex.com)?/t/[0-9]+",
     ]
     init(url:String) {
         super.init()
@@ -78,31 +78,32 @@ class AnalyzURLResult :NSObject {
                     if range.location == NSNotFound || range.length <= 0 {
                         return ;
                     }
-                    
+
                     let index = AnalyzURLResult.patterns.indexOf(pattern)!
-                
+
                     switch index {
-                    case 0 :
+                    case 0:
+                        self.type = .URL
+                        self.params["value"] = url
+
+                    case 1 :
                         self.type = .Member
                         if  let range = url.rangeOfString("/member/") {
                             let username = url.substringFromIndex(range.endIndex)
                             self.params["value"] = username
                         }
-                        
-                    case 1:
-                        self.type = .URL
-                        self.params["value"] = url
-                        
+
                     case 2:
                         self.type = .Topic
                         if  let range = url.rangeOfString("/t/") {
                             var topicID = url.substringFromIndex(range.endIndex)
-                            
+
                             if let range = topicID.rangeOfString("#"){
                                topicID = topicID.substringToIndex(range.startIndex)
                             }
                             self.params["value"] = topicID
                         }
+
                     default:break
                     }
                 }
