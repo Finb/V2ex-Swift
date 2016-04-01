@@ -98,6 +98,7 @@
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
+		2D8F2D491CACCAF300DDED7A /* V2APIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8F2D481CACCAF300DDED7A /* V2APIProvider.swift */; };
 		E6CF51642632624E565E3ABE /* Pods_V2ex_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2168789C1B9CBD1DF1A5A619 /* Pods_V2ex_Swift.framework */; };
 /* End PBXBuildFile section */
 
@@ -197,6 +198,7 @@
 		2168789C1B9CBD1DF1A5A619 /* Pods_V2ex_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_V2ex_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2ProgressHUD.swift; sourceTree = "<group>"; };
 		2D6B1BAF1CA93F970050121D /* V2User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2User.swift; sourceTree = "<group>"; };
+		2D8F2D481CACCAF300DDED7A /* V2APIProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2APIProvider.swift; sourceTree = "<group>"; };
 		52700928D2B67AA24FBCC006 /* Pods-V2ex-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		61362A97378A23EFC5EDD56C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8659DB1BFBA4E17FA63A4C14 /* Pods-V2ex-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				065B69101C75ABE1009AAC37 /* AnalyzeURLHelper.swift */,
 				2D6B1BAF1CA93F970050121D /* V2User.swift */,
 				2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */,
+				2D8F2D481CACCAF300DDED7A /* V2APIProvider.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				068910D11C61A44D00D22B4F /* NodeTopicListViewController.swift in Sources */,
 				06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */,
 				06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */,
+				2D8F2D491CACCAF300DDED7A /* V2APIProvider.swift in Sources */,
 				067FF8C01C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift in Sources */,
 				0610F1B01C46136300481402 /* BaseModel.swift in Sources */,
 				069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */,

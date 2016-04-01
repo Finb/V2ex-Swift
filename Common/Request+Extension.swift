@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import Alamofire
 import Ji
+
 extension Request {
     public static func JIHTMLResponseSerializer() -> ResponseSerializer<Ji, NSError> {
         return ResponseSerializer { request, response, data, error in

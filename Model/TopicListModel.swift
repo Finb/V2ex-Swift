@@ -9,7 +9,6 @@
 import UIKit
 
 import ObjectMapper
-import Alamofire
 
 import Ji
 import YYText
@@ -178,24 +177,10 @@ extension TopicListModel {
         completionHandler: V2ValueResponse<[TopicListModel]> -> Void
         )->Void{
 
-        var params:[String:String] = [:]
-        if let tab = tab {
-            params["tab"]=tab
-        }
-        else {
-            params["tab"] = "all"
-        }
-
-        var url = V2EXURL
-        if params["tab"] == "all" && page > 0 {
-            params.removeAll()
-            params["p"] = "\(page)"
-            url = V2EXURL + "recent"
-        }
-
-        Alamofire.request(.GET, url, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        V2APIProvider.request(.TopicList(tab: tab, page: page)) { (result) in
             var resultArray:[TopicListModel] = []
-            if  let jiHtml = response.result.value{
+
+            if  let jiHtml = result.value {
                 if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
                     for aNode in aRootNode {
                         let topic = TopicListModel(rootNode:aNode)
@@ -216,9 +201,8 @@ extension TopicListModel {
                     }
                 }
             }
-
-            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
-            completionHandler(t);
+            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: result.isSuccess)
+            completionHandler(t)
         }
     }
 
@@ -228,11 +212,10 @@ extension TopicListModel {
         completionHandler: V2ValueResponse<[TopicListModel]> -> Void
         )->Void{
 
-        let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
-
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        V2APIProvider.request(.NodeTopicList(nodename: nodeName, page: page)) { (result) in
             var resultArray:[TopicListModel] = []
-            if  let jiHtml = response.result.value{
+
+            if  let jiHtml = result.value{
                 if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']"){
                     for aNode in aRootNode {
                         let topic = TopicListModel(nodeRootNode: aNode)
@@ -244,8 +227,9 @@ extension TopicListModel {
                 }
             }
 
-            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
+            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: result.isSuccess)
             completionHandler(t);
+
         }
     }
 
@@ -255,10 +239,10 @@ extension TopicListModel {
 
      */
     class func getFavoriteList(page:Int = 1, completionHandler: V2ValueResponse<([TopicListModel],Int)> -> Void){
-        Alamofire.request(.GET, V2EXURL+"my/topics?p=\(page)", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        V2APIProvider.request(.FavoriteList(page: page)) { (result) in
             var resultArray:[TopicListModel] = []
             var maxPage = 1
-            if let jiHtml = response.result.value {
+            if let jiHtml = result.value {
                 if let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[@class='cell item']"){
                     for aNode in aRootNode {
                         let topic = TopicListModel(favoritesRootNode:aNode)
@@ -278,9 +262,8 @@ extension TopicListModel {
                 }
             }
 
-            let t = V2ValueResponse<([TopicListModel],Int)>(value:(resultArray,maxPage), success: response.result.isSuccess)
+            let t = V2ValueResponse<([TopicListModel],Int)>(value:(resultArray,maxPage), success: result.isSuccess)
             completionHandler(t);
         }
     }
-
 }
