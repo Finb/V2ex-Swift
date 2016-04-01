@@ -94,7 +94,11 @@ class AnalyzURLResult :NSObject {
                     case .Topic:
                         if  let range = url.rangeOfString("/t/") {
                             var topicID = url.substringFromIndex(range.endIndex)
-
+                            
+                            if let range = topicID.rangeOfString("?"){
+                                topicID = topicID.substringToIndex(range.startIndex)
+                            }
+                            
                             if let range = topicID.rangeOfString("#"){
                                topicID = topicID.substringToIndex(range.startIndex)
                             }
