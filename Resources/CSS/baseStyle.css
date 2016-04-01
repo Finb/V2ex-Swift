@@ -68,14 +68,12 @@ a:link, a:visited, a:active {
     word-break: break-all;
 }
 
+img {
+    max-width: 100%;
+}
 .imgly {
     max-width: 100%;
 }
-
-.markdown_body>p>img {
-    max-width: 100%;
-}
-
 /* *******************************    ******************************* */
 body {
     font-family: 'Helvetica', monospace;
