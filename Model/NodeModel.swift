@@ -20,9 +20,9 @@ class NodeModel: NSObject ,BaseHtmlModelProtocol{
             //计算字符串所占的宽度
             //用于之后这个 node 在 cell 中所占的宽度
             let rect = (nodeName as NSString).boundingRectWithSize(
-                CGSizeMake(SCREEN_WIDTH, NodeTableViewCell.fontSize),
+                CGSizeMake(SCREEN_WIDTH, 15),
                 options: .UsesLineFragmentOrigin,
-                attributes: [NSFontAttributeName:v2Font(NodeTableViewCell.fontSize)], context: nil)
+                attributes: [NSFontAttributeName:v2Font(15)], context: nil)
             
             self.width = rect.width;
         }
@@ -44,52 +44,7 @@ class NodeGroupModel: NSObject ,BaseHtmlModelProtocol{
         for node in rootNode.xPath("./td[2]/a") {
             self.children.append(NodeModel(rootNode: node))
         }
-        self.childrenRows = NodeGroupModel.getShowRows(self.children)
     }
-    
-    /**
-     获取节点数据布局
-     
-     - returns: 得到一个节点 占多少行 每行有哪些节点的二维数组
-     */
-    class func getShowRows(nodes:[NodeModel]) -> [[Int]] {
-        
-        var row = 1
-        
-        var rows:[[Int]] = []
-        
-        var tempWidth:CGFloat = 0
-        for var i in 0 ..< nodes.count {
-            
-            if rows.count < row {
-                rows .append([])
-            }
-            
-            let node = nodes[i]
-            if tempWidth == 0 {
-                tempWidth += NodeTableViewCell.leftAndRightSpacing
-            }
-            
-            if tempWidth + node.width + NodeTableViewCell.nodeSpacing > SCREEN_WIDTH - NodeTableViewCell.leftAndRightSpacing
-                && tempWidth > NodeTableViewCell.leftAndRightSpacing {
-                    tempWidth = 0
-                    i -= 1
-                    row += 1
-                    continue
-            }
-            
-            rows[row-1].append(i)
-            if i == 0 {
-                tempWidth += node.width
-            }
-            else {
-                tempWidth += node.width + NodeTableViewCell.nodeSpacing
-            }
-        }
-        
-        return rows
-    }
-    
     
     class func getNodes( completionHandler: (V2ValueResponse<[NodeGroupModel]> -> Void)? = nil ) {
         Alamofire.request(.GET, V2EXURL, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
