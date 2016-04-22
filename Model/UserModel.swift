@@ -67,17 +67,16 @@ extension UserModel{
                 //获取帖子内容
                 //取出 once 登录时要用
 
-                var onceStr:String?
-                if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
-                    onceStr = once
-                }
+                let onceStr:String? = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
+                let usernameStr:String? = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[1]/td[2]/input[@class='sl']")?.first?["name"]
+                let passwordStr:String? = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[2]/td[2]/input[@class='sl']")?.first?["name"]
 
-                if let onceStr = onceStr {
-                    UserModel.Login(username, password: password, once: onceStr, completionHandler: completionHandler)
+                if let onceStr = onceStr , let usernameStr = usernameStr, let passwordStr = passwordStr {
+                    UserModel.Login(username, password: password, once: onceStr, usernameFieldName: usernameStr, passwordFieldName: passwordStr , completionHandler: completionHandler)
                     return;
                 }
             }
-            completionHandler(V2ValueResponse(success: false,message: "获取 once 失败"))
+            completionHandler(V2ValueResponse(success: false,message: "获取 必要字段 失败"))
         }
     }
 
@@ -90,12 +89,13 @@ extension UserModel{
      - parameter completionHandler: 登录回调
      */
     class func Login(username:String,password:String ,once:String,
+                     usernameFieldName:String ,passwordFieldName:String,
                      completionHandler: V2ValueResponse<String> -> Void){
         let prames = [
             "once":once,
             "next":"/",
-            "p":password,
-            "u":username
+            passwordFieldName:password,
+            usernameFieldName:username
         ]
 
         var dict = MOBILE_CLIENT_HEADERS

@@ -227,6 +227,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         //如果不在可视列表，则直接reloadData 就可以
         if visibleIndex == nil {
             self.tableView.reloadData()
+            return
         }
         
         //如果在可视列表，则动画删除它
