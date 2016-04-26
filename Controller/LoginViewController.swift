@@ -24,6 +24,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.hideKeyboardWhenTappedAround()
+        
         //初始化界面
         self.setupView()
 
@@ -114,8 +116,19 @@ class LoginViewController: UIViewController {
     }
 }
 
+//MARK: - 点击文本框外收回键盘
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
 
-//Mark: - 初始化界面
+//MARK: - 初始化界面
 extension LoginViewController {
     func setupView(){
         self.view.backgroundColor = UIColor.blackColor()
@@ -153,6 +166,9 @@ extension LoginViewController {
             make.top.equalTo(v2exLabel.snp_bottom).offset(2)
         }
 
+        self.userNameTextField.autocorrectionType = UITextAutocorrectionType.No
+        self.userNameTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        
         self.userNameTextField.textColor = UIColor.whiteColor()
         self.userNameTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
         self.userNameTextField.font = v2Font(15)

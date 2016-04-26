@@ -168,9 +168,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     
     
-    /**
-     获取用户信息
-     */
+    // MARK: 获取用户信息
     func getUserInfo(userName:String){
         UserModel.getUserInfoByUsername(userName) {(response:V2ValueResponse<UserModel>) -> Void in
             if response.success {
