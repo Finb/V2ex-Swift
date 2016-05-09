@@ -18,12 +18,14 @@ class V2Slider: UISlider {
         self.value = (V2Style.sharedInstance.fontScale - 0.8 ) / 0.5 * 10
         self.addTarget(self, action: #selector(V2Slider.valueChanged(_:)), forControlEvents: [.ValueChanged])
         
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {_ in
-            self.minimumTrackTintColor = V2EXColor.colors.v2_TopicListTitleColor
-            self.maximumTrackTintColor = V2EXColor.colors.v2_backgroundColor
+        self.styleChanged = {[weak self] (style) -> Void in
+            self?.minimumTrackTintColor = V2EXColor.colors.v2_TopicListTitleColor
+            self?.maximumTrackTintColor = V2EXColor.colors.v2_backgroundColor
         }
     }
-
+    deinit {
+        print("deinit")
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

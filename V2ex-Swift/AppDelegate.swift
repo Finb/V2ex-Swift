@@ -30,11 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let rightViewController = RightViewController();
         let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
         
-        self.window?.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {(nav, color, change) -> Void in
-            self.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
+        self.window?.styleChanged = {[weak self] (style) -> Void in
+            self?.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
             drawerController.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
-        
         
         drawerController.maximumLeftDrawerWidth=230;
         drawerController.maximumRightDrawerWidth=110;

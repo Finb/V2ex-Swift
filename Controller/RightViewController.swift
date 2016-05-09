@@ -66,7 +66,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         self.tableView.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.backgroundImageView?.image = UIImage(named: "32.jpg")
             }
@@ -75,7 +75,6 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             }
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
-        
         self.tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, SCREEN_WIDTH, 32))
         
 

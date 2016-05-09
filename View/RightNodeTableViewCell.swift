@@ -37,8 +37,7 @@ class RightNodeTableViewCell: UITableViewCell {
             make.right.equalTo(panel).offset(-25)
             make.centerY.equalTo(panel)
         }
-        
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
             self?.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         }

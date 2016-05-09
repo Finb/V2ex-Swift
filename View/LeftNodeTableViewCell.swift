@@ -46,10 +46,9 @@ class LeftNodeTableViewCell: UITableViewCell {
             make.centerY.equalTo(self.nodeImageView!)
         }
         
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (obj, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             self?.configureColor()
-        }
-        
+        }        
     }
     func configureColor(){
         self.panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor

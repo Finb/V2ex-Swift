@@ -17,7 +17,7 @@ class MoreViewController: UITableViewController {
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
         
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]){[weak self] (nav, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
             self?.tableView.reloadData()
         }

@@ -72,7 +72,7 @@ class HomeViewController: UIViewController {
         footer.centerOffset = -4
         self.tableView.mj_footer = footer
         
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
     }

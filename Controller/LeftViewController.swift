@@ -59,8 +59,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         if V2User.sharedInstance.isLogin {
             self.getUserInfo(V2User.sharedInstance.username!)
         }
-
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.backgroundImageView?.image = UIImage(named: "32.jpg")
             }
@@ -69,7 +68,6 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             }
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
-        
     }
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3

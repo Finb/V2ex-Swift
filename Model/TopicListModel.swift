@@ -155,12 +155,12 @@ class TopicListModel:NSObject {
             self.topicTitleAttributedString?.yy_lineSpacing = 3
 
             //监听颜色配置文件变化，当有变化时，改变自身颜色
-            self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New], block: {[weak self] (_, _, _) -> Void in
+            self.styleChanged = {[weak self] (style) -> Void in
                 if let str = self?.topicTitleAttributedString {
                     str.yy_color = V2EXColor.colors.v2_TopicListTitleColor
                     self?.topicTitleLayout = YYTextLayout(containerSize: CGSizeMake(SCREEN_WIDTH-24, 9999), text: self?.topicTitleAttributedString)
                 }
-                })
+            }
         }
     }
 }

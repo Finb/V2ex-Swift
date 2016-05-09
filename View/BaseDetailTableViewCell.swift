@@ -95,7 +95,7 @@ class BaseDetailTableViewCell: UITableViewCell {
             make.height.equalTo(SEPARATOR_HEIGHT)
         }
         
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+        self.styleChanged = {[weak self] (style) -> Void in
             self?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
             self?.selectedBackgroundView!.backgroundColor = V2EXColor.colors.v2_backgroundColor
             self?.titleLabel!.textColor = V2EXColor.colors.v2_TopicListTitleColor

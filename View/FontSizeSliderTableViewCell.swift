@@ -70,8 +70,8 @@ class FontSizeSliderTableViewCell: UITableViewCell {
             make.height.equalTo(SEPARATOR_HEIGHT)
         }
         
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {_ in
-            self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        self.styleChanged = {[weak self] (style) -> Void in
+            self?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
             leftLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor
             rightLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor
             topSeparator.image = createImageWithColor( V2EXColor.colors.v2_SeparatorColor )

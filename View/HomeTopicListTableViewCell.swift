@@ -145,10 +145,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-8);
         }
         
-        
-        
-        self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
-            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+        self.styleChanged = {[weak self] (style) -> Void in
+            if style == V2EXColor.V2EXColorStyleDefault {
                 self?.nodeBackgroundImageView?.image = HomeTopicListTableViewCell.nodeBackgroundImage_Default
             }
             else{
