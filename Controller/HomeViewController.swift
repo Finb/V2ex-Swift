@@ -72,7 +72,7 @@ class HomeViewController: UIViewController {
         footer.centerOffset = -4
         self.tableView.mj_footer = footer
         
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
     }

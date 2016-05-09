@@ -296,3 +296,39 @@ class V2EXColor :NSObject  {
     }
     
 }
+
+//MARK: - 主题更改时，自动执行
+extension NSObject {
+    private struct AssociatedKeys {
+        static var thmemChanged = "thmemChanged"
+    }
+    
+    /// 当前主题更改时，自动调用的闭包
+    public typealias ThemeChangedClosure = @convention(block) (style:String) -> Void
+    
+    /// 自动调用的闭包
+    /// 设置时，会设置一个KVO监听，当V2Style.style更改时，会自动调用这个闭包
+    var thmemChangedHandler:ThemeChangedClosure? {
+        get {
+            let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.thmemChanged)
+            guard closureObject != nil else{
+                return nil
+            }
+            let closure = unsafeBitCast(closureObject, ThemeChangedClosure.self)
+            return closure
+        }
+        set{
+            guard let value = newValue else{
+                return
+            }
+            let dealObject: AnyObject = unsafeBitCast(value, AnyObject.self)
+            objc_setAssociatedObject(self,&AssociatedKeys.thmemChanged,dealObject,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            
+            //设置KVO监听
+            self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
+                self?.thmemChangedHandler?(style:V2EXColor.sharedInstance.style)
+            }
+            
+        }
+    }
+}

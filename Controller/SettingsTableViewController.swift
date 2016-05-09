@@ -18,7 +18,7 @@ class SettingsTableViewController: UITableViewController {
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
         regClass(self.tableView, cell: FontSizeSliderTableViewCell.self)
         regClass(self.tableView, cell: FontDisplayTableViewCell.self)
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
             self?.tableView.reloadData()
         }

@@ -46,7 +46,7 @@ class LeftNodeTableViewCell: UITableViewCell {
             make.centerY.equalTo(self.nodeImageView!)
         }
         
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             self?.configureColor()
         }        
     }

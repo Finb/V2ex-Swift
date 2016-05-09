@@ -59,7 +59,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         if V2User.sharedInstance.isLogin {
             self.getUserInfo(V2User.sharedInstance.username!)
         }
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.backgroundImageView?.image = UIImage(named: "32.jpg")
             }

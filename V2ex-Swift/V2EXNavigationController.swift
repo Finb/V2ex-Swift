@@ -63,7 +63,7 @@ class V2EXNavigationController: UINavigationController {
         self.frostedView!.snp_makeConstraints{ (make) -> Void in
             make.top.bottom.left.right.equalTo(maskingView);
         }
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             self?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
             
             self?.navigationBar.titleTextAttributes = [

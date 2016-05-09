@@ -37,7 +37,7 @@ class RightNodeTableViewCell: UITableViewCell {
             make.right.equalTo(panel).offset(-25)
             make.centerY.equalTo(panel)
         }
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
             self?.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         }

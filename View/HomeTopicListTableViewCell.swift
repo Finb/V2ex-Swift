@@ -145,7 +145,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-8);
         }
         
-        self.styleChanged = {[weak self] (style) -> Void in
+        self.thmemChangedHandler = {[weak self] (style) -> Void in
             if style == V2EXColor.V2EXColorStyleDefault {
                 self?.nodeBackgroundImageView?.image = HomeTopicListTableViewCell.nodeBackgroundImage_Default
             }
