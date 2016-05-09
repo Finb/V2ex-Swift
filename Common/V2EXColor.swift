@@ -303,11 +303,11 @@ extension NSObject {
         static var thmemChanged = "thmemChanged"
     }
     
-    /// 当前主题更改时，自动调用的闭包
+    /// 当前主题更改时、第一次设置时 自动调用的闭包
     public typealias ThemeChangedClosure = @convention(block) (style:String) -> Void
     
     /// 自动调用的闭包
-    /// 设置时，会设置一个KVO监听，当V2Style.style更改时，会自动调用这个闭包
+    /// 设置时，会设置一个KVO监听，当V2Style.style更改时、第一次赋值时 会自动调用这个闭包
     var thmemChangedHandler:ThemeChangedClosure? {
         get {
             let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.thmemChanged)
