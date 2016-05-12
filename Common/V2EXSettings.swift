@@ -24,8 +24,4 @@ class V2EXSettings: NSObject {
             NSUserDefaults.standardUserDefaults().setValue(newValue, forKey: keyPrefix + key )
         }
     }
-    
-    func save(){
-        NSUserDefaults.standardUserDefaults().synchronize()
-    }
 }

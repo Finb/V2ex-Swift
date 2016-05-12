@@ -292,7 +292,6 @@ class V2EXColor :NSObject  {
         
         self.style = style
         V2EXSettings.sharedInstance[V2EXColor.STYLE_KEY] = style
-        V2EXSettings.sharedInstance.save()
     }
     
 }
