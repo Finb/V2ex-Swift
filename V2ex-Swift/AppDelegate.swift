@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         drawerController.maximumLeftDrawerWidth=230;
-        drawerController.maximumRightDrawerWidth=110;
+        drawerController.maximumRightDrawerWidth=100;
         drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.PanningCenterView
         drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.All;
         self.window?.rootViewController = drawerController;

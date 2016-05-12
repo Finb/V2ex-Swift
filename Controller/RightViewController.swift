@@ -22,6 +22,8 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         rightNodeModel(nodeName: NSLocalizedString("hot"), nodeTab: "hot"),
         rightNodeModel(nodeName: NSLocalizedString("all"), nodeTab: "all"),
         rightNodeModel(nodeName: NSLocalizedString("r2" ), nodeTab: "r2"),
+        rightNodeModel(nodeName: NSLocalizedString("nodes" ), nodeTab: "nodes"),
+        rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
     ]
     
     var backgroundImageView:UIImageView?
@@ -75,7 +77,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             }
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
-        self.tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, SCREEN_WIDTH, 32))
+        self.tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, SCREEN_WIDTH, 25.5))
         
 
     }
@@ -84,7 +86,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         return rightNodes.count;
     }
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 55 + SEPARATOR_HEIGHT
+        return 48
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: RightNodeTableViewCell.self, indexPath: indexPath);

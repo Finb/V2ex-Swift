@@ -16,3 +16,5 @@ qna      = "Ask&Answer";
 hot      = "Hot";
 all      = "All";
 r2       = "R2";
+nodes    = "nodes";
+members  = "members";

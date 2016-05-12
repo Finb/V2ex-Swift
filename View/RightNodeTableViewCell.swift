@@ -27,14 +27,14 @@ class RightNodeTableViewCell: UITableViewCell {
         self.contentView.addSubview(panel)
         panel.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
-            make.height.equalTo(55)
+            make.bottom.equalTo(self.contentView).offset(-1 * SEPARATOR_HEIGHT)
         }
         
         self.nodeNameLabel = UILabel()
-        self.nodeNameLabel!.font = v2Font(16)
+        self.nodeNameLabel!.font = v2Font(15)
         panel.addSubview(self.nodeNameLabel!)
         self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.right.equalTo(panel).offset(-25)
+            make.right.equalTo(panel).offset(-22)
             make.centerY.equalTo(panel)
         }
         self.thmemChangedHandler = {[weak self] (style) -> Void in
