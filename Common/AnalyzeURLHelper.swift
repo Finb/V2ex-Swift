@@ -45,6 +45,38 @@ class AnalyzeURLHelper {
             return true
         }
     }
+    
+    /**
+     测试
+     */
+    class func test() -> Void {
+        var urls  = [
+            "http://v2ex.com/member/finab",
+            "https://v2ex.com/member/finab",
+            "http://www.v2ex.com/member/finab",
+            "https://www.v2ex.com/member/finab",
+            "v2ex.com/member/finab",
+            "www.v2ex.com/member/finab",
+            "/member/finab",
+            "/MEMBER/finab"
+            ]
+        urls.forEach { (url) in
+            let result = AnalyzURLResult(url: url)
+            assert(result.type == .Member, "不能解析member : " + url )
+        }
+        
+        urls = [
+            "member/finab",
+            "www.baidu.com/member/finab",
+            "com/member/finab",
+            "www.baidu.com",
+            "http://www.baidu.com"
+        ]
+        urls.forEach { (url) in
+            let result = AnalyzURLResult(url: url)
+            assert(result.type != .Member, "解析了不是member的URL : " + url )
+        }
+    }
 }
 
 
@@ -64,8 +96,8 @@ class AnalyzURLResult :NSObject {
 
     private static let patterns = [
         "^(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?",
-        "(v2ex.com)?/member/[a-zA-Z0-9_]+$",
-        "(v2ex.com)?/t/[0-9]+",
+        "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/member/[a-zA-Z0-9_]+$",
+        "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/t/[0-9]+",
     ]
     init(url:String) {
         super.init()
