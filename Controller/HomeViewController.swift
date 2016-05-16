@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
                 return _tableView!;
             }
             _tableView = UITableView();
-
+            _tableView.scrollsToTop = true
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
             
             regClass(_tableView, cell: HomeTopicListTableViewCell.self);
