@@ -78,6 +78,8 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     var favorites: Int = 0
     var textLayout:YYTextLayout?
     var images:NSMutableArray = NSMutableArray()
+    //楼层
+    var number:Int = 0
     
     var textAttributedString:NSMutableAttributedString?
     required init(rootNode: JiNode) {
@@ -95,6 +97,10 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         self.userName = rootNode.xPath("table/tr/td[3]/strong/a").first?.content
         
         self.date = rootNode.xPath("table/tr/td[3]/span").first?.content
+        
+        if let str = rootNode.xPath("table/tr/td[3]/div[@class='fr']/span").first?.content  , let no =  Int(str){
+            self.number = no;
+        }
         
         if let favorite = rootNode.xPath("table/tr/td[3]/span[2]").first?.content {
             let array = favorite.componentsSeparatedByString(" ")

@@ -148,7 +148,7 @@ class TopicDetailCommentCell: UITableViewCell{
         
         
         self.userNameLabel?.text = model.userName;
-        self.dateLabel?.text = model.date
+        self.dateLabel?.text = String(format: "%i楼  %@", model.number, model.date ?? "")
 
         
         if model != self.itemModel {
