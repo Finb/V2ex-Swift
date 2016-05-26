@@ -9,7 +9,7 @@
 import UIKit
 import YYText
 
-class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelegate , V2PhotoBrowserDelegate{
+class TopicDetailCommentCell: UITableViewCell{
     /// 头像
     var avatarImageView: UIImageView?
     /// 用户名
@@ -129,6 +129,13 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
         self.avatarImageView!.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailCommentCell.userNameTap(_:)))
         self.userNameLabel!.addGestureRecognizer(userNameTap)
+        
+        //长按手势
+        self.contentView .addGestureRecognizer(
+            UILongPressGestureRecognizer(target: self,
+                action: #selector(TopicDetailCommentCell.longPressHandle(_:))
+            )
+        )
     }
     func userNameTap(sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , username = itemModel?.userName {
@@ -168,17 +175,17 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
         
         self.itemModel = model
     }
-    
-    /**
-     点击图片
-     */
+}
+
+//MARK: - 点击图片
+extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoBrowserDelegate {
     func V2CommentAttachmentImageSingleTap(imageView: V2CommentAttachmentImage) {
         let photoBrowser = V2PhotoBrowser(delegate: self)
         photoBrowser.currentPageIndex = imageView.index
         V2Client.sharedInstance.topNavigationController.presentViewController(photoBrowser, animated: true, completion: nil)
     }
     
-    //MARK V2PhotoBrowser Delegate
+    //V2PhotoBrowser Delegate
     func numberOfPhotosInPhotoBrowser(photoBrowser: V2PhotoBrowser) -> Int {
         return self.itemModel!.images.count
     }
@@ -206,4 +213,33 @@ class TopicDetailCommentCell: UITableViewCell ,V2CommentAttachmentImageTapDelega
     }
 }
 
-
+//MARK: - 长按复制功能
+extension TopicDetailCommentCell {
+    func longPressHandle(longPress:UILongPressGestureRecognizer) -> Void {
+        if (longPress.state == .Began) {
+            self.becomeFirstResponder()
+            
+            let item = UIMenuItem(title: "复制", action: #selector(TopicDetailCommentCell.copyText))
+            
+            let menuController = UIMenuController.sharedMenuController()
+            menuController.menuItems = [item]
+            menuController.arrowDirection = .Down
+            menuController.setTargetRect(self.frame, inView: self.superview!)
+            menuController.setMenuVisible(true, animated: true);
+        }
+        
+    }
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        if (action == #selector(TopicDetailCommentCell.copyText)){
+            return true
+        }
+        return super.canPerformAction(action, withSender: sender);
+    }
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+    
+    func copyText() -> Void {
+        UIPasteboard.generalPasteboard().string = self.itemModel?.textLayout?.text.string
+    }
+}
