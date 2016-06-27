@@ -259,10 +259,10 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             case .Other:
                 let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
                 cell.detailMarkHidden = true
-                cell.titleLabel?.text = self.model?.topicCommentTotalCount
-                cell.titleLabel?.font = v2Font(12)
+                cell.titleLabel.text = self.model?.topicCommentTotalCount
+                cell.titleLabel.font = v2Font(12)
                 cell.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-                cell.separator?.image = createImageWithColor(self.view.backgroundColor!)
+                cell.separator.image = createImageWithColor(self.view.backgroundColor!)
                 return cell
             }
         case .Comment:

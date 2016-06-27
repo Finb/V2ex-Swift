@@ -10,7 +10,11 @@ import UIKit
 
 class RightNodeTableViewCell: UITableViewCell {
 
-    var nodeNameLabel: UILabel?
+    var nodeNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = v2Font(15)
+        return label
+    }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
@@ -30,16 +34,15 @@ class RightNodeTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView).offset(-1 * SEPARATOR_HEIGHT)
         }
         
-        self.nodeNameLabel = UILabel()
-        self.nodeNameLabel!.font = v2Font(15)
-        panel.addSubview(self.nodeNameLabel!)
-        self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
+        panel.addSubview(self.nodeNameLabel)
+        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
             make.right.equalTo(panel).offset(-22)
             make.centerY.equalTo(panel)
         }
+        
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
-            self?.nodeNameLabel!.textColor = V2EXColor.colors.v2_LeftNodeTintColor
+            self?.nodeNameLabel.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         }
     }
 

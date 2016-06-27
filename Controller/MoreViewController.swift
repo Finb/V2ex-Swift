@@ -34,7 +34,7 @@ class MoreViewController: UITableViewController {
         cell.selectionStyle = .None
         
         //设置标题
-        cell.titleLabel?.text = ["","阅读设置","","去商店评分","提出BUG或改进", "","关注本项目源代码","开源库","版本号"][indexPath.row]
+        cell.titleLabel.text = ["","阅读设置","","去商店评分","提出BUG或改进", "","关注本项目源代码","开源库","版本号"][indexPath.row]
         
         //设置颜色
         if [0,2,5].contains(indexPath.row) {
@@ -54,11 +54,11 @@ class MoreViewController: UITableViewController {
         
         //设置右侧文本
         if indexPath.row == 8 {
-            cell.detailLabel!.text = "Version " + (NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String)
+            cell.detailLabel.text = "Version " + (NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as! String)
                 + " (Build " + (NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as! String ) + ")"
         }
         else {
-            cell.detailLabel!.text = ""
+            cell.detailLabel.text = ""
         }
         
         

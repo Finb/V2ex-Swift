@@ -56,12 +56,12 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
-            cell.titleLabel?.text = ["默认","暗色"][indexPath.row]
+            cell.titleLabel.text = ["默认","暗色"][indexPath.row]
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                cell.detailLabel?.text = ["正在使用",""][indexPath.row]
+                cell.detailLabel.text = ["正在使用",""][indexPath.row]
             }
             else{
-                cell.detailLabel?.text = ["","正在使用"][indexPath.row]
+                cell.detailLabel.text = ["","正在使用"][indexPath.row]
             }
             return cell
         }

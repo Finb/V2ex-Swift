@@ -70,14 +70,14 @@ class PodsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return tableView.fin_heightForCellWithIdentifier(PodCellTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
             let model = self.pods[indexPath.row]
-            cell.titleLabel?.text = model.name
+            cell.titleLabel.text = model.name
             cell.descriptionLabel.text = model.description
         }
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell  = getCell(tableView, cell: PodCellTableViewCell.self, indexPath: indexPath)
         let model = self.pods[indexPath.row]
-        cell.titleLabel?.text = model.name
+        cell.titleLabel.text = model.name
         cell.descriptionLabel.text = model.description
         return cell
     }

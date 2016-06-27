@@ -90,7 +90,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: RightNodeTableViewCell.self, indexPath: indexPath);
-        cell.nodeNameLabel!.text = self.rightNodes[indexPath.row].nodeName
+        cell.nodeNameLabel.text = self.rightNodes[indexPath.row].nodeName
         return cell ;
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
