@@ -16,35 +16,68 @@ class HomeTopicListTableViewCell: UITableViewCell {
     // iOS中可以缓存渲染，但效果还是不如直接 用圆角图片
     
     /// 节点信息label的圆角背景图
-    static var nodeBackgroundImage_Default =
-    createImageWithColor( V2EXDefaultColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
-        .roundedCornerImageWithCornerRadius(2)
-        .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
-    static var nodeBackgroundImage_Dark =
-    createImageWithColor( V2EXDarkColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
-        .roundedCornerImageWithCornerRadius(2)
-        .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
+    private static var nodeBackgroundImage_Default =
+        createImageWithColor( V2EXDefaultColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
+            .roundedCornerImageWithCornerRadius(2)
+            .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
+    private static var nodeBackgroundImage_Dark =
+        createImageWithColor( V2EXDarkColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
+            .roundedCornerImageWithCornerRadius(2)
+            .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
     
     /// 头像
-    var avatarImageView: UIImageView?
+    var avatarImageView: UIImageView = {
+        let imageview = UIImageView()
+        imageview.contentMode=UIViewContentMode.ScaleAspectFit
+        return imageview
+    }()
+    
     /// 用户名
-    var userNameLabel: UILabel?
+    var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = v2Font(14)
+        return label;
+    }()
     /// 日期 和 最后发送人
-    var dateAndLastPostUserLabel: UILabel?
+    var dateAndLastPostUserLabel: UILabel = {
+        let label = UILabel()
+        label.font=v2Font(12)
+        return label
+    }()
     /// 评论数量
-    var replyCountLabel: UILabel?
-    var replyCountIconImageView: UIImageView?
+    var replyCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = v2Font(12)
+        return label
+    }()
+    var replyCountIconImageView: UIImageView = {
+        let imageview = UIImageView(image: UIImage(named: "reply_n"))
+        imageview.contentMode = .ScaleAspectFit
+        return imageview
+    }()
     
     /// 节点
-    var nodeNameLabel: UILabel?
-    var nodeBackgroundImageView:UIImageView?
+    var nodeNameLabel: UILabel = {
+        let label = UILabel();
+        label.font = v2Font(11)
+        return label
+    }()
+    var nodeBackgroundImageView:UIImageView = UIImageView()
     /// 帖子标题
-    var topicTitleLabel: YYLabel?
+    var topicTitleLabel: YYLabel = {
+        let label = YYLabel()
+        label.textVerticalAlignment = .Top
+        label.font=v2Font(18)
+        label.displaysAsynchronously = true
+        label.numberOfLines=0
+        return label
+    }()
     
     /// 装上面定义的那些元素的容器
-    var contentPanel:UIView?
+    var contentPanel:UIView = UIView()
     
     var itemModel:TopicListModel?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -52,133 +85,105 @@ class HomeTopicListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
     }
+    
     func setup()->Void{
-        
-        
         let selectedBackgroundView = UIView()
         self.selectedBackgroundView = selectedBackgroundView
         
-        self.contentPanel = UIView();
-        self.contentView .addSubview(self.contentPanel!);
-        self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.top.left.right.equalTo(self.contentView);
-        }
+        self.contentView .addSubview(self.contentPanel);
+        self.contentPanel.addSubview(self.avatarImageView);
+        self.contentPanel.addSubview(self.userNameLabel);
+        self.contentPanel.addSubview(self.dateAndLastPostUserLabel);
+        self.contentPanel.addSubview(self.replyCountLabel);
+        self.contentPanel.addSubview(self.replyCountIconImageView);
+        self.contentPanel.addSubview(self.nodeBackgroundImageView)
+        self.contentPanel.addSubview(self.nodeNameLabel)
+        self.contentPanel.addSubview(self.topicTitleLabel);
         
-        self.avatarImageView = UIImageView();
-        self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
-        self.contentPanel!.addSubview(self.avatarImageView!);
-        self.avatarImageView!.snp_makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(12);
-            make.width.height.equalTo(35);
-        }
-        
-        self.userNameLabel = UILabel();
-        self.userNameLabel!.font=v2Font(14);
-        self.contentPanel! .addSubview(self.userNameLabel!);
-        self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView!.snp_right).offset(10);
-            make.top.equalTo(self.avatarImageView!);
-        }
-        
-        self.dateAndLastPostUserLabel = UILabel();
+        self.setupLayout()
 
-        self.dateAndLastPostUserLabel!.font=v2Font(12);
-        self.contentPanel?.addSubview(self.dateAndLastPostUserLabel!);
-        self.dateAndLastPostUserLabel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.avatarImageView!);
-            make.left.equalTo(self.userNameLabel!);
-        }
-        
-        self.replyCountLabel = UILabel();
-
-        self.replyCountLabel!.font = v2Font(12)
-        self.contentPanel!.addSubview(self.replyCountLabel!);
-        self.replyCountLabel!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.userNameLabel!);
-            make.right.equalTo(self.contentPanel!).offset(-12);
-        }
-        self.replyCountIconImageView = UIImageView(image: UIImage(named: "reply_n"))
-        self.replyCountIconImageView?.contentMode = .ScaleAspectFit
-        self.contentPanel?.addSubview(self.replyCountIconImageView!);
-        self.replyCountIconImageView!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.replyCountLabel!);
-            make.width.height.equalTo(18);
-            make.right.equalTo(self.replyCountLabel!.snp_left).offset(-2);
-        }
-        
-        self.nodeBackgroundImageView = UIImageView()
-        self.contentPanel?.addSubview(self.nodeBackgroundImageView!)
-        
-        self.nodeNameLabel = UILabel();
-
-        self.nodeNameLabel!.font = v2Font(11)
-        self.contentPanel?.addSubview(self.nodeNameLabel!)
-        self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.replyCountLabel!);
-            make.right.equalTo(self.replyCountIconImageView!.snp_left).offset(-9)
-            make.bottom.equalTo(self.replyCountLabel!).offset(1);
-            make.top.equalTo(self.replyCountLabel!).offset(-1);
-        }
-        
-
-        self.nodeBackgroundImageView!.snp_makeConstraints{ (make) -> Void in
-            make.top.bottom.equalTo(self.nodeNameLabel!)
-            make.left.equalTo(self.nodeNameLabel!).offset(-5)
-            make.right.equalTo(self.nodeNameLabel!).offset(5)
-        }
-        
-        self.topicTitleLabel = YYLabel();
-        self.topicTitleLabel!.textVerticalAlignment = .Top
-        self.topicTitleLabel!.font=v2Font(18);
-        self.topicTitleLabel!.displaysAsynchronously = true
-        self.topicTitleLabel!.numberOfLines=0;
-        self.contentPanel?.addSubview(self.topicTitleLabel!);
-        self.topicTitleLabel!.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView!.snp_bottom).offset(12);
-            make.left.equalTo(self.avatarImageView!);
-            make.right.equalTo(self.contentPanel!).offset(-12);
-            make.bottom.equalTo(self.contentView).offset(-8)
-        }
-        
-        
-        self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-8);
-        }
-        
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             if style == V2EXColor.V2EXColorStyleDefault {
-                self?.nodeBackgroundImageView?.image = HomeTopicListTableViewCell.nodeBackgroundImage_Default
+                self?.nodeBackgroundImageView.image = HomeTopicListTableViewCell.nodeBackgroundImage_Default
             }
             else{
-                self?.nodeBackgroundImageView?.image = HomeTopicListTableViewCell.nodeBackgroundImage_Dark
+                self?.nodeBackgroundImageView.image = HomeTopicListTableViewCell.nodeBackgroundImage_Dark
             }
             
             self?.backgroundColor=V2EXColor.colors.v2_backgroundColor;
             self?.selectedBackgroundView!.backgroundColor = V2EXColor.colors.v2_backgroundColor
-            self?.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-            self?.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
-            self?.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_TopicListDateColor;
-            self?.replyCountLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
-            self?.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
-            self?.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+            self?.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
+            self?.dateAndLastPostUserLabel.textColor=V2EXColor.colors.v2_TopicListDateColor;
+            self?.replyCountLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.nodeNameLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.topicTitleLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
             
-            self?.avatarImageView!.backgroundColor = self?.contentPanel!.backgroundColor
-            self?.userNameLabel!.backgroundColor = self?.contentPanel!.backgroundColor
-            self?.dateAndLastPostUserLabel!.backgroundColor = self?.contentPanel!.backgroundColor
-            self?.replyCountLabel!.backgroundColor = self?.contentPanel!.backgroundColor
-            self?.replyCountIconImageView!.backgroundColor = self?.contentPanel!.backgroundColor
-            self?.topicTitleLabel!.backgroundColor = self?.contentPanel!.backgroundColor
+            self?.avatarImageView.backgroundColor = self?.contentPanel.backgroundColor
+            self?.userNameLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.dateAndLastPostUserLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.replyCountLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.replyCountIconImageView.backgroundColor = self?.contentPanel.backgroundColor
+            self?.topicTitleLabel.backgroundColor = self?.contentPanel.backgroundColor
         }
         
         //点击用户头像，跳转到用户主页
-        self.avatarImageView!.userInteractionEnabled = true
-        self.userNameLabel!.userInteractionEnabled = true
+        self.avatarImageView.userInteractionEnabled = true
+        self.userNameLabel.userInteractionEnabled = true
         var userNameTap = UITapGestureRecognizer(target: self, action: #selector(HomeTopicListTableViewCell.userNameTap(_:)))
-        self.avatarImageView!.addGestureRecognizer(userNameTap)
+        self.avatarImageView.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(HomeTopicListTableViewCell.userNameTap(_:)))
-        self.userNameLabel!.addGestureRecognizer(userNameTap)
+        self.userNameLabel.addGestureRecognizer(userNameTap)
         
     }
+    
+    private func setupLayout(){
+        self.contentPanel.snp_makeConstraints{ (make) -> Void in
+            make.top.left.right.equalTo(self.contentView);
+        }
+        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
+            make.left.top.equalTo(self.contentView).offset(12);
+            make.width.height.equalTo(35);
+        }
+        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp_right).offset(10);
+            make.top.equalTo(self.avatarImageView);
+        }
+        self.dateAndLastPostUserLabel.snp_makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.avatarImageView);
+            make.left.equalTo(self.userNameLabel);
+        }
+        self.replyCountLabel.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.userNameLabel);
+            make.right.equalTo(self.contentPanel).offset(-12);
+        }
+        self.replyCountIconImageView.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.replyCountLabel);
+            make.width.height.equalTo(18);
+            make.right.equalTo(self.replyCountLabel.snp_left).offset(-2);
+        }
+        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.replyCountLabel);
+            make.right.equalTo(self.replyCountIconImageView.snp_left).offset(-9)
+            make.bottom.equalTo(self.replyCountLabel).offset(1);
+            make.top.equalTo(self.replyCountLabel).offset(-1);
+        }
+        self.nodeBackgroundImageView.snp_makeConstraints{ (make) -> Void in
+            make.top.bottom.equalTo(self.nodeNameLabel)
+            make.left.equalTo(self.nodeNameLabel).offset(-5)
+            make.right.equalTo(self.nodeNameLabel).offset(5)
+        }
+        self.topicTitleLabel.snp_makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.avatarImageView.snp_bottom).offset(12);
+            make.left.equalTo(self.avatarImageView);
+            make.right.equalTo(self.contentPanel).offset(-12);
+            make.bottom.equalTo(self.contentView).offset(-8)
+        }
+        self.contentPanel.snp_makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp_bottom).offset(-8);
+        }
+    }
+    
     func userNameTap(sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , username = itemModel?.userName {
             let memberViewController = MemberViewController()
@@ -194,7 +199,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     
     func superBind(model:TopicListModel){
-        self.userNameLabel?.text = model.userName;
+        self.userNameLabel.text = model.userName;
         if let layout = model.topicTitleLayout {
             //如果新旧model标题相同,则不需要赋值
             //不然layout需要重新绘制，会造成刷新闪烁
@@ -202,26 +207,26 @@ class HomeTopicListTableViewCell: UITableViewCell {
                 return
             }
             else{
-                self.topicTitleLabel?.textLayout = layout
+                self.topicTitleLabel.textLayout = layout
             }
         }
         if let avata = model.avata {
-            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
+            self.avatarImageView.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
-        self.replyCountLabel?.text = model.replies;
+        self.replyCountLabel.text = model.replies;
         
         self.itemModel = model
     }
     
     func bind(model:TopicListModel){
         self.superBind(model)
-        self.dateAndLastPostUserLabel?.text = model.date
-        self.nodeNameLabel!.text = model.nodeName
+        self.dateAndLastPostUserLabel.text = model.date
+        self.nodeNameLabel.text = model.nodeName
     }
     
     func bindNodeModel(model:TopicListModel){
         self.superBind(model)
-        self.dateAndLastPostUserLabel?.text = model.hits
-        self.nodeBackgroundImageView!.hidden = true
+        self.dateAndLastPostUserLabel.text = model.hits
+        self.nodeBackgroundImageView.hidden = true
     }
 }

@@ -9,16 +9,18 @@
 import UIKit
 
 class NodeCollectionReusableView: UICollectionReusableView {
-    var label = UILabel()
+    var label : UILabel = {
+        let _label = UILabel()
+        _label.font = v2Font(16)
+        _label.textColor = V2EXColor.colors.v2_TopicListTitleColor
+        _label.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        return _label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         self.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
-        label.font = v2Font(16)
-        label.textColor = V2EXColor.colors.v2_TopicListTitleColor
-        label.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.addSubview(label);
         
         label.snp_makeConstraints{ (make) -> Void in

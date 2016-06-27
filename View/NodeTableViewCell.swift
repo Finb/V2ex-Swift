@@ -9,14 +9,17 @@
 import UIKit
 
 class NodeTableViewCell: UICollectionViewCell {
-    var textLabel = UILabel()
+    var textLabel:UILabel = {
+        let label = UILabel()
+        label.font = v2Font(15)
+        label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+        label.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-        
-        textLabel.font = v2Font(15)
-        textLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
-        textLabel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView.addSubview(textLabel)
         
         textLabel.snp_remakeConstraints(closure: { (make) -> Void in
