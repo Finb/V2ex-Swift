@@ -10,20 +10,55 @@ import UIKit
 
 class TopicDetailHeaderCell: UITableViewCell {
     /// 头像
-    var avatarImageView: UIImageView?
+   var avatarImageView: UIImageView = {
+        let imageview = UIImageView();
+        imageview.contentMode=UIViewContentMode.ScaleAspectFit;
+        imageview.layer.cornerRadius = 3;
+        imageview.layer.masksToBounds = true;
+        return imageview
+    }()
     /// 用户名
-    var userNameLabel: UILabel?
+    var userNameLabel: UILabel = {
+        let label = UILabel();
+        label.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
+        label.font=v2Font(14);
+        return label
+    }()
     /// 日期 和 最后发送人
-    var dateAndLastPostUserLabel: UILabel?
+    var dateAndLastPostUserLabel: UILabel = {
+        let label = UILabel();
+        label.textColor=V2EXColor.colors.v2_TopicListDateColor;
+        label.font=v2Font(12);
+        return label
+    }()
 
     /// 节点
-    var nodeNameLabel: UILabel?
+    var nodeNameLabel: UILabel = {
+        let label = UILabel();
+        label.textColor = V2EXColor.colors.v2_TopicListDateColor
+        label.font = v2Font(11)
+        label.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
+        label.layer.cornerRadius=2;
+        label.clipsToBounds = true
+        return label
+    }()
     
     /// 帖子标题
-    var topicTitleLabel: UILabel?
+    var topicTitleLabel: UILabel = {
+        let label = V2SpacingLabel();
+        label.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+        label.font=v2Font(17);
+        label.numberOfLines=0;
+        label.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
+        return label
+    }()
     
     /// 装上面定义的那些元素的容器
-    var contentPanel:UIView?
+    var contentPanel:UIView = {
+        let view = UIView()
+        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        return view
+    }()
     
     weak var itemModel:TopicDetailModel?
     
@@ -38,83 +73,58 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.selectionStyle = .None
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
         
-        self.contentPanel = UIView();
-        self.contentPanel!.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-        self.contentView .addSubview(self.contentPanel!);
-        self.contentPanel!.snp_makeConstraints{ (make) -> Void in
+        self.contentView.addSubview(self.contentPanel);
+        self.contentPanel.addSubview(self.avatarImageView);
+        self.contentPanel.addSubview(self.userNameLabel);
+        self.contentPanel.addSubview(self.dateAndLastPostUserLabel);
+        self.contentPanel.addSubview(self.nodeNameLabel)
+        self.contentPanel.addSubview(self.topicTitleLabel);
+
+        self.setupLayout()
+    
+        //点击用户头像，跳转到用户主页
+        self.avatarImageView.userInteractionEnabled = true
+        self.userNameLabel.userInteractionEnabled = true
+        var userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
+        self.avatarImageView.addGestureRecognizer(userNameTap)
+        userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
+        self.userNameLabel.addGestureRecognizer(userNameTap)
+    }
+    
+    private func setupLayout(){
+        self.contentPanel.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
         }
-        
-        self.avatarImageView = UIImageView();
-        self.avatarImageView!.contentMode=UIViewContentMode.ScaleAspectFit;
-        self.avatarImageView!.layer.cornerRadius = 3;
-        self.avatarImageView!.layer.masksToBounds = true;
-        self.contentPanel!.addSubview(self.avatarImageView!);
-        self.avatarImageView!.snp_makeConstraints{ (make) -> Void in
+        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
             make.width.height.equalTo(35);
         }
-        
-        self.userNameLabel = UILabel();
-        self.userNameLabel!.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
-        self.userNameLabel!.font=v2Font(14);
-        self.contentPanel! .addSubview(self.userNameLabel!);
-        self.userNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView!.snp_right).offset(10);
-            make.top.equalTo(self.avatarImageView!);
+        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp_right).offset(10);
+            make.top.equalTo(self.avatarImageView);
         }
-        
-        self.dateAndLastPostUserLabel = UILabel();
-        self.dateAndLastPostUserLabel!.textColor=V2EXColor.colors.v2_TopicListDateColor;
-        self.dateAndLastPostUserLabel!.font=v2Font(12);
-        self.contentPanel?.addSubview(self.dateAndLastPostUserLabel!);
-        self.dateAndLastPostUserLabel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.avatarImageView!);
-            make.left.equalTo(self.userNameLabel!);
+        self.dateAndLastPostUserLabel.snp_makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.avatarImageView);
+            make.left.equalTo(self.userNameLabel);
         }
-        self.nodeNameLabel = UILabel();
-        self.nodeNameLabel!.textColor = V2EXColor.colors.v2_TopicListDateColor
-        self.nodeNameLabel!.font = v2Font(11)
-        self.nodeNameLabel!.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
-        self.nodeNameLabel?.layer.cornerRadius=2;
-        self.nodeNameLabel!.clipsToBounds = true
-        self.contentPanel?.addSubview(self.nodeNameLabel!)
-        self.nodeNameLabel!.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.userNameLabel!);
-            make.right.equalTo(self.contentPanel!.snp_right).offset(-10)
-            make.bottom.equalTo(self.userNameLabel!).offset(1);
-            make.top.equalTo(self.userNameLabel!).offset(-1);
+        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.userNameLabel);
+            make.right.equalTo(self.contentPanel.snp_right).offset(-10)
+            make.bottom.equalTo(self.userNameLabel).offset(1);
+            make.top.equalTo(self.userNameLabel).offset(-1);
         }
-        
-        self.topicTitleLabel=V2SpacingLabel();
-        self.topicTitleLabel!.textColor=V2EXColor.colors.v2_TopicListTitleColor;
-        self.topicTitleLabel!.font=v2Font(17);
-        self.topicTitleLabel!.numberOfLines=0;
-        self.topicTitleLabel!.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
-        self.contentPanel?.addSubview(self.topicTitleLabel!);
-        self.topicTitleLabel!.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView!.snp_bottom).offset(12);
-            make.left.equalTo(self.avatarImageView!);
-            make.right.equalTo(self.contentPanel!).offset(-12);
+        self.topicTitleLabel.snp_makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.avatarImageView.snp_bottom).offset(12);
+            make.left.equalTo(self.avatarImageView);
+            make.right.equalTo(self.contentPanel).offset(-12);
         }
-        
-        
-        self.contentPanel!.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.topicTitleLabel!.snp_bottom).offset(12);
+        self.contentPanel.snp_makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.topicTitleLabel.snp_bottom).offset(12);
         }
-        
         self.contentView.snp_makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel!).offset(0);
+            make.bottom.equalTo(self.contentPanel).offset(0);
         }
-        
-        //点击用户头像，跳转到用户主页
-        self.avatarImageView!.userInteractionEnabled = true
-        self.userNameLabel!.userInteractionEnabled = true
-        var userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
-        self.avatarImageView!.addGestureRecognizer(userNameTap)
-        userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
-        self.userNameLabel!.addGestureRecognizer(userNameTap)
     }
     
     func userNameTap(sender:UITapGestureRecognizer) {
@@ -129,16 +139,16 @@ class TopicDetailHeaderCell: UITableViewCell {
         
         self.itemModel = model
         
-        self.userNameLabel?.text = model.userName;
-        self.dateAndLastPostUserLabel?.text = model.date
-        self.topicTitleLabel?.text = model.topicTitle;
+        self.userNameLabel.text = model.userName;
+        self.dateAndLastPostUserLabel.text = model.date
+        self.topicTitleLabel.text = model.topicTitle;
         
         if let avata = model.avata {
-            self.avatarImageView?.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
+            self.avatarImageView.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         if let node = model.nodeName{
-            self.nodeNameLabel!.text = "  " + node + "  "
+            self.nodeNameLabel.text = "  " + node + "  "
         }
     }
 }
