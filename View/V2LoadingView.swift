@@ -14,15 +14,17 @@ let noticeString = [
     "年轻人,不要着急",
     "让我飞一会儿",
     "大爷,您又来了?",
+    "楼主正在抓皮卡丘，等他一会儿吧",
+    "爱我，就等我一万年",
+    "未满18禁止入内",
 ]
 
 class V2LoadingView: UIView {
-    var activityIndicatorView:UIActivityIndicatorView?
+    var activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     init (){
         super.init(frame:CGRectZero)
-        self.activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        self.addSubview(self.activityIndicatorView!)
-        self.activityIndicatorView!.snp_makeConstraints{ (make) -> Void in
+        self.addSubview(self.activityIndicatorView)
+        self.activityIndicatorView.snp_makeConstraints{ (make) -> Void in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self).offset(-32)
         }
@@ -37,22 +39,22 @@ class V2LoadingView: UIView {
         noticeLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.addSubview(noticeLabel)
         noticeLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.activityIndicatorView!.snp_bottom).offset(10)
-            make.centerX.equalTo(self.activityIndicatorView!)
+            make.top.equalTo(self.activityIndicatorView.snp_bottom).offset(10)
+            make.centerX.equalTo(self.activityIndicatorView)
         }
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.activityIndicatorView?.activityIndicatorViewStyle = .Gray
+                self?.activityIndicatorView.activityIndicatorViewStyle = .Gray
             }
             else{
-                self?.activityIndicatorView?.activityIndicatorViewStyle = .White
+                self?.activityIndicatorView.activityIndicatorViewStyle = .White
             }
         }
     }
 
     override func willMoveToSuperview(newSuperview: UIView?) {
-        self.activityIndicatorView?.startAnimating()
+        self.activityIndicatorView.startAnimating()
     }
     
     required init?(coder aDecoder: NSCoder) {
