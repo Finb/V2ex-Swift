@@ -17,7 +17,7 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     
     var avata: String?
     var nodeName: String?
-    var nodeUrl: String?
+    var node: String?
     
     var userName: String?
     
@@ -38,7 +38,10 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
     required init(rootNode: JiNode) {
         let node = rootNode.xPath("./div[1]/a[2]").first
         self.nodeName = node?.content
-        self.nodeUrl = node?["href"]
+        
+        let nodeUrl = node?["href"]
+        let index = nodeUrl?.rangeOfString("/", options: .BackwardsSearch, range: nil, locale: nil)
+        self.node = nodeUrl?.substringFromIndex(index!.endIndex)
         
         self.avata = rootNode.xPath("./div[1]/div[1]/a/img").first?["src"]
         

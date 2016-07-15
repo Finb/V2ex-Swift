@@ -14,6 +14,9 @@ class NodeModel: NSObject ,BaseHtmlModelProtocol{
     var nodeId:String?
     var nodeName:String?
     var width:CGFloat = 0
+    override init() {
+        super.init()
+    }
     required init(rootNode: JiNode) {
         self.nodeName = rootNode.content
         if let nodeName = self.nodeName {

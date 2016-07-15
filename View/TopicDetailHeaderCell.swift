@@ -40,6 +40,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         label.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
         label.layer.cornerRadius=2;
         label.clipsToBounds = true
+        label.userInteractionEnabled = true
         return label
     }()
     
@@ -61,6 +62,7 @@ class TopicDetailHeaderCell: UITableViewCell {
     }()
     
     weak var itemModel:TopicDetailModel?
+    var nodeClickHandler:(() -> Void)?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
@@ -89,6 +91,8 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.avatarImageView.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
         self.userNameLabel.addGestureRecognizer(userNameTap)
+        self.nodeNameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(nodeClick)))
+        
     }
     
     private func setupLayout(){
@@ -126,7 +130,9 @@ class TopicDetailHeaderCell: UITableViewCell {
             make.bottom.equalTo(self.contentPanel).offset(0);
         }
     }
-    
+    func nodeClick() {
+        nodeClickHandler?()
+    }
     func userNameTap(sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , username = itemModel?.userName {
             let memberViewController = MemberViewController()

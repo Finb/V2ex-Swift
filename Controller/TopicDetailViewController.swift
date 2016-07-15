@@ -104,6 +104,17 @@ class TopicDetailViewController: BaseViewController{
             self.activityView = activityView
         }
     }
+    /**
+     点击节点
+     */
+    func nodeClick() {
+       let node = NodeModel()
+        node.nodeId = self.model?.node
+        node.nodeName = self.model?.nodeName
+        let controller = NodeTopicListViewController()
+        controller.node = node
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
     
     /**
      获取下一页评论，如果有的话
@@ -227,6 +238,11 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             case .Title:
                 //帖子标题
                 let cell = getCell(tableView, cell: TopicDetailHeaderCell.self, indexPath: indexPath);
+                if(cell.nodeClickHandler == nil){
+                    cell.nodeClickHandler = {[weak self] () -> Void in
+                        self?.nodeClick()
+                    }
+                }
                 cell.bind(self.model!);
                 return cell;
             case .WebViewContent:
