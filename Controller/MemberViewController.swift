@@ -13,6 +13,8 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     var color:CGFloat = 0
     
     var username:String?
+    var blockButton:UIButton?
+    var followButton:UIButton?
     var model:MemberModel?
     
     var backgroundImageView:UIImageView?
@@ -89,7 +91,7 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     
     override func viewWillAppear(animated: Bool) {
         (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 0
-        self.dealNavigationBarTintColor()
+        self.changeNavigationBarTintColor()
         (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y / 100
     }
     override func viewWillDisappear(animated: Bool) {
@@ -127,7 +129,9 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
                 if let aModel = response.value{
                     self.getDataSuccessfully(aModel)
                 }
-                self.tableView.fin_reloadData()
+                else{
+                    self.tableView.fin_reloadData()
+                }
             }
             if let view = self._loadView{
                 view.removeFromSuperview()
@@ -137,10 +141,57 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     func getDataSuccessfully(aModel:MemberModel){
         self.model = aModel
         self.titleLabel?.text = self.model?.userName
+        setupBlockAndFollowButtons()
         self.tableView.fin_reloadData()
     }
     
+
+
+   
+// MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        
+        //navigationBar 的透明度
+        self.changeNavigationAlpha()
+        
+        //后退按钮颜色
+        self.changeNavigationBarTintColor()
+        
+        //navigationBar title 显示
+        var y:CGFloat = 0
+        if offsetY <= 92 {
+            y = 0
+        }
+        else if offsetY >= 122 {
+            y = 30
+        }
+        else {
+            y = offsetY - 92
+        }
+        self.titleLabel?.center = CGPointMake(SCREEN_WIDTH/2, 64 - y + 6.5)
+    }
+    
+    func changeNavigationAlpha(){
+        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y/100
+    }
+    
+    func changeNavigationBarTintColor(){
+        let offsetY = self.tableView.contentOffset.y
+        var y = 100 - offsetY
+        if offsetY < 0 {
+            y = 100-0
+        }
+        else if offsetY > 100 {
+            y = 100 - 100
+        }
+        //后退按钮颜色
+        self.navigationController?.navigationBar.tintColor = colorWith255RGB(y*2.4+self.color, g: y*2.4+self.color, b: y*2.4+self.color)
+    }
+}
+
 // MARK: - UITableViewDataSource
+extension MemberViewController {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
@@ -226,51 +277,81 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
             self.navigationController?.pushViewController(topicDetailController, animated: true)
             tableView .deselectRowAtIndexPath(indexPath, animated: true);
         }
+        
+    }
+}
 
-    }
-   
-// MARK: - UIScrollViewDelegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        
-        //navigationBar 的透明度
-        self .dealNavigationAlpha()
-        
-        //后退按钮颜色
-        self.dealNavigationBarTintColor()
-        
-        //navigationBar title 显示
-        var y:CGFloat = 0
-        if offsetY <= 92 {
-            y = 0
+//MARK: - Block and Follow
+extension MemberViewController{
+    func setupBlockAndFollowButtons(){
+        if !self.isMemberOfClass(MemberViewController.self){
+            return ;
         }
-        else if offsetY >= 122 {
-            y = 30
-        }
-        else {
-            y = offsetY - 92
-        }
-        self.titleLabel?.center = CGPointMake(SCREEN_WIDTH/2, 64 - y + 6.5)
         
+        let blockButton = UIButton(frame:CGRectMake(0, 0, 26, 26))
+        blockButton.addTarget(self, action: #selector(toggleBlockState), forControlEvents: .TouchUpInside)
+        let followButton = UIButton(frame:CGRectMake(0, 0, 26, 26))
+        followButton.addTarget(self, action: #selector(toggleFollowState), forControlEvents: .TouchUpInside)
         
+        let blockItem = UIBarButtonItem(customView: blockButton)
+        let followItem = UIBarButtonItem(customView: followButton)
         
+        //处理间距
+        let fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        fixedSpaceItem.width = -5
+        self.navigationItem.rightBarButtonItems = [fixedSpaceItem,followItem,blockItem]
+        
+        self.blockButton = blockButton;
+        self.followButton = followButton;
+        
+        refreshButtonImage()
     }
     
-    func dealNavigationAlpha(){
-        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y/100
+    func refreshButtonImage() {
+        let blockImage = self.model?.blockState == .Blocked ? UIImage(named: "ic_visibility_off")! : UIImage(named: "ic_visibility")!
+        let followImage = self.model?.followState == .Followed ? UIImage(named: "ic_favorite")! : UIImage(named: "ic_favorite_border")!
+        self.blockButton?.setImage(blockImage.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.followButton?.setImage(followImage.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
     }
     
-    func dealNavigationBarTintColor(){
-        let offsetY = self.tableView.contentOffset.y
-        var y = 100 - offsetY
-        if offsetY < 0 {
-            y = 100-0
+    func toggleFollowState(){
+        if(self.model?.followState == .Followed){
+            UnFollow()
         }
-        else if offsetY > 100 {
-            y = 100 - 100
+        else{
+            Follow()
         }
-        //后退按钮颜色
-        self.navigationController?.navigationBar.tintColor = colorWith255RGB(y*2.4+self.color, g: y*2.4+self.color, b: y*2.4+self.color)
+        refreshButtonImage()
+    }
+    func Follow() {
+        MemberModel.follow(self.model!.userId!, userToken: self.model!.userToken!, type: .Followed, completionHandler: nil)
+        self.model?.followState = .Followed
+        V2Success("关注成功")
+    }
+    func UnFollow() {
+        MemberModel.follow(self.model!.userId!, userToken: self.model!.userToken!, type: .UnFollowed, completionHandler: nil)
+        self.model?.followState = .UnFollowed
+        V2Success("取消关注了~")
+    }
+    
+    func toggleBlockState(){
+        if(self.model?.blockState == .Blocked){
+            UnBlock()
+        }
+        else{
+            Block()
+        }
+        refreshButtonImage()
+    }
+    func Block() {
+        MemberModel.block(self.model!.userId!, userToken: self.model!.userToken!, type: .Blocked, completionHandler: nil)
+        self.model?.blockState = .Blocked
+        V2Success("屏蔽成功")
+    }
+    func UnBlock() {
+        MemberModel.block(self.model!.userId!, userToken: self.model!.userToken!, type: .UnBlocked, completionHandler: nil)
+        self.model?.blockState = .UnBlocked
+        V2Success("取消屏蔽了~")
     }
 }
 

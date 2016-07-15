@@ -134,10 +134,6 @@ class V2User: NSObject {
      - parameter url:               有once存在的url
      */
     func getOnce(url:String = V2EXURL+"signin" , completionHandler: V2Response -> Void) {
-        if(self.hasOnce){
-            completionHandler(V2Response(success: true))
-            return;
-        }
         Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
             (response) -> Void in
             if let jiHtml = response .result.value{
