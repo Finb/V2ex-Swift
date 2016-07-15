@@ -225,13 +225,14 @@ extension TopicListModel {
     class func getTopicList(
         nodeName: String,
         page:Int,
-        completionHandler: V2ValueResponse<[TopicListModel]> -> Void
+        completionHandler: V2ValueResponse<([TopicListModel] ,String?)> -> Void
         )->Void{
 
         let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
-
+        
         Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
+            var favoriteUrl :String?
             if  let jiHtml = response.result.value{
                 if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']"){
                     for aNode in aRootNode {
@@ -242,9 +243,13 @@ extension TopicListModel {
                     //更新通知数量
                     V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
+                
+                if let node = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/div[1]/a")?.first{
+                    favoriteUrl = node["href"]
+                }
             }
 
-            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
+            let t = V2ValueResponse<([TopicListModel], String?)>(value:(resultArray,favoriteUrl), success: response.result.isSuccess)
             completionHandler(t);
         }
     }
@@ -280,6 +285,27 @@ extension TopicListModel {
 
             let t = V2ValueResponse<([TopicListModel],Int)>(value:(resultArray,maxPage), success: response.result.isSuccess)
             completionHandler(t);
+        }
+    }
+    
+    /**
+     收藏节点
+     
+     - parameter nodeId: 节点ID
+     - parameter type:   操作 0 : 收藏 1：取消收藏
+     */
+    class func favorite(
+        nodeId:String,
+        type:NSInteger
+    ){
+        V2User.sharedInstance.getOnce { (response) in
+            if(response.success){
+                let action = type == 0 ? "favorite/node/" : "unfavorite/node/"
+                let url = V2EXURL + action + nodeId + "?once=" + V2User.sharedInstance.once!
+                Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+                    
+                }
+            }
         }
     }
 

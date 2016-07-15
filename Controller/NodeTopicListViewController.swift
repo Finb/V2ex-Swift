@@ -10,7 +10,23 @@ import UIKit
 
 class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UITableViewDelegate  {
     var node:NodeModel?
-    
+    var nodeId:String?
+    var favorited:Bool = false
+    var favoriteUrl:String? {
+        didSet{
+            let startIndex = favoriteUrl?.rangeOfString("/", options: .BackwardsSearch, range: nil, locale: nil)
+            let endIndex = favoriteUrl?.rangeOfString("?")
+            nodeId = favoriteUrl?.substringWithRange(Range<String.Index>( startIndex!.endIndex ..< endIndex!.startIndex ))
+            
+            if favoriteUrl!.hasPrefix("/favorite"){
+                favorited = false
+            }
+            else{
+                favorited = true
+            }
+        }
+    }
+    var followButton:UIButton?
     private var topicList:Array<TopicListModel>?
     var currentPage = 1
     
@@ -71,11 +87,13 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         
         //根据 tab name 获取帖子列表
         TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
-            [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
+            [weak self](response:V2ValueResponse<([TopicListModel],String?)>) -> Void in
             if response.success {
                 if let weakSelf = self {
-                    weakSelf.topicList = response.value
+                    weakSelf.topicList = response.value?.0
+                    weakSelf.favoriteUrl = response.value?.1
                     weakSelf.tableView.reloadData()
+                    self?.setupFavorite()
                 }
             }
             self?.tableView.mj_header.endRefreshing()
@@ -94,10 +112,10 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         self.currentPage += 1
 
         TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
-            [weak self](response:V2ValueResponse<[TopicListModel]>) -> Void in
+            [weak self](response:V2ValueResponse<([TopicListModel],String?)>) -> Void in
             if response.success {
                 if let weakSelf = self , value = response.value  {
-                    weakSelf.topicList! += value
+                    weakSelf.topicList! += value.0
                     weakSelf.tableView.reloadData()
                 }
                 else{
@@ -140,4 +158,49 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         }
     }
 
+}
+
+extension NodeTopicListViewController {
+    func setupFavorite(){
+        if(self.followButton != nil){
+            return;
+        }
+        let followButton = UIButton(frame:CGRectMake(0, 0, 26, 26))
+        followButton.addTarget(self, action: #selector(toggleFavoriteState), forControlEvents: .TouchUpInside)
+        
+        let followItem = UIBarButtonItem(customView: followButton)
+        
+        //处理间距
+        let fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        fixedSpaceItem.width = -5
+        self.navigationItem.rightBarButtonItems = [fixedSpaceItem,followItem]
+        
+        self.followButton = followButton;
+        refreshButtonImage()
+    }
+    
+    func refreshButtonImage() {
+        let followImage = self.favorited == true ? UIImage(named: "ic_favorite")! : UIImage(named: "ic_favorite_border")!
+        self.followButton?.setImage(followImage.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+    }
+    
+    func toggleFavoriteState(){
+        if(self.favorited == true){
+            unFavorite()
+        }
+        else{
+            favorite()
+        }
+        refreshButtonImage()
+    }
+    func favorite() {
+        TopicListModel.favorite(self.nodeId!, type: 0)
+        self.favorited = true
+        V2Success("收藏成功")
+    }
+    func unFavorite() {
+        TopicListModel.favorite(self.nodeId!, type: 1)
+        self.favorited = false
+        V2Success("取消收藏了~")
+    }
 }
