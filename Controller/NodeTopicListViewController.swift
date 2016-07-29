@@ -17,12 +17,14 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
             let startIndex = favoriteUrl?.rangeOfString("/", options: .BackwardsSearch, range: nil, locale: nil)
             let endIndex = favoriteUrl?.rangeOfString("?")
             nodeId = favoriteUrl?.substringWithRange(Range<String.Index>( startIndex!.endIndex ..< endIndex!.startIndex ))
-            
-            if favoriteUrl!.hasPrefix("/favorite"){
-                favorited = false
-            }
-            else{
-                favorited = true
+            if let _ = nodeId , let favoriteUrl = favoriteUrl {
+                if favoriteUrl.hasPrefix("/favorite"){
+                    favorited = false
+                }
+                else{
+                    favorited = true
+                }
+                self.setupFavorite()
             }
         }
     }
@@ -93,7 +95,6 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
                     weakSelf.topicList = response.value?.0
                     weakSelf.favoriteUrl = response.value?.1
                     weakSelf.tableView.reloadData()
-                    self?.setupFavorite()
                 }
             }
             self?.tableView.mj_header.endRefreshing()

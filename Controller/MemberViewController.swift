@@ -141,7 +141,9 @@ class MemberViewController: UIViewController,UITableViewDataSource,UITableViewDe
     func getDataSuccessfully(aModel:MemberModel){
         self.model = aModel
         self.titleLabel?.text = self.model?.userName
-        setupBlockAndFollowButtons()
+        if self.model?.userToken != nil {
+            setupBlockAndFollowButtons()
+        }
         self.tableView.fin_reloadData()
     }
     
@@ -324,14 +326,18 @@ extension MemberViewController{
         refreshButtonImage()
     }
     func Follow() {
-        MemberModel.follow(self.model!.userId!, userToken: self.model!.userToken!, type: .Followed, completionHandler: nil)
-        self.model?.followState = .Followed
-        V2Success("关注成功")
+        if let userId = self.model!.userId, let userToken = self.model!.userToken {
+            MemberModel.follow(userId, userToken: userToken, type: .Followed, completionHandler: nil)
+            self.model?.followState = .Followed
+            V2Success("关注成功")
+        }
     }
     func UnFollow() {
-        MemberModel.follow(self.model!.userId!, userToken: self.model!.userToken!, type: .UnFollowed, completionHandler: nil)
-        self.model?.followState = .UnFollowed
-        V2Success("取消关注了~")
+        if let userId = self.model!.userId, let userToken = self.model!.userToken {
+            MemberModel.follow(userId, userToken: userToken, type: .UnFollowed, completionHandler: nil)
+            self.model?.followState = .UnFollowed
+            V2Success("取消关注了~")
+        }
     }
     
     func toggleBlockState(){
@@ -344,14 +350,18 @@ extension MemberViewController{
         refreshButtonImage()
     }
     func Block() {
-        MemberModel.block(self.model!.userId!, userToken: self.model!.userToken!, type: .Blocked, completionHandler: nil)
+        if let userId = self.model!.userId, let userToken = self.model!.userToken {
+        MemberModel.block(userId, userToken: userToken, type: .Blocked, completionHandler: nil)
         self.model?.blockState = .Blocked
         V2Success("屏蔽成功")
+        }
     }
     func UnBlock() {
-        MemberModel.block(self.model!.userId!, userToken: self.model!.userToken!, type: .UnBlocked, completionHandler: nil)
-        self.model?.blockState = .UnBlocked
-        V2Success("取消屏蔽了~")
+        if let userId = self.model!.userId, let userToken = self.model!.userToken {
+            MemberModel.block(userId, userToken: userToken, type: .UnBlocked, completionHandler: nil)
+            self.model?.blockState = .UnBlocked
+            V2Success("取消屏蔽了~")
+        }
     }
 }
 
