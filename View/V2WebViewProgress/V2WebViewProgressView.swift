@@ -137,9 +137,10 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
         
         if interactive {
             self.interactive = true
-            
-            let waitForCompleteJS = NSString(format: "window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@://%@%@'; document.body.appendChild(iframe);  }, false);", webView.request!.mainDocumentURL!.scheme, webView.request!.mainDocumentURL!.host!, CompleteRPCURLPath)
-            webView.stringByEvaluatingJavaScriptFromString(waitForCompleteJS as String)
+            if let scheme = webView.request?.mainDocumentURL?.scheme , let host = webView.request?.mainDocumentURL?.host {
+                let waitForCompleteJS = NSString(format: "window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@://%@%@'; document.body.appendChild(iframe);  }, false);", scheme, host, CompleteRPCURLPath)
+                webView.stringByEvaluatingJavaScriptFromString(waitForCompleteJS as String)
+            }
         }
         
         let isNotRedirect = self.currentUrl != nil && self.currentUrl == webView.request?.mainDocumentURL
