@@ -28,19 +28,16 @@ extension UIImageView {
         
             let resource = Resource(downloadURL: URL)
             fin_setWebURL(resource.downloadURL)
-            
-            let options = KingfisherManager.DefaultOptions
-            
-            KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: options) { (image, cacheType) -> () in
+            KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: nil) { (image, cacheType) -> () in
                 if image != nil {
                     dispatch_sync_safely_main_queue({ () -> () in
                         self.image = image
                     })
                 }
                 else {
-                    KingfisherManager.sharedManager.downloader.downloadImageWithURL(resource.downloadURL, options: options, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) -> () in
+                    KingfisherManager.sharedManager.downloader.downloadImageWithURL(resource.downloadURL, options: nil, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) -> () in
                         if let error = error where error.code == KingfisherError.NotModified.rawValue {
-                            KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: KingfisherManager.DefaultOptions, completionHandler: { (cacheImage, cacheType) -> () in
+                            KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: nil, completionHandler: { (cacheImage, cacheType) -> () in
                                 self.fin_setImage(cacheImage!, imageURL: imageURL!)
                             })
                             return
@@ -53,7 +50,7 @@ extension UIImageView {
                             }
                             
                             //保存图片缓存
-                            KingfisherManager.sharedManager.cache.storeImage(image, originalData: originalData, forKey: resource.cacheKey, toDisk: !KingfisherManager.DefaultOptions.cacheMemoryOnly, completionHandler: nil)
+                            KingfisherManager.sharedManager.cache.storeImage(image, originalData: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
                             self.fin_setImage(image, imageURL: imageURL!)
                         }
                     })

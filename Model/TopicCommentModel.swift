@@ -279,7 +279,7 @@ extension TopicCommentModel {
         //获取这条评论 @ 了多少用户
         var users:Set<String> = []
         for highlight in textHighlights {
-            if let url = highlight.userInfo["url"] as? String{
+            if let url = highlight.userInfo?["url"] as? String{
                 let result = AnalyzURLResult(url: url)
                 if result.type == .Member ,let username = result.params["value"]{
                     users.insert(username)

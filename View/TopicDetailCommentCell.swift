@@ -170,8 +170,8 @@ class TopicDetailCommentCell: UITableViewCell{
             if let layout = model.textLayout {
                 self.commentLabel.textLayout = layout
                 if layout.attachments != nil {
-                    for attachment in layout.attachments {
-                        if let attachment = attachment as? YYTextAttachment ,  let image = attachment.content as? V2CommentAttachmentImage{
+                    for attachment in layout.attachments! {
+                        if let image = attachment.content as? V2CommentAttachmentImage{
                             image.delegate = self
                         }
                     }
@@ -207,19 +207,19 @@ extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoB
         return photo
     }
     func guideContentModeInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
-        if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+        if let attachment = self.itemModel!.textLayout!.attachments?[index] , image = attachment.content  as? V2CommentAttachmentImage{
             return image.contentMode
         }
         return .Center
     }
     func guideFrameInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
-        if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+        if let attachment = self.itemModel!.textLayout!.attachments?[index] , image = attachment.content  as? V2CommentAttachmentImage{
             return image .convertRect(image.bounds, toView: UIApplication.sharedApplication().keyWindow!)
         }
         return CGRectZero
     }
     func guideImageInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
-        if let attachment = self.itemModel!.textLayout!.attachments[index]as? YYTextAttachment , image = attachment.content  as? V2CommentAttachmentImage{
+        if let attachment = self.itemModel!.textLayout!.attachments?[index] , image = attachment.content  as? V2CommentAttachmentImage{
             return image.image
         }
         return nil

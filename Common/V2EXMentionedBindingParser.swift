@@ -17,7 +17,10 @@ class V2EXMentionedBindingParser: NSObject ,YYTextParser{
         super.init()
     }
     
-    func parseText(text: NSMutableAttributedString!, selectedRange: NSRangePointer) -> Bool {
+    func parseText(text: NSMutableAttributedString?, selectedRange: NSRangePointer) -> Bool {
+        guard let text = text else {
+            return false;
+        }
         self.regex.enumerateMatchesInString(text.string, options: [.WithoutAnchoringBounds], range: text.yy_rangeOfAll()) { (result, flags, stop) -> Void in
             if let result = result {
                 let range = result.range

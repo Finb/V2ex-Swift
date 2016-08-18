@@ -158,7 +158,7 @@ class TopicListModel:NSObject {
             self.thmemChangedHandler = {[weak self] (style) -> Void in
                 if let str = self?.topicTitleAttributedString {
                     str.yy_color = V2EXColor.colors.v2_TopicListTitleColor
-                    self?.topicTitleLayout = YYTextLayout(containerSize: CGSizeMake(SCREEN_WIDTH-24, 9999), text: self?.topicTitleAttributedString)
+                    self?.topicTitleLayout = YYTextLayout(containerSize: CGSizeMake(SCREEN_WIDTH-24, 9999), text: str)
                 }
             }
         }

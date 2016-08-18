@@ -30,16 +30,14 @@ class V2Photo :NSObject{
         }
         
         let resource = Resource(downloadURL: self.url)
-        let options = KingfisherManager.DefaultOptions
-        KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: options) { (image, cacheType) -> () in
+        KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: nil) { (image, cacheType) -> () in
             if image != nil {
                 dispatch_sync_safely_main_queue({ () -> () in
                     self.imageLoadingComplete(image)
                 })
             }
             else{
-                
-                KingfisherManager.sharedManager.downloader.downloadImageWithURL(resource.downloadURL, options: KingfisherManager.DefaultOptions, progressBlock: { (receivedSize, totalSize) -> () in
+                KingfisherManager.sharedManager.downloader.downloadImageWithURL(resource.downloadURL, options: nil, progressBlock: { (receivedSize, totalSize) -> () in
                     let progress = Float(receivedSize) / Float(totalSize)
                     let dict = [
                         "progress":progress,
@@ -54,7 +52,7 @@ class V2Photo :NSObject{
                         
                         if let image = image {
                             //保存图片缓存
-                            KingfisherManager.sharedManager.cache.storeImage(image, originalData: originalData, forKey: resource.cacheKey, toDisk: !KingfisherManager.DefaultOptions.cacheMemoryOnly, completionHandler: nil)
+                            KingfisherManager.sharedManager.cache.storeImage(image, originalData: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
                         }
                 }
                 

@@ -51,7 +51,7 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         
     }
     
-    func textViewDidChange(textView: YYTextView!) {
+    func textViewDidChange(textView: YYTextView) {
         if textView.text.Lenght == 0{
             textView.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         }
