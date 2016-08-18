@@ -9,19 +9,8 @@ This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 <img src='http://ww2.sinaimg.cn/large/0060lm7Tgw1f1hgrs1ebwj308102q0sp.jpg' width='144' height='49' />
 </a>
 
-##How to build
-1)  Clone the repository
-```
-$ git clone https://github.com/Finb/V2ex-Swift.git
-```
-2) Open the workspace in Xcode
-```
-$ open "V2ex-Swift.xcworkspace"
-```
-3) Compile and run the app in your simulator or iOS device
-
 ##Requirements
-* Xcode 7.3+
+* Xcode 7.3
 * iOS8+
 
 ## Questions
