@@ -1,6 +1,0 @@
-framework module CXSwipeGestureRecognizer {
-  umbrella header "CXSwipeGestureRecognizer-umbrella.h"
-
-  export *
-  module * { export * }
-}
