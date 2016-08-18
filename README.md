@@ -2,7 +2,7 @@
 This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
-[![](https://img.shields.io/badge/done-50%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
+[![](https://img.shields.io/badge/done-60%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
 <br/>
 ##Download
 <a target='_blank' href='https://itunes.apple.com/app/id1078157349'>
@@ -14,11 +14,15 @@ This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 ```
 $ git clone https://github.com/Finb/V2ex-Swift.git
 ```
-2) Open the workspace in Xcode
+2)  Install dependencies
+```
+$ pod install
+```
+3) Open the workspace in Xcode
 ```
 $ open "V2ex-Swift.xcworkspace"
 ```
-3) Compile and run the app in your simulator or iOS device
+4) Compile and run the app in your simulator or iOS device
 
 ##Requirements
 * Xcode 7.3+
