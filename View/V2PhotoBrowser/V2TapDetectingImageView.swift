@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Kingfisher
 
 @objc protocol V2TapDetectingImageViewDelegate {
     optional func singleTapDetected(imageView:UIImageView,touch:UITouch)
     optional func doubleTapDetected(imageView:UIImageView,touch:UITouch)
 }
 
-class V2TapDetectingImageView: UIImageView {
+class V2TapDetectingImageView: AnimatedImageView {
     weak var tapDelegate:V2TapDetectingImageViewDelegate?
     init() {
         super.init(frame: CGRectZero)

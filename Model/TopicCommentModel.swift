@@ -17,7 +17,7 @@ protocol V2CommentAttachmentImageTapDelegate : class {
     func V2CommentAttachmentImageSingleTap(imageView:V2CommentAttachmentImage)
 }
 /// 评论中的图片
-class V2CommentAttachmentImage:UIImageView {
+class V2CommentAttachmentImage:AnimatedImageView {
     /// 父容器中第几张图片
     var index:Int = 0
     
