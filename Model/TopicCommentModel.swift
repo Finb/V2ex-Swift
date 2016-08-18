@@ -28,6 +28,7 @@ class V2CommentAttachmentImage:AnimatedImageView {
     
     init(){
         super.init(frame: CGRectMake(0, 0, 80, 80))
+        self.autoPlayAnimatedImage = false;
         self.contentMode = .ScaleAspectFill
         self.clipsToBounds = true
         self.userInteractionEnabled = true
