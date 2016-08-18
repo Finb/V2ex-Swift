@@ -57,6 +57,8 @@ public class Constraint {
     public func updatePriorityHigh() -> Void { fatalError("Must be implemented by Concrete subclass.") }
     public func updatePriorityMedium() -> Void { fatalError("Must be implemented by Concrete subclass.") }
     public func updatePriorityLow() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+
+    public var layoutConstraints: [LayoutConstraint] { fatalError("Must be implemented by Concrete subclass.") }
     
     internal var makerFile: String = "Unknown"
     internal var makerLine: UInt = 0
@@ -193,15 +195,29 @@ internal class ConcreteConstraint: Constraint {
         }
     }
     
+    private let label: String?
+    
     private var installInfo: ConcreteConstraintInstallInfo? = nil
     
-    internal init(fromItem: ConstraintItem, toItem: ConstraintItem, relation: ConstraintRelation, constant: Any, multiplier: Float, priority: Float) {
+    override var layoutConstraints: [LayoutConstraint] {
+        if installInfo == nil {
+            install()
+        }
+        
+        guard let installInfo = installInfo else {
+            return []
+        }
+        return installInfo.layoutConstraints.allObjects as! [LayoutConstraint]
+    }
+
+    internal init(fromItem: ConstraintItem, toItem: ConstraintItem, relation: ConstraintRelation, constant: Any, multiplier: Float, priority: Float, label: String? = nil) {
         self.fromItem = fromItem
         self.toItem = toItem
         self.relation = relation
         self.constant = constant
         self.multiplier = multiplier
         self.priority = priority
+        self.label = label
     }
     
     internal func installOnView(updateExisting updateExisting: Bool = false, file: String? = nil, line: UInt? = nil) -> [LayoutConstraint] {
@@ -269,6 +285,7 @@ internal class ConcreteConstraint: Constraint {
                 attribute: layoutToAttribute,
                 multiplier: CGFloat(self.multiplier),
                 constant: layoutConstant)
+            layoutConstraint.identifier = self.label
             
             // set priority
             layoutConstraint.priority = self.priority
@@ -413,7 +430,7 @@ private extension NSLayoutAttribute {
             #if os(iOS) || os(tvOS)
                 switch self {
                 case .Left, .CenterX, .LeftMargin, .CenterXWithinMargins: return point.x
-                case .Top, .CenterY, .TopMargin, .CenterYWithinMargins, .Baseline, .FirstBaseline: return point.y
+                case .Top, .CenterY, .TopMargin, .CenterYWithinMargins, .LastBaseline, .FirstBaseline: return point.y
                 case .Right, .RightMargin: return point.x
                 case .Bottom, .BottomMargin: return point.y
                 case .Leading, .LeadingMargin: return point.x
@@ -423,7 +440,7 @@ private extension NSLayoutAttribute {
             #else
                 switch self {
                 case .Left, .CenterX: return point.x
-                case .Top, .CenterY, .Baseline: return point.y
+                case .Top, .CenterY, .LastBaseline: return point.y
                 case .Right: return point.x
                 case .Bottom: return point.y
                 case .Leading: return point.x
@@ -438,22 +455,26 @@ private extension NSLayoutAttribute {
             #if os(iOS) || os(tvOS)
                 switch self {
                 case .Left, .CenterX, .LeftMargin, .CenterXWithinMargins: return insets.left
-                case .Top, .CenterY, .TopMargin, .CenterYWithinMargins, .Baseline, .FirstBaseline: return insets.top
+                case .Top, .CenterY, .TopMargin, .CenterYWithinMargins, .LastBaseline, .FirstBaseline: return insets.top
                 case .Right, .RightMargin: return insets.right
                 case .Bottom, .BottomMargin: return insets.bottom
                 case .Leading, .LeadingMargin: return  (Config.interfaceLayoutDirection == .LeftToRight) ? insets.left : -insets.right
                 case .Trailing, .TrailingMargin: return  (Config.interfaceLayoutDirection == .LeftToRight) ? insets.right : -insets.left
-                case .Width, .Height, .NotAnAttribute: return CGFloat(0)
+                case .Width: return -insets.left + insets.right
+                case .Height: return -insets.top + insets.bottom
+                case .NotAnAttribute: return CGFloat(0)
                 }
             #else
                 switch self {
                 case .Left, .CenterX: return insets.left
-                case .Top, .CenterY, .Baseline: return insets.top
+                case .Top, .CenterY, .LastBaseline: return insets.top
                 case .Right: return insets.right
                 case .Bottom: return insets.bottom
                 case .Leading: return  (Config.interfaceLayoutDirection == .LeftToRight) ? insets.left : -insets.right
                 case .Trailing: return  (Config.interfaceLayoutDirection == .LeftToRight) ? insets.right : -insets.left
-                case .Width, .Height, .NotAnAttribute: return CGFloat(0)
+                case .Width: return -insets.left + insets.right
+                case .Height: return -insets.top + insets.bottom
+                case .NotAnAttribute: return CGFloat(0)
                 case .FirstBaseline: return insets.bottom
                 }
             #endif

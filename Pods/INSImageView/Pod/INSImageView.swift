@@ -27,6 +27,11 @@ public class INSImageView: UIImageView {
         setup()
     }
     
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
     public override init(image: UIImage?) {
         super.init(image: image, highlightedImage: nil)
         setup()

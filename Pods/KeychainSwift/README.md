@@ -14,6 +14,7 @@ This is a collection of helper functions for saving text and data in the Keychai
 
 Keychain is a secure storage. You can store all kind of sensitive data in it: user passwords, credit card numbers, secret tokens etc. Once stored in Keychain this information is only available to your app, other apps can't see it. Besides that, operating system makes sure this information is kept and processed securely. For example, text stored in Keychain can not be extracted from iPhone backup or from its file system. Apple recommends storing only small amount of data in the Keychain. If you need to secure something big you can encrypt it manually, save to a file and store the key in the Keychain.
 
+
 ## Setup
 
 There are three ways you can add KeychainSwift to your Xcode project.
@@ -46,6 +47,10 @@ Here is how to use KeychainSwift in a *WatchKit extension* with CocoaPods.
 **Setup in Swift 1.2 project**
 
 Use the [previous version of the library](https://github.com/marketplacer/keychain-swift/wiki/Swift-1.2-setup).
+
+**iOS 7 support**
+
+Use [iOS 7 compatible](https://github.com/marketplacer/keychain-swift/blob/iOS7/Distrib/KeychainSwiftDistrib.swift) version of the library.
 
 ## Usage
 
@@ -87,7 +92,7 @@ keychain.getData("my key")
 ```Swift
 keychain.delete("my key") // Remove single key
 
-keychain.clear() // Delete everything from app's Keychain
+keychain.clear() // Delete everything from app's Keychain. Does not work on OS X.
 ```
 
 ## Advanced options
@@ -105,7 +110,28 @@ You can use `.AccessibleAfterFirstUnlock` if you need your app to access the key
 
 See the list of all available [access options](https://github.com/marketplacer/keychain-swift/blob/master/KeychainSwift/KeychainSwiftAccessOptions.swift).
 
-### Sharing keychain items
+
+### Synchronizing keychain items with other devices
+
+Set `synchronizable` property to `true` to enable keychain items synchronization across user's multiple devices. The synchronization will work for users who have the "Keychain" enabled in the iCloud settings on their devices.
+
+Setting `synchronizable` property to `true` will add the item to other devices with the `set` method and obtain synchronizable items with the `get` command. Deleting a synchronizable item will remove it from all devices.
+
+Note that you do not need to enable iCloud or Keychain Sharing capabilities in your app's target for this feature to work.
+
+```Swift
+// First device
+let keychain = KeychainSwift()
+keychain.synchronizable = true
+keychain.set("hello world", forKey: "my key")
+
+// Second device
+let keychain = KeychainSwift()
+keychain.synchronizable = true
+keychain.get("my key") // Returns "hello world"
+```
+
+### Sharing keychain items with other apps
 
 In order to share keychain items between apps they need to have common *Keychain Groups* registered in *Capabilities > Keychain Sharing* settings. [This tutorial](http://evgenii.com/blog/sharing-keychain-in-ios/) shows how to set it up.
 
@@ -155,9 +181,13 @@ keychain.set("hello world", forKey: "my key")
 if keychain.lastResultCode != noErr { /* Report error */ }
 ```
 
+## Known serious issue
+
+It [has been reported](https://github.com/marketplacer/keychain-swift/issues/15) that the library sometimes returns `nil`  instead of the stored Keychain value. The issue seems to be random and hard to reproduce. It may be connected with [the Keychain issue](https://forums.developer.apple.com/thread/4743) reported on Apple developer forums. If you experienced this problem feel free to create an issue so we can discuss it and find solutions.
+
 ## Demo app
 
-<img src="https://raw.githubusercontent.com/marketplacer/keychain-swift/master/graphics/keychain-swift-demo.png" alt="Sacing and reading text from Keychaing in iOS and Swift" width="320">
+<img src="https://raw.githubusercontent.com/marketplacer/keychain-swift/master/graphics/keychain-swift-demo-3.png" alt="Keychain Swift demo app" width="320">
 
 ## Alternative solutions
 
@@ -171,11 +201,13 @@ Here are some other Keychain libraries.
 * [s-aska/KeyClip](https://github.com/s-aska/KeyClip)
 * [yankodimitrov/SwiftKeychain](https://github.com/yankodimitrov/SwiftKeychain)
 
-## Credits
+## Thanks 👍
 
 * The code is based on this example: [https://gist.github.com/s-aska/e7ad24175fb7b04f78e7](https://gist.github.com/s-aska/e7ad24175fb7b04f78e7)
 * Thanks to [glyuck](https://github.com/glyuck) for taming booleans.
 * Thanks to [pepibumur](https://github.com/pepibumur) for adding OS X, watchOS and tvOS support.
+* Thanks to [ezura](https://github.com/ezura) for iOS 7 support.
+* Thanks to [mikaoj](https://github.com/mikaoj) for adding keychain synchronization.
 
 ## License
 

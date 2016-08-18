@@ -8,7 +8,7 @@
 #import "OnePasswordExtension.h"
 
 // Version
-#define VERSION_NUMBER @(180)
+#define VERSION_NUMBER @(183)
 static NSString *const AppExtensionVersionNumberKey = @"version_number";
 
 // Available App Extension Actions
@@ -47,7 +47,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - Native app Login
 
-- (void)findLoginForURLString:(nonnull NSString *)URLString forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nullable void (^)(NSDictionary * __nullable loginDictionary, NSError * __nullable error))completion {
+- (void)findLoginForURLString:(nonnull NSString *)URLString forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
 	NSAssert(URLString != nil, @"URLString must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 
@@ -95,7 +95,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - New User Registration
 
-- (void)storeLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nullable void (^)(NSDictionary * __nullable loginDictionary, NSError * __nullable error))completion {
+- (void)storeLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
 	NSAssert(URLString != nil, @"URLString must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 
@@ -150,7 +150,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - Change Password
 
-- (void)changePasswordForLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(UIViewController *)viewController sender:(nullable id)sender completion:(nullable void (^)(NSDictionary * __nullable loginDictionary, NSError * __nullable error))completion {
+- (void)changePasswordForLoginForURLString:(nonnull NSString *)URLString loginDetails:(nullable NSDictionary *)loginDetailsDictionary passwordGenerationOptions:(nullable NSDictionary *)passwordGenerationOptions forViewController:(UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
 	NSAssert(URLString != nil, @"URLString must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 
@@ -205,7 +205,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #pragma mark - Web View filling Support
 
-- (void)fillItemIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nullable void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)fillItemIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 	NSAssert(webView != nil, @"webView must not be nil");
 	NSAssert(viewController != nil, @"viewController must not be nil");
 	NSAssert([webView isKindOfClass:[UIWebView class]] || [webView isKindOfClass:[WKWebView class]], @"webView must be an instance of WKWebView or UIWebView.");
@@ -236,7 +236,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 	return [@"com.agilebits.onepassword-ios.extension" isEqualToString:activityType] || [@"com.agilebits.beta.onepassword-ios.extension" isEqualToString:activityType];
 }
 
-- (void)createExtensionItemForWebView:(nonnull id)webView completion:(void (^)(NSExtensionItem * __nullable extensionItem, NSError * __nullable error))completion {
+- (void)createExtensionItemForWebView:(nonnull id)webView completion:(nonnull OnePasswordExtensionItemCompletionBlock)completion {
 	NSAssert(webView != nil, @"webView must not be nil");
 	NSAssert([webView isKindOfClass:[UIWebView class]] || [webView isKindOfClass:[WKWebView class]], @"webView must be an instance of WKWebView or UIWebView.");
 	
@@ -275,7 +275,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 #endif
 }
 
-- (void)fillReturnedItems:(nullable NSArray *)returnedItems intoWebView:(nonnull id)webView completion:(nullable void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)fillReturnedItems:(nullable NSArray *)returnedItems intoWebView:(nonnull id)webView completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 	NSAssert(webView != nil, @"webView must not be nil");
 
 	if (returnedItems.count == 0) {
@@ -315,7 +315,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 #endif
 }
 
-- (void)findLoginIn1PasswordWithURLString:(nonnull NSString *)URLString collectedPageDetails:(nullable NSString *)collectedPageDetails forWebViewController:(nonnull UIViewController *)forViewController sender:(nullable id)sender withWebView:(nonnull id)webView showOnlyLogins:(BOOL)yesOrNo completion:(void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)findLoginIn1PasswordWithURLString:(nonnull NSString *)URLString collectedPageDetails:(nullable NSString *)collectedPageDetails forWebViewController:(nonnull UIViewController *)forViewController sender:(nullable id)sender withWebView:(nonnull id)webView showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 	if ([URLString length] == 0) {
 		NSError *URLStringError = [OnePasswordExtension failedToObtainURLStringFromWebViewError];
 		NSLog(@"Failed to findLoginIn1PasswordWithURLString: %@", URLStringError);
@@ -381,7 +381,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 }
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0 || ONE_PASSWORD_EXTENSION_ENABLE_WK_WEB_VIEW
-- (void)fillItemIntoWKWebView:(nonnull WKWebView *)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)fillItemIntoWKWebView:(nonnull WKWebView *)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 	[webView evaluateJavaScript:OPWebViewCollectFieldsScript completionHandler:^(NSString *result, NSError *error) {
 		if (result == nil) {
 			NSLog(@"1Password Extension failed to collect web page fields: %@", error);
@@ -401,7 +401,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 }
 #endif
 
-- (void)fillItemIntoUIWebView:(nonnull UIWebView *)webView webViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)fillItemIntoUIWebView:(nonnull UIWebView *)webView webViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender showOnlyLogins:(BOOL)yesOrNo completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 	NSString *collectedPageDetails = [webView stringByEvaluatingJavaScriptFromString:OPWebViewCollectFieldsScript];
 	[self findLoginIn1PasswordWithURLString:webView.request.URL.absoluteString collectedPageDetails:collectedPageDetails forWebViewController:viewController sender:sender withWebView:webView showOnlyLogins:yesOrNo completion:^(BOOL success, NSError *error) {
 		if (completion) {
@@ -410,7 +410,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 	}];
 }
 
-- (void)executeFillScript:(NSString * __nullable)fillScript inWebView:(nonnull id)webView completion:(void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)executeFillScript:(NSString * __nullable)fillScript inWebView:(nonnull id)webView completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 
 	if (fillScript == nil) {
 		NSLog(@"Failed to executeFillScript, fillScript is missing");
@@ -461,7 +461,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 }
 
 #ifdef __IPHONE_8_0
-- (void)processExtensionItem:(nullable NSExtensionItem *)extensionItem completion:(void (^)(NSDictionary *itemDictionary, NSError * __nullable error))completion {
+- (void)processExtensionItem:(nullable NSExtensionItem *)extensionItem completion:(nonnull OnePasswordLoginDictionaryCompletionBlock)completion {
 	if (extensionItem.attachments.count == 0) {
 		NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Unexpected data returned by App Extension: extension item had no attachments." };
 		NSError *error = [[NSError alloc] initWithDomain:AppExtensionErrorDomain code:AppExtensionErrorCodeUnexpectedData userInfo:userInfo];
@@ -472,7 +472,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 	}
 
 	NSItemProvider *itemProvider = extensionItem.attachments.firstObject;
-	if (NO == [itemProvider hasItemConformingToTypeIdentifier:(NSString *)kUTTypePropertyList]) {
+	if (NO == [itemProvider hasItemConformingToTypeIdentifier:(__bridge NSString *)kUTTypePropertyList]) {
 		NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Unexpected data returned by App Extension: extension item attachment does not conform to kUTTypePropertyList type identifier" };
 		NSError *error = [[NSError alloc] initWithDomain:AppExtensionErrorDomain code:AppExtensionErrorCodeUnexpectedData userInfo:userInfo];
 		if (completion) {
@@ -482,7 +482,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 	}
 
 
-	[itemProvider loadItemForTypeIdentifier:(NSString *)kUTTypePropertyList options:nil completionHandler:^(NSDictionary *itemDictionary, NSError *itemProviderError) {
+	[itemProvider loadItemForTypeIdentifier:(__bridge NSString *)kUTTypePropertyList options:nil completionHandler:^(NSDictionary *itemDictionary, NSError *itemProviderError) {
 		 NSError *error = nil;
 		 if (itemDictionary.count == 0) {
 			 NSLog(@"Failed to loadItemForTypeIdentifier: %@", itemProviderError);
@@ -532,7 +532,7 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 #endif
 
-- (void)createExtensionItemForURLString:(nonnull NSString *)URLString webPageDetails:(nullable NSString *)webPageDetails completion:(void (^)(NSExtensionItem *extensionItem, NSError * __nullable error))completion {
+- (void)createExtensionItemForURLString:(nonnull NSString *)URLString webPageDetails:(nullable NSString *)webPageDetails completion:(nonnull OnePasswordExtensionItemCompletionBlock)completion {
 	NSError *jsonError = nil;
 	NSData *data = [webPageDetails dataUsingEncoding:NSUTF8StringEncoding];
 	NSDictionary *webPageDetailsDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
@@ -628,42 +628,50 @@ static NSString *const AppExtensionWebViewPageDetails = @"pageDetails";
 
 static NSString *const OPWebViewCollectFieldsScript = @";(function(document, undefined) {\
 \
-	document.elementsByOPID={};\
-function n(d,b){function e(a,f){var c=a[f];if('string'==typeof c)return c;c=a.getAttribute(f);return'string'==typeof c?c:null}function h(a){switch(l(a.type)){case 'checkbox':return a.checked?'✓':'';case 'hidden':a=a.value;if(!a||'number'!=typeof a.length)return'';254<a.length&&(a=a.substr(0,254)+'...SNIPPED');return a;default:return a.value}}function s(a){return a.options?(a=Array.prototype.slice.call(a.options).map(function(a){var c=a.text,c=c?l(c).replace(/\\s/mg,'').replace(/[~`!@$%^&*()\\-_+=:;'\"\\[\\]|\\\\,<.>\\/?]/mg,\
-''):null;return[c?c:null,a.value]}),{options:a}):null}function v(a){var f;for(a=a.parentElement||a.parentNode;a&&'td'!=l(a.tagName);)a=a.parentElement||a.parentNode;if(!a||void 0===a)return null;f=a.parentElement||a.parentNode;if('tr'!=f.tagName.toLowerCase())return null;f=f.previousElementSibling;if(!f||'tr'!=(f.tagName+'').toLowerCase()||f.cells&&a.cellIndex>=f.cells.length)return null;a=p(f.cells[a.cellIndex]);return a=u(a)}function z(a){var f=d.documentElement,c=a.getBoundingClientRect(),b=f.getBoundingClientRect(),\
-e=c.left-f.clientLeft,f=c.top-f.clientTop;return a.offsetParent?0>e||e>b.width||0>f||f>b.height?w(a):(b=a.ownerDocument.elementFromPoint(e+3,f+3))?'label'===l(b.tagName)?b===A(a):b.tagName===a.tagName:!1:!1}function w(a){for(var f;a!==d&&a;a=a.parentNode){f=t.getComputedStyle?t.getComputedStyle(a,null):a.style;if(!f)return!0;if('none'===f.display||'hidden'==f.visibility)return!1}return a===d}function A(a){var f;if(a.id&&(f=B(d,'label[for='+JSON.stringify(a.id)+']'))||a.name&&(f=B(d,'label[for='+JSON.stringify(a.name)+\
-']')))return p(f);for(;a&&a!=d;a=a.parentNode)if('label'===l(a.tagName))return p(a);return null}function g(a,f,c,d){void 0!==d&&d===c||null===c||void 0===c||(a[f]=c)}function l(a){return'string'===typeof a?a.toLowerCase():(''+a).toLowerCase()}function B(a,d){var c=null;try{c=a.querySelector(d)}catch(b){}return c}function C(a,d){var c=[];try{c=a.querySelectorAll(d)}catch(b){}return c}var t=d.defaultView?d.defaultView:window,q,m=RegExp('((\\\\b|_|-)pin(\\\\b|_|-)|password|passwort|kennwort|passe|contraseña|senha|密码|adgangskode|hasło|wachtwoord)',\
-'i');q=Array.prototype.slice.call(C(d,'form')).map(function(a,d){var c={},b='__form__'+d;a.opid=b;c.opid=b;g(c,'htmlName',e(a,'name'));g(c,'htmlID',e(a,'id'));g(c,'htmlAction',x(e(a,'action')));g(c,'htmlMethod',e(a,'method'));return c});var r=Array.prototype.slice.call(C(d,'input, select')).map(function(a,f){var c={},b='__'+f,k=-1==a.maxLength?999:a.maxLength;if(!k||'number'===typeof k&&isNaN(k))k=999;d.elementsByOPID[b]=a;a.opid=b;c.opid=b;c.elementNumber=f;g(c,'maxLength',Math.min(k,999),999);c.visible=\
-w(a);c.viewable=z(a);g(c,'htmlID',e(a,'id'));g(c,'htmlName',e(a,'name'));g(c,'htmlClass',e(a,'class'));if('hidden'!=l(a.type)){g(c,'label-tag',A(a));g(c,'label-data',e(a,'data-label'));g(c,'label-aria',e(a,'aria-label'));g(c,'label-top',v(a));b=[];for(k=a;k&&k.nextSibling;){k=k.nextSibling;if(y(k))break;D(b,k)}g(c,'label-right',b.join(''));b=[];E(a,b);b=b.reverse().join('');g(c,'label-left',b);g(c,'placeholder',e(a,'placeholder'))}g(c,'rel',e(a,'rel'));g(c,'type',l(e(a,'type')));g(c,'value',h(a));\
-g(c,'checked',a.checked,!1);g(c,'autoCompleteType',a.getAttribute('x-autocompletetype')||a.getAttribute('autocompletetype')||a.getAttribute('autocomplete'),'off');g(c,'disabled',a.disabled);g(c,'readonly',a.a||a.readOnly);g(c,'selectInfo',s(a));g(c,'aria-hidden','true'==a.getAttribute('aria-hidden'),!1);g(c,'aria-disabled','true'==a.getAttribute('aria-disabled'),!1);g(c,'aria-haspopup','true'==a.getAttribute('aria-haspopup'),!1);g(c,'data-stripe',e(a,'data-stripe'));g(c,'onepasswordFieldType',a.dataset.onepasswordFieldType||\
-a.type);g(c,'onepasswordDesignation',a.dataset.onepasswordDesignation);g(c,'onepasswordSignInUrl',a.dataset.onepasswordSignInUrl);g(c,'onepasswordSectionTitle',a.dataset.onepasswordSectionTitle);g(c,'onepasswordSectionFieldKind',a.dataset.onepasswordSectionFieldKind);g(c,'onepasswordSectionFieldTitle',a.dataset.onepasswordSectionFieldTitle);g(c,'onepasswordSectionFieldValue',a.dataset.onepasswordSectionFieldValue);a.form&&(c.form=e(a.form,'opid'));b=(m.test(c.value)||m.test(c.htmlID)||m.test(c.htmlName)||\
-m.test(c.placeholder)||m.test(c['label-tag'])||m.test(c['label-data'])||m.test(c['label-aria']))&&('text'==c.type||'password'==c.type&&!c.visible);g(c,'fakeTested',b,!1);return c});r.filter(function(a){return a.fakeTested}).forEach(function(a){var b=d.elementsByOPID[a.opid];b.getBoundingClientRect();!b||b&&'function'!==typeof b.click||b.click();b.focus();F(b,'keydown');F(b,'keyup');F(b,'keypress');b.click&&b.click();a.postFakeTestVisible=w(b);a.postFakeTestViewable=z(b);a=b.ownerDocument.createEvent('HTMLEvents');\
-var c=b.ownerDocument.createEvent('HTMLEvents');F(b,'keydown');F(b,'keyup');F(b,'keypress');c.initEvent('input',!0,!0);b.dispatchEvent(c);a.initEvent('change',!0,!0);b.dispatchEvent(a);b.blur()});q={documentUUID:b,title:d.title,url:t.location.href,documentUrl:d.location.href,tabUrl:t.location.href,forms:function(a){var b={};a.forEach(function(a){b[a.opid]=a});return b}(q),fields:r,collectedTimestamp:(new Date).getTime()};(r=document.querySelector('[data-onepassword-display-title]'))&&r.dataset[DISPLAY_TITLE_ATTRIBUE]&&\
-(q.displayTitle=r.dataset.onepasswordTitle);return q};document.elementForOPID=G;function F(d,b){var e;e=d.ownerDocument.createEvent('KeyboardEvent');e.initKeyboardEvent?e.initKeyboardEvent(b,!0,!0):e.initKeyEvent&&e.initKeyEvent(b,!0,!0,null,!1,!1,!1,!1,0,0);d.dispatchEvent(e)}function p(d){return d.textContent||d.innerText}function u(d){var b=null;d&&(b=d.replace(/^\\s+|\\s+$|\\r?\\n.*$/mg,''),b=0<b.length?b:null);return b}function D(d,b){var e;e='';3===b.nodeType?e=b.nodeValue:1===b.nodeType&&(e=p(b));(e=u(e))&&d.push(e)}\
-function y(d){var b;d&&void 0!==d?(b='select option input form textarea button table iframe body head script'.split(' '),d?(d=d?(d.tagName||'').toLowerCase():'',b=b.constructor==Array?0<=b.indexOf(d):d===b):b=!1):b=!0;return b}\
-function E(d,b,e){var h;for(e||(e=0);d&&d.previousSibling;){d=d.previousSibling;if(y(d))return;D(b,d)}if(d&&0===b.length){for(h=null;!h;){d=d.parentElement||d.parentNode;if(!d)return;for(h=d.previousSibling;h&&!y(h)&&h.lastChild;)h=h.lastChild}y(h)||(D(b,h),0===b.length&&E(h,b,e+1))}}\
-function G(d){var b;if(void 0===d||null===d)return null;try{var e=Array.prototype.slice.call(H()),h=e.filter(function(b){return b.opid==d});if(0<h.length)b=h[0],1<h.length&&console.warn('More than one element found with opid '+d);else{var s=parseInt(d.split('__')[1],10);isNaN(s)||(b=e[s])}}catch(v){console.error('An unexpected error occurred: '+v)}finally{return b}};var I=/^[\\/\\?]/;function x(d){if(!d)return null;if(0==d.indexOf('http'))return d;var b=window.location.protocol+'//'+window.location.hostname;window.location.port&&''!=window.location.port&&(b+=':'+window.location.port);d.match(I)||(d='/'+d);return b+d}function H(){var d=document,b=[];try{b=d.querySelectorAll('input, select')}catch(e){}return b};\
+	document.elementsByOPID={};document.addEventListener('input',function(c){!1!==c.a&&'input'===c.target.tagName.toLowerCase()&&(c.target.dataset['com.agilebits.onepassword.userEdited']='yes')},!0);\
+function r(c,e){function b(a,g){var d=a[g];if('string'==typeof d)return d;d=a.getAttribute(g);return'string'==typeof d?d:null}function h(a,g){if(-1===['text','password'].indexOf(g.type.toLowerCase())||!(n.test(a.value)||n.test(a.htmlID)||n.test(a.htmlName)||n.test(a.placeholder)||n.test(a['label-tag'])||n.test(a['label-data'])||n.test(a['label-aria'])))return!1;if(!a.visible)return!0;if('password'==g.type.toLowerCase())return!1;var d=g.type;w(g,!0);return d!==g.type}function p(a){switch(q(a.type)){case 'checkbox':return a.checked?\
+'✓':'';case 'hidden':a=a.value;if(!a||'number'!=typeof a.length)return'';254<a.length&&(a=a.substr(0,254)+'...SNIPPED');return a;default:return a.value}}function m(a){return a.options?(a=Array.prototype.slice.call(a.options).map(function(a){var d=a.text,d=d?q(d).replace(/\\s/mg,'').replace(/[~`!@$%^&*()\\-_+=:;'\"\\[\\]|\\\\,<.>\\/?]/mg,''):null;return[d?d:null,a.value]}),{options:a}):null}function s(a){var c;for(a=a.parentElement||a.parentNode;a&&'td'!=q(a.tagName);)a=a.parentElement||a.parentNode;if(!a||\
+void 0===a)return null;c=a.parentElement||a.parentNode;if('tr'!=c.tagName.toLowerCase())return null;c=c.previousElementSibling;if(!c||'tr'!=(c.tagName+'').toLowerCase()||c.cells&&a.cellIndex>=c.cells.length)return null;a=c.cells[a.cellIndex];a=a.textContent||a.innerText;return a=y(a)}function t(a){var g,d=[];if(a.labels&&a.labels.length&&0<a.labels.length)d=Array.prototype.slice.call(a.labels);else{a.id&&(d=d.concat(Array.prototype.slice.call(x(c,'label[for='+JSON.stringify(a.id)+']'))));if(a.name){g=\
+x(c,'label[for='+JSON.stringify(a.name)+']');for(var b=0;b<g.length;b++)-1===d.indexOf(g[b])&&d.push(g[b])}for(g=a;g&&g!=c;g=g.parentNode)'label'===q(g.tagName)&&-1===d.indexOf(g)&&d.push(g)}0===d.length&&(g=a.parentNode,'dd'===g.tagName.toLowerCase()&&'dt'===g.previousElementSibling.tagName.toLowerCase()&&d.push(g.previousElementSibling));return 0<d.length?d.map(function(a){return(a.textContent||a.innerText).replace(/^\\s+/,'').replace(/\\s+$/,'').replace('\\n','').replace(/\\s{2,}/,' ')}).join(''):\
+null}function f(a,c,d,b){void 0!==b&&b===d||null===d||void 0===d||(a[c]=d)}function q(a){return'string'===typeof a?a.toLowerCase():(''+a).toLowerCase()}function x(a,c){var d=[];try{d=a.querySelectorAll(c)}catch(b){}return d}var u=c.defaultView?c.defaultView:window,n=RegExp('((\\\\b|_|-)pin(\\\\b|_|-)|password|passwort|kennwort|(\\\\b|_|-)passe(\\\\b|_|-)|contraseña|senha|密码|adgangskode|hasło|wachtwoord)','i'),v=Array.prototype.slice.call(x(c,'form')).map(function(a,c){var d={},e='__form__'+c;a.opid=e;d.opid=\
+e;f(d,'htmlName',b(a,'name'));f(d,'htmlID',b(a,'id'));e=b(a,'action');e=new URL(e,window.location.href);f(d,'htmlAction',e?e.href:null);f(d,'htmlMethod',b(a,'method'));return d}),F=Array.prototype.slice.call(z(c)).map(function(a,e){var d={},l='__'+e,k=-1==a.maxLength?999:a.maxLength;if(!k||'number'===typeof k&&isNaN(k))k=999;c.elementsByOPID[l]=a;a.opid=l;d.opid=l;d.elementNumber=e;f(d,'maxLength',Math.min(k,999),999);d.visible=A(a);d.viewable=B(a);f(d,'htmlID',b(a,'id'));f(d,'htmlName',b(a,'name'));\
+f(d,'htmlClass',b(a,'class'));f(d,'tabindex',b(a,'tabindex'));f(d,'title',b(a,'title'));f(d,'userEdited',!!a.dataset['com.agilebits.onepassword.userEdited']);if('hidden'!=q(a.type)){f(d,'label-tag',t(a));f(d,'label-data',b(a,'data-label'));f(d,'label-aria',b(a,'aria-label'));f(d,'label-top',s(a));l=[];for(k=a;k&&k.nextSibling;){k=k.nextSibling;if(C(k))break;D(l,k)}f(d,'label-right',l.join(''));l=[];E(a,l);l=l.reverse().join('');f(d,'label-left',l);f(d,'placeholder',b(a,'placeholder'))}f(d,'rel',b(a,\
+'rel'));f(d,'type',q(b(a,'type')));f(d,'value',p(a));f(d,'checked',a.checked,!1);f(d,'autoCompleteType',a.getAttribute('x-autocompletetype')||a.getAttribute('autocompletetype')||a.getAttribute('autocomplete'),'off');f(d,'disabled',a.disabled);f(d,'readonly',a.b||a.readOnly);f(d,'selectInfo',m(a));f(d,'aria-hidden','true'==a.getAttribute('aria-hidden'),!1);f(d,'aria-disabled','true'==a.getAttribute('aria-disabled'),!1);f(d,'aria-haspopup','true'==a.getAttribute('aria-haspopup'),!1);f(d,'data-unmasked',\
+a.dataset.unmasked);f(d,'data-stripe',b(a,'data-stripe'));f(d,'onepasswordFieldType',a.dataset.onepasswordFieldType||a.type);f(d,'onepasswordDesignation',a.dataset.onepasswordDesignation);f(d,'onepasswordSignInUrl',a.dataset.onepasswordSignInUrl);f(d,'onepasswordSectionTitle',a.dataset.onepasswordSectionTitle);f(d,'onepasswordSectionFieldKind',a.dataset.onepasswordSectionFieldKind);f(d,'onepasswordSectionFieldTitle',a.dataset.onepasswordSectionFieldTitle);f(d,'onepasswordSectionFieldValue',a.dataset.onepasswordSectionFieldValue);\
+a.form&&(d.form=b(a.form,'opid'));f(d,'fakeTested',h(d,a),!1);return d});F.filter(function(a){return a.fakeTested}).forEach(function(a){var b=c.elementsByOPID[a.opid];b.getBoundingClientRect();var d=b.value;!b||b&&'function'!==typeof b.click||b.click();w(b,!1);b.dispatchEvent(G(b,'keydown'));b.dispatchEvent(G(b,'keypress'));b.dispatchEvent(G(b,'keyup'));b.value!==d&&(b.value=d);b.click&&b.click();a.postFakeTestVisible=A(b);a.postFakeTestViewable=B(b);a.postFakeTestType=b.type;a=b.value;var d=b.ownerDocument.createEvent('HTMLEvents'),\
+e=b.ownerDocument.createEvent('HTMLEvents');b.dispatchEvent(G(b,'keydown'));b.dispatchEvent(G(b,'keypress'));b.dispatchEvent(G(b,'keyup'));e.initEvent('input',!0,!0);b.dispatchEvent(e);d.initEvent('change',!0,!0);b.dispatchEvent(d);b.blur();b.value!==a&&(b.value=a)});u={documentUUID:e,title:c.title,url:u.location.href,documentUrl:c.location.href,tabUrl:u.location.href,forms:function(a){var b={};a.forEach(function(a){b[a.opid]=a});return b}(v),fields:F,collectedTimestamp:(new Date).getTime()};(v=document.querySelector('[data-onepassword-title]'))&&\
+v.dataset[DISPLAY_TITLE_ATTRIBUE]&&(u.displayTitle=v.dataset.onepasswordTitle);return u};document.elementForOPID=H;function G(c,e){var b;I?(b=document.createEvent('KeyboardEvent'),b.initKeyEvent(e,!0,!1,null,!1,!1,!1,!1,0,0)):(b=c.ownerDocument.createEvent('Events'),b.initEvent(e,!0,!1),b.charCode=0,b.keyCode=0,b.which=0,b.srcElement=c,b.target=c);return b}window.LOGIN_TITLES=[/^\\W*log\\W*[oi]n\\W*$/i,/log\\W*[oi]n (?:securely|now)/i,/^\\W*sign\\W*[oi]n\\W*$/i,'continue','submit','weiter','accès','вход','connexion','entrar','anmelden','accedi','valider','登录','लॉग इन करें','change password'];\
+window.LOGIN_RED_HERRING_TITLES=['already have an account','sign in with'];window.REGISTER_TITLES='register;sign up;signup;join;регистрация;inscription;regístrate;cadastre-se;registrieren;registrazione;注册;साइन अप करें'.split(';');window.SEARCH_TITLES='search find поиск найти искать recherche suchen buscar suche ricerca procurar 検索'.split(' ');window.FORGOT_PASSWORD_TITLES='forgot geändert vergessen hilfe changeemail español'.split(' ');window.REMEMBER_ME_TITLES=['remember me','rememberme','keep me signed in'];\
+window.BACK_TITLES=['back','назад'];function y(c){var e=null;c&&(e=c.replace(/^\\s+|\\s+$|\\r?\\n.*$/mg,''),e=0<e.length?e:null);return e}function D(c,e){var b;b='';3===e.nodeType?b=e.nodeValue:1===e.nodeType&&(b=e.textContent||e.innerText);(b=y(b))&&c.push(b)}function C(c){var e;c&&void 0!==c?(e='select option input form textarea button table iframe body head script'.split(' '),c?(c=c?(c.tagName||'').toLowerCase():'',e=e.constructor==Array?0<=e.indexOf(c):c===e):e=!1):e=!0;return e}\
+function E(c,e,b){var h;for(b||(b=0);c&&c.previousSibling;){c=c.previousSibling;if(C(c))return;D(e,c)}if(c&&0===e.length){for(h=null;!h;){c=c.parentElement||c.parentNode;if(!c)return;for(h=c.previousSibling;h&&!C(h)&&h.lastChild;)h=h.lastChild}C(h)||(D(e,h),0===e.length&&E(h,e,b+1))}}\
+function A(c){var e=c;c=(c=c.ownerDocument)?c.defaultView:{};for(var b;e&&e!==document;){b=c.getComputedStyle?c.getComputedStyle(e,null):e.style;if(!b)return!0;if('none'===b.display||'hidden'==b.visibility)return!1;e=e.parentNode}return e===document}\
+function B(c){var e=c.ownerDocument.documentElement,b=c.getBoundingClientRect(),h=e.scrollWidth,p=e.scrollHeight,m=b.left-e.clientLeft,e=b.top-e.clientTop,s;if(!A(c)||!c.offsetParent||10>c.clientWidth||10>c.clientHeight)return!1;var t=c.getClientRects();if(0===t.length)return!1;for(var f=0;f<t.length;f++)if(s=t[f],s.left>h||0>s.right)return!1;if(0>m||m>h||0>e||e>p)return!1;for(b=c.ownerDocument.elementFromPoint(m+(b.right>window.innerWidth?(window.innerWidth-m)/2:b.width/2),e+(b.bottom>window.innerHeight?\
+(window.innerHeight-e)/2:b.height/2));b&&b!==c&&b!==document;){if(b.tagName&&'string'===typeof b.tagName&&'label'===b.tagName.toLowerCase()&&c.labels&&0<c.labels.length)return 0<=Array.prototype.slice.call(c.labels).indexOf(b);b=b.parentNode}return b===c}\
+function H(c){var e;if(void 0===c||null===c)return null;try{var b=Array.prototype.slice.call(z(document)),h=b.filter(function(b){return b.opid==c});if(0<h.length)e=h[0],1<h.length&&console.warn('More than one element found with opid '+c);else{var p=parseInt(c.split('__')[1],10);isNaN(p)||(e=b[p])}}catch(m){console.error('An unexpected error occurred: '+m)}finally{return e}};var I='object'===typeof tabs||'object'===typeof self&&'object'===typeof self.port;function z(c){var e=[];try{e=c.querySelectorAll('input, select, button')}catch(b){}return e}function w(c,e){if(e){var b=c.value;c.focus();c.value!==b&&(c.value=b)}else c.focus()};\
 	\
-	return JSON.stringify(n(document, 'oneshotUUID'));\
+	return JSON.stringify(r(document, 'oneshotUUID'));\
 })(document);\
 ";
 
 static NSString *const OPWebViewFillScript = @";(function(document, fillScript, undefined) {\
 	\
-	var f=!0,h=!0;\
-function l(a){var b=null;return a?0===a.indexOf('https://')&&'http:'===document.location.protocol&&(b=document.querySelectorAll('input[type=password]'),0<b.length&&(confirmResult=confirm('1Password warning: This is an unsecured HTTP page, and any information you submit can potentially be seen and changed by others. This Login was originally saved on a secure (HTTPS) page.\\n\\nDo you still wish to fill this login?'),0==confirmResult))?!0:!1:!1}\
-function k(a){var b,c=[],d=a.properties,e=1,g;d&&d.delay_between_operations&&(e=d.delay_between_operations);if(!l(a.savedURL)){g=function(a,b){var d=a[0];void 0===d?b():('delay'===d.operation||'delay'===d[0]?e=d.parameters?d.parameters[0]:d[1]:c.push(m(d)),setTimeout(function(){g(a.slice(1),b)},e))};if(b=a.options)b.hasOwnProperty('animate')&&(h=b.animate),b.hasOwnProperty('markFilling')&&(f=b.markFilling);a.hasOwnProperty('script')&&(b=a.script,g(b,function(){c=Array.prototype.concat.apply(c,void 0);\
-a.hasOwnProperty('autosubmit')&&'function'==typeof autosubmit&&setTimeout(function(){autosubmit(a.autosubmit,d.allow_clicky_autosubmit)},AUTOSUBMIT_DELAY);'object'==typeof protectedGlobalPage&&protectedGlobalPage.a('fillItemResults',{documentUUID:documentUUID,fillContextIdentifier:a.fillContextIdentifier,usedOpids:c},function(){fillingItemType=null})}))}}var v={fill_by_opid:n,fill_by_query:p,click_on_opid:q,click_on_query:r,touch_all_fields:s,simple_set_value_by_query:t,focus_by_opid:u,delay:null};\
-function m(a){var b;if(a.hasOwnProperty('operation')&&a.hasOwnProperty('parameters'))b=a.operation,a=a.parameters;else if('[object Array]'===Object.prototype.toString.call(a))b=a[0],a=a.splice(1);else return null;return v.hasOwnProperty(b)?v[b].apply(this,a):null}function n(a,b){var c;return(c=w(a))?(x(c,b),c.opid):null}function p(a,b){var c;c=y(a);return Array.prototype.map.call(Array.prototype.slice.call(c),function(a){x(a,b);return a.opid},this)}\
-function t(a,b){var c,d=[];c=y(a);Array.prototype.forEach.call(Array.prototype.slice.call(c),function(a){void 0!==a.value&&(a.value=b,d.push(a.opid))});return d}function u(a){if(a=w(a))'function'===typeof a.click&&a.click(),'function'===typeof a.focus&&a.focus();return null}function q(a){return(a=w(a))?z(a)?a.opid:null:null}\
-function r(a){a=y(a);return Array.prototype.map.call(Array.prototype.slice.call(a),function(a){z(a);'function'===typeof a.click&&a.click();'function'===typeof a.focus&&a.focus();return a.opid},this)}function s(){A()};var B={'true':!0,y:!0,1:!0,yes:!0,'✓':!0},C=200;function x(a,b){var c;if(a&&null!==b&&void 0!==b)switch(f&&a.form&&!a.form.opfilled&&(a.form.opfilled=!0),a.type?a.type.toLowerCase():null){case 'checkbox':c=b&&1<=b.length&&B.hasOwnProperty(b.toLowerCase())&&!0===B[b.toLowerCase()];a.checked===c||D(a,function(a){a.checked=c});break;case 'radio':!0===B[b.toLowerCase()]&&a.click();break;default:a.value==b||D(a,function(a){a.value=b})}}\
-function D(a,b){E(a);b(a);F(a);G(a)&&(a.className+=' com-agilebits-onepassword-extension-animated-fill',setTimeout(function(){a&&a.className&&(a.className=a.className.replace(/(\\s)?com-agilebits-onepassword-extension-animated-fill/,''))},C))};document.elementForOPID=w;function H(a,b){var c;c=a.ownerDocument.createEvent('KeyboardEvent');c.initKeyboardEvent?c.initKeyboardEvent(b,!0,!0):c.initKeyEvent&&c.initKeyEvent(b,!0,!0,null,!1,!1,!1,!1,0,0);a.dispatchEvent(c)}function E(a){z(a);a.focus();H(a,'keydown');H(a,'keyup');H(a,'keypress')}\
-function F(a){var b=a.ownerDocument.createEvent('HTMLEvents'),c=a.ownerDocument.createEvent('HTMLEvents');H(a,'keydown');H(a,'keyup');H(a,'keypress');c.initEvent('input',!0,!0);a.dispatchEvent(c);b.initEvent('change',!0,!0);a.dispatchEvent(b);a.blur()}function z(a){if(!a||a&&'function'!==typeof a.click)return!1;a.click();return!0}\
-function I(){var a=RegExp('((\\\\b|_|-)pin(\\\\b|_|-)|password|passwort|kennwort|passe|contraseña|senha|密码|adgangskode|hasło|wachtwoord)','i');return Array.prototype.slice.call(y(\"input[type='text']\")).filter(function(b){return b.value&&a.test(b.value)},this)}function A(){I().forEach(function(a){E(a);a.click&&a.click();F(a)})}\
-function G(a){var b;if(b=h)a:{b=a;for(var c=a.ownerDocument,c=c?c.defaultView:{},d;b&&b!==document;){d=c.getComputedStyle?c.getComputedStyle(b,null):b.style;if(!d){b=!0;break a}if('none'===d.display||'hidden'==d.visibility){b=!1;break a}b=b.parentNode}b=b===document}return b?-1!=='email text password number tel url'.split(' ').indexOf(a.type||''):!1}\
-function w(a){var b;if(void 0===a||null===a)return null;try{var c=Array.prototype.slice.call(y('input, select')),d=c.filter(function(b){return b.opid==a});if(0<d.length)b=d[0],1<d.length&&console.warn('More than one element found with opid '+a);else{var e=parseInt(a.split('__')[1],10);isNaN(e)||(b=c[e])}}catch(g){console.error('An unexpected error occurred: '+g)}finally{return b}};function y(a){var b=document,c=[];try{c=b.querySelectorAll(a)}catch(d){}return c};\
+	var g=!0,k=!0;\
+function n(a){var b=null;return a?0===a.indexOf('https://')&&'http:'===document.location.protocol&&(b=document.querySelectorAll('input[type=password]'),0<b.length&&(confirmResult=confirm('1Password warning: This is an unsecured HTTP page, and any information you submit can potentially be seen and changed by others. This Login was originally saved on a secure (HTTPS) page.\\n\\nDo you still wish to fill this login?'),0==confirmResult))?!0:!1:!1}\
+function m(a){var b,c=[],d=a.properties,e=1,h,f=[];d&&d.delay_between_operations&&(e=d.delay_between_operations);if(!n(a.savedURL)){h=function(a,b){var d=a[0];if(void 0===d)b();else{if('delay'===d.operation||'delay'===d[0])e=d.parameters?d.parameters[0]:d[1];else{if(d=p(d))for(var l=0;l<d.length;l++)-1===f.indexOf(d[l])&&f.push(d[l]);c=c.concat(f.map(function(a){return a&&a.hasOwnProperty('opid')?a.opid:null}))}setTimeout(function(){h(a.slice(1),b)},e)}};if(b=a.options)b.hasOwnProperty('animate')&&\
+(k=b.animate),b.hasOwnProperty('markFilling')&&(g=b.markFilling);a.itemType&&'fillPassword'===a.itemType&&(g=!1);a.hasOwnProperty('script')&&(b=a.script,h(b,function(){a.hasOwnProperty('autosubmit')&&'function'==typeof autosubmit&&(a.itemType&&'fillLogin'!==a.itemType||(0<f.length?setTimeout(function(){autosubmit(a.autosubmit,d.allow_clicky_autosubmit,f)},AUTOSUBMIT_DELAY):DEBUG_AUTOSUBMIT&&console.log('[AUTOSUBMIT] Not attempting to submit since no fields were filled: ',f)));'object'==typeof protectedGlobalPage&&\
+protectedGlobalPage.a('fillItemResults',{documentUUID:documentUUID,fillContextIdentifier:a.fillContextIdentifier,usedOpids:c},function(){fillingItemType=null})}))}}var x={fill_by_opid:q,fill_by_query:r,click_on_opid:s,click_on_query:t,touch_all_fields:u,simple_set_value_by_query:v,focus_by_opid:w,delay:null};\
+function p(a){var b;if(a.hasOwnProperty('operation')&&a.hasOwnProperty('parameters'))b=a.operation,a=a.parameters;else if('[object Array]'===Object.prototype.toString.call(a))b=a[0],a=a.splice(1);else return null;return x.hasOwnProperty(b)?x[b].apply(this,a):null}function q(a,b){var c;return(c=y(a))?(z(c,b),[c]):null}function r(a,b){var c;c=A(a);return Array.prototype.map.call(Array.prototype.slice.call(c),function(a){z(a,b);return a},this)}\
+function v(a,b){var c,d=[];c=A(a);Array.prototype.forEach.call(Array.prototype.slice.call(c),function(a){void 0!==a.value&&(a.value=b,d.push(a))});return d}function w(a){if(a=y(a))'function'===typeof a.click&&a.click(),'function'===typeof a.focus&&B(a,!0);return null}function s(a){return(a=y(a))?C(a)?[a]:null:null}\
+function t(a){a=A(a);return Array.prototype.map.call(Array.prototype.slice.call(a),function(a){C(a);'function'===typeof a.click&&a.click();'function'===typeof a.focus&&B(a,!0);return[a]},this)}function u(){D()};var E={'true':!0,y:!0,1:!0,yes:!0,'✓':!0},F=200;function z(a,b){var c;if(a&&null!==b&&void 0!==b)switch(g&&a.form&&!a.form.opfilled&&(a.form.opfilled=!0),a.type?a.type.toLowerCase():null){case 'checkbox':c=b&&1<=b.length&&E.hasOwnProperty(b.toLowerCase())&&!0===E[b.toLowerCase()];a.checked===c||G(a,function(a){a.checked=c});break;case 'radio':!0===E[b.toLowerCase()]&&a.click();break;default:a.value==b||G(a,function(a){a.value=b})}}\
+function G(a,b){H(a);b(a);I(a);J(a)&&(a.className+=' com-agilebits-onepassword-extension-animated-fill',setTimeout(function(){a&&a.className&&(a.className=a.className.replace(/(\\s)?com-agilebits-onepassword-extension-animated-fill/,''))},F))};document.elementForOPID=y;function K(a,b){var c;L?(c=document.createEvent('KeyboardEvent'),c.initKeyEvent(b,!0,!1,null,!1,!1,!1,!1,0,0)):(c=a.ownerDocument.createEvent('Events'),c.initEvent(b,!0,!1),c.charCode=0,c.keyCode=0,c.which=0,c.srcElement=a,c.target=a);return c}function H(a){var b=a.value;C(a);B(a,!1);a.dispatchEvent(K(a,'keydown'));a.dispatchEvent(K(a,'keypress'));a.dispatchEvent(K(a,'keyup'));a.value!==b&&(a.value=b)}\
+function I(a){var b=a.value,c=a.ownerDocument.createEvent('HTMLEvents'),d=a.ownerDocument.createEvent('HTMLEvents');a.dispatchEvent(K(a,'keydown'));a.dispatchEvent(K(a,'keypress'));a.dispatchEvent(K(a,'keyup'));d.initEvent('input',!0,!0);a.dispatchEvent(d);c.initEvent('change',!0,!0);a.dispatchEvent(c);a.blur();a.value!==b&&(a.value=b)}function C(a){if(!a||a&&'function'!==typeof a.click)return!1;a.click();return!0}\
+function M(){var a=RegExp('((\\\\b|_|-)pin(\\\\b|_|-)|password|passwort|kennwort|passe|contraseña|senha|密码|adgangskode|hasło|wachtwoord)','i');return Array.prototype.slice.call(A(\"input[type='text']\")).filter(function(b){return b.value&&a.test(b.value)},this)}function D(){M().forEach(function(a){H(a);a.click&&a.click();I(a)})}\
+window.LOGIN_TITLES=[/^\\W*log\\W*[oi]n\\W*$/i,/log\\W*[oi]n (?:securely|now)/i,/^\\W*sign\\W*[oi]n\\W*$/i,'continue','submit','weiter','accès','вход','connexion','entrar','anmelden','accedi','valider','登录','लॉग इन करें','change password'];window.LOGIN_RED_HERRING_TITLES=['already have an account','sign in with'];window.REGISTER_TITLES='register;sign up;signup;join;регистрация;inscription;regístrate;cadastre-se;registrieren;registrazione;注册;साइन अप करें'.split(';');window.SEARCH_TITLES='search find поиск найти искать recherche suchen buscar suche ricerca procurar 検索'.split(' ');\
+window.FORGOT_PASSWORD_TITLES='forgot geändert vergessen hilfe changeemail español'.split(' ');window.REMEMBER_ME_TITLES=['remember me','rememberme','keep me signed in'];window.BACK_TITLES=['back','назад'];\
+function J(a){var b;if(b=k)a:{b=a;for(var c=a.ownerDocument,c=c?c.defaultView:{},d;b&&b!==document;){d=c.getComputedStyle?c.getComputedStyle(b,null):b.style;if(!d){b=!0;break a}if('none'===d.display||'hidden'==d.visibility){b=!1;break a}b=b.parentNode}b=b===document}return b?-1!=='email text password number tel url'.split(' ').indexOf(a.type||''):!1}\
+function y(a){var b;if(void 0===a||null===a)return null;try{var c=Array.prototype.slice.call(A('input, select, button')),d=c.filter(function(b){return b.opid==a});if(0<d.length)b=d[0],1<d.length&&console.warn('More than one element found with opid '+a);else{var e=parseInt(a.split('__')[1],10);isNaN(e)||(b=c[e])}}catch(h){console.error('An unexpected error occurred: '+h)}finally{return b}};var L='object'===typeof tabs||'object'===typeof self&&'object'===typeof self.port;function A(a){var b=document,c=[];try{c=b.querySelectorAll(a)}catch(d){}return c}function B(a,b){if(b){var c=a.value;a.focus();a.value!==c&&(a.value=c)}else a.focus()};\
 \
-	k(fillScript);\
+	m(fillScript);\
 	return JSON.stringify({'success': true});\
 })\
 ";
@@ -675,7 +683,7 @@ function w(a){var b;if(void 0===a||null===a)return null;try{var c=Array.prototyp
  Deprecated in version 1.5
  Use fillItemIntoWebView:forViewController:sender:showOnlyLogins:completion: instead
  */
-- (void)fillLoginIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nullable void (^)(BOOL success, NSError * __nullable error))completion {
+- (void)fillLoginIntoWebView:(nonnull id)webView forViewController:(nonnull UIViewController *)viewController sender:(nullable id)sender completion:(nonnull OnePasswordSuccessCompletionBlock)completion {
 	[self fillItemIntoWebView:webView forViewController:viewController sender:sender showOnlyLogins:YES completion:completion];
 }
 

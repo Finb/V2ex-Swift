@@ -22,11 +22,11 @@
 @implementation NSAttributedString_YYText @end
 
 
-static float _YYDeviceSystemVersion() {
-    static float version;
+static double _YYDeviceSystemVersion() {
+    static double version;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        version = [UIDevice currentDevice].systemVersion.floatValue;
+        version = [UIDevice currentDevice].systemVersion.doubleValue;
     });
     return version;
 }
@@ -227,7 +227,7 @@ static float _YYDeviceSystemVersion() {
 - (UIColor *)yy_underlineColorAtIndex:(NSUInteger)index {
     UIColor *color = nil;
     if (kSystemVersion >= 7) {
-        [self yy_attribute:NSUnderlineColorAttributeName atIndex:index];
+        color = [self yy_attribute:NSUnderlineColorAttributeName atIndex:index];
     }
     if (!color) {
         CGColorRef ref = (__bridge CGColorRef)([self yy_attribute:(NSString *)kCTUnderlineColorAttributeName atIndex:index]);

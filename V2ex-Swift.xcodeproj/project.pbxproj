@@ -482,12 +482,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 069508F21C3F74FF0088D031 /* Build configuration list for PBXNativeTarget "V2ex-Swift" */;
 			buildPhases = (
-				AA63AF201CF29D0554C1B2AC /* Check Pods Manifest.lock */,
+				AA63AF201CF29D0554C1B2AC /* [CP] Check Pods Manifest.lock */,
 				069508DC1C3F74FF0088D031 /* Sources */,
 				069508DD1C3F74FF0088D031 /* Frameworks */,
 				069508DE1C3F74FF0088D031 /* Resources */,
-				C76D12AD36A3B92F3B13C21B /* Embed Pods Frameworks */,
-				ECD98EA9EBB1D303CE532EDE /* Copy Pods Resources */,
+				C76D12AD36A3B92F3B13C21B /* [CP] Embed Pods Frameworks */,
+				ECD98EA9EBB1D303CE532EDE /* [CP] Copy Pods Resources */,
 				0600D8081C74209E002DB97F /* Run Script */,
 			);
 			buildRules = (
@@ -568,14 +568,14 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ \"$CONFIGURATION\" == \"Release\" ]; then\n    echo \"fabric run Successfully\"\n    \"${PODS_ROOT}/Fabric/run\" e35a0878ffe50135a432ed19f88b19ba853f1a95 ed4490cfa5708117190644629735fd5abf04934826578407415ed78ff17d08ad\nelse\n    echo \"fabric disabled\"\nfi";
 		};
-		AA63AF201CF29D0554C1B2AC /* Check Pods Manifest.lock */ = {
+		AA63AF201CF29D0554C1B2AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -583,14 +583,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		C76D12AD36A3B92F3B13C21B /* Embed Pods Frameworks */ = {
+		C76D12AD36A3B92F3B13C21B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -598,14 +598,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ECD98EA9EBB1D303CE532EDE /* Copy Pods Resources */ = {
+		ECD98EA9EBB1D303CE532EDE /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
