@@ -11,7 +11,7 @@ def pods
     pod 'DrawerController', '~> 1.1.0'
     pod 'Kingfisher', '~> 2.4.3'
     pod 'KVOController', '~> 1.0.3'
-    pod 'YYText', '~> 1.0.5'
+    pod 'YYText', '~> 1.0.7'
     pod 'FXBlurView', '~> 1.6.4'
     pod 'SVProgressHUD', '~> 1.1.3'
     pod 'MJRefresh', '~> 3.1.0'

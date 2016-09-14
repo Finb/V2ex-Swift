@@ -29,7 +29,7 @@ PODS:
   - Shimmer (1.0.2)
   - SnapKit (0.22.0)
   - SVProgressHUD (1.1.3)
-  - YYText (1.0.5)
+  - YYText (1.0.7)
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.8)
@@ -50,7 +50,7 @@ DEPENDENCIES:
   - Shimmer (~> 1.0.2)
   - SnapKit (~> 0.22.0)
   - SVProgressHUD (~> 1.1.3)
-  - YYText (~> 1.0.5)
+  - YYText (~> 1.0.7)
 
 SPEC CHECKSUMS:
   1PasswordExtension: 8757dc3302353731dd3e678e63b5023a708783cb
@@ -71,8 +71,8 @@ SPEC CHECKSUMS:
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: 0dd2fd157330f1ea11fd84da13e6be8a7a22bae0
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
-  YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
+  YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 2c9b30eefecc398d69d5bac86e8f6d90abdf9901
+PODFILE CHECKSUM: 65186f18a0767ae5b77a39158ca8d585f6f5edb4
 
 COCOAPODS: 1.0.1

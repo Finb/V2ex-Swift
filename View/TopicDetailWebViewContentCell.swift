@@ -28,6 +28,8 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         super.init(coder: aDecoder)
     }
     func setup()->Void{
+        self.clipsToBounds = true
+        
         self.contentWebView = UIWebView()
         self.contentWebView!.opaque = false
         self.contentWebView!.backgroundColor = UIColor.clearColor()
