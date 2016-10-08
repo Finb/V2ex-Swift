@@ -9,45 +9,45 @@
 import UIKit
 import SVProgressHUD
 
-public class V2ProgressHUD: NSObject {
-    public class func show() {
-        SVProgressHUD.showWithMaskType(.None)
+open class V2ProgressHUD: NSObject {
+    open class func show() {
+        SVProgressHUD.show(with: .none)
     }
 
-    public class func showWithClearMask() {
-        SVProgressHUD.showWithMaskType(.Clear)
+    open class func showWithClearMask() {
+        SVProgressHUD.show(with: .clear)
     }
 
-    public class func dismiss() {
+    open class func dismiss() {
         SVProgressHUD.dismiss()
     }
 
-    public class func showWithStatus(status:String!) {
-        SVProgressHUD.showWithStatus(status)
+    open class func showWithStatus(_ status:String!) {
+        SVProgressHUD.show(withStatus: status)
     }
 
-    public class func success(status:String!) {
-        SVProgressHUD.showSuccessWithStatus(status)
+    open class func success(_ status:String!) {
+        SVProgressHUD.showSuccess(withStatus: status)
     }
 
-    public class func error(status:String!) {
-        SVProgressHUD.showErrorWithStatus(status)
+    open class func error(_ status:String!) {
+        SVProgressHUD.showError(withStatus: status)
     }
 
-    public class func inform(status:String!) {
-        SVProgressHUD.showInfoWithStatus(status)
+    open class func inform(_ status:String!) {
+        SVProgressHUD.showInfo(withStatus: status)
     }
 }
 
-public func V2Success(status:String!) {
+public func V2Success(_ status:String!) {
     V2ProgressHUD.success(status)
 }
 
-public func V2Error(status:String!) {
+public func V2Error(_ status:String!) {
     V2ProgressHUD.error(status)
 }
 
-public func V2Inform(status:String!) {
+public func V2Inform(_ status:String!) {
     V2ProgressHUD.inform(status)
 }
 
@@ -55,7 +55,7 @@ public func V2BeginLoading() {
     V2ProgressHUD.show()
 }
 
-public func V2BeginLoadingWithStatus(status:String!) {
+public func V2BeginLoadingWithStatus(_ status:String!) {
     V2ProgressHUD.showWithStatus(status)
 }
 

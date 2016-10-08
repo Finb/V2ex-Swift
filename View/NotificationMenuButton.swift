@@ -11,10 +11,10 @@ import UIKit
 class NotificationMenuButton: UIButton {
     var aPointImageView:UIImageView?
     required init(){
-        super.init(frame: CGRectZero)
-        self.contentMode = .Center
+        super.init(frame: CGRect.zero)
+        self.contentMode = .center
         self.imageEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0)
-        self.setImage(UIImage.imageUsedTemplateMode("ic_menu_36pt")!, forState: .Normal)
+        self.setImage(UIImage.imageUsedTemplateMode("ic_menu_36pt")!, for: UIControlState())
         
         self.aPointImageView = UIImageView()
         self.aPointImageView!.backgroundColor = V2EXColor.colors.v2_NoticePointColor
@@ -27,12 +27,12 @@ class NotificationMenuButton: UIButton {
             make.right.equalTo(self).offset(-6)
         }
         
-        self.KVOController.observe(V2User.sharedInstance, keyPath: "notificationCount", options: [.Initial,.New]) {  [weak self](cell, clien, change) -> Void in
+        self.kvoController.observe(V2User.sharedInstance, keyPath: "notificationCount", options: [.initial,.new]) {  [weak self](cell, clien, change) -> Void in
             if V2User.sharedInstance.notificationCount > 0 {
-                self?.aPointImageView!.hidden = false
+                self?.aPointImageView!.isHidden = false
             }
             else{
-                self?.aPointImageView!.hidden = true
+                self?.aPointImageView!.isHidden = true
             }
         }
     }

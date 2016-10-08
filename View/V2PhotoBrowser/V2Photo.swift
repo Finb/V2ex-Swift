@@ -15,10 +15,11 @@ class V2Photo :NSObject{
     
     var underlyingImage:UIImage?
     
-    private var url:NSURL
+    fileprivate var url:URL
     
-    init(url:NSURL) {
-        if !["https","http"].contains(url.scheme.lowercaseString) {
+    init(url:URL) {
+        
+        if let scheme = url.scheme?.lowercased() , !["https","http"].contains(scheme){
             assert(true, "url.scheme must be a HTTP/HTTPS request")
         }
         self.url = url
@@ -28,22 +29,21 @@ class V2Photo :NSObject{
         if self.underlyingImage != nil{
             return ;
         }
-        
-        let resource = Resource(downloadURL: self.url)
-        KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: nil) { (image, cacheType) -> () in
+        let resource = ImageResource(downloadURL: self.url)
+        KingfisherManager.shared.cache.retrieveImage(forKey: resource.cacheKey, options: nil) { (image, cacheType) -> () in
             if image != nil {
                 dispatch_sync_safely_main_queue({ () -> () in
                     self.imageLoadingComplete(image)
                 })
             }
             else{
-                KingfisherManager.sharedManager.downloader.downloadImageWithURL(resource.downloadURL, options: nil, progressBlock: { (receivedSize, totalSize) -> () in
+                KingfisherManager.shared.downloader.downloadImage(with: resource.downloadURL, options: nil, progressBlock: { (receivedSize, totalSize) -> () in
                     let progress = Float(receivedSize) / Float(totalSize)
                     let dict = [
                         "progress":progress,
                         "photo":self
-                    ]
-                    NSNotificationCenter.defaultCenter().postNotificationName(V2Photo.V2PHOTO_PROGRESS_NOTIFICATION, object: dict)
+                    ] as [String : Any]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: V2Photo.V2PHOTO_PROGRESS_NOTIFICATION), object: dict)
                     }){ (image, error, imageURL, originalData) -> () in
                         
                         dispatch_sync_safely_main_queue({ () -> () in
@@ -52,7 +52,7 @@ class V2Photo :NSObject{
                         
                         if let image = image {
                             //保存图片缓存
-                            KingfisherManager.sharedManager.cache.storeImage(image, originalData: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
+                            KingfisherManager.shared.cache.store(image, original: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
                         }
                 }
                 
@@ -61,8 +61,8 @@ class V2Photo :NSObject{
         }
     }
     
-    func imageLoadingComplete(image:UIImage?){
+    func imageLoadingComplete(_ image:UIImage?){
         self.underlyingImage = image
-        NSNotificationCenter.defaultCenter().postNotificationName(V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION), object: self)
     }
 }

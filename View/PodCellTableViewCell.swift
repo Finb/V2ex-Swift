@@ -30,7 +30,7 @@ class PodCellTableViewCell: BaseDetailTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupLayout() {
+    fileprivate func setupLayout() {
         self.titleLabel.snp_remakeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12)
         }

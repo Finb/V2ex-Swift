@@ -7,9 +7,29 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 extension UITableView {
 
-    public func fin_heightForCellWithIdentifier<T: UITableViewCell>(identifier: String, configuration: ((cell: T) -> Void)?) -> CGFloat {
+    public func fin_heightForCellWithIdentifier<T: UITableViewCell>(_ identifier: String, configuration: ((_ cell: T) -> Void)?) -> CGFloat {
         if identifier.characters.count <= 0 {
             return 0
         }
@@ -18,7 +38,7 @@ extension UITableView {
         cell.prepareForReuse()
         
         if configuration != nil {
-            configuration!(cell: cell as! T)
+            configuration!(cell as! T)
         }
         
 //        cell.setNeedsUpdateConstraints();
@@ -26,22 +46,22 @@ extension UITableView {
 //        self.setNeedsLayout();
 //        self.layoutIfNeeded();
         
-        var fittingSize = cell.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-        if self.separatorStyle != .None {
-            fittingSize.height += 1.0 / UIScreen.mainScreen().scale
+        var fittingSize = cell.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        if self.separatorStyle != .none {
+            fittingSize.height += 1.0 / UIScreen.main.scale
         }
         return fittingSize.height
     }
     
     
-    private func fin_templateCellForReuseIdentifier(identifier: String) -> UITableViewCell {
+    fileprivate func fin_templateCellForReuseIdentifier(_ identifier: String) -> UITableViewCell {
         assert(identifier.characters.count > 0, "Expect a valid identifier - \(identifier)")
         if self.fin_templateCellsByIdentifiers == nil {
             self.fin_templateCellsByIdentifiers = [:]
         }
         var templateCell = self.fin_templateCellsByIdentifiers?[identifier] as? UITableViewCell
         if templateCell == nil {
-            templateCell = self.dequeueReusableCellWithIdentifier(identifier)
+            templateCell = self.dequeueReusableCell(withIdentifier: identifier)
             assert(templateCell != nil, "Cell must be registered to table view for identifier - \(identifier)")
             templateCell?.contentView.translatesAutoresizingMaskIntoConstraints = false
             self.fin_templateCellsByIdentifiers?[identifier] = templateCell
@@ -50,7 +70,7 @@ extension UITableView {
         return templateCell!
     }
     
-    public func fin_heightForCellWithIdentifier<T: UITableViewCell>(identifier: T.Type, indexPath: NSIndexPath, configuration: ((cell: T) -> Void)?) -> CGFloat {
+    public func fin_heightForCellWithIdentifier<T: UITableViewCell>(_ identifier: T.Type, indexPath: IndexPath, configuration: ((_ cell: T) -> Void)?) -> CGFloat {
         let identifierStr = "\(identifier)";
         if identifierStr.characters.count == 0 {
             return 0
@@ -58,31 +78,31 @@ extension UITableView {
         
 //         Hit cache
         if self.fin_hasCachedHeightAtIndexPath(indexPath) {
-            let height: CGFloat = self.fin_indexPathHeightCache![indexPath.section][indexPath.row]
+            let height: CGFloat = self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
 //            NSLog("hit cache by indexPath:[\(indexPath.section),\(indexPath.row)] -> \(height)");
             return height
         }
         
         let height = self.fin_heightForCellWithIdentifier(identifierStr, configuration: configuration)
-        self.fin_indexPathHeightCache![indexPath.section][indexPath.row] = height
+        self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row] = height
 //        NSLog("cached by indexPath:[\(indexPath.section),\(indexPath.row)] --> \(height)")
         
         return height
     }
     
-    private struct AssociatedKey {
+    fileprivate struct AssociatedKey {
         static var CellsIdentifier = "me.fin.cellsIdentifier"
         static var HeightsCacheIdentifier = "me.fin.heightsCacheIdentifier"
         static var finHeightCacheAbsendValue = CGFloat(-1);
     }
 
-    private func fin_hasCachedHeightAtIndexPath(indexPath:NSIndexPath) -> Bool {
+    fileprivate func fin_hasCachedHeightAtIndexPath(_ indexPath:IndexPath) -> Bool {
         self.fin_buildHeightCachesAtIndexPathsIfNeeded([indexPath]);
-        let height = self.fin_indexPathHeightCache![indexPath.section][indexPath.row];
+        let height = self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row];
         return height >= 0;
     }
     
-    private func fin_buildHeightCachesAtIndexPathsIfNeeded(indexPaths:Array<NSIndexPath>) -> Void {
+    fileprivate func fin_buildHeightCachesAtIndexPathsIfNeeded(_ indexPaths:Array<IndexPath>) -> Void {
         if indexPaths.count <= 0 {
             return ;
         }
@@ -93,19 +113,19 @@ extension UITableView {
         
         for indexPath in indexPaths {
             let cacheSectionCount = self.fin_indexPathHeightCache!.count;
-            if  indexPath.section >= cacheSectionCount {
-                for i in cacheSectionCount...indexPath.section {
+            if  (indexPath as NSIndexPath).section >= cacheSectionCount {
+                for i in cacheSectionCount...(indexPath as NSIndexPath).section {
                     if i >= self.fin_indexPathHeightCache?.count {
                         self.fin_indexPathHeightCache!.append([])
                     }
                 }
             }
             
-            let cacheCount = self.fin_indexPathHeightCache![indexPath.section].count;
-            if indexPath.row >= cacheCount {
-                for i in cacheCount...indexPath.row {
-                    if i >= self.fin_indexPathHeightCache![indexPath.section].count {
-                        self.fin_indexPathHeightCache![indexPath.section].append(AssociatedKey.finHeightCacheAbsendValue);
+            let cacheCount = self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section].count;
+            if (indexPath as NSIndexPath).row >= cacheCount {
+                for i in cacheCount...(indexPath as NSIndexPath).row {
+                    if i >= self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section].count {
+                        self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section].append(AssociatedKey.finHeightCacheAbsendValue);
                     }
                 }
             }
@@ -113,7 +133,7 @@ extension UITableView {
         
     }
     
-    private var fin_templateCellsByIdentifiers: [String : AnyObject]? {
+    fileprivate var fin_templateCellsByIdentifiers: [String : AnyObject]? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKey.CellsIdentifier) as? [String : AnyObject]
         }
@@ -121,7 +141,7 @@ extension UITableView {
             objc_setAssociatedObject(self, &AssociatedKey.CellsIdentifier, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    private var fin_indexPathHeightCache: [ [CGFloat] ]? {
+    fileprivate var fin_indexPathHeightCache: [ [CGFloat] ]? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKey.HeightsCacheIdentifier) as? [[CGFloat]]
         }

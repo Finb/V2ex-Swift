@@ -16,18 +16,18 @@ class V2RefreshHeader: MJRefreshHeader {
     override var state:MJRefreshState{
         didSet{
             switch state {
-            case .Idle:
-                self.loadingView?.hidden = true
-                self.arrowImage?.hidden = false
+            case .idle:
+                self.loadingView?.isHidden = true
+                self.arrowImage?.isHidden = false
                 self.loadingView?.stopAnimating()
-            case .Pulling:
-                self.loadingView?.hidden = false
-                self.arrowImage?.hidden = true
+            case .pulling:
+                self.loadingView?.isHidden = false
+                self.arrowImage?.isHidden = true
                 self.loadingView?.startAnimating()
                 
-            case .Refreshing:
-                self.loadingView?.hidden = false
-                self.arrowImage?.hidden = true
+            case .refreshing:
+                self.loadingView?.isHidden = false
+                self.arrowImage?.isHidden = true
                 self.loadingView?.startAnimating()
             default:
                 NSLog("")
@@ -42,7 +42,7 @@ class V2RefreshHeader: MJRefreshHeader {
         super.prepare()
         self.mj_h = 50
         
-        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .white)
         self.addSubview(self.loadingView!)
         
         self.arrowImage = UIImageView(image: UIImage.imageUsedTemplateMode("ic_arrow_downward"))
@@ -50,12 +50,12 @@ class V2RefreshHeader: MJRefreshHeader {
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.loadingView?.activityIndicatorViewStyle = .Gray
-                self?.arrowImage?.tintColor = UIColor.grayColor()
+                self?.loadingView?.activityIndicatorViewStyle = .gray
+                self?.arrowImage?.tintColor = UIColor.gray
             }
             else{
-                self?.loadingView?.activityIndicatorViewStyle = .White
-                self?.arrowImage?.tintColor = UIColor.grayColor()
+                self?.loadingView?.activityIndicatorViewStyle = .white
+                self?.arrowImage?.tintColor = UIColor.gray
             }
         }
     }
@@ -65,20 +65,20 @@ class V2RefreshHeader: MJRefreshHeader {
      */
     override func placeSubviews(){
         super.placeSubviews()
-        self.loadingView!.center = CGPointMake(self.mj_w/2, self.mj_h/2);
-        self.arrowImage!.frame = CGRectMake(0, 0, 24, 24)
+        self.loadingView!.center = CGPoint(x: self.mj_w/2, y: self.mj_h/2);
+        self.arrowImage!.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
         self.arrowImage!.center = self.loadingView!.center
     }
     
-    override func scrollViewContentOffsetDidChange(change: [NSObject : AnyObject]!) {
+    override func scrollViewContentOffsetDidChange(_ change: [AnyHashable: Any]!) {
         super.scrollViewContentOffsetDidChange(change)
     }
     
-    override func scrollViewContentSizeDidChange(change: [NSObject : AnyObject]!) {
+    override func scrollViewContentSizeDidChange(_ change: [AnyHashable: Any]!) {
         super.scrollViewContentOffsetDidChange(change)
     }
     
-    override func scrollViewPanStateDidChange(change: [NSObject : AnyObject]!) {
+    override func scrollViewPanStateDidChange(_ change: [AnyHashable: Any]!) {
         super.scrollViewPanStateDidChange(change)
     }
     

@@ -12,16 +12,16 @@ let keyPrefix =  "me.fin.V2EXSettings."
 
 class V2EXSettings: NSObject {
     static let sharedInstance = V2EXSettings()
-    private override init(){
+    fileprivate override init(){
         super.init()
     }
     
     subscript(key:String) -> String? {
         get {
-            return NSUserDefaults.standardUserDefaults().objectForKey(keyPrefix + key) as? String
+            return UserDefaults.standard.object(forKey: keyPrefix + key) as? String
         }
         set {
-            NSUserDefaults.standardUserDefaults().setValue(newValue, forKey: keyPrefix + key )
+            UserDefaults.standard.setValue(newValue, forKey: keyPrefix + key )
         }
     }
 }

@@ -9,8 +9,8 @@
 import UIKit
 
 class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        let fromVC = transitionContext!.viewControllerForKey(UITransitionContextFromViewControllerKey) as! V2PhotoBrowser
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        let fromVC = transitionContext!.viewController(forKey: UITransitionContextViewControllerKey.from) as! V2PhotoBrowser
         if fromVC.transitionController.interacting {
             return 0.8
         }
@@ -18,24 +18,24 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
             return 0.3
         }
     }
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! V2PhotoBrowser
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! V2PhotoBrowser
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
         
-        let container = transitionContext.containerView()
-        container!.addSubview(toVC.view)
-        container!.bringSubviewToFront(fromVC.view)
+        let container = transitionContext.containerView
+        container.addSubview(toVC.view)
+        container.bringSubview(toFront: fromVC.view)
         
         
-        if let delegate = fromVC.delegate ,image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex) {
+        if let delegate = fromVC.delegate ,let image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex) {
             fromVC.guideImageView.image = image
             //如果图片过小，则直接中间原图显示 ，否则fit
-            if fromVC.guideImageView.originalImage?.size.width > SCREEN_WIDTH || fromVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
-                fromVC.guideImageView.contentMode = .ScaleAspectFit
+            if (fromVC.guideImageView.originalImage?.size.width)! > SCREEN_WIDTH || (fromVC.guideImageView.originalImage?.size.height)! > SCREEN_HEIGHT {
+                fromVC.guideImageView.contentMode = .scaleAspectFit
             }
             else{
-                fromVC.guideImageView.contentMode = .Center
+                fromVC.guideImageView.contentMode = .center
             }
             
             //重布局一下，因为有可能左右切换图片隐藏时 布局不对
@@ -50,7 +50,7 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
         let animations = { () -> Void in
             fromVC.view.backgroundColor = UIColor(white: 0, alpha: 0)
             //如果guideImageView是隐藏的，则证明图片没有加载完不能显示，则渐变隐藏整个browser
-            if fromVC.guideImageView.hidden {
+            if fromVC.guideImageView.isHidden {
                 fromVC.pagingScrollView.alpha = 0
             }
             else {
@@ -62,7 +62,7 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
                 }
                 else{
                     var frame = fromVC.guideImageView.frame
-                    if fromVC.transitionController.direction == .Downwards {
+                    if fromVC.transitionController.direction == .downwards {
                         frame.origin.y += fromVC.view.frame.size.height
                     }
                     else {
@@ -75,12 +75,12 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
         
         let completion = {(finished: Bool) -> Void in
             fromVC.guideImageViewHidden(true)
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
-        let  options = fromVC.transitionController.interacting ? UIViewAnimationOptions.CurveLinear : UIViewAnimationOptions.CurveEaseInOut
+        let  options = fromVC.transitionController.interacting ? UIViewAnimationOptions.curveLinear : UIViewAnimationOptions()
         
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: options, animations: animations, completion: completion)
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: options, animations: animations, completion: completion)
     }
 
 }

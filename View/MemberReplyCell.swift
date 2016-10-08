@@ -56,7 +56,7 @@ class MemberReplyCell: UITableViewCell {
     }
 
     func setup()->Void{
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         self.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         self.contentView.addSubview(self.contentPanel)
@@ -68,7 +68,7 @@ class MemberReplyCell: UITableViewCell {
         
         let dropUpImageView = UIImageView()
         dropUpImageView.image = UIImage.imageUsedTemplateMode("ic_arrow_drop_up")
-        dropUpImageView.contentMode = .ScaleAspectFit
+        dropUpImageView.contentMode = .scaleAspectFit
         dropUpImageView.tintColor = self.commentPanel.backgroundColor
         self.contentPanel.addSubview(dropUpImageView)
         dropUpImageView.snp_makeConstraints{ (make) -> Void in
@@ -104,7 +104,7 @@ class MemberReplyCell: UITableViewCell {
             make.bottom.equalTo(self.contentPanel).offset(0);
         }
     }
-    func bind(model: MemberRepliesModel){
+    func bind(_ model: MemberRepliesModel){
         if model.date != nil && model.title != nil {
             self.detailLabel.text = model.date! + "回复 " + model.title!
         }

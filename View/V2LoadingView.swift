@@ -20,9 +20,9 @@ let noticeString = [
 ]
 
 class V2LoadingView: UIView {
-    var activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    var activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     init (){
-        super.init(frame:CGRectZero)
+        super.init(frame:CGRect.zero)
         self.addSubview(self.activityIndicatorView)
         self.activityIndicatorView.snp_makeConstraints{ (make) -> Void in
             make.centerX.equalTo(self)
@@ -34,7 +34,8 @@ class V2LoadingView: UIView {
         //(Int)(arc4random())
         //上面这种写法有问题，arc4random()会返回 一个Uint32的随机数值。
         //在32位机器上,如果随机的数大于Int.max ,转换就会crash。
-        noticeLabel.text = noticeString[random() % noticeString.count]
+        let random:Int = Int(arc4random())
+        noticeLabel.text = noticeString[random % noticeString.count]
         noticeLabel.font = v2Font(10)
         noticeLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.addSubview(noticeLabel)
@@ -45,15 +46,15 @@ class V2LoadingView: UIView {
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.activityIndicatorView.activityIndicatorViewStyle = .Gray
+                self?.activityIndicatorView.activityIndicatorViewStyle = .gray
             }
             else{
-                self?.activityIndicatorView.activityIndicatorViewStyle = .White
+                self?.activityIndicatorView.activityIndicatorViewStyle = .white
             }
         }
     }
 
-    override func willMoveToSuperview(newSuperview: UIView?) {
+    override func willMove(toSuperview newSuperview: UIView?) {
         self.activityIndicatorView.startAnimating()
     }
     
@@ -62,16 +63,16 @@ class V2LoadingView: UIView {
     }
     
     func hide(){
-        self.superview?.bringSubviewToFront(self)
+        self.superview?.bringSubview(toFront: self)
 
-        UIView.animateWithDuration(0.2,
+        UIView.animate(withDuration: 0.2,
             animations: { () -> Void in
             self.alpha = 0 ;
-        })
-        { (finished) -> Void in
+        }, completion: { (finished) -> Void in
             if finished {
                 self.removeFromSuperview();
             }
-        }
+        })
+        
     }
 }

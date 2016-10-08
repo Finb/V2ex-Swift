@@ -14,6 +14,35 @@ import AlamofireObjectMapper
 
 import Ji
 import MJRefresh
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 let kHomeTab = "me.fin.homeTab"
 
@@ -22,15 +51,15 @@ class HomeViewController: UIViewController {
     var tab:String? = nil
     var currentPage = 0
     
-    private var _tableView :UITableView!
-    private var tableView: UITableView {
+    fileprivate var _tableView :UITableView!
+    fileprivate var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
             }
             _tableView = UITableView();
 
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
             regClass(_tableView, cell: HomeTopicListTableViewCell.self);
             
@@ -40,10 +69,10 @@ class HomeViewController: UIViewController {
             
         }
     }
-    override func viewWillAppear(animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .PanningCenterView
+    override func viewWillAppear(_ animated: Bool) {
+        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
     }
     
@@ -54,8 +83,8 @@ class HomeViewController: UIViewController {
         self.setupNavigationItem()
         
         //监听程序即将进入前台运行、进入后台休眠 事件
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp_makeConstraints{ (make) -> Void in
@@ -69,7 +98,7 @@ class HomeViewController: UIViewController {
         let footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
             self?.getNextPage()
         })
-        footer.centerOffset = -4
+        footer?.centerOffset = -4
         self.tableView.mj_footer = footer
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
@@ -78,24 +107,24 @@ class HomeViewController: UIViewController {
     }
     func setupNavigationItem(){
         let leftButton = NotificationMenuButton()
-        leftButton.frame = CGRectMake(0, 0, 40, 40)
+        leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
-        leftButton.addTarget(self, action: #selector(HomeViewController.leftClick), forControlEvents: .TouchUpInside)
+        leftButton.addTarget(self, action: #selector(HomeViewController.leftClick), for: .touchUpInside)
         
         
-        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        rightButton.contentMode = .Center
+        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), for: .touchUpInside)
 
     }
     func leftClick(){
-        V2Client.sharedInstance.drawerController?.toggleLeftDrawerSideAnimated(true, completion: nil)
+        V2Client.sharedInstance.drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
     func rightClick(){
-        V2Client.sharedInstance.drawerController?.toggleRightDrawerSideAnimated(true, completion: nil)
+        V2Client.sharedInstance.drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
     }
     
     func refreshPage(){
@@ -161,7 +190,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    static var lastLeaveTime = NSDate()
+    static var lastLeaveTime = Date()
     func applicationWillEnterForeground(){
         //计算上次离开的时间与当前时间差
         //如果超过2分钟，则自动刷新本页面。
@@ -171,21 +200,21 @@ class HomeViewController: UIViewController {
         }
     }
     func applicationDidEnterBackground(){
-        HomeViewController.lastLeaveTime = NSDate()
+        HomeViewController.lastLeaveTime = Date()
     }
 }
 
 
 //MARK: - TableViewDataSource
 extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let list = self.topicList {
             return list.count;
         }
         return 0;
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let item = self.topicList![indexPath.row]
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let item = self.topicList![(indexPath as NSIndexPath).row]
         let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
         //          上间隔   头像高度  头像下间隔       标题高度    标题下间隔 cell间隔
         let height = 12    +  35     +  12      + titleHeight   + 12      + 8
@@ -193,37 +222,37 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         return height
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
-        cell.bind(self.topicList![indexPath.row]);
+        cell.bind(self.topicList![(indexPath as NSIndexPath).row]);
         return cell;
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let item = self.topicList![indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = self.topicList![(indexPath as NSIndexPath).row]
         
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;
             topicDetailController.ignoreTopicHandler = {[weak self] (topicId) in
-                self?.performSelector(#selector(HomeViewController.ignoreTopicHandler(_:)), withObject: topicId, afterDelay: 0.6)
+                self?.perform(#selector(HomeViewController.ignoreTopicHandler(_:)), with: topicId, afterDelay: 0.6)
             }
             self.navigationController?.pushViewController(topicDetailController, animated: true)
-            tableView .deselectRowAtIndexPath(indexPath, animated: true);
+            tableView .deselectRow(at: indexPath, animated: true);
         }
     }
     
-    func ignoreTopicHandler(topicId:String) {
-        let index = self.topicList?.indexOf({$0.topicId == topicId })
+    func ignoreTopicHandler(_ topicId:String) {
+        let index = self.topicList?.index(where: {$0.topicId == topicId })
         if index == nil {
             return
         }
         
         //看当前忽略的cell 是否在可视列表里
         let indexPaths = self.tableView.indexPathsForVisibleRows
-        let visibleIndex =  indexPaths?.indexOf({$0.row == index})
+        let visibleIndex =  indexPaths?.index(where: {($0 as IndexPath).row == index})
         
-        self.topicList?.removeAtIndex(index!)
+        self.topicList?.remove(at: index!)
         //如果不在可视列表，则直接reloadData 就可以
         if visibleIndex == nil {
             self.tableView.reloadData()
@@ -233,7 +262,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         //如果在可视列表，则动画删除它
         self.tableView.beginUpdates()
         
-        self.tableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: index!, inSection: 0)], withRowAnimation: .Fade)
+        self.tableView.deleteRows(at: [IndexPath(row: index!, section: 0)], with: .fade)
         
         self.tableView.endUpdates()
         

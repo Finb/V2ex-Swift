@@ -13,12 +13,12 @@ import Ji
 class MemberModel: NSObject ,BaseHtmlModelProtocol{
     
     enum BlockState {
-        case Blocked
-        case UnBlocked
+        case blocked
+        case unBlocked
     }
     enum FollowState {
-        case Followed
-        case UnFollowed
+        case followed
+        case unFollowed
     }
     
     var avata: String?
@@ -26,8 +26,8 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
     var userName:String?
     var introduce:String?
     
-    var blockState:BlockState = .UnBlocked
-    var followState:FollowState = .UnFollowed
+    var blockState:BlockState = .unBlocked
+    var followState:FollowState = .unFollowed
     var userToken:String?
     
     var topics:[MemberTopicsModel] = []
@@ -38,47 +38,48 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
         self.introduce = rootNode.xPath("./td[3]/span[1]").first?.content
         // follow状态
         if let followNode = rootNode.xPath("./td[3]/div[1]/input[1]").first
-            , let followStateClickUrl = followNode["onclick"] where followStateClickUrl.Lenght > 0{
+            , let followStateClickUrl = followNode["onclick"] , followStateClickUrl.Lenght > 0{
             
-            var index = followStateClickUrl.rangeOfString("'")
-            var url = followStateClickUrl.substringFromIndex(index!.endIndex)
-            url = url.substringToIndex(url.endIndex.advancedBy(-2))
+            var index = followStateClickUrl.range(of: "'")
+            var url = followStateClickUrl.substring(from: index!.upperBound)
+            url = url.substring(to:url.index(url.endIndex, offsetBy: -2))
+            
             
             if url.hasPrefix("/follow"){
-                self.followState = .UnFollowed
+                self.followState = .unFollowed
             }
             else{
-                self.followState = .Followed
+                self.followState = .followed
             }
             
-            index = url.rangeOfString("?t=")
-            self.userToken = url.substringFromIndex(index!.endIndex)
+            index = url.range(of: "?t=")
+            self.userToken = url.substring(from: index!.upperBound)
             
             //UserId
-            let startIndex = url.rangeOfString("/", options: .BackwardsSearch, range: nil, locale: nil)
-            self.userId = url.substringWithRange(Range<String.Index>( startIndex!.endIndex ..< index!.startIndex))
+            let startIndex = url.range(of:"/", options: .backwards, range: nil, locale: nil)
+            self.userId = url.substring(with: Range<String.Index>( startIndex!.upperBound ..< index!.lowerBound))
             
         }
 
         // block状态
         if let followNode = rootNode.xPath("./td[3]/div[1]/input[2]").first
-            , let followStateClickUrl = followNode["onclick"] where followStateClickUrl.Lenght > 0{
+            , let followStateClickUrl = followNode["onclick"] , followStateClickUrl.Lenght > 0{
             
-            let index = followStateClickUrl.rangeOfString("unblock")
+            let index = followStateClickUrl.range(of: "unblock")
             
             if index == nil{
-                self.blockState = .UnBlocked
+                self.blockState = .unBlocked
             }
             else{
-                self.blockState = .Blocked
+                self.blockState = .blocked
             }
         }
     }
     
-    class func getMemberInfo(username:String , completionHandler: (V2ValueResponse<MemberModel> -> Void)? = nil) {
+    class func getMemberInfo(_ username:String , completionHandler: ((V2ValueResponse<MemberModel>) -> Void)? = nil) {
     
         let url = V2EXURL + "member/" + username
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             if let jiHtml = response.result.value {
                 
                 if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/table/tr")?.first{
@@ -127,11 +128,11 @@ class MemberTopicsModel: TopicListModel {
         var topicIdUrl = node["href"];
         
         if var id = topicIdUrl {
-            if let range = id.rangeOfString("/t/") {
-                id.replaceRange(range, with: "");
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "")
             }
-            if let range = id.rangeOfString("#") {
-                id = id.substringToIndex(range.startIndex)
+            if let range = id.range(of: "#") {
+                id = id.substring(to: range.lowerBound)
                 topicIdUrl = id
             }
         }
@@ -168,11 +169,11 @@ class MemberRepliesModel: NSObject ,BaseHtmlModelProtocol{
         var topicIdUrl = node["href"];
         
         if var id = topicIdUrl {
-            if let range = id.rangeOfString("/t/") {
-                id.replaceRange(range, with: "");
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "")
             }
-            if let range = id.rangeOfString("#") {
-                id = id.substringToIndex(range.startIndex)
+            if let range = id.range(of: "#") {
+                id = id.substring(to: range.lowerBound)
                 topicIdUrl = id
             }
         }
@@ -190,16 +191,17 @@ extension MemberModel {
      - parameter userToken: 用户TOKEN 一行数字
      - parameter type: 传 Followed 就关注用户，传UnFollowed就 取消关注
      */
-    class func follow(userId:String,
+    class func follow(_ userId:String,
                 userToken:String,
                 type:MemberModel.FollowState,
-        completionHandler: (V2Response -> Void)?
+        completionHandler: ((V2Response) -> Void)?
         ){
-        let action = type == .Followed ? "follow/" : "unfollow/"
+        let action = type == .followed ? "follow/" : "unfollow/"
         let url = V2EXURL + action + userId + "?t=" + userToken
-        Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
-            completionHandler?(V2Response(success: response.result.isSuccess))
-        }
+//        Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+//            completionHandler?(V2Response(success: response.result.isSuccess))
+//        }
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS);
     }
     
     /**
@@ -209,15 +211,15 @@ extension MemberModel {
      - parameter userToken: 用户TOKEN 一行数字
      - parameter type: 传 UnBlocked 就取消屏蔽用户，传Blocked就屏蔽用户
      */
-    class func block(userId:String,
+    class func block(_ userId:String,
                       userToken:String,
                       type:MemberModel.BlockState,
-                      completionHandler: (V2Response -> Void)?
+                      completionHandler: ((V2Response) -> Void)?
         ){
-        let action = type == .Blocked ? "block/" : "unblock/"
+        let action = type == .blocked ? "block/" : "unblock/"
         let url = V2EXURL + action + userId + "?t=" + userToken
-        Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
-            completionHandler?(V2Response(success: response.result.isSuccess))
-        }
+//        Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+//            completionHandler?(V2Response(success: response.result.isSuccess))
+//        }
     }
 }

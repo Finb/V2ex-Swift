@@ -27,8 +27,8 @@ class LeftNodeTableViewCell: UITableViewCell {
     }
     
     func setup()->Void{
-        self.selectionStyle = .None
-        self.backgroundColor = UIColor.clearColor()
+        self.selectionStyle = .none
+        self.backgroundColor = UIColor.clear
         
         self.contentView.addSubview(panel)
         panel.addSubview(self.nodeImageView)
@@ -64,7 +64,7 @@ class LeftNotifictionCell : LeftNodeTableViewCell{
     var notifictionCountLabel:UILabel = {
         let label = UILabel()
         label.font = v2Font(10)
-        label.textColor = UIColor.whiteColor()
+        label.textColor = UIColor.white
         label.layer.cornerRadius = 7
         label.layer.masksToBounds = true
         label.backgroundColor = V2EXColor.colors.v2_NoticePointColor
@@ -82,7 +82,7 @@ class LeftNotifictionCell : LeftNodeTableViewCell{
             make.height.equalTo(14)
         }
         
-        self.KVOController.observe(V2User.sharedInstance, keyPath: "notificationCount", options: [.Initial,.New]) {  [weak self](cell, clien, change) -> Void in
+        self.kvoController.observe(V2User.sharedInstance, keyPath: "notificationCount", options: [.initial,.new]) {  [weak self](cell, clien, change) -> Void in
             if V2User.sharedInstance.notificationCount > 0 {
                 self?.notifictionCountLabel.text = "   \(V2User.sharedInstance.notificationCount)   "
             }

@@ -12,31 +12,31 @@
 import UIKit
 
 @objc protocol V2WebViewProgressDelegate : UIWebViewDelegate {
-    optional func webViewProgress(webViewProgress: V2WebViewProgress,progress:Float)
+    @objc optional func webViewProgress(_ webViewProgress: V2WebViewProgress,progress:Float)
 }
 
 class V2WebViewProgress: NSObject,UIWebViewDelegate {
     
     
     /// 刚加载时的进度
-    private var InitialProgressValue:Float = 0.15
+    fileprivate var InitialProgressValue:Float = 0.15
     /// 正在加载时的进度
-    private var InteractiveProgressValue:Float = 0.75
+    fileprivate var InteractiveProgressValue:Float = 0.75
     /// 快加载完时的进度
-    private var FinalProgressValue:Float = 0.9
+    fileprivate var FinalProgressValue:Float = 0.9
     /// 加载完时的进度
-    private var CompleteProgressValue:Float = 1
+    fileprivate var CompleteProgressValue:Float = 1
     
     /// 加载完的数量
-    private var loadingCount = 0
+    fileprivate var loadingCount = 0
     /// 总共需要加载的数量
-    private var maxLoadCount = 0
+    fileprivate var maxLoadCount = 0
     
     /// 完成加载时 会自动跳转到这个url,监控这个URL 就知道是不是完成加载了
-    private var CompleteRPCURLPath = "/me/fin/v2ex/V2WebViewProgress/complete"
+    fileprivate var CompleteRPCURLPath = "/me/fin/v2ex/V2WebViewProgress/complete"
     
 
-    private var _progress:Float = 0
+    fileprivate var _progress:Float = 0
     /// 加载进度
     var progress:Float {
         get {
@@ -51,9 +51,9 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
     }
     
     /// 当前URL
-    private var currentUrl:NSURL?
+    fileprivate var currentUrl:URL?
     
-    private var interactive:Bool = false
+    fileprivate var interactive:Bool = false
     
     
     weak var delegate:V2WebViewProgressDelegate?
@@ -74,8 +74,8 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
         self.progress = min(currentProgress,maxProgress)
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if request.URL?.path == CompleteRPCURLPath {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if request.url?.path == CompleteRPCURLPath {
             self.progress = CompleteProgressValue
             return false
         }
@@ -83,55 +83,55 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
         
         var ret = true
         //执行WebView代理
-        if let aRet = delegate?.webView?(webView, shouldStartLoadWithRequest: request, navigationType: navigationType) {
+        if let aRet = delegate?.webView?(webView, shouldStartLoadWith: request, navigationType: navigationType) {
             ret = aRet
         }
         
         //看URL是不是点击锚点的URL
         var isFragmentJump = false
-        if let fragment = request.URL?.fragment {
-            let nonFragmentURL = request.URL?.absoluteString.stringByReplacingOccurrencesOfString("#" + fragment, withString: "")
-            isFragmentJump = nonFragmentURL == request.URL?.absoluteString
+        if let fragment = request.url?.fragment {
+            let nonFragmentURL = request.url?.absoluteString.replacingOccurrences(of: "#" + fragment, with: "")
+            isFragmentJump = nonFragmentURL == request.url?.absoluteString
         }
         
-        let isTopLevelNavigation = request.mainDocumentURL == request.URL
+        let isTopLevelNavigation = request.mainDocumentURL == request.url
         
         var isHTTP = false
-        if let scheme = request.URL?.scheme {
+        if let scheme = request.url?.scheme {
             isHTTP = ["http","https"].contains(scheme)
         }
         
         if (ret && !isFragmentJump && isHTTP && isTopLevelNavigation) {
-            self.currentUrl = request.URL
+            self.currentUrl = request.url
             self.reset()
         }
         
         
         return ret
     }
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         delegate?.webViewDidStartLoad?(webView)
         
         self.loadingCount += 1
         self.maxLoadCount = max(self.maxLoadCount, self.loadingCount)
         self.progress = InitialProgressValue
     }
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         delegate?.webView?(webView, didFailLoadWithError: error)
         
         self.handleCompleteProgress(webView)
     }
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         delegate?.webViewDidFinishLoad?(webView)
         
         self.handleCompleteProgress(webView)
     }
     
-    func handleCompleteProgress(webView:UIWebView){
+    func handleCompleteProgress(_ webView:UIWebView){
         self.loadingCount -= 1
         self.incrementProgress()
         
-        let readyState = webView.stringByEvaluatingJavaScriptFromString("document.readyState")
+        let readyState = webView.stringByEvaluatingJavaScript(from: "document.readyState")
         
         let interactive = readyState == "interactive"
         
@@ -139,7 +139,7 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
             self.interactive = true
             if let scheme = webView.request?.mainDocumentURL?.scheme , let host = webView.request?.mainDocumentURL?.host {
                 let waitForCompleteJS = NSString(format: "window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@://%@%@'; document.body.appendChild(iframe);  }, false);", scheme, host, CompleteRPCURLPath)
-                webView.stringByEvaluatingJavaScriptFromString(waitForCompleteJS as String)
+                webView.stringByEvaluatingJavaScript(from: waitForCompleteJS as String)
             }
         }
         
@@ -159,7 +159,7 @@ class V2WebViewProgress: NSObject,UIWebViewDelegate {
 class V2WebViewProgressView: UIView {
     var progressBarView:UIView?
     init(){
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.setup()
     }
     override init(frame: CGRect) {
@@ -171,10 +171,10 @@ class V2WebViewProgressView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup(){
-        self.userInteractionEnabled = false
+    fileprivate func setup(){
+        self.isUserInteractionEnabled = false
         self.progressBarView = UIView()
-        self.progressBarView!.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
+        self.progressBarView!.autoresizingMask = [.flexibleWidth,.flexibleHeight]
         self.progressBarView!.backgroundColor = V2EXColor.colors.v2_NoticePointColor
         self.addSubview(self.progressBarView!)
         
@@ -183,8 +183,8 @@ class V2WebViewProgressView: UIView {
         self.progressBarView?.frame = frame
     }
     
-    func setProgress(progress:Float,animated:Bool) {
-        UIView.animateWithDuration( animated ? 0.3 : 0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .CurveEaseIn, animations: { () -> Void in
+    func setProgress(_ progress:Float,animated:Bool) {
+        UIView.animate( withDuration: animated ? 0.3 : 0, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 5, options: .curveEaseIn, animations: { () -> Void in
             var frame = self.progressBarView!.frame
             frame.size.width = CGFloat(progress) * self.bounds.size.width
             self.progressBarView!.frame = frame
@@ -192,7 +192,7 @@ class V2WebViewProgressView: UIView {
             completion: nil)
         
         if progress >= 1 {
-            UIView.animateWithDuration(animated ? 0.3 : 0, animations: { () -> Void in
+            UIView.animate(withDuration: animated ? 0.3 : 0, animations: { () -> Void in
                 self.progressBarView!.alpha = 0
                 }, completion: { (completed) -> Void in
                     var frame = self.bounds
@@ -201,9 +201,9 @@ class V2WebViewProgressView: UIView {
             })
         }
         else{
-            UIView.animateWithDuration(animated ? 0.3 : 0) { () -> Void in
+            UIView.animate(withDuration: animated ? 0.3 : 0, animations: { () -> Void in
                 self.progressBarView!.alpha = 1
-            }
+            }) 
         }
     }
     

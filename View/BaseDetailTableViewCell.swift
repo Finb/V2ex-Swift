@@ -23,7 +23,7 @@ class BaseDetailTableViewCell: UITableViewCell {
     
     var detailMarkImageView:UIImageView = {
         let imageview = UIImageView(image: UIImage.imageUsedTemplateMode("ic_keyboard_arrow_right"))
-        imageview.contentMode = .Center
+        imageview.contentMode = .center
         return imageview
     }()
     
@@ -31,15 +31,15 @@ class BaseDetailTableViewCell: UITableViewCell {
     
     var detailMarkHidden:Bool {
         get{
-            return self.detailMarkImageView.hidden
+            return self.detailMarkImageView.isHidden
         }
         
         set{
-            if self.detailMarkImageView.hidden == newValue{
+            if self.detailMarkImageView.isHidden == newValue{
                 return ;
             }
             
-            self.detailMarkImageView.hidden = newValue
+            self.detailMarkImageView.isHidden = newValue
             if newValue {
                 self.detailMarkImageView.snp_remakeConstraints{ (make) -> Void in
                     make.width.height.equalTo(0)

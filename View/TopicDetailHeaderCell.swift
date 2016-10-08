@@ -12,7 +12,7 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 头像
    var avatarImageView: UIImageView = {
         let imageview = UIImageView();
-        imageview.contentMode=UIViewContentMode.ScaleAspectFit;
+        imageview.contentMode=UIViewContentMode.scaleAspectFit;
         imageview.layer.cornerRadius = 3;
         imageview.layer.masksToBounds = true;
         return imageview
@@ -40,7 +40,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         label.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
         label.layer.cornerRadius=2;
         label.clipsToBounds = true
-        label.userInteractionEnabled = true
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -72,7 +72,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     func setup()->Void{
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
         
         self.contentView.addSubview(self.contentPanel);
@@ -85,8 +85,8 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.setupLayout()
     
         //点击用户头像，跳转到用户主页
-        self.avatarImageView.userInteractionEnabled = true
-        self.userNameLabel.userInteractionEnabled = true
+        self.avatarImageView.isUserInteractionEnabled = true
+        self.userNameLabel.isUserInteractionEnabled = true
         var userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
         self.avatarImageView.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
@@ -95,7 +95,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         
     }
     
-    private func setupLayout(){
+    fileprivate func setupLayout(){
         self.contentPanel.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
         }
@@ -133,15 +133,15 @@ class TopicDetailHeaderCell: UITableViewCell {
     func nodeClick() {
         nodeClickHandler?()
     }
-    func userNameTap(sender:UITapGestureRecognizer) {
-        if let _ = self.itemModel , username = itemModel?.userName {
+    func userNameTap(_ sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
             V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
         }
     }
     
-    func bind(model:TopicDetailModel){
+    func bind(_ model:TopicDetailModel){
         
         self.itemModel = model
         
@@ -150,7 +150,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.topicTitleLabel.text = model.topicTitle;
         
         if let avata = model.avata {
-            self.avatarImageView.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
+            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         if let node = model.nodeName{

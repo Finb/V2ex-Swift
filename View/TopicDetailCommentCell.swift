@@ -13,7 +13,7 @@ class TopicDetailCommentCell: UITableViewCell{
     /// 头像
     var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
-        avatarImageView.contentMode=UIViewContentMode.ScaleAspectFit
+        avatarImageView.contentMode=UIViewContentMode.scaleAspectFit
         avatarImageView.layer.cornerRadius = 3
         avatarImageView.layer.masksToBounds = true
         return avatarImageView
@@ -54,8 +54,8 @@ class TopicDetailCommentCell: UITableViewCell{
     var favoriteIconView:UIImageView = {
         let favoriteIconView = UIImageView(image: UIImage.imageUsedTemplateMode("ic_favorite_18pt")!)
         favoriteIconView.tintColor = V2EXColor.colors.v2_TopicListDateColor;
-        favoriteIconView.contentMode = .ScaleAspectFit
-        favoriteIconView.hidden = true
+        favoriteIconView.contentMode = .scaleAspectFit
+        favoriteIconView.isHidden = true
         return favoriteIconView
     }()
 
@@ -100,8 +100,8 @@ class TopicDetailCommentCell: UITableViewCell{
         self.favoriteLabel.backgroundColor = self.contentPanel.backgroundColor
         
         //点击用户头像，跳转到用户主页
-        self.avatarImageView.userInteractionEnabled = true
-        self.userNameLabel.userInteractionEnabled = true
+        self.avatarImageView.isUserInteractionEnabled = true
+        self.userNameLabel.isUserInteractionEnabled = true
         var userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailCommentCell.userNameTap(_:)))
         self.avatarImageView.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailCommentCell.userNameTap(_:)))
@@ -150,14 +150,14 @@ class TopicDetailCommentCell: UITableViewCell{
             make.bottom.equalTo(self.contentView.snp_bottom).offset(-SEPARATOR_HEIGHT);
         }
     }
-    func userNameTap(sender:UITapGestureRecognizer) {
-        if let _ = self.itemModel , username = itemModel?.userName {
+    func userNameTap(_ sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
             V2Client.sharedInstance.topNavigationController.pushViewController(memberViewController, animated: true)
         }
     }
-    func bind(model:TopicCommentModel){
+    func bind(_ model:TopicCommentModel){
         
         
         self.userNameLabel.text = model.userName;
@@ -180,10 +180,10 @@ class TopicDetailCommentCell: UITableViewCell{
         }
         
         if let avata = model.avata {
-            self.avatarImageView.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
+            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
-        self.favoriteIconView.hidden = model.favorites <= 0
+        self.favoriteIconView.isHidden = model.favorites <= 0
         self.favoriteLabel.text = model.favorites <= 0 ? "" : "\(model.favorites)"
         
         self.itemModel = model
@@ -192,34 +192,34 @@ class TopicDetailCommentCell: UITableViewCell{
 
 //MARK: - 点击图片
 extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoBrowserDelegate {
-    func V2CommentAttachmentImageSingleTap(imageView: V2CommentAttachmentImage) {
+    func V2CommentAttachmentImageSingleTap(_ imageView: V2CommentAttachmentImage) {
         let photoBrowser = V2PhotoBrowser(delegate: self)
         photoBrowser.currentPageIndex = imageView.index
-        V2Client.sharedInstance.topNavigationController.presentViewController(photoBrowser, animated: true, completion: nil)
+        V2Client.sharedInstance.topNavigationController.present(photoBrowser, animated: true, completion: nil)
     }
     
     //V2PhotoBrowser Delegate
-    func numberOfPhotosInPhotoBrowser(photoBrowser: V2PhotoBrowser) -> Int {
+    func numberOfPhotosInPhotoBrowser(_ photoBrowser: V2PhotoBrowser) -> Int {
         return self.itemModel!.images.count
     }
-    func photoAtIndexInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> V2Photo {
-        let photo = V2Photo(url: NSURL(string: self.itemModel!.images[index] as! String)!)
+    func photoAtIndexInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> V2Photo {
+        let photo = V2Photo(url: URL(string: self.itemModel!.images[index] as! String)!)
         return photo
     }
-    func guideContentModeInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
-        if let attachment = self.itemModel!.textLayout!.attachments?[index] , image = attachment.content  as? V2CommentAttachmentImage{
+    func guideContentModeInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
+        if let attachment = self.itemModel!.textLayout!.attachments?[index] , let image = attachment.content  as? V2CommentAttachmentImage{
             return image.contentMode
         }
-        return .Center
+        return .center
     }
-    func guideFrameInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
-        if let attachment = self.itemModel!.textLayout!.attachments?[index] , image = attachment.content  as? V2CommentAttachmentImage{
-            return image .convertRect(image.bounds, toView: UIApplication.sharedApplication().keyWindow!)
+    func guideFrameInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
+        if let attachment = self.itemModel!.textLayout!.attachments?[index] , let image = attachment.content  as? V2CommentAttachmentImage{
+            return image .convert(image.bounds, to: UIApplication.shared.keyWindow!)
         }
-        return CGRectZero
+        return CGRect.zero
     }
-    func guideImageInPhotoBrowser(photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
-        if let attachment = self.itemModel!.textLayout!.attachments?[index] , image = attachment.content  as? V2CommentAttachmentImage{
+    func guideImageInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
+        if let attachment = self.itemModel!.textLayout!.attachments?[index] , let image = attachment.content  as? V2CommentAttachmentImage{
             return image.image
         }
         return nil
@@ -228,31 +228,31 @@ extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoB
 
 //MARK: - 长按复制功能
 extension TopicDetailCommentCell {
-    func longPressHandle(longPress:UILongPressGestureRecognizer) -> Void {
-        if (longPress.state == .Began) {
+    func longPressHandle(_ longPress:UILongPressGestureRecognizer) -> Void {
+        if (longPress.state == .began) {
             self.becomeFirstResponder()
             
             let item = UIMenuItem(title: "复制", action: #selector(TopicDetailCommentCell.copyText))
             
-            let menuController = UIMenuController.sharedMenuController()
+            let menuController = UIMenuController.shared
             menuController.menuItems = [item]
-            menuController.arrowDirection = .Down
-            menuController.setTargetRect(self.frame, inView: self.superview!)
+            menuController.arrowDirection = .down
+            menuController.setTargetRect(self.frame, in: self.superview!)
             menuController.setMenuVisible(true, animated: true);
         }
         
     }
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if (action == #selector(TopicDetailCommentCell.copyText)){
             return true
         }
         return super.canPerformAction(action, withSender: sender);
     }
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         return true
     }
     
     func copyText() -> Void {
-        UIPasteboard.generalPasteboard().string = self.itemModel?.textLayout?.text.string
+        UIPasteboard.general.string = self.itemModel?.textLayout?.text.string
     }
 }

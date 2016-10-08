@@ -12,7 +12,7 @@ import ObjectMapper
 import Ji
 
 class BaseJsonModel: Mappable {
-    required init?(_ map: Map) {
+    required init?(map: Map) {
         
     }
     func mapping(map: Map) {

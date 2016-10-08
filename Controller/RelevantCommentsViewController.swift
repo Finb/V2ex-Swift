@@ -11,7 +11,7 @@ import FXBlurView
 import Shimmer
 
 class RelevantCommentsNav:V2EXNavigationController , UIViewControllerTransitioningDelegate {
-    override init(nibName : String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName : String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: "", bundle: nil)
     }
     init(comments:[TopicCommentModel]) {
@@ -24,27 +24,27 @@ class RelevantCommentsNav:V2EXNavigationController , UIViewControllerTransitioni
         fatalError("init(coder:) has not been implemented")
     }
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return RelevantCommentsViewControllerTransionPresent()
     }
 }
 
 class RelevantCommentsViewControllerTransionPresent:NSObject,UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.3
     }
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! RelevantCommentsNav
-        let container = transitionContext.containerView()
-        container!.addSubview(toVC.view)
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! RelevantCommentsNav
+        let container = transitionContext.containerView
+        container.addSubview(toVC.view)
         toVC.view.alpha = 0
         
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
             
             toVC.view.alpha = 1
             
             }) { (finished: Bool) -> Void in
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }
 }
@@ -54,17 +54,17 @@ class RelevantCommentsViewControllerTransionPresent:NSObject,UIViewControllerAni
 class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITableViewDataSource {
     
     var commentsArray:[TopicCommentModel] = []
-    private var dismissing = false
-    private var _tableView :UITableView!
-    private var tableView: UITableView {
+    fileprivate var dismissing = false
+    fileprivate var _tableView :UITableView!
+    fileprivate var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
-            _tableView.backgroundColor = UIColor.clearColor()
+            _tableView.backgroundColor = UIColor.clear
             _tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
             regClass(_tableView, cell: TopicDetailCommentCell.self)
             
@@ -81,15 +81,15 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         super.viewDidLoad()
         
         frostedView.underlyingView = V2Client.sharedInstance.centerNavigation!.view
-        frostedView.dynamic = false
+        frostedView.isDynamic = false
         frostedView.blurRadius = 35
-        frostedView.tintColor = UIColor.blackColor()
+        frostedView.tintColor = UIColor.black
         frostedView.frame = self.view.frame
         self.view.addSubview(frostedView)
         
 
         let shimmeringView = FBShimmeringView()
-        shimmeringView.shimmering = true
+        shimmeringView.isShimmering = true
         shimmeringView.shimmeringOpacity = 0.3
         shimmeringView.shimmeringSpeed = 45
         shimmeringView.shimmeringHighlightLength = 0.6
@@ -98,15 +98,15 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         label.text = "下拉关闭查看"
         label.font = UIFont(name: "HelveticaNeue-Light", size: 12)
         if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-            label.textColor = UIColor.blackColor()
+            label.textColor = UIColor.black
         }
         else{
-            label.textColor = UIColor.whiteColor()
+            label.textColor = UIColor.white
         }
-        label.textAlignment = .Center
-        label.backgroundColor = UIColor.clearColor()
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.clear
         shimmeringView.contentView = label
-        shimmeringView.frame = CGRectMake( (SCREEN_WIDTH-80) / 2 , 15, 80, 44)
+        shimmeringView.frame = CGRect( x: (SCREEN_WIDTH-80) / 2 , y: 15, width: 80, height: 44)
 
         
         self.view.addSubview(self.tableView);
@@ -117,22 +117,22 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         }
         
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.tableView.snp_remakeConstraints{ (make) -> Void in
             make.left.right.equalTo(self.view);
             make.height.equalTo(self.view)
             make.top.equalTo(self.view)
         }
         
-        UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 8, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 8, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         (self.navigationController as! V2EXNavigationController).navigationBarAlpha = 0
     }
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         if !self.dismissing{
             (self.navigationController as! V2EXNavigationController).navigationBarAlpha = 1
         }
@@ -140,26 +140,26 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
     
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.commentsArray.count;
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let layout = self.commentsArray[indexPath.row].textLayout!
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let layout = self.commentsArray[(indexPath as NSIndexPath).row].textLayout!
         return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
-        cell.bind(self.commentsArray[indexPath.row])
+        cell.bind(self.commentsArray[(indexPath as NSIndexPath).row])
         return cell
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         //下拉关闭
         if scrollView.contentOffset.y <= -100 {
             //让scrollView 不弹跳回来
             scrollView.contentInset = UIEdgeInsetsMake(-1 * scrollView.contentOffset.y, 0, 0, 0)
-            scrollView.scrollEnabled = false
-            self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+            scrollView.isScrollEnabled = false
+            self.navigationController!.dismiss(animated: true, completion: nil)
             self.dismissing = true
         }
     }

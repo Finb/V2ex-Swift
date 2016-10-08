@@ -8,13 +8,13 @@
 
 import UIKit
 //CSS基本样式
-private let BASE_CSS = try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("baseStyle", ofType: "css")!, encoding: NSUTF8StringEncoding)
+private let BASE_CSS = try! String(contentsOfFile: Bundle.main.path(forResource: "baseStyle", ofType: "css")!, encoding: String.Encoding.utf8)
 //文字大小
-private let FONT_CSS = try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("font", ofType: "css")!, encoding: NSUTF8StringEncoding)
+private let FONT_CSS = try! String(contentsOfFile: Bundle.main.path(forResource: "font", ofType: "css")!, encoding: String.Encoding.utf8)
 //暗色主题配色
-private let DARK_CSS = (try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("darkStyle", ofType: "css")!, encoding: NSUTF8StringEncoding))
+private let DARK_CSS = (try! String(contentsOfFile: Bundle.main.path(forResource: "darkStyle", ofType: "css")!, encoding: String.Encoding.utf8))
 //亮色主题配色
-private let LIGHT_CSS = (try! String(contentsOfFile: NSBundle.mainBundle().pathForResource("lightStyle", ofType: "css")!, encoding: NSUTF8StringEncoding))
+private let LIGHT_CSS = (try! String(contentsOfFile: Bundle.main.path(forResource: "lightStyle", ofType: "css")!, encoding: String.Encoding.utf8))
 
 
 private let kFONTSCALE = "kFontScale"
@@ -23,7 +23,7 @@ private let kFONTSCALE = "kFontScale"
 class V2Style: NSObject {
     static let sharedInstance = V2Style()
     
-    private var _fontScale:Float = 1.0
+    fileprivate var _fontScale:Float = 1.0
     dynamic var fontScale:Float {
         get{
             return _fontScale
@@ -38,10 +38,10 @@ class V2Style: NSObject {
     }
     var CSS = ""
     
-    private override init() {
+    fileprivate override init() {
         super.init()
         //加载字体大小设置
-        if let fontScaleString = V2EXSettings.sharedInstance[kFONTSCALE] , scale = Float(fontScaleString){
+        if let fontScaleString = V2EXSettings.sharedInstance[kFONTSCALE] , let scale = Float(fontScaleString){
             self._fontScale = scale
         }
         //监听主题配色，切换相应的配色
@@ -52,7 +52,7 @@ class V2Style: NSObject {
     }
     
     //重新拼接CSS字符串
-    private func remakeCSS(){
+    fileprivate func remakeCSS(){
         if let _ = V2EXColor.colors as? V2EXDefaultColor {
             self.CSS = BASE_CSS + self.fontCss() + LIGHT_CSS
         }
@@ -64,12 +64,12 @@ class V2Style: NSObject {
     /**
      获取 FONT_CSS
      */
-    private func fontCss() -> String {
+    fileprivate func fontCss() -> String {
         var fontCss = FONT_CSS
         
         //替换FONT_SIZE
         FONT_SIZE_ARRAY.forEach { (fontSize) -> () in
-            fontCss = fontCss.stringByReplacingOccurrencesOfString(fontSize.labelName, withString:String(Int(fontSize.defaultFontSize * fontScale)))
+            fontCss = fontCss.replacingOccurrences(of: fontSize.labelName, with:String(Int(fontSize.defaultFontSize * fontScale)))
         }
         
         return fontCss

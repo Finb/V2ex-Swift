@@ -18,14 +18,14 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "写东西"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .Plain, target: self, action: #selector(WritingViewController.leftClick))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(WritingViewController.leftClick))
 
-        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        rightButton.contentMode = .Center
+        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20)
-        rightButton.setImage(UIImage(named: "ic_send")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        rightButton.setImage(UIImage(named: "ic_send")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: #selector(WritingViewController.rightClick), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(WritingViewController.rightClick), for: .touchUpInside)
         
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.textView = YYTextView()
@@ -36,7 +36,7 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         self.textView!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         self.textView!.textParser = V2EXMentionedBindingParser()
         textView!.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
-        textView?.keyboardDismissMode = .Interactive
+        textView?.keyboardDismissMode = .interactive
         self.view.addSubview(self.textView!)
         self.textView!.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view)
@@ -45,13 +45,13 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
     }
     
     func leftClick (){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     func rightClick (){
         
     }
     
-    func textViewDidChange(textView: YYTextView) {
+    func textViewDidChange(_ textView: YYTextView) {
         if textView.text.Lenght == 0{
             textView.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         }
@@ -74,12 +74,12 @@ class ReplyingViewController:WritingViewController {
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         self.textView?.becomeFirstResponder()
     }
     
     override func rightClick (){
-        if self.textView?.text == nil || self.textView?.text.Lenght <= 0 {
+        if self.textView?.text == nil || (self.textView?.text.Lenght)! <= 0 {
             return;
         }
 
@@ -88,7 +88,7 @@ class ReplyingViewController:WritingViewController {
             (response) in
             if response.success {
                 V2Success("回复成功!")
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
             else{
                 V2Error(response.message)

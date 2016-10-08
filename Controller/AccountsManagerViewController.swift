@@ -10,9 +10,9 @@ import UIKit
 
 /// 多账户管理
 class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate {
-    private var users:[LocalSecurityAccountModel] = []
-    private var _tableView :UITableView!
-    private var tableView: UITableView {
+    fileprivate var users:[LocalSecurityAccountModel] = []
+    fileprivate var _tableView :UITableView!
+    fileprivate var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
@@ -20,7 +20,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             _tableView = UITableView();
             _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
             _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
 
             regClass(_tableView, cell: BaseDetailTableViewCell.self);
             regClass(_tableView, cell: AccountListTableViewCell.self);
@@ -37,12 +37,12 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         self.title = "账户"
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
 
-        let warningButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        warningButton.contentMode = .Center
+        let warningButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        warningButton.contentMode = .center
         warningButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20)
-        warningButton.setImage(UIImage.imageUsedTemplateMode("ic_warning")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        warningButton.setImage(UIImage.imageUsedTemplateMode("ic_warning")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: warningButton)
-        warningButton.addTarget(self, action: #selector(AccountsManagerViewController.warningClick), forControlEvents: .TouchUpInside)
+        warningButton.addTarget(self, action: #selector(AccountsManagerViewController.warningClick), for: .touchUpInside)
 
         self.view.addSubview(self.tableView);
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
@@ -63,28 +63,28 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         alertView.show()
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //     账户数量            分割线   退出登录按钮
         return self.users.count   + 1       + 1
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row < self.users.count {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).row < self.users.count {
             return 55
         }
-        else if indexPath.row == self.users.count {//分割线
+        else if (indexPath as NSIndexPath).row == self.users.count {//分割线
             return 15
         }
         else { //退出登录按钮
             return 45
         }
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row < self.users.count {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).row < self.users.count {
             let cell = getCell(tableView, cell: AccountListTableViewCell.self, indexPath: indexPath)
-            cell.bind(self.users[indexPath.row])
+            cell.bind(self.users[(indexPath as NSIndexPath).row])
             return cell
         }
-        else if indexPath.row == self.users.count {//分割线
+        else if (indexPath as NSIndexPath).row == self.users.count {//分割线
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
             cell.detailMarkHidden = true
             cell.backgroundColor = tableView.backgroundColor
@@ -94,30 +94,30 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             return getCell(tableView, cell: LogoutTableViewCell.self, indexPath: indexPath)
         }
     }
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        if indexPath.row < self.users.count{
+        if (indexPath as NSIndexPath).row < self.users.count{
             return true
         }
         return false
     }
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            if let username = self.users[indexPath.row].username {
-                self.users.removeAtIndex(indexPath.row)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let username = self.users[(indexPath as NSIndexPath).row].username {
+                self.users.remove(at: (indexPath as NSIndexPath).row)
                 V2UsersKeychain.sharedInstance.removeUser(username)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                tableView.deleteRows(at: [indexPath], with: .none)
             }
         }
     }
 
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
 
         let totalNumOfRows = self.tableView(tableView, numberOfRowsInSection: 0)
-        if indexPath.row < self.users.count {
-            let user = self.users[indexPath.row]
+        if (indexPath as NSIndexPath).row < self.users.count {
+            let user = self.users[(indexPath as NSIndexPath).row]
             if user.username == V2User.sharedInstance.username {
                 return;
             }
@@ -125,16 +125,16 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             //这里一个属性两用了，除了用于标记它是切换账号的 alertView, 后面还加上了当前是点击了第几个账号
             //太懒了，懒得用其他什么写法
             //同学们注意，这种写法是相当的low的，如果硬要这样写，千万要留下足够的注释解释
-            alertView.tag = 100001 + indexPath.row
+            alertView.tag = 100001 + (indexPath as NSIndexPath).row
             alertView.show()
         }
-        else if indexPath.row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
+        else if (indexPath as NSIndexPath).row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
             let alertView = UIAlertView(title: "确定注销当前账号吗？", message: "注销只会退出登录，并不会删除保存在Keychain中的账户名与密码。如需删除，请左滑需要删除的账号，然后点击删除按钮", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "注销")
             alertView.tag = 100000
             alertView.show()
         }
     }
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int){
         if alertView.tag > 100000 { //切换账号的alertView
             if buttonIndex == 0 {
                 return
@@ -168,7 +168,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         else { //注销登录的alertView
             if buttonIndex == 1 {
                 V2User.sharedInstance.loginOut()
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
     }

@@ -22,17 +22,17 @@ class NodeModel: NSObject ,BaseHtmlModelProtocol{
         if let nodeName = self.nodeName {
             //计算字符串所占的宽度
             //用于之后这个 node 在 cell 中所占的宽度
-            let rect = (nodeName as NSString).boundingRectWithSize(
-                CGSizeMake(SCREEN_WIDTH, 15),
-                options: .UsesLineFragmentOrigin,
+            let rect = (nodeName as NSString).boundingRect(
+                with: CGSize(width: SCREEN_WIDTH,height: 15),
+                options: .usesLineFragmentOrigin,
                 attributes: [NSFontAttributeName:v2Font(15)], context: nil)
             
             self.width = rect.width;
         }
         
         if var href = rootNode["href"] {
-            if let range = href.rangeOfString("/go/") {
-                href.replaceRange(range, with: "");
+            if let range = href.range(of: "/go/") {
+                href.replaceSubrange(range, with: "");
                 self.nodeId = href
             }
         }
@@ -49,8 +49,8 @@ class NodeGroupModel: NSObject ,BaseHtmlModelProtocol{
         }
     }
     
-    class func getNodes( completionHandler: (V2ValueResponse<[NodeGroupModel]> -> Void)? = nil ) {
-        Alamofire.request(.GET, V2EXURL, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+    class func getNodes( _ completionHandler: ((V2ValueResponse<[NodeGroupModel]>) -> Void)? = nil ) {
+        Alamofire.request(V2EXURL, method: .get, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
             var groupArray : [NodeGroupModel] = []
             if let jiHtml = response .result.value{
                 if let nodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][last()]/div/table/tr") {

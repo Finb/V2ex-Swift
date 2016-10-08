@@ -31,11 +31,11 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
             var topicIdUrl = node["href"];
             
             if var id = topicIdUrl {
-                if let range = id.rangeOfString("/t/") {
-                    id.replaceRange(range, with: "");
+                if let range = id.range(of: "/t/") {
+                    id.replaceSubrange(range, with: "");
                 }
-                if let range = id.rangeOfString("#") {
-                    id = id.substringToIndex(range.startIndex)
+                if let range = id.range(of: "#") {
+                    id = id.substring(to: range.lowerBound)
                     topicIdUrl = id
                 }
             }
@@ -48,9 +48,9 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
 
 //MARK: - Request
 extension NotificationsModel {
-    class func getNotifications(completionHandler: (V2ValueResponse<[NotificationsModel]> -> Void)? = nil){
+    class func getNotifications(_ completionHandler: ((V2ValueResponse<[NotificationsModel]>) -> Void)? = nil){
         
-        Alamofire.request(.GET, V2EXURL+"notifications", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+        Alamofire.request(V2EXURL+"notifications", headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
             var resultArray:[NotificationsModel] = []
             
             if let jiHtml = response.result.value {

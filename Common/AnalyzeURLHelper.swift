@@ -14,31 +14,31 @@ class AnalyzeURLHelper {
 
      - parameter url: 各种URL 例如https://baidu.com 、/member/finab 、/t/100000
      */
-    class func Analyze(url:String) -> Bool {
+    class func Analyze(_ url:String) -> Bool {
         let result = AnalyzURLResult(url: url)
         dispatch_sync_safely_main_queue { () -> () in
             switch result.type {
-            case .URL:
+            case .url:
                 if let url = result.params["value"] {
                     let controller = V2WebViewViewController(url: url)
                     V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
                 }
-            case .Member:
+            case .member:
                 if let username = result.params["value"] {
                     let memberViewController = MemberViewController()
                     memberViewController.username = username
                     V2Client.sharedInstance.topNavigationController.pushViewController(memberViewController, animated: true)
                 }
-            case .Topic:
+            case .topic:
                 if let topicID = result.params["value"] {
                     let controller = TopicDetailViewController()
                     controller.topicId = topicID
                     V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
                 }
-            case .Undefined:break
+            case .undefined:break
             }
         }
-        if result.type == .Undefined {
+        if result.type == .undefined {
             return false
         }
         else{
@@ -62,7 +62,7 @@ class AnalyzeURLHelper {
             ]
         urls.forEach { (url) in
             let result = AnalyzURLResult(url: url)
-            assert(result.type == .Member, "不能解析member : " + url )
+            assert(result.type == .member, "不能解析member : " + url )
         }
         
         urls = [
@@ -74,7 +74,7 @@ class AnalyzeURLHelper {
         ]
         urls.forEach { (url) in
             let result = AnalyzURLResult(url: url)
-            assert(result.type != .Member, "解析了不是member的URL : " + url )
+            assert(result.type != .member, "解析了不是member的URL : " + url )
         }
     }
 }
@@ -82,57 +82,57 @@ class AnalyzeURLHelper {
 
 enum AnalyzURLResultType : Int {
     /// 普通URL链接
-    case URL = 0
+    case url = 0
     /// 用户
-    case Member
+    case member
     /// 帖子链接
-    case Topic
+    case topic
     /// 未定义
-    case Undefined
+    case undefined
 }
 class AnalyzURLResult :NSObject {
-    var type:AnalyzURLResultType = .Undefined
+    var type:AnalyzURLResultType = .undefined
     var params:[String:String] = [:]
 
-    private static let patterns = [
+    fileprivate static let patterns = [
         "^(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?",
         "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/member/[a-zA-Z0-9_]+$",
         "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/t/[0-9]+",
     ]
     init(url:String) {
         super.init()
-        self.type = .Undefined
+        self.type = .undefined
         for pattern in AnalyzURLResult.patterns {
-            let regex = try! NSRegularExpression(pattern: pattern, options: .CaseInsensitive)
-            regex.enumerateMatchesInString(url, options: .WithoutAnchoringBounds, range: NSMakeRange(0, url.Lenght), usingBlock: { (result, _, _) -> Void in
+            let regex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            regex.enumerateMatches(in: url, options: .withoutAnchoringBounds, range: NSMakeRange(0, url.Lenght), using: { (result, _, _) -> Void in
                 if let result = result {
                     let range = result.range
                     if range.location == NSNotFound || range.length <= 0 {
                         return ;
                     }
 
-                    self.type = AnalyzURLResultType(rawValue: AnalyzURLResult.patterns.indexOf(pattern)!)!
+                    self.type = AnalyzURLResultType(rawValue: AnalyzURLResult.patterns.index(of: pattern)!)!
                     
                     switch self.type {
-                    case .URL:
+                    case .url:
                         self.params["value"] = url
 
-                    case .Member :
-                        if  let range = url.rangeOfString("/member/") {
-                            let username = url.substringFromIndex(range.endIndex)
+                    case .member :
+                        if  let range = url.range(of: "/member/") {
+                            let username = url.substring(from: range.upperBound)
                             self.params["value"] = username
                         }
 
-                    case .Topic:
-                        if  let range = url.rangeOfString("/t/") {
-                            var topicID = url.substringFromIndex(range.endIndex)
+                    case .topic:
+                        if  let range = url.range(of: "/t/") {
+                            var topicID = url.substring(from: range.upperBound)
                             
-                            if let range = topicID.rangeOfString("?"){
-                                topicID = topicID.substringToIndex(range.startIndex)
+                            if let range = topicID.range(of: "?"){
+                                topicID = topicID.substring(to: range.lowerBound)
                             }
                             
-                            if let range = topicID.rangeOfString("#"){
-                               topicID = topicID.substringToIndex(range.startIndex)
+                            if let range = topicID.range(of: "#"){
+                               topicID = topicID.substring(to: range.lowerBound)
                             }
                             self.params["value"] = topicID
                         }

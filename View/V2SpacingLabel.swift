@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class V2SpacingLabel: UILabel {
     var spacing :CGFloat = 3.0
@@ -15,7 +35,7 @@ class V2SpacingLabel: UILabel {
             if newValue?.Lenght > 0 {
                 let attributedString = NSMutableAttributedString(string: newValue!);
                 let paragraphStyle = NSMutableParagraphStyle();
-                paragraphStyle.lineBreakMode=NSLineBreakMode.ByTruncatingTail;
+                paragraphStyle.lineBreakMode=NSLineBreakMode.byTruncatingTail;
                 paragraphStyle.lineSpacing=self.spacing;
                 paragraphStyle.alignment=self.textAlignment;
                 attributedString.addAttributes(

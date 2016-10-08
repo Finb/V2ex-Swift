@@ -45,11 +45,11 @@ class V2EXNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
-        self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clearColor()), forBarMetrics: .Default)
+        UIApplication.shared.setStatusBarStyle(.default, animated: true);
+        self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clear), for: .default)
 
         let maskingView = UIView()
-        maskingView.userInteractionEnabled = false
+        maskingView.isUserInteractionEnabled = false
         maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
         self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
         maskingView.snp_makeConstraints{ (make) -> Void in
@@ -57,7 +57,7 @@ class V2EXNavigationController: UINavigationController {
             make.top.equalTo(self.navigationBar).offset(-20);
         }
 
-        self.frostedView.userInteractionEnabled = false
+        self.frostedView.isUserInteractionEnabled = false
         self.frostedView.clipsToBounds = true
         maskingView.addSubview(self.frostedView);
         self.frostedView.snp_makeConstraints{ (make) -> Void in
@@ -73,22 +73,22 @@ class V2EXNavigationController: UINavigationController {
             ]
             
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.frostedView.barStyle = .Default
-                UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true);
+                self?.frostedView.barStyle = .default
+                UIApplication.shared.setStatusBarStyle(.default, animated: true);
                 
                 //全局键盘颜色
-                UITextView.appearance().keyboardAppearance = .Light
-                UITextField.appearance().keyboardAppearance = .Light
-                YYTextView.appearance().keyboardAppearance = .Light
+                UITextView.appearance().keyboardAppearance = .light
+                UITextField.appearance().keyboardAppearance = .light
+                YYTextView.appearance().keyboardAppearance = .light
                 
             }
             else{
-                self?.frostedView.barStyle = .Black
-                UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true);
+                self?.frostedView.barStyle = .black
+                UIApplication.shared.setStatusBarStyle(.lightContent, animated: true);
                 
-                UITextView.appearance().keyboardAppearance = .Dark
-                UITextField.appearance().keyboardAppearance = .Dark
-                YYTextView.appearance().keyboardAppearance = .Dark
+                UITextView.appearance().keyboardAppearance = .dark
+                UITextField.appearance().keyboardAppearance = .dark
+                YYTextView.appearance().keyboardAppearance = .dark
             }
         }
     }

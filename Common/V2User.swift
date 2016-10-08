@@ -9,13 +9,33 @@
 import UIKit
 import Alamofire
 import Ji
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 let kUserName = "me.fin.username"
 
 class V2User: NSObject {
     static let sharedInstance = V2User()
     /// 用户信息
-    private var _user:UserModel?
+    fileprivate var _user:UserModel?
     var user:UserModel? {
         get {
             return self._user
@@ -32,7 +52,7 @@ class V2User: NSObject {
 
     dynamic var username:String?
 
-    private var _once:String?
+    fileprivate var _once:String?
     //全局once字符串，用于用户各种操作，例如回帖 登录 。这些操作都需要用的once ，而且这个once是全局统一的
     var once:String?  {
         get {
@@ -58,7 +78,7 @@ class V2User: NSObject {
 
 
 
-    private override init() {
+    fileprivate override init() {
         super.init()
         dispatch_sync_safely_main_queue {
             self.setup()
@@ -85,7 +105,7 @@ class V2User: NSObject {
         }
     }
 
-    func ensureLoginWithHandler(handler:()->()) {
+    func ensureLoginWithHandler(_ handler:()->()) {
         guard isLogin else {
             V2Inform("请先登录")
             return;
@@ -109,7 +129,7 @@ class V2User: NSObject {
      删除客户端所有cookies
      */
     func removeAllCookies() {
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        let storage = HTTPCookieStorage.shared
         if let cookies = storage.cookies {
             for cookie in cookies {
                 storage.deleteCookie(cookie)
@@ -120,7 +140,7 @@ class V2User: NSObject {
      打印客户端cookies
      */
     func printAllCookies(){
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        let storage = HTTPCookieStorage.shared
         if let cookies = storage.cookies {
             for cookie in cookies {
                 NSLog("name:%@ , value:%@ \n", cookie.name,cookie.value)
@@ -133,8 +153,8 @@ class V2User: NSObject {
 
      - parameter url:               有once存在的url
      */
-    func getOnce(url:String = V2EXURL+"signin" , completionHandler: V2Response -> Void) {
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
+    func getOnce(_ url:String = V2EXURL+"signin" , completionHandler: @escaping (V2Response) -> Void) {
+        Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
             (response) -> Void in
             if let jiHtml = response .result.value{
                 if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
@@ -151,7 +171,7 @@ class V2User: NSObject {
      获取并更新通知数量
      - parameter rootNode: 有Notifications 的节点
      */
-    func getNotificationsCount(rootNode: JiNode) {
+    func getNotificationsCount(_ rootNode: JiNode) {
         //这里本想放在 JIHTMLResponseSerializer 自动获取。
         //但我现在还不确定，是否每个每个页面的title都会带上 未读通知数量
         //所以先交由 我确定会带的页面 手动获取
@@ -160,13 +180,12 @@ class V2User: NSObject {
 
             self.notificationCount = 0;
 
-            let regex = try! NSRegularExpression(pattern: "V2EX \\([0-9]+\\)", options: [.CaseInsensitive])
-            regex.enumerateMatchesInString(notification, options: [.WithoutAnchoringBounds], range: NSMakeRange(0, notification.Lenght), usingBlock: { (result, flags, stop) -> Void in
+            let regex = try! NSRegularExpression(pattern: "V2EX \\([0-9]+\\)", options: [.caseInsensitive])
+            regex.enumerateMatches(in: notification, options: [.withoutAnchoringBounds], range: NSMakeRange(0, notification.Lenght), using: { (result, flags, stop) -> Void in
                 if let result = result {
-                    let startIndex = notification.startIndex.advancedBy(result.range.location + 6)
-                    let endIndex = notification.startIndex.advancedBy(result.range.location + result.range.length - 1)
-                    let subRange = Range<String.Index>(startIndex ..< endIndex)
-                    let count = notification.substringWithRange(subRange)
+                    let startIndex = notification.index(notification.startIndex, offsetBy: result.range.location + 6)
+                    let endIndex = notification.index(notification.startIndex, offsetBy: result.range.location + result.range.length - 1)
+                    let count = notification[startIndex..<endIndex]
                     if let acount = Int(count) {
                         self.notificationCount = acount
                     }
@@ -181,8 +200,8 @@ class V2User: NSObject {
      - returns: ture: 正常登录 ,false: 登录过期，没登录
      */
     func verifyLoginStatus() {
-        Alamofire.request(.GET, V2EXURL + "new", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
-            if response.request?.URL?.absoluteString == response.response?.URL?.absoluteString {
+        Alamofire.request(V2EXURL + "new", method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
+            if response.request?.url?.absoluteString == response.response?.url?.absoluteString {
                 //登录正常
             }
             else{

@@ -7,24 +7,44 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class TopicDetailViewController: BaseViewController{
     
     var topicId = "0"
     var currentPage = 1
     
-    private var model:TopicDetailModel?
-    private var commentsArray:[TopicCommentModel] = []
-    private var webViewContentCell:TopicDetailWebViewContentCell?
+    fileprivate var model:TopicDetailModel?
+    fileprivate var commentsArray:[TopicCommentModel] = []
+    fileprivate var webViewContentCell:TopicDetailWebViewContentCell?
     
-    private var _tableView :UITableView!
-    private var tableView: UITableView {
+    fileprivate var _tableView :UITableView!
+    fileprivate var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
             _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
             regClass(_tableView, cell: TopicDetailHeaderCell.self)
@@ -42,7 +62,7 @@ class TopicDetailViewController: BaseViewController{
     var ignoreTopicHandler : ((String) -> Void)?
     //点击右上角more按钮后，弹出的 activityView
     //只在activityView 显示在屏幕上持有它，如果activityView释放了，这里也一起释放。
-    private weak var activityView:V2ActivityViewController?
+    fileprivate weak var activityView:V2ActivityViewController?
     
     //MARK: - 页面事件
     override func viewDidLoad() {
@@ -54,12 +74,12 @@ class TopicDetailViewController: BaseViewController{
             make.top.right.bottom.left.equalTo(self.view);
         }
         
-        let rightButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        rightButton.contentMode = .Center
+        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-        rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), forControlEvents: .TouchUpInside)
+        rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), for: .touchUpInside)
 
         //根据 topicId 获取 帖子信息 、回复。
         TopicDetailModel.getTopicDetailById(self.topicId){
@@ -100,7 +120,7 @@ class TopicDetailViewController: BaseViewController{
         if  self.model != nil {
             let activityView = V2ActivityViewController()
             activityView.dataSource = self
-            self.navigationController!.presentViewController(activityView, animated: true, completion: nil)
+            self.navigationController!.present(activityView, animated: true, completion: nil)
             self.activityView = activityView
         }
     }
@@ -150,7 +170,7 @@ class TopicDetailViewController: BaseViewController{
     /**
      禁用上拉加载更多，并显示一个字符串提醒
      */
-    func endRefreshingWithStateString(string:String){
+    func endRefreshingWithStateString(_ string:String){
         (self.tableView.mj_footer as! V2RefreshFooter).noMoreDataStateString = string
         self.tableView.mj_footer.endRefreshingWithNoMoreData()
     }
@@ -168,74 +188,74 @@ class TopicDetailViewController: BaseViewController{
 
 //MARK: - UITableView DataSource
 enum TopicDetailTableViewSection: Int {
-    case Header = 0, Comment, Other
+    case header = 0, comment, other
 }
 
 enum TopicDetailHeaderComponent: Int {
-    case Title = 0,  WebViewContent, Other
+    case title = 0,  webViewContent, other
 }
 
 extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let _section = TopicDetailTableViewSection(rawValue: section)!
         switch _section {
-        case .Header:
+        case .header:
             if self.model != nil{
                 return 3
             }
             else{
                 return 0
             }
-        case .Comment:
+        case .comment:
             return self.commentsArray.count;
-        case .Other:
+        case .other:
             return 0;
         }
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let _section = TopicDetailTableViewSection(rawValue: indexPath.section)!
-        var _headerComponent = TopicDetailHeaderComponent.Other
-        if let headerComponent = TopicDetailHeaderComponent(rawValue: indexPath.row) {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let _section = TopicDetailTableViewSection(rawValue: (indexPath as NSIndexPath).section)!
+        var _headerComponent = TopicDetailHeaderComponent.other
+        if let headerComponent = TopicDetailHeaderComponent(rawValue: (indexPath as NSIndexPath).row) {
             _headerComponent = headerComponent
         }
         switch _section {
-        case .Header:
+        case .header:
             switch _headerComponent {
-            case .Title:
+            case .title:
                 return tableView.fin_heightForCellWithIdentifier(TopicDetailHeaderCell.self, indexPath: indexPath) { (cell) -> Void in
                     cell.bind(self.model!);
                 }
-            case .WebViewContent:
+            case .webViewContent:
                 if self.webViewContentCell?.contentHeight > 0 {
                     return self.webViewContentCell!.contentHeight
                 }
                 else {
                     return 1
                 }
-            case .Other:
+            case .other:
                 return 45
             }
-        case .Comment:
-            let layout = self.commentsArray[indexPath.row].textLayout!
+        case .comment:
+            let layout = self.commentsArray[(indexPath as NSIndexPath).row].textLayout!
             return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
-        case .Other:
+        case .other:
             return 200
         }
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let _section = TopicDetailTableViewSection(rawValue: indexPath.section)!
-        var _headerComponent = TopicDetailHeaderComponent.Other
-        if let headerComponent = TopicDetailHeaderComponent(rawValue: indexPath.row) {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let _section = TopicDetailTableViewSection(rawValue: (indexPath as NSIndexPath).section)!
+        var _headerComponent = TopicDetailHeaderComponent.other
+        if let headerComponent = TopicDetailHeaderComponent(rawValue: (indexPath as NSIndexPath).row) {
             _headerComponent = headerComponent
         }
 
         switch _section {
-        case .Header:
+        case .header:
             switch _headerComponent {
-            case .Title:
+            case .title:
                 //帖子标题
                 let cell = getCell(tableView, cell: TopicDetailHeaderCell.self, indexPath: indexPath);
                 if(cell.nodeClickHandler == nil){
@@ -245,7 +265,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 }
                 cell.bind(self.model!);
                 return cell;
-            case .WebViewContent:
+            case .webViewContent:
                 //帖子内容
                 if self.webViewContentCell == nil {
                     self.webViewContentCell = getCell(tableView, cell: TopicDetailWebViewContentCell.self, indexPath: indexPath);
@@ -259,7 +279,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                         //在cell显示在屏幕时更新，否则会崩溃会崩溃会崩溃
                         if weakSelf.tableView.visibleCells.contains(weakSelf.webViewContentCell!) {
                             if weakSelf.webViewContentCell?.contentHeight > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
-                                UIView.animateWithDuration(0, animations: { () -> Void in
+                                UIView.animate(withDuration: 0, animations: { () -> Void in
                                     self?.tableView.beginUpdates()
                                     self?.tableView.endUpdates()
                                 })
@@ -272,7 +292,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                     }
                 }
                 return self.webViewContentCell!
-            case .Other:
+            case .other:
                 let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
                 cell.detailMarkHidden = true
                 cell.titleLabel.text = self.model?.topicCommentTotalCount
@@ -281,17 +301,17 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 cell.separator.image = createImageWithColor(self.view.backgroundColor!)
                 return cell
             }
-        case .Comment:
+        case .comment:
             let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
-            cell.bind(self.commentsArray[indexPath.row])
+            cell.bind(self.commentsArray[(indexPath as NSIndexPath).row])
             return cell
-        case .Other:
+        case .other:
             return UITableViewCell();
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 1 {
             self.selectedRowWithActionSheet(indexPath)
         }
     }
@@ -302,8 +322,8 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
 
 //MARK: - actionSheet
 extension TopicDetailViewController: UIActionSheetDelegate {
-    func selectedRowWithActionSheet(indexPath:NSIndexPath){
-        self.tableView.deselectRowAtIndexPath(indexPath, animated: true);
+    func selectedRowWithActionSheet(_ indexPath:IndexPath){
+        self.tableView.deselectRow(at: indexPath, animated: true);
 
         //这段代码也可以执行，但是当点击时，会有个0.3秒的dismiss动画。
         //然后再弹出回复页面或者查看对话页面。感觉太长了，暂时不用
@@ -326,26 +346,26 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         
         //这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
         let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢" ,"查看对话")
-        actionSheet.tag = indexPath.row
-        actionSheet.showInView(self.view)
+        actionSheet.tag = (indexPath as NSIndexPath).row
+        actionSheet.show(in: self.view)
         
     }
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
         if buttonIndex > 0 && buttonIndex <= 3 {
-            self.performSelector([#selector(TopicDetailViewController.replyComment(_:)),#selector(TopicDetailViewController.thankComment(_:)),#selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1], withObject: actionSheet.tag)
+            self.perform([#selector(TopicDetailViewController.replyComment(_:)),#selector(TopicDetailViewController.thankComment(_:)),#selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1], with: actionSheet.tag)
         }
     }
-    func replyComment(row:NSNumber){
+    func replyComment(_ row:NSNumber){
         V2User.sharedInstance.ensureLoginWithHandler {
             let item = self.commentsArray[row as Int]
             let replyViewController = ReplyingViewController()
             replyViewController.atSomeone = "@" + item.userName! + " "
             replyViewController.topicModel = self.model!
             let nav = V2EXNavigationController(rootViewController:replyViewController)
-            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+            self.navigationController?.present(nav, animated: true, completion:nil)
         }
     }
-    func thankComment(row:NSNumber){
+    func thankComment(_ row:NSNumber){
         guard V2User.sharedInstance.isLogin else {
             V2Inform("请先登录")
             return;
@@ -360,7 +380,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             return;
         }
         item.favorites += 1
-        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
+        self.tableView.reloadRows(at: [IndexPath(row: row as Int, section: 1)], with: .none)
         
         TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
             [weak item, weak self](response) in
@@ -370,18 +390,18 @@ extension TopicDetailViewController: UIActionSheetDelegate {
                 V2Error("感谢失败了")
                 //失败后 取消增加的数量
                 item?.favorites -= 1
-                self?.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: row as Int, inSection: 1)], withRowAnimation: .None)
+                self?.tableView.reloadRows(at: [IndexPath(row: row as Int, section: 1)], with: .none)
             }
         }
     }
-    func relevantComment(row:NSNumber){
+    func relevantComment(_ row:NSNumber){
         let item = self.commentsArray[row as Int]
         let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
         if relevantComments.count <= 0 {
             return;
         }
         let controller = RelevantCommentsNav(comments: relevantComments)
-        self.presentViewController(controller, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
 }
 
@@ -389,28 +409,28 @@ extension TopicDetailViewController: UIActionSheetDelegate {
 
 //MARK: - V2ActivityView
 enum V2ActivityViewTopicDetailAction : Int {
-    case Block = 0, Favorite, Grade, Explore
+    case block = 0, favorite, grade, explore
 }
 
 extension TopicDetailViewController: V2ActivityViewDataSource {
-    func V2ActivityView(activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
+    func V2ActivityView(_ activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
         return 4
     }
-    func V2ActivityView(activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: NSIndexPath) -> V2Activity {
-        return V2Activity(title: ["忽略","收藏","感谢","Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][indexPath.row])!)
+    func V2ActivityView(_ activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: IndexPath) -> V2Activity {
+        return V2Activity(title: ["忽略","收藏","感谢","Safari"][(indexPath as NSIndexPath).row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][(indexPath as NSIndexPath).row])!)
     }
-    func V2ActivityView(activityView:V2ActivityViewController ,heightForFooterInSection section: Int) -> CGFloat{
+    func V2ActivityView(_ activityView:V2ActivityViewController ,heightForFooterInSection section: Int) -> CGFloat{
         return 45
     }
-    func V2ActivityView(activityView:V2ActivityViewController ,viewForFooterInSection section: Int) ->UIView?{
+    func V2ActivityView(_ activityView:V2ActivityViewController ,viewForFooterInSection section: Int) ->UIView?{
         let view = UIView()
         view.backgroundColor = V2EXColor.colors.v2_ButtonBackgroundColor
         
         let label = UILabel()
         label.font = v2Font(18)
         label.text = "回  复"
-        label.textAlignment = .Center
-        label.textColor = UIColor.whiteColor()
+        label.textAlignment = .center
+        label.textColor = UIColor.white
         view.addSubview(label)
         label.snp_makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(view)
@@ -421,24 +441,24 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         return view
     }
     
-    func V2ActivityView(activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func V2ActivityView(_ activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: IndexPath) {
         activityView.dismiss()
-        let action = V2ActivityViewTopicDetailAction(rawValue: indexPath.row)!
+        let action = V2ActivityViewTopicDetailAction(rawValue: (indexPath as NSIndexPath).row)!
         
         guard V2User.sharedInstance.isLogin
             // 用safari打开是不用登录的
-            || action == V2ActivityViewTopicDetailAction.Explore else {
+            || action == V2ActivityViewTopicDetailAction.explore else {
             V2Inform("请先登录")
             return;
         }
         switch action {
-        case .Block:
+        case .block:
             V2BeginLoading()
             if let topicId = self.model?.topicId  {
                 TopicDetailModel.ignoreTopicWithTopicId(topicId, completionHandler: {[weak self] (response) -> Void in
                     if response.success {
                         V2Success("忽略成功")
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        self?.navigationController?.popViewController(animated: true)
                         self?.ignoreTopicHandler?(topicId)
                     }
                     else{
@@ -446,7 +466,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                     })
             }
-        case .Favorite:
+        case .favorite:
             V2BeginLoading()
             if let topicId = self.model?.topicId ,let token = self.model?.token {
                 TopicDetailModel.favoriteTopicWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
@@ -458,7 +478,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                 })
             }
-        case .Grade:
+        case .grade:
             V2BeginLoading()
             if let topicId = self.model?.topicId ,let token = self.model?.token {
                 TopicDetailModel.topicThankWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
@@ -470,8 +490,8 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                 })
             }
-        case .Explore:
-            UIApplication.sharedApplication().openURL(NSURL(string: V2EXURL + "t/" + self.model!.topicId!)!)
+        case .explore:
+            UIApplication.shared.openURL(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)
         }
     }
     
@@ -481,7 +501,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             let replyViewController = ReplyingViewController()
             replyViewController.topicModel = self.model!
             let nav = V2EXNavigationController(rootViewController:replyViewController)
-            self.navigationController?.presentViewController(nav, animated: true, completion:nil)
+            self.navigationController?.present(nav, animated: true, completion:nil)
         }
     }
     

@@ -14,7 +14,7 @@ public typealias TopicDetailWebViewContentHeightChanged = (CGFloat) -> Void
 let HTMLHEADER  = "<html><head><title>test</title><meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' name='viewport'>"
 class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     
-    private var model:TopicDetailModel?
+    fileprivate var model:TopicDetailModel?
     
     var contentHeight : CGFloat = 0
     var contentWebView:UIWebView?
@@ -31,9 +31,9 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.clipsToBounds = true
         
         self.contentWebView = UIWebView()
-        self.contentWebView!.opaque = false
-        self.contentWebView!.backgroundColor = UIColor.clearColor()
-        self.contentWebView!.scrollView.scrollEnabled = false
+        self.contentWebView!.isOpaque = false
+        self.contentWebView!.backgroundColor = UIColor.clear
+        self.contentWebView!.scrollView.isScrollEnabled = false
         self.contentWebView!.delegate = self
         self.contentView.addSubview(self.contentWebView!);
         self.contentWebView!.snp_makeConstraints{ (make) -> Void in
@@ -46,11 +46,11 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         }
         
-        self.KVOController.observe(self.contentWebView!.scrollView, keyPath: "contentSize", options: [.New]) {
+        self.kvoController.observe(self.contentWebView!.scrollView, keyPath: "contentSize", options: [.new]) {
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {
-                let size = change![NSKeyValueChangeNewKey] as! NSValue
-                weakSelf.contentHeight = size.CGSizeValue().height;
+                let size = change!["new"] as! NSValue
+                weakSelf.contentHeight = size.cgSizeValue.height;
                 weakSelf.contentHeightChanged?(weakSelf.contentHeight)
             }
         }
@@ -59,7 +59,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         super.layoutSubviews()
     }
     
-    func load(model:TopicDetailModel){
+    func load(_ model:TopicDetailModel){
         if self.model == model{
             return;
         }
@@ -70,7 +70,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             let style = "<style>" + V2Style.sharedInstance.CSS + "</style></head>"
             html =  HTMLHEADER + style  + html + "</html>"
             
-            self.contentWebView?.loadHTMLString(html, baseURL: NSURL(string: "https://"))
+            self.contentWebView?.loadHTMLString(html, baseURL: URL(string: "https://"))
 
             //这里有一个问题，
             
@@ -85,13 +85,13 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         }
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         //如果加载的是 自己load 的本地页面 则肯定放过啊
-        if navigationType == .Other {
+        if navigationType == .other {
             return true
         }
-        else if navigationType == .LinkClicked {
-            if let url = request.URL?.absoluteString{
+        else if navigationType == .linkClicked {
+            if let url = request.url?.absoluteString{
                 return !AnalyzeURLHelper.Analyze(url)
             }
         }

@@ -14,16 +14,16 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
     var backgroundImageView:UIImageView?
     var frostedView = FXBlurView()
     
-    private var _tableView :UITableView!
-    private var tableView: UITableView {
+    fileprivate var _tableView :UITableView!
+    fileprivate var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.backgroundColor = UIColor.clearColor()
+            _tableView.backgroundColor = UIColor.clear
             _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
             regClass(self.tableView, cell: LeftUserHeadCell.self)
             regClass(self.tableView, cell: LeftNodeTableViewCell.self)
@@ -42,12 +42,12 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
-        self.backgroundImageView!.contentMode = .ScaleToFill
+        self.backgroundImageView!.contentMode = .scaleToFill
         view.addSubview(self.backgroundImageView!)
         
         frostedView.underlyingView = self.backgroundImageView!
-        frostedView.dynamic = false
-        frostedView.tintColor = UIColor.blackColor()
+        frostedView.isDynamic = false
+        frostedView.tintColor = UIColor.black
         frostedView.frame = self.view.frame
         self.view.addSubview(frostedView)
         
@@ -69,23 +69,23 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
     }
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return [1,3,2][section]
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if (indexPath.section == 1 && indexPath.row == 2)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2)
         
         {
             return 55+10
         }
-        return [180,55+SEPARATOR_HEIGHT,55+SEPARATOR_HEIGHT][indexPath.section]
+        return [180,55+SEPARATOR_HEIGHT,55+SEPARATOR_HEIGHT][(indexPath as NSIndexPath).section]
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            if  indexPath.row == 0 {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 0 {
+            if  (indexPath as NSIndexPath).row == 0 {
                 let cell = getCell(tableView, cell: LeftUserHeadCell.self, indexPath: indexPath);
                 return cell ;
             }
@@ -93,81 +93,81 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 return UITableViewCell()
             }
         }
-        else if (indexPath.section == 1) {
-            if indexPath.row == 1 {
+        else if ((indexPath as NSIndexPath).section == 1) {
+            if (indexPath as NSIndexPath).row == 1 {
                 let cell = getCell(tableView, cell: LeftNotifictionCell.self, indexPath: indexPath)
                 cell.nodeImageView.image = UIImage.imageUsedTemplateMode("ic_notifications_none")
                 return cell
             }
             else {
                 let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-                cell.nodeNameLabel.text = ["个人中心","","我的收藏"][indexPath.row]
+                cell.nodeNameLabel.text = ["个人中心","","我的收藏"][(indexPath as NSIndexPath).row]
                 let names = ["ic_face","","ic_turned_in_not"]
-                cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
+                cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[(indexPath as NSIndexPath).row])
                 return cell
             }
         }
         else {
             let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-            cell.nodeNameLabel.text = ["节点","更多"][indexPath.row]
+            cell.nodeNameLabel.text = ["节点","更多"][(indexPath as NSIndexPath).row]
             let names = ["ic_navigation","ic_settings_input_svideo"]
-            cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
+            cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[(indexPath as NSIndexPath).row])
             return cell
         }
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath as NSIndexPath).section == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
                 if !V2User.sharedInstance.isLogin {
                     let loginViewController = LoginViewController()
-                    V2Client.sharedInstance.centerViewController!.navigationController?.presentViewController(loginViewController, animated: true, completion: nil);
+                    V2Client.sharedInstance.centerViewController!.navigationController?.present(loginViewController, animated: true, completion: nil);
                 }else{
                     let memberViewController = MyCenterViewController()
                     memberViewController.username = V2User.sharedInstance.username
                     V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
-                    V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+                    V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
                 }
             }
         }
-        else if indexPath.section == 1 {
+        else if (indexPath as NSIndexPath).section == 1 {
             if !V2User.sharedInstance.isLogin {
                 let loginViewController = LoginViewController()
-                V2Client.sharedInstance.centerNavigation?.presentViewController(loginViewController, animated: true, completion: nil);
+                V2Client.sharedInstance.centerNavigation?.present(loginViewController, animated: true, completion: nil);
                 return
             }
-            if indexPath.row == 0 {
+            if (indexPath as NSIndexPath).row == 0 {
                 let memberViewController = MyCenterViewController()
                 memberViewController.username = V2User.sharedInstance.username
                 V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
             }
-            else if indexPath.row == 1 {
+            else if (indexPath as NSIndexPath).row == 1 {
                 let notificationsViewController = NotificationsViewController()
                 V2Client.sharedInstance.centerNavigation?.pushViewController(notificationsViewController, animated: true)
             }
-            else if indexPath.row == 2 {
+            else if (indexPath as NSIndexPath).row == 2 {
                 let favoritesViewController = FavoritesViewController()
                 V2Client.sharedInstance.centerNavigation?.pushViewController(favoritesViewController, animated: true)
             }
-            V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+            V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
             
         }
-        else if indexPath.section == 2 {
-            if indexPath.row == 0 {
+        else if (indexPath as NSIndexPath).section == 2 {
+            if (indexPath as NSIndexPath).row == 0 {
                 let nodesViewController = NodesViewController()
                 V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(nodesViewController, animated: true)
             }
-            else if indexPath.row == 1 {
+            else if (indexPath as NSIndexPath).row == 1 {
                 let moreViewController = MoreViewController()
                 V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(moreViewController, animated: true)
             }
-            V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+            V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
         }
     }
     
     
     
     // MARK: 获取用户信息
-    func getUserInfo(userName:String){
+    func getUserInfo(_ userName:String){
         UserModel.getUserInfoByUsername(userName) {(response:V2ValueResponse<UserModel>) -> Void in
             if response.success {
 //                self?.tableView.reloadData()

@@ -6,31 +6,44 @@
 //  Copyright © 2016 Fin. All rights reserved.
 //
 
-import UIKit
+//import UIKit
 import Foundation
 import Alamofire
 import Ji
-extension Request {
-    public static func JIHTMLResponseSerializer() -> ResponseSerializer<Ji, NSError> {
-        return ResponseSerializer { request, response, data, error in
-            guard error == nil else { return .Failure(error!) }
+extension DataRequest {
+    enum ErrorCode: Int {
+        case noData = 1
+        case dataSerializationFailed = 2
+    }
+    internal static func newError(_ code: ErrorCode, failureReason: String) -> NSError {
+        let errorDomain = "me.fin.v2ex.error"
+        let userInfo = [NSLocalizedFailureReasonErrorKey: failureReason]
+        let returnError = NSError(domain: errorDomain, code: code.rawValue, userInfo: userInfo)
+        return returnError
+    }
+    
+    static func JIHTMLResponseSerializer() -> DataResponseSerializer<Ji> {
+        return DataResponseSerializer { request, response, data, error in
+            guard error == nil else { return .failure(error!) }
             
             guard let validData = data else {
-                let failureReason = "Data could not be serialized. Input data was nil."
-                let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-                return .Failure(error)
+                return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
             }
             
             if  let jiHtml = Ji(htmlData: validData){
-                return .Success(jiHtml)
+                return .success(jiHtml)
             }
             
-            let failureReason = "HTML 转换失败"
-            let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-            return .Failure(error)
+            let failureReason = "ObjectMapper failed to serialize response."
+            let error = newError(.dataSerializationFailed, failureReason: failureReason)
+            return .failure(error)
         }
     }
-    public func responseJiHtml(completionHandler: Response<Ji, NSError> -> Void) -> Self {
-        return response(responseSerializer: Request.JIHTMLResponseSerializer(), completionHandler: completionHandler)
+    
+    @discardableResult
+    public func responseJiHtml(queue: DispatchQueue? = nil,  completionHandler: @escaping (DataResponse<Ji>) -> Void) -> Self {
+        return response(responseSerializer: Alamofire.DataRequest.JIHTMLResponseSerializer(), completionHandler: completionHandler);
     }
 }
+
+

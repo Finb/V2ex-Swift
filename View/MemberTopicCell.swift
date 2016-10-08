@@ -25,7 +25,7 @@ class MemberTopicCell: UITableViewCell {
     }()
     var replyCountIconImageView: UIImageView = {
         let replyCountIconImageView = UIImageView(image: UIImage(named: "reply_n"))
-        replyCountIconImageView.contentMode = .ScaleAspectFit
+        replyCountIconImageView.contentMode = .scaleAspectFit
         return replyCountIconImageView
     }()
     
@@ -64,7 +64,7 @@ class MemberTopicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     func setup()->Void{
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         self.backgroundColor = V2EXColor.colors.v2_backgroundColor
 
         self.contentView .addSubview(self.contentPanel);
@@ -120,7 +120,7 @@ class MemberTopicCell: UITableViewCell {
         }
     }
     
-    func bind(model:MemberTopicsModel){
+    func bind(_ model:MemberTopicsModel){
         self.dateAndLastPostUserLabel.text = model.date
         self.topicTitleLabel.text = model.topicTitle;
 

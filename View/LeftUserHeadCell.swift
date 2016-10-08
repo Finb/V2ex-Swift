@@ -16,7 +16,7 @@ class LeftUserHeadCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
         imageView.layer.borderWidth = 1.5
-        imageView.layer.borderColor = UIColor(white: 1, alpha: 0.6).CGColor
+        imageView.layer.borderColor = UIColor(white: 1, alpha: 0.6).cgColor
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 38
         return imageView
@@ -36,8 +36,8 @@ class LeftUserHeadCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     func setup()->Void{
-        self.backgroundColor = UIColor.clearColor()
-        self.selectionStyle = .None
+        self.backgroundColor = UIColor.clear
+        self.selectionStyle = .none
 
         self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.userNameLabel)
@@ -52,13 +52,13 @@ class LeftUserHeadCell: UITableViewCell {
             make.centerX.equalTo(self.avatarImageView)
         }
 
-        self.KVOController.observe(V2User.sharedInstance, keyPath: "username", options: [.Initial , .New]){
+        self.kvoController.observe(V2User.sharedInstance, keyPath: "username", options: [.initial , .new]){
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {
                 if let user = V2User.sharedInstance.user {
                     weakSelf.userNameLabel.text = user.username
                     if let avatar = user.avatar_large {
-                        weakSelf.avatarImageView.kf_setImageWithURL(NSURL(string: "https:"+avatar)!, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+                        weakSelf.avatarImageView.kf.setImage(with: URL(string: "https:"+avatar)!, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
                             //如果请求到图片时，客户端已经不是登录状态了，则将图片清除
                             if !V2User.sharedInstance.isLogin {
                                 weakSelf.avatarImageView.image = nil

@@ -16,19 +16,19 @@ class HomeTopicListTableViewCell: UITableViewCell {
     // iOS中可以缓存渲染，但效果还是不如直接 用圆角图片
     
     /// 节点信息label的圆角背景图
-    private static var nodeBackgroundImage_Default =
-        createImageWithColor( V2EXDefaultColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
+    fileprivate static var nodeBackgroundImage_Default =
+        createImageWithColor( V2EXDefaultColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSize(width: 10, height: 20))
             .roundedCornerImageWithCornerRadius(2)
-            .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
-    private static var nodeBackgroundImage_Dark =
-        createImageWithColor( V2EXDarkColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSizeMake(10, 20))
+            .stretchableImage(withLeftCapWidth: 3, topCapHeight: 3)
+    fileprivate static var nodeBackgroundImage_Dark =
+        createImageWithColor( V2EXDarkColor.sharedInstance.v2_NodeBackgroundColor ,size: CGSize(width: 10, height: 20))
             .roundedCornerImageWithCornerRadius(2)
-            .stretchableImageWithLeftCapWidth(3, topCapHeight: 3)
+            .stretchableImage(withLeftCapWidth: 3, topCapHeight: 3)
     
     /// 头像
     var avatarImageView: UIImageView = {
         let imageview = UIImageView()
-        imageview.contentMode=UIViewContentMode.ScaleAspectFit
+        imageview.contentMode=UIViewContentMode.scaleAspectFit
         return imageview
     }()
     
@@ -52,7 +52,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }()
     var replyCountIconImageView: UIImageView = {
         let imageview = UIImageView(image: UIImage(named: "reply_n"))
-        imageview.contentMode = .ScaleAspectFit
+        imageview.contentMode = .scaleAspectFit
         return imageview
     }()
     
@@ -66,7 +66,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
     /// 帖子标题
     var topicTitleLabel: YYLabel = {
         let label = YYLabel()
-        label.textVerticalAlignment = .Top
+        label.textVerticalAlignment = .top
         label.font=v2Font(18)
         label.displaysAsynchronously = true
         label.numberOfLines=0
@@ -128,8 +128,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         
         //点击用户头像，跳转到用户主页
-        self.avatarImageView.userInteractionEnabled = true
-        self.userNameLabel.userInteractionEnabled = true
+        self.avatarImageView.isUserInteractionEnabled = true
+        self.userNameLabel.isUserInteractionEnabled = true
         var userNameTap = UITapGestureRecognizer(target: self, action: #selector(HomeTopicListTableViewCell.userNameTap(_:)))
         self.avatarImageView.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(HomeTopicListTableViewCell.userNameTap(_:)))
@@ -137,7 +137,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
     }
     
-    private func setupLayout(){
+    fileprivate func setupLayout(){
         self.contentPanel.snp_makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
         }
@@ -184,8 +184,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
     }
     
-    func userNameTap(sender:UITapGestureRecognizer) {
-        if let _ = self.itemModel , username = itemModel?.userName {
+    func userNameTap(_ sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
             V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
@@ -193,12 +193,12 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
     
-    func superBind(model:TopicListModel){
+    func superBind(_ model:TopicListModel){
         self.userNameLabel.text = model.userName;
         if let layout = model.topicTitleLayout {
             //如果新旧model标题相同,则不需要赋值
@@ -211,22 +211,22 @@ class HomeTopicListTableViewCell: UITableViewCell {
             }
         }
         if let avata = model.avata {
-            self.avatarImageView.fin_setImageWithUrl(NSURL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
+            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
         self.replyCountLabel.text = model.replies;
         
         self.itemModel = model
     }
     
-    func bind(model:TopicListModel){
+    func bind(_ model:TopicListModel){
         self.superBind(model)
         self.dateAndLastPostUserLabel.text = model.date
         self.nodeNameLabel.text = model.nodeName
     }
     
-    func bindNodeModel(model:TopicListModel){
+    func bindNodeModel(_ model:TopicListModel){
         self.superBind(model)
         self.dateAndLastPostUserLabel.text = model.hits
-        self.nodeBackgroundImageView.hidden = true
+        self.nodeBackgroundImageView.isHidden = true
     }
 }

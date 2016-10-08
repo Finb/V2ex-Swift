@@ -9,24 +9,24 @@
 //https://github.com/mwaterfall/MWPhotoBrowser
 
 import UIKit
-import INSImageView
+//import INSImageView
 
 @objc protocol V2PhotoBrowserDelegate {
-    func numberOfPhotosInPhotoBrowser(photoBrowser:V2PhotoBrowser) -> Int
-    func photoAtIndexInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> V2Photo
+    func numberOfPhotosInPhotoBrowser(_ photoBrowser:V2PhotoBrowser) -> Int
+    func photoAtIndexInPhotoBrowser(_ photoBrowser:V2PhotoBrowser, index:Int) -> V2Photo
     
     /**
      引导动画的Image
      */
-    func guideImageInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> UIImage?
+    func guideImageInPhotoBrowser(_ photoBrowser:V2PhotoBrowser, index:Int) -> UIImage?
     /**
      引导动画的ContentMode
      */
-    func guideContentModeInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> UIViewContentMode
+    func guideContentModeInPhotoBrowser(_ photoBrowser:V2PhotoBrowser, index:Int) -> UIViewContentMode
     /**
      引导动画在window上的位置
      */
-    func guideFrameInPhotoBrowser(photoBrowser:V2PhotoBrowser, index:Int) -> CGRect
+    func guideFrameInPhotoBrowser(_ photoBrowser:V2PhotoBrowser, index:Int) -> CGRect
 }
 
 
@@ -38,10 +38,10 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     weak var delegate:V2PhotoBrowserDelegate?
     
-    private var  photoCount = NSNotFound
-    private var photos:[NSObject] = []
+    fileprivate var  photoCount = NSNotFound
+    fileprivate var photos:[NSObject] = []
     
-    private var _currentPageIndex = 0
+    fileprivate var _currentPageIndex = 0
     var currentPageIndex:Int {
         get {
             return _currentPageIndex
@@ -55,8 +55,8 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         }
     }
     
-    private var visiblePages:NSMutableSet = []
-    private var recycledPages:NSMutableSet = []
+    fileprivate var visiblePages:NSMutableSet = []
+    fileprivate var recycledPages:NSMutableSet = []
     var pagingScrollView = UIScrollView()
     
     var transitionController = V2PhotoBrowserSwipeInteractiveTransition()
@@ -74,7 +74,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         self.view.backgroundColor = UIColor(white: 0, alpha: 0)
         self.transitioningDelegate = self
         
-        self.pagingScrollView.pagingEnabled = true
+        self.pagingScrollView.isPagingEnabled = true
         self.pagingScrollView.delegate = self
         self.pagingScrollView.showsHorizontalScrollIndicator = false
         self.pagingScrollView.showsVerticalScrollIndicator = false
@@ -88,7 +88,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         self.pagingScrollView.contentSize = self.contentSizeForPagingScrollView()
         
         /// 一进来时，是隐藏，等引导动画结束时再显示
-        self.pagingScrollView.hidden = true
+        self.pagingScrollView.isHidden = true
         
 
         self.guideImageView.clipsToBounds = true
@@ -106,39 +106,39 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         self.transitionController.prepareGestureRecognizerInView(self.view)
     }
     
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return self.transitionController.interacting ? self.transitionController : nil
     }
     
-    override func viewDidAppear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+    override func viewDidAppear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
     }
-    override func viewWillDisappear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
+    override func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarHidden(false, with: .none)
     }
     func dismiss(){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    func jumpPageAtIndex(index:Int){
-        if self.isViewLoaded() {
+    func jumpPageAtIndex(_ index:Int){
+        if self.isViewLoaded {
             let pageFrame = self.frameForPageAtIndex(_currentPageIndex)
-            self.pagingScrollView.setContentOffset(CGPointMake(pageFrame.origin.x - V2PhotoBrowser.PADDING, 0), animated: false)
+            self.pagingScrollView.setContentOffset(CGPoint(x: pageFrame.origin.x - V2PhotoBrowser.PADDING, y: 0), animated: false)
         }
     }
     
-    func guideImageViewHidden(hidden:Bool){
+    func guideImageViewHidden(_ hidden:Bool){
         if hidden {
-            self.guideImageView.hidden = true
-            self.pagingScrollView.hidden = false
+            self.guideImageView.isHidden = true
+            self.pagingScrollView.isHidden = false
         }
         else {
             if self.guideImageView.originalImage != nil{
                 //隐藏引导动画图
-                self.guideImageView.hidden = false
+                self.guideImageView.isHidden = false
                 
                 //隐藏真正的图片浏览器,等引导动画完后再显示
-                self.pagingScrollView.hidden = true
+                self.pagingScrollView.isHidden = true
             }
             else {
                 //如果没有图片，则直接显示真正的图片浏览器
@@ -152,15 +152,15 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     func contentSizeForPagingScrollView() -> CGSize {
         let bounds = self.pagingScrollView.bounds
-        return CGSizeMake(bounds.size.width * CGFloat(self.numberOfPhotos()), bounds.size.height)
+        return CGSize(width: bounds.size.width * CGFloat(self.numberOfPhotos()), height: bounds.size.height)
     }
     
-    func frameForPageAtIndex(index:Int) -> CGRect{
+    func frameForPageAtIndex(_ index:Int) -> CGRect{
         let bounds = self.pagingScrollView.bounds
         var pageFrame = bounds
         pageFrame.size.width -= (2 * V2PhotoBrowser.PADDING);
         pageFrame.origin.x = (bounds.size.width * CGFloat(index) ) + V2PhotoBrowser.PADDING;
-        return CGRectIntegral(pageFrame);
+        return pageFrame.integral;
     }
     
     //MARK: Data 
@@ -176,9 +176,9 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         return self.photoCount
     }
     
-    func photoAtIndex(index:Int) -> V2Photo? {
+    func photoAtIndex(_ index:Int) -> V2Photo? {
         if index < self.photos.count {
-            if self.photos[index].isKindOfClass(NSNull.self) {
+            if self.photos[index].isKind(of: NSNull.self) {
                 if let delegate = self.delegate {
                     let photo = delegate.photoAtIndexInPhotoBrowser(self, index: index)
                     self.photos[index] = photo
@@ -219,8 +219,8 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     //MARK: Perform
     func tilePages(){
         let visibleBounds = self.pagingScrollView.bounds
-        var iFirstIndex = Int( floorf( Float( (CGRectGetMinX(visibleBounds) + V2PhotoBrowser.PADDING * 2) / CGRectGetWidth(visibleBounds) ) ) );
-        var iLastIndex = Int( floorf( Float( (CGRectGetMaxX(visibleBounds) - V2PhotoBrowser.PADDING * 2 - 1) / CGRectGetWidth(visibleBounds) ) ) );
+        var iFirstIndex = Int( floorf( Float( (visibleBounds.minX + V2PhotoBrowser.PADDING * 2) / visibleBounds.width ) ) );
+        var iLastIndex = Int( floorf( Float( (visibleBounds.maxX - V2PhotoBrowser.PADDING * 2 - 1) / visibleBounds.width ) ) );
         iFirstIndex = max(0,iFirstIndex)
         iFirstIndex = min (self.numberOfPhotos() - 1,iFirstIndex)
         iLastIndex = max(0,iLastIndex)
@@ -230,17 +230,17 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
             if let page = page as? V2ZoomingScrollView {
                 pageIndex = page.index
                 if pageIndex < iFirstIndex || pageIndex > iLastIndex {
-                    self.recycledPages.addObject(page)
+                    self.recycledPages.add(page)
                     page.prepareForReuse()
                     page.removeFromSuperview()
                 }
             }
         }
         
-        self.visiblePages.minusSet(self.recycledPages as Set<NSObject>)
+        self.visiblePages.minus(self.recycledPages as Set<NSObject>)
         
         while self.recycledPages.count > 2 {
-            self.recycledPages.removeObject(self.recycledPages.anyObject()!)
+            self.recycledPages.remove(self.recycledPages.anyObject()!)
         }
         
         for index in iFirstIndex ... iLastIndex {
@@ -251,14 +251,14 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
                 }
                 
                 self.configurePage(page!, index: index)
-                self.visiblePages.addObject(page!)
+                self.visiblePages.add(page!)
                 
                 self.pagingScrollView.addSubview(page!)
             }
         }
         
     }
-    func isDisplayingPageForIndex(index:Int) -> Bool {
+    func isDisplayingPageForIndex(_ index:Int) -> Bool {
         for page in self.visiblePages {
             if  let page = page as? V2ZoomingScrollView  {
                 if page.index == index {
@@ -271,13 +271,13 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     func dequeueRecycledPage() -> V2ZoomingScrollView? {
         if let page = self.recycledPages.anyObject() as? V2ZoomingScrollView {
-            self.recycledPages.removeObject(page)
+            self.recycledPages.remove(page)
             return page
         }
         return nil
     }
     
-    func configurePage(page:V2ZoomingScrollView,index:Int){
+    func configurePage(_ page:V2ZoomingScrollView,index:Int){
         page.frame = self.frameForPageAtIndex(index)
         page.index = index
         page.photo = self.photoAtIndex(index)
@@ -285,11 +285,11 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     
     //MARK: UIScrollView Delegate 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.tilePages()
         
         let visibleBounds = self.pagingScrollView.bounds
-        var index = Int ( floorf( Float(CGRectGetMidX(visibleBounds) / CGRectGetWidth(visibleBounds)) ) )
+        var index = Int ( floorf( Float(visibleBounds.midX / visibleBounds.width) ) )
         index = max (0,index)
         index = min(self.numberOfPhotos() - 1 , index)
         self._currentPageIndex = index
@@ -297,10 +297,10 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     
     
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return V2PhotoBrowserTransionPresent()
     }
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return V2PhotoBrowserTransionDismiss()
     }
 }

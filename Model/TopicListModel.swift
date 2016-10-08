@@ -47,11 +47,11 @@ class TopicListModel:NSObject {
         var topicIdUrl = node?["href"];
 
         if var id = topicIdUrl {
-            if let range = id.rangeOfString("/t/") {
-                id.replaceRange(range, with: "");
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "");
             }
-            if let range = id.rangeOfString("#") {
-                id = id.substringToIndex(range.startIndex)
+            if let range = id.range(of: "#") {
+                id = id.substring(to: range.lowerBound)
                 topicIdUrl = id
             }
         }
@@ -86,11 +86,11 @@ class TopicListModel:NSObject {
         var topicIdUrl = node?["href"];
 
         if var id = topicIdUrl {
-            if let range = id.rangeOfString("/t/") {
-                id.replaceRange(range, with: "");
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "");
             }
-            if let range = id.rangeOfString("#") {
-                id = id.substringToIndex(range.startIndex)
+            if let range = id.range(of: "#") {
+                id = id.substring(to: range.lowerBound)
                 topicIdUrl = id
             }
         }
@@ -99,9 +99,10 @@ class TopicListModel:NSObject {
 
         let date = favoritesRootNode.xPath("./table/tr/td[3]/span[2]").first?.content
         if let date = date {
-            let array = date.componentsSeparatedByString("•")
+            let array = date.components(separatedBy: "•")
             if array.count == 4 {
-                self.date = array[3].stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                self.date = array[3].trimmingCharacters(in: NSCharacterSet.whitespaces)
+                
             }
         }
 
@@ -122,11 +123,11 @@ class TopicListModel:NSObject {
         var topicIdUrl = node?["href"];
 
         if var id = topicIdUrl {
-            if let range = id.rangeOfString("/t/") {
-                id.replaceRange(range, with: "");
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "");
             }
-            if let range = id.rangeOfString("#") {
-                id = id.substringToIndex(range.startIndex)
+            if let range = id.range(of: "#") {
+                id = id.substring(to: range.lowerBound)
                 topicIdUrl = id
             }
         }
@@ -135,7 +136,7 @@ class TopicListModel:NSObject {
 
         self.hits = nodeRootNode.xPath("./table/tr/td[3]/span[last()]/text()").first?.content
         if var hits = self.hits {
-            hits = hits.substringFromIndex(hits.startIndex.advancedBy(5))
+            hits = hits.substring(from: hits.index(hits.startIndex, offsetBy: 5))
             self.hits = hits
         }
         var replies:String? = nil;
@@ -158,7 +159,7 @@ class TopicListModel:NSObject {
             self.thmemChangedHandler = {[weak self] (style) -> Void in
                 if let str = self?.topicTitleAttributedString {
                     str.yy_color = V2EXColor.colors.v2_TopicListTitleColor
-                    self?.topicTitleLayout = YYTextLayout(containerSize: CGSizeMake(SCREEN_WIDTH-24, 9999), text: str)
+                    self?.topicTitleLayout = YYTextLayout(containerSize: CGSize(width: SCREEN_WIDTH-24, height: 9999), text: str)
                 }
             }
         }
@@ -173,9 +174,9 @@ extension TopicListModel {
      - parameter tab:               tab名
      */
     class func getTopicList(
-        tab: String? = nil ,
+        _ tab: String? = nil ,
         page:Int = 0 ,
-        completionHandler: V2ValueResponse<[TopicListModel]> -> Void
+        completionHandler: @escaping (V2ValueResponse<[TopicListModel]>) -> Void
         )->Void{
 
         var params:[String:String] = [:]
@@ -193,7 +194,7 @@ extension TopicListModel {
             url = V2EXURL + "recent"
         }
 
-        Alamofire.request(.GET, url, parameters: params, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, method: .get, parameters: params, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             if  let jiHtml = response.result.value{
                 if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
@@ -205,8 +206,7 @@ extension TopicListModel {
                     //更新通知数量
                     V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
                 }
-
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                DispatchQueue.global().async {
                     //领取奖励
                     if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='inner']/a[@href='/mission/daily']")?.first {
                         if aRootNode.content == "领取今日的登录奖励" {
@@ -215,6 +215,7 @@ extension TopicListModel {
                         }
                     }
                 }
+                
             }
 
             let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
@@ -223,14 +224,14 @@ extension TopicListModel {
     }
 
     class func getTopicList(
-        nodeName: String,
+        _ nodeName: String,
         page:Int,
-        completionHandler: V2ValueResponse<([TopicListModel] ,String?)> -> Void
+        completionHandler: @escaping (V2ValueResponse<([TopicListModel] ,String?)>) -> Void
         )->Void{
 
         let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
         
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             var favoriteUrl :String?
             if  let jiHtml = response.result.value{
@@ -259,8 +260,8 @@ extension TopicListModel {
      获取我的收藏帖子列表
 
      */
-    class func getFavoriteList(page:Int = 1, completionHandler: V2ValueResponse<([TopicListModel],Int)> -> Void){
-        Alamofire.request(.GET, V2EXURL+"my/topics?p=\(page)", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+    class func getFavoriteList(_ page:Int = 1, completionHandler: @escaping (V2ValueResponse<([TopicListModel],Int)>) -> Void){
+        Alamofire.request(V2EXURL+"my/topics?p=\(page)", method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             var maxPage = 1
             if let jiHtml = response.result.value {
@@ -295,14 +296,14 @@ extension TopicListModel {
      - parameter type:   操作 0 : 收藏 1：取消收藏
      */
     class func favorite(
-        nodeId:String,
+        _ nodeId:String,
         type:NSInteger
     ){
         V2User.sharedInstance.getOnce { (response) in
             if(response.success){
                 let action = type == 0 ? "favorite/node/" : "unfavorite/node/"
                 let url = V2EXURL + action + nodeId + "?once=" + V2User.sharedInstance.once!
-                Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+                Alamofire.request(url , method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
                     
                 }
             }

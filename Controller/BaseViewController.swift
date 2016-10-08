@@ -9,7 +9,7 @@
 import UIKit
 
 class BaseViewController: UIViewController {
-    private weak var _loadView:V2LoadingView?
+    fileprivate weak var _loadView:V2LoadingView?
     
     func showLoadingView (){
         

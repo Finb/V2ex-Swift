@@ -7,28 +7,29 @@
 //
 
 import UIKit
+import KVOController
 
 
-func colorWith255RGB(r:CGFloat , g:CGFloat, b:CGFloat) ->UIColor {
+func colorWith255RGB(_ r:CGFloat , g:CGFloat, b:CGFloat) ->UIColor {
     return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 255)
 }
-func colorWith255RGBA(r:CGFloat , g:CGFloat, b:CGFloat,a:CGFloat) ->UIColor {
+func colorWith255RGBA(_ r:CGFloat , g:CGFloat, b:CGFloat,a:CGFloat) ->UIColor {
     return UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a/255)
 }
 
-func createImageWithColor(color:UIColor) -> UIImage{
-    return createImageWithColor(color, size: CGSizeMake(1, 1))
+func createImageWithColor(_ color:UIColor) -> UIImage{
+    return createImageWithColor(color, size: CGSize(width: 1, height: 1))
 }
-func createImageWithColor(color:UIColor,size:CGSize) -> UIImage {
-    let rect = CGRectMake(0, 0, size.width, size.height)
+func createImageWithColor(_ color:UIColor,size:CGSize) -> UIImage {
+    let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
     UIGraphicsBeginImageContext(rect.size);
     let context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, color.CGColor);
-    CGContextFillRect(context, rect);
+    context?.setFillColor(color.cgColor);
+    context?.fill(rect);
     
     let theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return theImage;
+    return theImage!;
 }
 
 
@@ -62,7 +63,7 @@ protocol V2EXColorProtocol{
 
 class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     static let sharedInstance = V2EXDefaultColor()
-    private override init(){
+    fileprivate override init(){
         super.init()
     }
     
@@ -152,7 +153,7 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
 /// Dark Colors
 class V2EXDarkColor: NSObject,V2EXColorProtocol {
     static let sharedInstance = V2EXDarkColor()
-    private override init(){
+    fileprivate override init(){
         super.init()
     }
     
@@ -240,12 +241,12 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
 
 
 class V2EXColor :NSObject  {
-    private static let STYLE_KEY = "styleKey"
+    fileprivate static let STYLE_KEY = "styleKey"
     
     static let V2EXColorStyleDefault = "Default"
     static let V2EXColorStyleDark = "Dark"
     
-    private static var _colors:V2EXColorProtocol?
+    fileprivate static var _colors:V2EXColorProtocol?
     static var colors :V2EXColorProtocol {
         get{
             
@@ -269,7 +270,7 @@ class V2EXColor :NSObject  {
     
     dynamic var style:String
     static let sharedInstance = V2EXColor()
-    private override init(){
+    fileprivate override init(){
         if let style = V2EXSettings.sharedInstance[V2EXColor.STYLE_KEY] {
             self.style = style
         }
@@ -278,7 +279,7 @@ class V2EXColor :NSObject  {
         }
         super.init()
     }
-    func setStyleAndSave(style:String){
+    func setStyleAndSave(_ style:String){
         if self.style == style {
             return
         }
@@ -298,36 +299,35 @@ class V2EXColor :NSObject  {
 
 //MARK: - 主题更改时，自动执行
 extension NSObject {
-    private struct AssociatedKeys {
+    fileprivate struct AssociatedKeys {
         static var thmemChanged = "thmemChanged"
     }
     
     /// 当前主题更改时、第一次设置时 自动调用的闭包
-    public typealias ThemeChangedClosure = @convention(block) (style:String) -> Void
+    public typealias ThemeChangedClosure = @convention(block) (_ style:String) -> Void
     
     /// 自动调用的闭包
     /// 设置时，会设置一个KVO监听，当V2Style.style更改时、第一次赋值时 会自动调用这个闭包
     var thmemChangedHandler:ThemeChangedClosure? {
         get {
-            let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.thmemChanged)
+            let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.thmemChanged) as AnyObject?
             guard closureObject != nil else{
                 return nil
             }
-            let closure = unsafeBitCast(closureObject, ThemeChangedClosure.self)
+            let closure = unsafeBitCast(closureObject, to: ThemeChangedClosure.self)
             return closure
         }
         set{
             guard let value = newValue else{
                 return
             }
-            let dealObject: AnyObject = unsafeBitCast(value, AnyObject.self)
-            objc_setAssociatedObject(self,&AssociatedKeys.thmemChanged,dealObject,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            
+            let dealObject: AnyObject = unsafeBitCast(value, to: AnyObject.self)
+            objc_setAssociatedObject(self, &AssociatedKeys.thmemChanged,dealObject,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             //设置KVO监听
-            self.KVOController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.Initial,.New]) {[weak self] (nav, color, change) -> Void in
-                self?.thmemChangedHandler?(style:V2EXColor.sharedInstance.style)
-            }
-            
+            self.kvoController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.initial,.new] , block: {[weak self] (nav, color, change) -> Void in
+                self?.thmemChangedHandler?(V2EXColor.sharedInstance.style)
+                }
+            )
         }
     }
 }

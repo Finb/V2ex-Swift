@@ -29,16 +29,16 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var backgroundImageView:UIImageView?
     var frostedView = FXBlurView()
     
-    private var _tableView :UITableView!
-    private var tableView: UITableView {
+    fileprivate var _tableView :UITableView!
+    fileprivate var tableView: UITableView {
         get{
             if(_tableView != nil){
                 return _tableView!;
             }
             _tableView = UITableView();
-            _tableView.backgroundColor = UIColor.clearColor()
+            _tableView.backgroundColor = UIColor.clear
             _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.None;
+            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
             regClass(self.tableView, cell: RightNodeTableViewCell.self)
             
@@ -55,13 +55,13 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
-        self.backgroundImageView!.contentMode = .Left
+        self.backgroundImageView!.contentMode = .left
         view.addSubview(self.backgroundImageView!)
 
         frostedView.underlyingView = self.backgroundImageView!
-        frostedView.dynamic = false
+        frostedView.isDynamic = false
         frostedView.frame = self.view.frame
-        frostedView.tintColor = UIColor.blackColor()
+        frostedView.tintColor = UIColor.black
         self.view.addSubview(frostedView)
         
         self.view.addSubview(self.tableView);
@@ -77,27 +77,27 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             }
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
-        self.tableView.tableHeaderView = UIView(frame: CGRectMake(0, 0, SCREEN_WIDTH, 25.5))
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 25.5))
         
 
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rightNodes.count;
     }
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 48
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: RightNodeTableViewCell.self, indexPath: indexPath);
-        cell.nodeNameLabel.text = self.rightNodes[indexPath.row].nodeName
+        cell.nodeNameLabel.text = self.rightNodes[(indexPath as NSIndexPath).row].nodeName
         return cell ;
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let node = self.rightNodes[indexPath.row];
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let node = self.rightNodes[(indexPath as NSIndexPath).row];
         V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
-        V2Client.sharedInstance.drawerController?.closeDrawerAnimated(true, completion: nil)
+        V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
     }
 }
 

@@ -14,7 +14,7 @@ class MemberHeaderCell: UITableViewCell {
         let avatarImageView = UIImageView()
         avatarImageView.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
         avatarImageView.layer.borderWidth = 1.5
-        avatarImageView.layer.borderColor = UIColor(white: 1, alpha: 0.6).CGColor
+        avatarImageView.layer.borderColor = UIColor(white: 1, alpha: 0.6).cgColor
         avatarImageView.layer.masksToBounds = true
         avatarImageView.layer.cornerRadius = 38
         return avatarImageView
@@ -33,7 +33,7 @@ class MemberHeaderCell: UITableViewCell {
         introduceLabel.textColor = UIColor(white: 0.75, alpha: 1)
         introduceLabel.font = v2Font(16)
         introduceLabel.numberOfLines = 2
-        introduceLabel.textAlignment = .Center
+        introduceLabel.textAlignment = .center
         return introduceLabel
     }()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -44,8 +44,8 @@ class MemberHeaderCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     func setup()->Void{
-        self.backgroundColor = UIColor.clearColor()
-        self.selectionStyle = .None
+        self.backgroundColor = UIColor.clear
+        self.selectionStyle = .none
 
         self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.userNameLabel)
@@ -72,10 +72,10 @@ class MemberHeaderCell: UITableViewCell {
         }
     }
     
-    func bind(model:MemberModel?){
+    func bind(_ model:MemberModel?){
         if let model = model {
             if let avata = model.avata {
-                self.avatarImageView.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+                self.avatarImageView.kf.setImage(with: URL(string: "https:" + avata)!)
             }
             self.userNameLabel.text = model.userName;
             self.introduceLabel.text = model.introduce;

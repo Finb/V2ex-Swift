@@ -24,8 +24,8 @@ class RightNodeTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     func setup()->Void{
-        self.selectionStyle = .None
-        self.backgroundColor = UIColor.clearColor()
+        self.selectionStyle = .none
+        self.backgroundColor = UIColor.clear
         
         let panel = UIView()
         self.contentView.addSubview(panel)

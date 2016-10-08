@@ -8,6 +8,26 @@
 
 import UIKit
 import OnePasswordExtension
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 public typealias LoginSuccessHandel = (String) -> Void
 
@@ -16,7 +36,7 @@ class LoginViewController: UIViewController {
     var successHandel:LoginSuccessHandel?
 
     let backgroundImageView = UIImageView()
-    let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
+    let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     let userNameTextField = UITextField()
     let passwordTextField = UITextField()
     let loginButton = UIButton()
@@ -30,33 +50,33 @@ class LoginViewController: UIViewController {
         self.setupView()
 
         //初始化1Password
-        if OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
-            let onepasswordButton = UIImageView(image: UIImage(named: "onepassword-button")?.imageWithRenderingMode(.AlwaysTemplate))
-            onepasswordButton.userInteractionEnabled = true
-            onepasswordButton.frame = CGRectMake(0, 0, 34, 22)
-            onepasswordButton.contentMode = .ScaleAspectFit
-            onepasswordButton.tintColor = UIColor.whiteColor()
+        if OnePasswordExtension.shared().isAppExtensionAvailable() {
+            let onepasswordButton = UIImageView(image: UIImage(named: "onepassword-button")?.withRenderingMode(.alwaysTemplate))
+            onepasswordButton.isUserInteractionEnabled = true
+            onepasswordButton.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+            onepasswordButton.contentMode = .scaleAspectFit
+            onepasswordButton.tintColor = UIColor.white
             self.passwordTextField.rightView = onepasswordButton
-            self.passwordTextField.rightViewMode = .Always
+            self.passwordTextField.rightViewMode = .always
             onepasswordButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(LoginViewController.findLoginFrom1Password)))
         }
 
         //绑定事件
-        self.loginButton.addTarget(self, action: #selector(LoginViewController.loginClick(_:)), forControlEvents: .TouchUpInside)
-        self.cancelButton.addTarget(self, action: #selector(LoginViewController.cancelClick), forControlEvents: .TouchUpInside)
+        self.loginButton.addTarget(self, action: #selector(LoginViewController.loginClick(_:)), for: .touchUpInside)
+        self.cancelButton.addTarget(self, action: #selector(LoginViewController.cancelClick), for: .touchUpInside)
     }
-    override func viewDidAppear(animated: Bool) {
-        UIView.animateWithDuration(2) { () -> Void in
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 2, animations: { () -> Void in
             self.backgroundImageView.alpha=1;
-        }
-        UIView.animateWithDuration(20) { () -> Void in
-            self.backgroundImageView.frame = CGRectMake(-1*( 1000 - SCREEN_WIDTH )/2, 0, SCREEN_HEIGHT+500, SCREEN_HEIGHT+500);
-        }
+        }) 
+        UIView.animate(withDuration: 20, animations: { () -> Void in
+            self.backgroundImageView.frame = CGRect(x: -1*( 1000 - SCREEN_WIDTH )/2, y: 0, width: SCREEN_HEIGHT+500, height: SCREEN_HEIGHT+500);
+        }) 
     }
 
 
     func findLoginFrom1Password(){
-        OnePasswordExtension.sharedExtension().findLoginForURLString("v2ex.com", forViewController: self, sender: nil) { (loginDictionary, errpr) -> Void in
+        OnePasswordExtension.shared().findLogin(forURLString: "v2ex.com", for: self, sender: nil) { (loginDictionary, errpr) -> Void in
             if loginDictionary?.count > 0 {
                 self.userNameTextField.text = loginDictionary![AppExtensionUsernameKey] as? String
                 self.passwordTextField.text = loginDictionary![AppExtensionPasswordKey] as? String
@@ -67,9 +87,9 @@ class LoginViewController: UIViewController {
         }
     }
     func cancelClick (){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
-    func loginClick(sneder:UIButton){
+    func loginClick(_ sneder:UIButton){
         var userName:String?
         var password:String?
         if self.userNameTextField.text?.Lenght > 0{
@@ -107,7 +127,7 @@ class LoginViewController: UIViewController {
 
                 //获取用户信息
                 UserModel.getUserInfoByUsername(username,completionHandler: nil)
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
             else{
                 V2Error(response.message)
@@ -131,20 +151,20 @@ extension UIViewController {
 //MARK: - 初始化界面
 extension LoginViewController {
     func setupView(){
-        self.view.backgroundColor = UIColor.blackColor()
+        self.view.backgroundColor = UIColor.black
 
         self.backgroundImageView.image = UIImage(named: "32.jpg")
         self.backgroundImageView.frame = self.view.frame
-        self.backgroundImageView.contentMode = .ScaleToFill
+        self.backgroundImageView.contentMode = .scaleToFill
         self.view.addSubview(self.backgroundImageView)
         backgroundImageView.alpha = 0
 
         self.frostedView.frame = self.view.frame
         self.view.addSubview(self.frostedView)
 
-        let vibrancy = UIVibrancyEffect(forBlurEffect: UIBlurEffect(style: .Dark))
+        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
         let vibrancyView = UIVisualEffectView(effect: vibrancy)
-        vibrancyView.userInteractionEnabled = true
+        vibrancyView.isUserInteractionEnabled = true
         vibrancyView.frame = self.frostedView.frame
         self.frostedView.contentView.addSubview(vibrancyView)
 
@@ -166,25 +186,25 @@ extension LoginViewController {
             make.top.equalTo(v2exLabel.snp_bottom).offset(2)
         }
 
-        self.userNameTextField.autocorrectionType = UITextAutocorrectionType.No
-        self.userNameTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        self.userNameTextField.autocorrectionType = UITextAutocorrectionType.no
+        self.userNameTextField.autocapitalizationType = UITextAutocapitalizationType.none
         
-        self.userNameTextField.textColor = UIColor.whiteColor()
+        self.userNameTextField.textColor = UIColor.white
         self.userNameTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
         self.userNameTextField.font = v2Font(15)
         self.userNameTextField.layer.cornerRadius = 3;
         self.userNameTextField.layer.borderWidth = 0.5
-        self.userNameTextField.keyboardType = .ASCIICapable
-        self.userNameTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
+        self.userNameTextField.keyboardType = .asciiCapable
+        self.userNameTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
         self.userNameTextField.placeholder = "用户名"
-        self.userNameTextField.clearButtonMode = .Always
+        self.userNameTextField.clearButtonMode = .always
 
-        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.imageWithRenderingMode(.AlwaysTemplate));
-        userNameIconImageView.frame = CGRectMake(0, 0, 34, 22)
-        userNameIconImageView.tintColor = UIColor.whiteColor()
-        userNameIconImageView.contentMode = .ScaleAspectFit
+        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.withRenderingMode(.alwaysTemplate));
+        userNameIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+        userNameIconImageView.tintColor = UIColor.white
+        userNameIconImageView.contentMode = .scaleAspectFit
         self.userNameTextField.leftView = userNameIconImageView
-        self.userNameTextField.leftViewMode = .Always
+        self.userNameTextField.leftViewMode = .always
 
         vibrancyView.contentView.addSubview(self.userNameTextField);
 
@@ -195,23 +215,23 @@ extension LoginViewController {
             make.height.equalTo(38)
         }
 
-        self.passwordTextField.textColor = UIColor.whiteColor()
+        self.passwordTextField.textColor = UIColor.white
         self.passwordTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
         self.passwordTextField.font = v2Font(15)
         self.passwordTextField.layer.cornerRadius = 3;
         self.passwordTextField.layer.borderWidth = 0.5
-        self.passwordTextField.keyboardType = .ASCIICapable
-        self.passwordTextField.secureTextEntry = true
-        self.passwordTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
+        self.passwordTextField.keyboardType = .asciiCapable
+        self.passwordTextField.isSecureTextEntry = true
+        self.passwordTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
         self.passwordTextField.placeholder = "密码"
-        self.passwordTextField.clearButtonMode = .Always
+        self.passwordTextField.clearButtonMode = .always
 
-        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.imageWithRenderingMode(.AlwaysTemplate));
-        passwordIconImageView.frame = CGRectMake(0, 0, 34, 22)
-        passwordIconImageView.contentMode = .ScaleAspectFit
-        userNameIconImageView.tintColor = UIColor.whiteColor()
+        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.withRenderingMode(.alwaysTemplate));
+        passwordIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+        passwordIconImageView.contentMode = .scaleAspectFit
+        userNameIconImageView.tintColor = UIColor.white
         self.passwordTextField.leftView = passwordIconImageView
-        self.passwordTextField.leftViewMode = .Always
+        self.passwordTextField.leftViewMode = .always
 
         vibrancyView.contentView.addSubview(self.passwordTextField);
 
@@ -222,11 +242,11 @@ extension LoginViewController {
             make.height.equalTo(38)
         }
 
-        self.loginButton.setTitle("登  录", forState: .Normal)
+        self.loginButton.setTitle("登  录", for: UIControlState())
         self.loginButton.titleLabel!.font = v2Font(20)
         self.loginButton.layer.cornerRadius = 3;
         self.loginButton.layer.borderWidth = 0.5
-        self.loginButton.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor;
+        self.loginButton.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
         vibrancyView.contentView.addSubview(self.loginButton);
 
         self.loginButton.snp_makeConstraints{ (make) -> Void in
@@ -259,8 +279,8 @@ extension LoginViewController {
             make.centerX.equalTo(vibrancyView)
         }
 
-        self.cancelButton.contentMode = .Center
-        cancelButton .setImage(UIImage(named: "ic_cancel")!.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        self.cancelButton.contentMode = .center
+        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         vibrancyView.contentView.addSubview(cancelButton)
         cancelButton.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(footLabel)

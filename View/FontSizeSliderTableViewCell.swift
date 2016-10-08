@@ -18,12 +18,12 @@ class FontSizeSliderTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     func setup() {
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         let leftLabel = UILabel()
         leftLabel.font = v2Font(14 * 0.8)
         leftLabel.text = "A"
-        leftLabel.textAlignment = .Center
+        leftLabel.textAlignment = .center
         self.contentView.addSubview(leftLabel)
         leftLabel.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.contentView)
@@ -34,7 +34,7 @@ class FontSizeSliderTableViewCell: UITableViewCell {
         let rightLabel = UILabel()
         rightLabel.font = v2Font(14 * 1.6)
         rightLabel.text = "A"
-        rightLabel.textAlignment = .Center
+        rightLabel.textAlignment = .center
         self.contentView.addSubview(rightLabel)
         rightLabel.snp_makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.contentView)

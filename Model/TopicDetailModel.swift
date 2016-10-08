@@ -40,8 +40,8 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         self.nodeName = node?.content
         
         let nodeUrl = node?["href"]
-        let index = nodeUrl?.rangeOfString("/", options: .BackwardsSearch, range: nil, locale: nil)
-        self.node = nodeUrl?.substringFromIndex(index!.endIndex)
+        let index = nodeUrl?.range(of: "/", options: .backwards, range: nil, locale: nil)
+        self.node = nodeUrl?.substring(from: index!.upperBound)
         
         self.avata = rootNode.xPath("./div[1]/div[1]/a/img").first?["src"]
         
@@ -69,7 +69,7 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         
         let token = rootNode.xPath("div/div/a[@class='op'][1]").first?["href"]
         if let token = token {
-            let array = token.componentsSeparatedByString("?t=")
+            let array = token.components(separatedBy: "?t=")
             if array.count == 2 {
                 self.token = array[1]
             }
@@ -81,13 +81,12 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
 //MARK: -  Request
 extension TopicDetailModel {
     class func getTopicDetailById(
-        topicId: String,
-        completionHandler: V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])> -> Void
+        _ topicId: String,
+        completionHandler: @escaping (V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>) -> Void
         )->Void{
         
         let url = V2EXURL + "t/" + topicId + "?p=1"
-        
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var topicModel: TopicDetailModel? = nil
             var topicCommentsArray : [TopicCommentModel] = []
             if  let jiHtml = response.result.value {
@@ -127,12 +126,12 @@ extension TopicDetailModel {
     }
     
     class func getTopicCommentsById(
-        topicId: String,
+        _ topicId: String,
         page:Int,
-        completionHandler: V2ValueResponse<[TopicCommentModel]> -> Void
+        completionHandler: @escaping (V2ValueResponse<[TopicCommentModel]>) -> Void
         ) {
         let url = V2EXURL + "t/" + topicId + "?p=\(page)"
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var topicCommentsArray : [TopicCommentModel] = []
             if  let jiHtml = response.result.value {
                 //获取评论
@@ -151,9 +150,9 @@ extension TopicDetailModel {
     /**
      感谢主题
      */
-    class func topicThankWithTopicId(topicId:String , token:String ,completionHandler: V2Response -> Void) {
+    class func topicThankWithTopicId(_ topicId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
         let url  = V2EXURL + "thank/topic/" + topicId + "?t=" + token
-        Alamofire.request(.POST, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+        Alamofire.request(url, method: .post, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
             if response.result.isSuccess {
                 if let result = response.result.value {
                     if result.Lenght == 0 {
@@ -169,9 +168,9 @@ extension TopicDetailModel {
     /**
      收藏主题
      */
-    class func favoriteTopicWithTopicId(topicId:String , token:String ,completionHandler: V2Response -> Void) {
+    class func favoriteTopicWithTopicId(_ topicId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
         let url  = V2EXURL + "favorite/topic/" + topicId + "?t=" + token
-        Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+        Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
             if response.result.isSuccess {
                 completionHandler(V2Response(success: true))
             }
@@ -183,12 +182,12 @@ extension TopicDetailModel {
     /**
      忽略主题
      */
-    class func ignoreTopicWithTopicId(topicId:String ,completionHandler: V2Response -> Void) {
+    class func ignoreTopicWithTopicId(_ topicId:String ,completionHandler: @escaping (V2Response) -> Void) {
         
         V2User.sharedInstance.getOnce { (response) -> Void in
             if response.success ,let once = V2User.sharedInstance.once {
                 let url  = V2EXURL + "ignore/topic/" + topicId + "?once=" + once
-                Alamofire.request(.GET, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+                Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
                     if response.result.isSuccess {
                         completionHandler(V2Response(success: true))
                         return

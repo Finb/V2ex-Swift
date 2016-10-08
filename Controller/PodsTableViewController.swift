@@ -16,7 +16,7 @@ struct PodModel {
 
 class PodsTableViewController: UITableViewController {
     //                   name   version url
-    private let pods:[PodModel] = [
+    fileprivate let pods:[PodModel] = [
         PodModel(name: "SnapKit", description: "A Swift Autolayout DSL for iOS & OS X",URL:"https://github.com/SnapKit/SnapKit"),
         
         PodModel(name: "Alamofire", description: "Elegant HTTP Networking in Swift",URL:"https://github.com/Alamofire/Alamofire"),
@@ -56,36 +56,36 @@ class PodsTableViewController: UITableViewController {
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.title = "开源库"
-        self.tableView.separatorStyle = .None
+        self.tableView.separatorStyle = .none
         regClass(self.tableView, cell: PodCellTableViewCell.self)
     }
 
 
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.pods.count
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.fin_heightForCellWithIdentifier(PodCellTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
-            let model = self.pods[indexPath.row]
+            let model = self.pods[(indexPath as NSIndexPath).row]
             cell.titleLabel.text = model.name
             cell.descriptionLabel.text = model.description
         }
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell  = getCell(tableView, cell: PodCellTableViewCell.self, indexPath: indexPath)
-        let model = self.pods[indexPath.row]
+        let model = self.pods[(indexPath as NSIndexPath).row]
         cell.titleLabel.text = model.name
         cell.descriptionLabel.text = model.description
         return cell
     }
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let model = self.pods[indexPath.row]
-        if let URL = model.URL, url = NSURL(string:URL ) {
-            UIApplication.sharedApplication().openURL(url)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let model = self.pods[(indexPath as NSIndexPath).row]
+        if let URL = model.URL, let url = Foundation.URL(string:URL ) {
+            UIApplication.shared.openURL(url)
         }
     }
 }

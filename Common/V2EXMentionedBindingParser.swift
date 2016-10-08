@@ -13,22 +13,22 @@ import YYText
 class V2EXMentionedBindingParser: NSObject ,YYTextParser{
     var regex:NSRegularExpression
     override init() {
-        self.regex = try! NSRegularExpression(pattern: "@(\\S+)\\s", options: [.CaseInsensitive])
+        self.regex = try! NSRegularExpression(pattern: "@(\\S+)\\s", options: [.caseInsensitive])
         super.init()
     }
     
-    func parseText(text: NSMutableAttributedString?, selectedRange: NSRangePointer) -> Bool {
+    func parseText(_ text: NSMutableAttributedString?, selectedRange: NSRangePointer?) -> Bool {
         guard let text = text else {
             return false;
         }
-        self.regex.enumerateMatchesInString(text.string, options: [.WithoutAnchoringBounds], range: text.yy_rangeOfAll()) { (result, flags, stop) -> Void in
+        self.regex.enumerateMatches(in: text.string, options: [.withoutAnchoringBounds], range: text.yy_rangeOfAll()) { (result, flags, stop) -> Void in
             if let result = result {
                 let range = result.range
                 if range.location == NSNotFound || range.length < 1 {
                     return ;
                 }
                 
-                if  text.attribute(YYTextBindingAttributeName, atIndex: range.location, effectiveRange: nil) != nil  {
+                if  text.attribute(YYTextBindingAttributeName, at: range.location, effectiveRange: nil) != nil  {
                     return ;
                 }
                 

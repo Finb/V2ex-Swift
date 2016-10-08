@@ -14,7 +14,7 @@ import YYText
 import Kingfisher
 
 protocol V2CommentAttachmentImageTapDelegate : class {
-    func V2CommentAttachmentImageSingleTap(imageView:V2CommentAttachmentImage)
+    func V2CommentAttachmentImageSingleTap(_ imageView:V2CommentAttachmentImage)
 }
 /// 评论中的图片
 class V2CommentAttachmentImage:AnimatedImageView {
@@ -27,33 +27,33 @@ class V2CommentAttachmentImage:AnimatedImageView {
     weak var delegate : V2CommentAttachmentImageTapDelegate?
     
     init(){
-        super.init(frame: CGRectMake(0, 0, 80, 80))
+        super.init(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
         self.autoPlayAnimatedImage = false;
-        self.contentMode = .ScaleAspectFill
+        self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func willMoveToSuperview(newSuperview: UIView?) {
-        super.willMoveToSuperview(newSuperview)
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
         if self.image != nil {
             return
         }
-        if  let imageURL = self.imageURL , let URL = NSURL(string: imageURL) {
-            self.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+        if  let imageURL = self.imageURL , let URL = URL(string: imageURL) {
+            self.kf.setImage(with: URL, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
                 if let image = image {
                     if image.size.width < 80 && image.size.height < 80 {
-                        self.contentMode = .BottomLeft
+                        self.contentMode = .bottomLeft
                     }
                 }
             })
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         let tapCount = touch?.tapCount
         if let tapCount = tapCount {
@@ -62,9 +62,9 @@ class V2CommentAttachmentImage:AnimatedImageView {
             }
         }
         //取消后续的事件响应
-        self.nextResponder()?.touchesCancelled(touches, withEvent: event)
+        self.next?.touchesCancelled(touches, with: event)
     }
-    func handleSingleTap(touch:UITouch){
+    func handleSingleTap(_ touch:UITouch){
         self.delegate?.V2CommentAttachmentImageSingleTap(self)
     }
 }
@@ -89,7 +89,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"]
         if let id = id {
             if id.hasPrefix("thank_area_") {
-                self.replyId = id.stringByReplacingOccurrencesOfString("thank_area_", withString: "")
+                self.replyId = id.replacingOccurrences(of: "thank_area_", with: "")
             }
         }
         
@@ -104,7 +104,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         }
         
         if let favorite = rootNode.xPath("table/tr/td[3]/span[2]").first?.content {
-            let array = favorite.componentsSeparatedByString(" ")
+            let array = favorite.components(separatedBy: " ")
             if array.count == 2 {
                 if let i = Int(array[1]){
                     self.favorites = i
@@ -116,16 +116,16 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         let commentAttributedString:NSMutableAttributedString = NSMutableAttributedString(string: "")
         let nodes = rootNode.xPath("table/tr/td[3]/div[@class='reply_content']/node()")
         self.preformAttributedString(commentAttributedString, nodes: nodes)
-        let textContainer = YYTextContainer(size: CGSizeMake(SCREEN_WIDTH - 24, 9999))
+        let textContainer = YYTextContainer(size: CGSize(width: SCREEN_WIDTH - 24, height: 9999))
         self.textLayout = YYTextLayout(container: textContainer, text: commentAttributedString)
         
         self.textAttributedString = commentAttributedString
     }
-    func preformAttributedString(commentAttributedString:NSMutableAttributedString,nodes:[JiNode]) {
+    func preformAttributedString(_ commentAttributedString:NSMutableAttributedString,nodes:[JiNode]) {
         for element in nodes {
             
             if element.name == "text" , let content = element.content{//普通文本
-                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2ScaleFont(14) , NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
+                commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSFontAttributeName:v2ScaleFont(14) , NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
                 commentAttributedString.yy_lineSpacing = 5
             }
                 
@@ -133,12 +133,12 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             else if element.name == "img" ,let imageURL = element["src"]  {//图片
                 let image = V2CommentAttachmentImage()
                 image.imageURL = imageURL
-                let imageAttributedString = NSMutableAttributedString.yy_attachmentStringWithContent(image, contentMode: .ScaleAspectFit , attachmentSize: CGSizeMake(80, 80), alignToFont: v2ScaleFont(14), alignment: .Bottom)
+                let imageAttributedString = NSMutableAttributedString.yy_attachmentString(withContent: image, contentMode: .scaleAspectFit , attachmentSize: CGSize(width: 80,height: 80), alignTo: v2ScaleFont(14), alignment: .bottom)
                 
-                commentAttributedString.appendAttributedString(imageAttributedString)
+                commentAttributedString.append(imageAttributedString)
                 
                 image.index = self.images.count
-                self.images.addObject(imageURL)
+                self.images.add(imageURL)
             }
                 
                 
@@ -150,23 +150,23 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 }
                 if content.Lenght > 0 {
                     let attr = NSMutableAttributedString(string: content ,attributes: [NSFontAttributeName:v2ScaleFont(14)])
-                    attr.yy_setTextHighlightRange(NSMakeRange(0, content.Lenght),
+                    attr.yy_setTextHighlight(NSMakeRange(0, content.Lenght),
                                                   color: V2EXColor.colors.v2_LinkColor,
                                                   backgroundColor: UIColor(white: 0.95, alpha: 1),
                                                   userInfo: ["url":url],
                                                   tapAction: { (view, text, range, rect) -> Void in
-                                                    if let highlight = text.yy_attribute(YYTextHighlightAttributeName, atIndex: UInt(range.location)) ,let url = highlight.userInfo["url"] as? String  {
+                                                    if let highlight = text.yy_attribute(YYTextHighlightAttributeName, at: UInt(range.location)) ,let url = (highlight as AnyObject).userInfo["url"] as? String  {
                                                         AnalyzeURLHelper.Analyze(url)
                                                     }
                                                     
                         }, longPressAction: nil)
-                    commentAttributedString.appendAttributedString(attr)
+                    commentAttributedString.append(attr)
                 }
             }
                 
                 
             else if let content = element.content{//其他
-                commentAttributedString.appendAttributedString(NSMutableAttributedString(string: content,attributes: [NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
+                commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSForegroundColorAttributeName:V2EXColor.colors.v2_TopicListTitleColor]))
             }
         }
     }
@@ -174,8 +174,8 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
 
 //MARK: - Request
 extension TopicCommentModel {
-    class func replyWithTopicId(topic:TopicDetailModel, content:String,
-                                completionHandler: V2Response -> Void){
+    class func replyWithTopicId(_ topic:TopicDetailModel, content:String,
+                                completionHandler: @escaping (V2Response) -> Void){
         let url = V2EXURL + "t/" + topic.topicId!
         
         V2User.sharedInstance.getOnce(url) { (response) -> Void in
@@ -183,9 +183,9 @@ extension TopicCommentModel {
                 let prames = [
                     "content":content,
                     "once":V2User.sharedInstance.once!
-                ]
+                ] as [String:Any]
                 
-                Alamofire.request(.POST, url, parameters: prames, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+                Alamofire.request(url, method: .post, parameters: prames, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                     if let location = response.response?.allHeaderFields["Etag"] as? String{
                         if location.Lenght > 0 {
                             completionHandler(V2Response(success: true))
@@ -209,9 +209,9 @@ extension TopicCommentModel {
         }
     }
     
-    class func replyThankWithReplyId(replyId:String , token:String ,completionHandler: V2Response -> Void) {
+    class func replyThankWithReplyId(_ replyId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
         let url  = V2EXURL + "thank/reply/" + replyId + "?t=" + token
-        Alamofire.request(.POST, url, parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseString { (response: Response<String,NSError>) -> Void in
+        Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
             if response.result.isSuccess {
                 if let result = response.result.value {
                     if result.Lenght == 0 {
@@ -236,7 +236,7 @@ extension TopicCommentModel {
      
      - returns: 某一条评论相关的评论，里面包含它自己
      */
-    class func getRelevantCommentsInArray(allCommentsArray:[TopicCommentModel], firstComment:TopicCommentModel) -> [TopicCommentModel] {
+    class func getRelevantCommentsInArray(_ allCommentsArray:[TopicCommentModel], firstComment:TopicCommentModel) -> [TopicCommentModel] {
         
         var relevantComments:[TopicCommentModel] = []
         
@@ -247,7 +247,7 @@ extension TopicCommentModel {
             
             //判断评论中是否只@了其他用户，是的话则证明这条评论是和别人讲的，不属于当前对话
             let commentUsers = getUsersInComment(comment)
-            let intersectUsers = commentUsers.intersect(users)
+            let intersectUsers = commentUsers.intersection(users)
             if commentUsers.count > 0 && intersectUsers.count <= 0 {
                 continue;
             }
@@ -267,11 +267,11 @@ extension TopicCommentModel {
     }
     
     //获取评论中 @ 了多少用户
-    class func getUsersInComment(comment:TopicCommentModel) -> Set<String>  {
+    class func getUsersInComment(_ comment:TopicCommentModel) -> Set<String>  {
         
         //获取到所有YYTextHighlight ，用以之后获取 这条评论@了多少用户
         var textHighlights:[YYTextHighlight] = []
-        comment.textAttributedString!.enumerateAttribute(YYTextHighlightAttributeName, inRange: NSMakeRange(0, comment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
+        comment.textAttributedString!.enumerateAttribute(YYTextHighlightAttributeName, in: NSMakeRange(0, comment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
             if let highlight = attribute as? YYTextHighlight {
                 textHighlights.append(highlight)
             }
@@ -282,7 +282,7 @@ extension TopicCommentModel {
         for highlight in textHighlights {
             if let url = highlight.userInfo?["url"] as? String{
                 let result = AnalyzURLResult(url: url)
-                if result.type == .Member ,let username = result.params["value"]{
+                if result.type == .member,let username = result.params["value"]{
                     users.insert(username)
                 }
             }

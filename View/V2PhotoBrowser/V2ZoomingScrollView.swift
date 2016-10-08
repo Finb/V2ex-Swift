@@ -23,22 +23,22 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
                 self.displayImage()
             }
             else {
-                self.loadingView.hidden = false
+                self.loadingView.isHidden = false
                 self.loadingView.startAnimating()
                 self._photo?.performLoadUnderlyingImageAndNotify()
             }
         }
     }
     
-    private var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+    fileprivate var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .white)
 
     weak var photoBrowser:V2PhotoBrowser?
 
     init(browser:V2PhotoBrowser){
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.photoImageView.tapDelegate = self
-        self.photoImageView.contentMode = .Center
-        self.photoImageView.backgroundColor = UIColor.clearColor()
+        self.photoImageView.contentMode = .center
+        self.photoImageView.backgroundColor = UIColor.clear
         self.addSubview(self.photoImageView)
         
         self.addSubview(self.loadingView)
@@ -50,24 +50,24 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.showsVerticalScrollIndicator = false
         self.decelerationRate = UIScrollViewDecelerationRateFast
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(V2ZoomingScrollView.loadingDidEndNotification(_:)), name: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(V2ZoomingScrollView.loadingDidEndNotification(_:)), name: NSNotification.Name(rawValue: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION), object: nil)
         self.photoBrowser = browser
         
     }
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.singleTap()
-        self.nextResponder()?.touchesEnded(touches, withEvent: event)
+        self.next?.touchesEnded(touches, with: event)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func loadingDidEndNotification(notification:NSNotification){
-        self.loadingView.hidden = true
+    func loadingDidEndNotification(_ notification:Notification){
+        self.loadingView.isHidden = true
         self.loadingView.stopAnimating()
         if notification.object as? V2Photo == self.photo , let _ = self._photo?.underlyingImage {
             self.displayImage()
@@ -85,17 +85,17 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             self.maximumZoomScale = 1
             self.minimumZoomScale = 1
             self.zoomScale = 1
-            self.contentSize = CGSizeMake(0, 0)
+            self.contentSize = CGSize(width: 0, height: 0)
             
             self.photoImageView.image = image
             
-            let photoImageViewFrame = CGRectMake(0, 0, image.size.width, image.size.height)
+            let photoImageViewFrame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
             self.photoImageView.frame = photoImageViewFrame
             self.contentSize = photoImageViewFrame.size
             
             self.setMaxMinZoomScalesForCurrentBounds()
             
-            self.loadingView.hidden = true
+            self.loadingView.isHidden = true
             self.loadingView.stopAnimating()
         }
         self.setNeedsLayout()
@@ -112,7 +112,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             return
         }
         
-        self.photoImageView.frame = CGRectMake(0, 0, self.photoImageView.frame.size.width, self.photoImageView.frame.size.height);
+        self.photoImageView.frame = CGRect(x: 0, y: 0, width: self.photoImageView.frame.size.width, height: self.photoImageView.frame.size.height);
         
         let boundsSize = self.bounds.size;
         let imageSize = self.photoImageView.image!.size
@@ -133,10 +133,10 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.zoomScale = self.minimumZoomScale
         
         if self.zoomScale != minScale {
-            self.contentOffset = CGPointMake((imageSize.width * self.zoomScale - boundsSize.width) / 2.0,
-                                             (imageSize.height * self.zoomScale - boundsSize.height) / 2.0);
+            self.contentOffset = CGPoint(x: (imageSize.width * self.zoomScale - boundsSize.width) / 2.0,
+                                             y: (imageSize.height * self.zoomScale - boundsSize.height) / 2.0);
         }
-        self.scrollEnabled = false
+        self.isScrollEnabled = false
         
         self.setNeedsLayout()
     }
@@ -183,7 +183,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             frameToCenter.origin.y = 0;
         }
         
-        if !CGRectEqualToRect(self.photoImageView.frame, frameToCenter) {
+        if !(self.photoImageView.frame).equalTo(frameToCenter) {
             self.photoImageView.frame = frameToCenter
         }
         
@@ -191,22 +191,22 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
     
     //MARK: UIScrollViewDelegate
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.photoImageView
     }
     
-    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView?) {
-        self.scrollEnabled = true
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        self.isScrollEnabled = true
     }
     
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         self.setNeedsLayout()
         self.layoutIfNeeded()
     }
     func singleTap(){
         self.handelSingleTap()
     }
-    func singleTapDetected(imageView: UIImageView, touch: UITouch) {
+    func singleTapDetected(_ imageView: UIImageView, touch: UITouch) {
         self.handelSingleTap()
     }
     func handelSingleTap(){
@@ -227,7 +227,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         }
     }
     
-    func doubleTapDetected(imageView: UIImageView, touch: UITouch) {
+    func doubleTapDetected(_ imageView: UIImageView, touch: UITouch) {
         // Zoom
         if (self.zoomScale != self.minimumZoomScale && self.zoomScale != self.initialZoomScaleWithMinScale()) {
             
@@ -236,12 +236,12 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             
         } else {
             
-            let touchPoint = touch.locationInView(imageView)
+            let touchPoint = touch.location(in: imageView)
             // Zoom in to twice the size
             let newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
             let xsize = self.bounds.size.width / newZoomScale;
             let ysize = self.bounds.size.height / newZoomScale;
-            self.zoomToRect(CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize), animated: true)
+            self.zoom(to: CGRect(x: touchPoint.x - xsize/2, y: touchPoint.y - ysize/2, width: xsize, height: ysize), animated: true)
             
         }
 

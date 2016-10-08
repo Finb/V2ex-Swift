@@ -11,15 +11,15 @@ import KeychainSwift
 
 class V2UsersKeychain {
     static let sharedInstance = V2UsersKeychain()
-    private let keychain = KeychainSwift()
+    fileprivate let keychain = KeychainSwift()
     
-    private(set) var users:[String:LocalSecurityAccountModel] = [:]
+    fileprivate(set) var users:[String:LocalSecurityAccountModel] = [:]
     
-    private init() {
-        getUsersDict()
+    fileprivate init() {
+        let _ = loadUsersDict()
     }
     
-    func addUser(user:LocalSecurityAccountModel){
+    func addUser(_ user:LocalSecurityAccountModel){
         if let username = user.username , let _ = user.password {
             self.users[username] = user
             self.saveUsersDict()
@@ -28,7 +28,7 @@ class V2UsersKeychain {
             assert(false, "username & password must not be 'nil'")
         }
     }
-    func addUser(username:String,password:String,avata:String? = nil) {
+    func addUser(_ username:String,password:String,avata:String? = nil) {
         let user = LocalSecurityAccountModel()
         user.username = username
         user.password = password
@@ -39,16 +39,16 @@ class V2UsersKeychain {
     static let usersKey = "me.fin.testDict"
     func saveUsersDict(){
         let data = NSMutableData()
-        let archiver = NSKeyedArchiver(forWritingWithMutableData: data)
-        archiver.encodeObject(self.users)
+        let archiver = NSKeyedArchiver(forWritingWith: data)
+        archiver.encode(self.users)
         archiver.finishEncoding()
-        keychain.set(data, forKey: V2UsersKeychain.usersKey)
+        keychain.set(data as Data, forKey: V2UsersKeychain.usersKey);
     }
-    func getUsersDict() -> [String:LocalSecurityAccountModel]{
+    func loadUsersDict() -> [String:LocalSecurityAccountModel]{
         if users.count <= 0 {
             let data = keychain.getData(V2UsersKeychain.usersKey)
             if let data = data{
-                let archiver = NSKeyedUnarchiver(forReadingWithData: data)
+                let archiver = NSKeyedUnarchiver(forReadingWith: data)
                 let usersDict = archiver.decodeObject()
                 archiver.finishDecoding()
                 if let usersDict = usersDict as? [String : LocalSecurityAccountModel] {
@@ -59,8 +59,8 @@ class V2UsersKeychain {
         return self.users
     }
     
-    func removeUser(username:String){
-        self.users.removeValueForKey(username)
+    func removeUser(_ username:String){
+        self.users.removeValue(forKey: username)
         self.saveUsersDict()
     }
     func removeAll(){
@@ -68,7 +68,7 @@ class V2UsersKeychain {
         self.saveUsersDict()
     }
     
-    func update(username:String,password:String? = nil,avatar:String? = nil){
+    func update(_ username:String,password:String? = nil,avatar:String? = nil){
         if let user = self.users[username] {
             if let password = password {
                 user.password = password
@@ -92,13 +92,13 @@ class LocalSecurityAccountModel :NSObject, NSCoding {
         
     }
     required init?(coder aDecoder: NSCoder){
-        self.username = aDecoder.decodeObjectForKey("username") as? String
-        self.password = aDecoder.decodeObjectForKey("password") as? String
-        self.avatar = aDecoder.decodeObjectForKey("avatar") as? String
+        self.username = aDecoder.decodeObject(forKey: "username") as? String
+        self.password = aDecoder.decodeObject(forKey: "password") as? String
+        self.avatar = aDecoder.decodeObject(forKey: "avatar") as? String
     }
-    func encodeWithCoder(aCoder: NSCoder){
-        aCoder.encodeObject(self.username, forKey: "username")
-        aCoder.encodeObject(self.password, forKey: "password")
-        aCoder.encodeObject(self.avatar, forKey: "avatar")
+    func encode(with aCoder: NSCoder){
+        aCoder.encode(self.username, forKey: "username")
+        aCoder.encode(self.password, forKey: "password")
+        aCoder.encode(self.avatar, forKey: "avatar")
     }
 }

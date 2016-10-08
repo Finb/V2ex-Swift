@@ -16,7 +16,7 @@ class V2RefreshFooter: MJRefreshAutoFooter {
     
     var centerOffset:CGFloat = 0
     
-    private var _noMoreDataStateString:String?
+    fileprivate var _noMoreDataStateString:String?
     var noMoreDataStateString:String? {
         get{
             return self._noMoreDataStateString
@@ -30,17 +30,17 @@ class V2RefreshFooter: MJRefreshAutoFooter {
     override var state:MJRefreshState{
         didSet{
             switch state {
-            case .Idle:
+            case .idle:
                 self.stateLabel?.text = nil
-                self.loadingView?.hidden = true
+                self.loadingView?.isHidden = true
                 self.loadingView?.stopAnimating()
-            case .Refreshing:
+            case .refreshing:
                 self.stateLabel?.text = nil
-                self.loadingView?.hidden = false
+                self.loadingView?.isHidden = false
                 self.loadingView?.startAnimating()
-            case .NoMoreData:
+            case .noMoreData:
                 self.stateLabel?.text = self.noMoreDataStateString
-                self.loadingView?.hidden = true
+                self.loadingView?.isHidden = true
                 self.loadingView?.stopAnimating()
             default:break
             }
@@ -54,11 +54,11 @@ class V2RefreshFooter: MJRefreshAutoFooter {
         super.prepare()
         self.mj_h = 50
         
-        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .white)
         self.addSubview(self.loadingView!)
         
-        self.stateLabel = UILabel(frame: CGRectMake(0, 0, 300, 40))
-        self.stateLabel?.textAlignment = .Center
+        self.stateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
+        self.stateLabel?.textAlignment = .center
         self.stateLabel!.font = v2Font(12)
         self.addSubview(self.stateLabel!)
         
@@ -66,11 +66,11 @@ class V2RefreshFooter: MJRefreshAutoFooter {
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.loadingView?.activityIndicatorViewStyle = .Gray
+                self?.loadingView?.activityIndicatorViewStyle = .gray
                 self?.stateLabel!.textColor = UIColor(white: 0, alpha: 0.3)
             }
             else{
-                self?.loadingView?.activityIndicatorViewStyle = .White
+                self?.loadingView?.activityIndicatorViewStyle = .white
                 self?.stateLabel!.textColor = UIColor(white: 1, alpha: 0.3)
             }
         }
@@ -81,8 +81,8 @@ class V2RefreshFooter: MJRefreshAutoFooter {
      */
     override func placeSubviews(){
         super.placeSubviews()
-        self.loadingView!.center = CGPointMake(self.mj_w/2, self.mj_h/2 + self.centerOffset);
-        self.stateLabel!.center = CGPointMake(self.mj_w/2, self.mj_h/2  + self.centerOffset);
+        self.loadingView!.center = CGPoint(x: self.mj_w/2, y: self.mj_h/2 + self.centerOffset);
+        self.stateLabel!.center = CGPoint(x: self.mj_w/2, y: self.mj_h/2  + self.centerOffset);
     }
 
 }

@@ -13,7 +13,7 @@ class NotificationTableViewCell: UITableViewCell {
     /// 头像
     var avatarImageView: UIImageView = {
         let imageView =  UIImageView()
-        imageView.contentMode=UIViewContentMode.ScaleAspectFit
+        imageView.contentMode=UIViewContentMode.scaleAspectFit
         imageView.layer.cornerRadius = 3
         imageView.layer.masksToBounds = true
         return imageView
@@ -65,7 +65,7 @@ class NotificationTableViewCell: UITableViewCell {
     lazy var dropUpImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage.imageUsedTemplateMode("ic_arrow_drop_up")
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         imageView.tintColor = self.commentPanel.backgroundColor
         return imageView
     }()
@@ -81,7 +81,7 @@ class NotificationTableViewCell: UITableViewCell {
     /// 回复按钮
     var replyButton:UIButton = {
         let button = UIButton.roundedButton()
-        button.setTitle("回复", forState: .Normal)
+        button.setTitle("回复", for: UIControlState())
         return button
     }()
     
@@ -117,18 +117,18 @@ class NotificationTableViewCell: UITableViewCell {
         self.setupLayout()
         
         //点击用户头像，跳转到用户主页
-        self.avatarImageView.userInteractionEnabled = true
-        self.userNameLabel.userInteractionEnabled = true
+        self.avatarImageView.isUserInteractionEnabled = true
+        self.userNameLabel.isUserInteractionEnabled = true
         var userNameTap = UITapGestureRecognizer(target: self, action: #selector(NotificationTableViewCell.userNameTap(_:)))
         self.avatarImageView.addGestureRecognizer(userNameTap)
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(NotificationTableViewCell.userNameTap(_:)))
         self.userNameLabel.addGestureRecognizer(userNameTap)
         
         //按钮点击事件
-        self.replyButton.addTarget(self, action: #selector(replyButtonClick(_:)), forControlEvents: .TouchUpInside)
+        self.replyButton.addTarget(self, action: #selector(replyButtonClick(_:)), for: .touchUpInside)
         
     }
-    private func setupLayout(){
+    fileprivate func setupLayout(){
         self.avatarImageView.snp_makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
             make.width.height.equalTo(35);
@@ -177,19 +177,19 @@ class NotificationTableViewCell: UITableViewCell {
         }
     }
     
-    func userNameTap(sender:UITapGestureRecognizer) {
-        if let _ = self.itemModel , username = itemModel?.userName {
+    func userNameTap(_ sender:UITapGestureRecognizer) {
+        if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
             V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
         }
     }
     
-    func replyButtonClick(sender:UIButton){
+    func replyButtonClick(_ sender:UIButton){
         self.replyButtonClickHandler?(sender)
     }
     
-    func bind(model: NotificationsModel){
+    func bind(_ model: NotificationsModel){
         
         self.itemModel = model
         
@@ -205,14 +205,14 @@ class NotificationTableViewCell: UITableViewCell {
         }
         
         if let avata = model.avata {
-            self.avatarImageView.kf_setImageWithURL(NSURL(string: "https:" + avata)!)
+            self.avatarImageView.kf.setImage(with:  URL(string: "https:" + avata)!)
         }
     }
     
-    func setCommentPanelHidden(hidden:Bool) {
+    func setCommentPanelHidden(_ hidden:Bool) {
         if hidden {
-            self.commentPanel.hidden = true
-            self.dropUpImageView.hidden = true
+            self.commentPanel.isHidden = true
+            self.dropUpImageView.isHidden = true
             self.commentLabel.text = ""
             self.contentPanel.snp_remakeConstraints{ (make) -> Void in
                 make.top.left.right.equalTo(self.contentView);
@@ -220,8 +220,8 @@ class NotificationTableViewCell: UITableViewCell {
             }
         }
         else{
-            self.commentPanel.hidden = false
-            self.dropUpImageView.hidden = false
+            self.commentPanel.isHidden = false
+            self.dropUpImageView.isHidden = false
             self.contentPanel.snp_remakeConstraints{ (make) -> Void in
                 make.top.left.right.equalTo(self.contentView);
                 make.bottom.equalTo(self.commentPanel.snp_bottom).offset(12);

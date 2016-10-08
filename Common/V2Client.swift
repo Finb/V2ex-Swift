@@ -23,9 +23,9 @@ class V2Client: NSObject {
         }
     }
     
-    private class func getTopNavigationController(currentNavigationController:UINavigationController) -> UINavigationController {
+    fileprivate class func getTopNavigationController(_ currentNavigationController:UINavigationController) -> UINavigationController {
         if let topNav = currentNavigationController.visibleViewController?.navigationController{
-            if topNav != currentNavigationController && topNav.isKindOfClass(UINavigationController.self){
+            if topNav != currentNavigationController && topNav.isKind(of: UINavigationController.self){
                 return getTopNavigationController(topNav)
             }
         }

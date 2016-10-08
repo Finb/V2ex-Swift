@@ -9,14 +9,14 @@
 import UIKit
 
 class V2Slider: UISlider {
-    var valueChanged : ( (value:Float) -> Void )?
+    var valueChanged : ( (_ value:Float) -> Void )?
     
     init(){
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.minimumValue = 0
         self.maximumValue = 16
         self.value = (V2Style.sharedInstance.fontScale - 0.8 ) / 0.5 * 10
-        self.addTarget(self, action: #selector(V2Slider.valueChanged(_:)), forControlEvents: [.ValueChanged])
+        self.addTarget(self, action: #selector(V2Slider.valueChanged(_:)), for: [.valueChanged])
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             self?.minimumTrackTintColor = V2EXColor.colors.v2_TopicListTitleColor
@@ -30,8 +30,8 @@ class V2Slider: UISlider {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func valueChanged(sender:UISlider) {
+    func valueChanged(_ sender:UISlider) {
         sender.value = Float(Int(sender.value))
-        valueChanged?(value: sender.value)
+        valueChanged?(sender.value)
     }
 }

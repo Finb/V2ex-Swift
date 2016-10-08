@@ -10,15 +10,15 @@ import UIKit
 import Kingfisher
 
 @objc protocol V2TapDetectingImageViewDelegate {
-    optional func singleTapDetected(imageView:UIImageView,touch:UITouch)
-    optional func doubleTapDetected(imageView:UIImageView,touch:UITouch)
+    @objc optional func singleTapDetected(_ imageView:UIImageView,touch:UITouch)
+    @objc optional func doubleTapDetected(_ imageView:UIImageView,touch:UITouch)
 }
 
 class V2TapDetectingImageView: AnimatedImageView {
     weak var tapDelegate:V2TapDetectingImageViewDelegate?
     init() {
-        super.init(frame: CGRectZero)
-        self.userInteractionEnabled = true
+        super.init(frame: CGRect.zero)
+        self.isUserInteractionEnabled = true
         
     }
     
@@ -26,15 +26,15 @@ class V2TapDetectingImageView: AnimatedImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        NSObject.cancelPreviousPerformRequestsWithTarget(self)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
         
         let touch = touches.first
         let tapCount = touch?.tapCount
         if let tapCount = tapCount {
             switch (tapCount) {
             case 1:
-                self.performSelector(#selector(V2TapDetectingImageView.handleSingleTap(_:)), withObject: touch! , afterDelay: 0.3)
+                self.perform(#selector(V2TapDetectingImageView.handleSingleTap(_:)), with: touch! , afterDelay: 0.3)
             case 2:
                 self.handleDoubleTap(touch!)
                 
@@ -45,11 +45,11 @@ class V2TapDetectingImageView: AnimatedImageView {
 //        self.nextResponder()?.touchesEnded(touches, withEvent: event)
     }
     
-    func handleSingleTap(touch:UITouch){
+    func handleSingleTap(_ touch:UITouch){
         self.tapDelegate?.singleTapDetected?(self, touch: touch)
     }
     
-    func handleDoubleTap(touch:UITouch){
+    func handleDoubleTap(_ touch:UITouch){
         self.tapDelegate?.doubleTapDetected?(self, touch: touch)
     }
 }

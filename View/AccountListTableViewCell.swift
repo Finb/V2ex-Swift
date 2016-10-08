@@ -38,7 +38,7 @@ class AccountListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     func setup()->Void{
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
 
         self.contentView.addSubview(self.avatarImageView)
@@ -47,7 +47,7 @@ class AccountListTableViewCell: UITableViewCell {
         let separator = UIImageView(image: createImageWithColor(V2EXColor.colors.v2_SeparatorColor))
         self.contentView.addSubview(separator)
 
-        self.usedLabel.hidden = true;
+        self.usedLabel.isHidden = true;
 
         self.avatarImageView.snp_makeConstraints{ (make) -> Void in
             make.left.equalTo(self.contentView).offset(15)
@@ -69,16 +69,16 @@ class AccountListTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(model:LocalSecurityAccountModel) {
+    func bind(_ model:LocalSecurityAccountModel) {
         self.userNameLabel.text = model.username
-        if let avatar = model.avatar , let url = NSURL(string: avatar) {
-            self.avatarImageView.kf_setImageWithURL(url)
+        if let avatar = model.avatar , let url = URL(string: avatar) {
+            self.avatarImageView.fin_setImageWithUrl(url)
         }
         if V2User.sharedInstance.username == model.username {
-            self.usedLabel.hidden = false
+            self.usedLabel.isHidden = false
         }
         else {
-            self.usedLabel.hidden = true
+            self.usedLabel.isHidden = true
         }
     }
 }

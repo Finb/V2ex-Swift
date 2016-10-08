@@ -13,31 +13,31 @@ private var lastURLKey: Void?
 
 extension UIImageView {
     
-    public var fin_webURL: NSURL? {
-        return objc_getAssociatedObject(self, &lastURLKey) as? NSURL
+    public var fin_webURL: URL? {
+        return objc_getAssociatedObject(self, &lastURLKey) as? URL
     }
     
-    private func fin_setWebURL(URL: NSURL) {
+    fileprivate func fin_setWebURL(_ URL: Foundation.URL) {
         objc_setAssociatedObject(self, &lastURLKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
-    func fin_setImageWithUrl (URL: NSURL ,placeholderImage: UIImage?
-        ,imageModificationClosure:((image:UIImage) -> UIImage)?){
+    func fin_setImageWithUrl (_ URL: Foundation.URL ,placeholderImage: UIImage? = nil
+        ,imageModificationClosure:((_ image:UIImage) -> UIImage)? = nil){
             
             self.image = placeholderImage
         
-            let resource = Resource(downloadURL: URL)
+            let resource = ImageResource(downloadURL: URL)
             fin_setWebURL(resource.downloadURL)
-            KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: nil) { (image, cacheType) -> () in
+            KingfisherManager.shared.cache.retrieveImage(forKey: resource.cacheKey, options: nil) { (image, cacheType) -> () in
                 if image != nil {
                     dispatch_sync_safely_main_queue({ () -> () in
                         self.image = image
                     })
                 }
                 else {
-                    KingfisherManager.sharedManager.downloader.downloadImageWithURL(resource.downloadURL, options: nil, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) -> () in
-                        if let error = error where error.code == KingfisherError.NotModified.rawValue {
-                            KingfisherManager.sharedManager.cache.retrieveImageForKey(resource.cacheKey, options: nil, completionHandler: { (cacheImage, cacheType) -> () in
+                    KingfisherManager.shared.downloader.downloadImage(with: resource.downloadURL, options: nil, progressBlock: nil, completionHandler: { (image, error, imageURL, originalData) -> () in
+                        if let error = error , error.code == KingfisherError.notModified.rawValue {
+                            KingfisherManager.shared.cache.retrieveImage(forKey: resource.cacheKey, options: nil, completionHandler: { (cacheImage, cacheType) -> () in
                                 self.fin_setImage(cacheImage!, imageURL: imageURL!)
                             })
                             return
@@ -45,12 +45,12 @@ extension UIImageView {
                         
                         if var image = image, let originalData = originalData {
                             //处理图片
-                            if let img = imageModificationClosure?(image: image) {
+                            if let img = imageModificationClosure?(image) {
                                 image = img
                             }
                             
                             //保存图片缓存
-                            KingfisherManager.sharedManager.cache.storeImage(image, originalData: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
+                            KingfisherManager.shared.cache.store(image, original: originalData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
                             self.fin_setImage(image, imageURL: imageURL!)
                         }
                     })
@@ -58,7 +58,7 @@ extension UIImageView {
             }
     }
     
-    private func fin_setImage(image:UIImage,imageURL:NSURL) {
+    fileprivate func fin_setImage(_ image:UIImage,imageURL:URL) {
         
         dispatch_sync_safely_main_queue { () -> () in
             guard imageURL == self.fin_webURL else {
@@ -71,7 +71,7 @@ extension UIImageView {
     
 }
 
-func fin_defaultImageModification() -> ((image:UIImage) -> UIImage) {
+func fin_defaultImageModification() -> ((_ image:UIImage) -> UIImage) {
     return { ( image) -> UIImage in
         let roundedImage = image.roundedCornerImageWithCornerRadius(3)
         return roundedImage

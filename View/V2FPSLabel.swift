@@ -12,11 +12,11 @@ import UIKit
 
 
 class V2FPSLabel: UILabel {
-    private var _link :CADisplayLink?
-    private var _count:Int = 0
-    private var _lastTime:NSTimeInterval = 0
+    fileprivate var _link :CADisplayLink?
+    fileprivate var _count:Int = 0
+    fileprivate var _lastTime:TimeInterval = 0
 
-    private let _defaultSize = CGSizeMake(55, 20);
+    fileprivate let _defaultSize = CGSize(width: 55, height: 20);
     
     override init(frame: CGRect) {
         var targetFrame = frame
@@ -26,20 +26,20 @@ class V2FPSLabel: UILabel {
         super.init(frame: targetFrame)
         self.layer.cornerRadius = 5
         self.clipsToBounds = true
-        self.textAlignment = .Center
-        self.userInteractionEnabled = false
-        self.textColor = UIColor.whiteColor()
+        self.textAlignment = .center
+        self.isUserInteractionEnabled = false
+        self.textColor = UIColor.white
         self.backgroundColor = UIColor(white: 0, alpha: 0.7)
         self.font = UIFont(name: "Menlo", size: 14)
         weak var weakSelf = self
         _link = CADisplayLink(target: weakSelf!, selector:#selector(V2FPSLabel.tick(_:)) );
-        _link!.addToRunLoop(NSRunLoop .mainRunLoop(), forMode:NSRunLoopCommonModes)
+        _link!.add(to: RunLoop.main, forMode:RunLoopMode.commonModes)
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func tick(link:CADisplayLink) {
+    func tick(_ link:CADisplayLink) {
         if _lastTime == 0  {
             _lastTime = link.timestamp
             return

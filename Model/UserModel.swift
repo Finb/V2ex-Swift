@@ -56,11 +56,12 @@ extension UserModel{
      - parameter password:          密码
      - parameter completionHandler: 登录回调
      */
-    class func Login(username:String,password:String ,
-                     completionHandler: V2ValueResponse<String> -> Void
+    class func Login(_ username:String,password:String ,
+                     completionHandler: @escaping (V2ValueResponse<String>) -> Void
         ) -> Void{
         V2User.sharedInstance.removeAllCookies()
-        Alamofire.request(.GET, V2EXURL+"signin", parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
+        
+        Alamofire.request(V2EXURL+"signin", method: .get,  parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
             (response) -> Void in
 
             if let jiHtml = response .result.value{
@@ -88,9 +89,9 @@ extension UserModel{
      - parameter once:              once
      - parameter completionHandler: 登录回调
      */
-    class func Login(username:String,password:String ,once:String,
+    class func Login(_ username:String,password:String ,once:String,
                      usernameFieldName:String ,passwordFieldName:String,
-                     completionHandler: V2ValueResponse<String> -> Void){
+                     completionHandler: @escaping (V2ValueResponse<String>) -> Void){
         let prames = [
             "once":once,
             "next":"/",
@@ -102,14 +103,15 @@ extension UserModel{
         //为安全，此处使用https
         dict["Referer"] = "https://v2ex.com/signin"
         //登录
-        Alamofire.request(.POST, V2EXURL+"signin", parameters: prames, encoding: .URL, headers: dict).responseJiHtml{
+        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, encoding: URLEncoding.default, headers: dict).responseJiHtml{
             (response) -> Void in
             if let jiHtml = response .result.value{
                 //判断有没有用户头像，如果有，则证明登录成功了
                 if let avatarImg = jiHtml.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first {
                     if let username = avatarImg.parent?["href"]{
                         if username.hasPrefix("/member/") {
-                            let username = username.stringByReplacingOccurrencesOfString("/member/", withString: "")
+                            let username = username.replacingOccurrences(of: "/member/", with: "")
+
                             completionHandler(V2ValueResponse(value: username, success: true))
                             return;
                         }
@@ -121,20 +123,19 @@ extension UserModel{
         }
     }
 
-    class func getUserInfoByUsername(username:String ,completionHandler:(V2ValueResponse<UserModel> -> Void)? ){
+    class func getUserInfoByUsername(_ username:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
         let prame = [
             "username":username
         ]
-        Alamofire.request(.GET, V2EXURL+"api/members/show.json", parameters: prame, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseObject("") {
-            (response : Response<UserModel,NSError>) in
+        Alamofire.request(V2EXURL+"api/members/show.json", method: .get, parameters: prame, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseObject { (response : DataResponse<UserModel>) in
             if let model = response.result.value {
                 V2User.sharedInstance.user = model
-
+                
                 //将头像更新进 keychain保存的users中
                 if let avatar = model.avatar_large {
                     V2UsersKeychain.sharedInstance.update(username, password: nil, avatar: "https:" + avatar )
                 }
-
+                
                 completionHandler?(V2ValueResponse(value: model, success: true))
                 return ;
             }
@@ -146,7 +147,7 @@ extension UserModel{
     class func dailyRedeem() {
         V2User.sharedInstance.getOnce { (response) -> Void in
             if response.success {
-                Alamofire.request(.GET, V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
+                Alamofire.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
                     if let jiHtml = response .result.value{
                         if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.first {
                             if aRootNode.content == "已成功领取每日登录奖励" {
@@ -155,7 +156,6 @@ extension UserModel{
                                     V2Inform("已成功领取每日登录奖励")
                                 })
                             }
-                            response.request?.URL
                         }
 
                     }
