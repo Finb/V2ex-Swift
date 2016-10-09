@@ -16,8 +16,11 @@ class RightNodeTableViewCell: UITableViewCell {
         return label
     }()
     
+    var panel = UIView()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
+        
         self.setup();
     }
     required init?(coder aDecoder: NSCoder) {
@@ -27,9 +30,8 @@ class RightNodeTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         self.backgroundColor = UIColor.clear
         
-        let panel = UIView()
         self.contentView.addSubview(panel)
-        panel.snp.makeConstraints{ (make) -> Void in
+        self.panel.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView).offset(-1 * SEPARATOR_HEIGHT)
         }
@@ -41,10 +43,21 @@ class RightNodeTableViewCell: UITableViewCell {
         }
         
         self.thmemChangedHandler = {[weak self] (style) -> Void in
-            panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
+            self?.refreshBackgroundColor()
             self?.nodeNameLabel.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         }
     }
-
-
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated);        
+        self.refreshBackgroundColor()
+    }
+    func refreshBackgroundColor() {
+        if self.isSelected {
+            self.panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundHighLightedColor
+        }
+        else{
+            self.panel.backgroundColor = V2EXColor.colors.v2_LeftNodeBackgroundColor
+        }
+    }
 }

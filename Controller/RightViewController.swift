@@ -25,6 +25,14 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         rightNodeModel(nodeName: NSLocalizedString("nodes" ), nodeTab: "nodes"),
         rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
     ]
+    var currentSelectedTabIndex = 0;
+    /**
+     第一次自动高亮的cell，
+     因为再次点击其他cell，这个cell并不会自动调用 setSelected 取消自身的选中状态
+     所以保存这个cell用于手动取消选中状态
+     我也不知道这是不是BUG，还是我用法不对。
+    */
+    var firstAutoHighLightCell:UITableViewCell?
     
     var backgroundImageView:UIImageView?
     var frostedView = FXBlurView()
@@ -53,6 +61,12 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         
+        var currentTab = V2EXSettings.sharedInstance[kHomeTab]
+        if currentTab == nil {
+            currentTab = "all"
+        }
+        self.currentSelectedTabIndex = rightNodes.index { $0.nodeTab == currentTab }!
+        
         self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
         self.backgroundImageView!.contentMode = .left
@@ -77,8 +91,11 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             }
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
-        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 25.5))
         
+        let rowHeight = self.tableView(self.tableView, heightForRowAt: IndexPath(row: 0, section: 0))
+        let rowCount = self.tableView(self.tableView, numberOfRowsInSection: 0)
+        let paddingTop = (SCREEN_HEIGHT - CGFloat(rowCount) * rowHeight) / 2
+        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: paddingTop))
 
     }
     
@@ -94,10 +111,24 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         return cell ;
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let highLightCell = self.firstAutoHighLightCell{
+            self.firstAutoHighLightCell = nil
+            highLightCell.setSelected(false, animated: false)
+        }
         let node = self.rightNodes[indexPath.row];
         V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
         V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.currentSelectedTabIndex && cell.isSelected == false {
+            if let highLightCell = self.firstAutoHighLightCell{
+                highLightCell.setSelected(false, animated: false)
+            }
+            self.firstAutoHighLightCell = cell;
+            cell.setSelected(true, animated: true)
+        }
     }
 }
 

@@ -53,6 +53,7 @@ protocol V2EXColorProtocol{
     var v2_SeparatorColor : UIColor { get }
     
     var v2_LeftNodeBackgroundColor : UIColor { get }
+    var v2_LeftNodeBackgroundHighLightedColor : UIColor { get }
     var v2_LeftNodeTintColor: UIColor { get }
     
     /// 小红点背景颜色
@@ -129,6 +130,11 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
     var v2_LeftNodeBackgroundColor : UIColor {
         get {
             return colorWith255RGBA(255, g: 255, b: 255, a: 76)
+        }
+    }
+    var v2_LeftNodeBackgroundHighLightedColor : UIColor {
+        get {
+            return colorWith255RGBA(255, g: 255, b: 255, a: 56)
         }
     }
     var v2_LeftNodeTintColor : UIColor {
@@ -219,6 +225,11 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
     var v2_LeftNodeBackgroundColor : UIColor {
         get {
             return colorWith255RGBA(255, g: 255, b: 255, a: 76)
+        }
+    }
+    var v2_LeftNodeBackgroundHighLightedColor : UIColor {
+        get {
+            return colorWith255RGBA(255, g: 255, b: 255, a: 56)
         }
     }
     var v2_LeftNodeTintColor : UIColor {
