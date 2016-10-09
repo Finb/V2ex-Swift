@@ -25,7 +25,6 @@ PODS:
   - KVOController (1.0.3)
   - MJRefresh (3.1.12)
   - ObjectMapper (2.1.0)
-  - PBImageView (1.0.2)
   - Shimmer (1.0.2)
   - SnapKit (3.0.2)
   - SVProgressHUD (1.1.3)
@@ -46,7 +45,6 @@ DEPENDENCIES:
   - KVOController (~> 1.0.3)
   - MJRefresh (~> 3.1.0)
   - ObjectMapper (~> 2.1.0)
-  - PBImageView (~> 1.0.2)
   - Shimmer (~> 1.0.2)
   - SnapKit (~> 3.0.2)
   - SVProgressHUD (~> 1.1.3)
@@ -67,12 +65,11 @@ SPEC CHECKSUMS:
   KVOController: 9fd8f0343670994e4b6f9f0b31f5a45663f3e1cf
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   ObjectMapper: e5e0f8aef8590fc2ddcde7f27eddb255863ee6e9
-  PBImageView: f4878a3284b2ae7abce0b6105a0fb77aec831059
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 3bec8b4dbf3e43973d734185044c6a3c108c11ae
+PODFILE CHECKSUM: 881d69b9095e464b3c3a2fcad4133b32a6561fda
 
 COCOAPODS: 1.1.0.beta.2

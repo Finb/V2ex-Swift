@@ -7,26 +7,6 @@
 //
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l <= r
-  default:
-    return !(rhs < lhs)
-  }
-}
-
 
 class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UITableViewDelegate  {
     var node:NodeModel?
@@ -125,7 +105,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
     
     func getNextPage(){
         
-        if self.topicList == nil || self.topicList?.count <= 0{
+        if let count = self.topicList?.count, count <= 0{
             self.tableView.mj_footer.endRefreshing()
             return;
         }

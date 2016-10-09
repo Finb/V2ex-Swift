@@ -7,26 +7,6 @@
 //
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class TopicDetailViewController: BaseViewController{
     
@@ -146,7 +126,7 @@ class TopicDetailViewController: BaseViewController{
         }
         self.currentPage += 1
         
-        if self.currentPage > self.model?.commentTotalPages {
+        if self.model == nil || self.currentPage > self.model!.commentTotalPages {
             self.endRefreshingWithNoMoreData()
             return;
         }
@@ -229,7 +209,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                     cell.bind(self.model!);
                 }
             case .webViewContent:
-                if self.webViewContentCell?.contentHeight > 0 {
+                if let height =  self.webViewContentCell?.contentHeight , height > 0 {
                     return self.webViewContentCell!.contentHeight
                 }
                 else {
@@ -278,7 +258,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                     if let weakSelf = self {
                         //在cell显示在屏幕时更新，否则会崩溃会崩溃会崩溃
                         if weakSelf.tableView.visibleCells.contains(weakSelf.webViewContentCell!) {
-                            if weakSelf.webViewContentCell?.contentHeight > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
+                            if let height = weakSelf.webViewContentCell?.contentHeight, height > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
                                 UIView.animate(withDuration: 0, animations: { () -> Void in
                                     self?.tableView.beginUpdates()
                                     self?.tableView.endUpdates()

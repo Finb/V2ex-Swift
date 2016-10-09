@@ -7,25 +7,6 @@
 //
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l >= r
-  default:
-    return !(lhs < rhs)
-  }
-}
 
 extension UITableView {
 
@@ -115,7 +96,7 @@ extension UITableView {
             let cacheSectionCount = self.fin_indexPathHeightCache!.count;
             if  indexPath.section >= cacheSectionCount {
                 for i in cacheSectionCount...indexPath.section {
-                    if i >= self.fin_indexPathHeightCache?.count {
+                    if i >= self.fin_indexPathHeightCache!.count{
                         self.fin_indexPathHeightCache!.append([])
                     }
                 }

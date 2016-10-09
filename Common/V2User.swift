@@ -9,26 +9,6 @@
 import UIKit
 import Alamofire
 import Ji
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 let kUserName = "me.fin.username"
 
@@ -69,7 +49,7 @@ class V2User: NSObject {
     /// 返回 客户端显示是否有可用的once
     var hasOnce:Bool {
         get {
-            return _once?.Lenght > 0
+            return _once != nil && _once!.Lenght > 0
         }
     }
 
@@ -96,7 +76,7 @@ class V2User: NSObject {
     /// 是否登录
     var isLogin:Bool {
         get {
-            if self.username?.Lenght > 0 {
+            if let len = self.username?.Lenght , len > 0 {
                 return true
             }
             else {

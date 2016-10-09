@@ -8,26 +8,6 @@
 
 import UIKit
 import OnePasswordExtension
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 public typealias LoginSuccessHandel = (String) -> Void
 
@@ -77,7 +57,7 @@ class LoginViewController: UIViewController {
 
     func findLoginFrom1Password(){
         OnePasswordExtension.shared().findLogin(forURLString: "v2ex.com", for: self, sender: nil) { (loginDictionary, errpr) -> Void in
-            if loginDictionary?.count > 0 {
+            if let count = loginDictionary?.count , count > 0 {
                 self.userNameTextField.text = loginDictionary![AppExtensionUsernameKey] as? String
                 self.passwordTextField.text = loginDictionary![AppExtensionPasswordKey] as? String
 
@@ -92,7 +72,7 @@ class LoginViewController: UIViewController {
     func loginClick(_ sneder:UIButton){
         var userName:String?
         var password:String?
-        if self.userNameTextField.text?.Lenght > 0{
+        if let len = self.userNameTextField.text?.Lenght , len > 0{
             userName = self.userNameTextField.text! ;
         }
         else{
@@ -100,7 +80,7 @@ class LoginViewController: UIViewController {
             return;
         }
 
-        if self.passwordTextField.text?.Lenght > 0  {
+        if let len =  self.passwordTextField.text?.Lenght , len > 0  {
             password = self.passwordTextField.text!
         }
         else{
