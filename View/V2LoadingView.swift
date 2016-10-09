@@ -24,7 +24,7 @@ class V2LoadingView: UIView {
     init (){
         super.init(frame:CGRect.zero)
         self.addSubview(self.activityIndicatorView)
-        self.activityIndicatorView.snp_makeConstraints{ (make) -> Void in
+        self.activityIndicatorView.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self).offset(-32)
         }
@@ -39,8 +39,8 @@ class V2LoadingView: UIView {
         noticeLabel.font = v2Font(10)
         noticeLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
         self.addSubview(noticeLabel)
-        noticeLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.activityIndicatorView.snp_bottom).offset(10)
+        noticeLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.activityIndicatorView.snp.bottom).offset(10)
             make.centerX.equalTo(self.activityIndicatorView)
         }
         

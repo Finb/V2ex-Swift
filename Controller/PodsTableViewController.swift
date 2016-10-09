@@ -69,21 +69,21 @@ class PodsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.fin_heightForCellWithIdentifier(PodCellTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
-            let model = self.pods[(indexPath as NSIndexPath).row]
+            let model = self.pods[indexPath.row]
             cell.titleLabel.text = model.name
             cell.descriptionLabel.text = model.description
         }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell  = getCell(tableView, cell: PodCellTableViewCell.self, indexPath: indexPath)
-        let model = self.pods[(indexPath as NSIndexPath).row]
+        let model = self.pods[indexPath.row]
         cell.titleLabel.text = model.name
         cell.descriptionLabel.text = model.description
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = self.pods[(indexPath as NSIndexPath).row]
+        let model = self.pods[indexPath.row]
         if let URL = model.URL, let url = Foundation.URL(string:URL ) {
             UIApplication.shared.openURL(url)
         }

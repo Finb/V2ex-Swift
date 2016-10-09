@@ -47,10 +47,10 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 帖子标题
     var topicTitleLabel: UILabel = {
         let label = V2SpacingLabel();
-        label.textColor=V2EXColor.colors.v2_TopicListTitleColor;
-        label.font=v2Font(17);
-        label.numberOfLines=0;
-        label.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
+        label.textColor = V2EXColor.colors.v2_TopicListTitleColor;
+        label.font = v2Font(17);
+        label.numberOfLines = 0;
+        label.preferredMaxLayoutWidth = SCREEN_WIDTH-24;
         return label
     }()
     
@@ -96,38 +96,33 @@ class TopicDetailHeaderCell: UITableViewCell {
     }
     
     fileprivate func setupLayout(){
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
-            make.top.left.right.equalTo(self.contentView);
-        }
-        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(12);
+        self.avatarImageView.snp.makeConstraints{ (make) -> Void in
+            make.left.top.equalTo(self.contentPanel).offset(12);
             make.width.height.equalTo(35);
         }
-        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp_right).offset(10);
+        self.userNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(10);
             make.top.equalTo(self.avatarImageView);
         }
-        self.dateAndLastPostUserLabel.snp_makeConstraints{ (make) -> Void in
+        self.dateAndLastPostUserLabel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.avatarImageView);
             make.left.equalTo(self.userNameLabel);
         }
-        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
+        self.nodeNameLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.userNameLabel);
-            make.right.equalTo(self.contentPanel.snp_right).offset(-10)
+            make.right.equalTo(self.contentPanel.snp.right).offset(-10)
             make.bottom.equalTo(self.userNameLabel).offset(1);
             make.top.equalTo(self.userNameLabel).offset(-1);
         }
-        self.topicTitleLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp_bottom).offset(12);
+        self.topicTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
         }
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.topicTitleLabel.snp_bottom).offset(12);
-        }
-        self.contentView.snp_makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel).offset(0);
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
+            make.top.left.right.equalTo(self.contentView);
+            make.bottom.equalTo(self.topicTitleLabel.snp.bottom).offset(12);
+            make.bottom.equalTo(self.contentView).offset(-0.5);
         }
     }
     func nodeClick() {

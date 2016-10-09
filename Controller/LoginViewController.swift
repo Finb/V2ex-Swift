@@ -172,7 +172,7 @@ extension LoginViewController {
         v2exLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 32)!;
         v2exLabel.text = "V2EX"
         vibrancyView.contentView.addSubview(v2exLabel);
-        v2exLabel.snp_makeConstraints{ (make) -> Void in
+        v2exLabel.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(vibrancyView)
             make.top.equalTo(vibrancyView).offset(40)
         }
@@ -181,9 +181,9 @@ extension LoginViewController {
         v2exSummaryLabel.font = v2Font(13);
         v2exSummaryLabel.text = "创意者的工作社区"
         vibrancyView.contentView.addSubview(v2exSummaryLabel);
-        v2exSummaryLabel.snp_makeConstraints{ (make) -> Void in
+        v2exSummaryLabel.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(vibrancyView)
-            make.top.equalTo(v2exLabel.snp_bottom).offset(2)
+            make.top.equalTo(v2exLabel.snp.bottom).offset(2)
         }
 
         self.userNameTextField.autocorrectionType = UITextAutocorrectionType.no
@@ -208,8 +208,8 @@ extension LoginViewController {
 
         vibrancyView.contentView.addSubview(self.userNameTextField);
 
-        self.userNameTextField.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(v2exSummaryLabel.snp_bottom).offset(25)
+        self.userNameTextField.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(v2exSummaryLabel.snp.bottom).offset(25)
             make.centerX.equalTo(vibrancyView)
             make.width.equalTo(300)
             make.height.equalTo(38)
@@ -235,8 +235,8 @@ extension LoginViewController {
 
         vibrancyView.contentView.addSubview(self.passwordTextField);
 
-        self.passwordTextField.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.userNameTextField.snp_bottom).offset(15)
+        self.passwordTextField.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.userNameTextField.snp.bottom).offset(15)
             make.centerX.equalTo(vibrancyView)
             make.width.equalTo(300)
             make.height.equalTo(38)
@@ -249,8 +249,8 @@ extension LoginViewController {
         self.loginButton.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
         vibrancyView.contentView.addSubview(self.loginButton);
 
-        self.loginButton.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.passwordTextField.snp_bottom).offset(20)
+        self.loginButton.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.passwordTextField.snp.bottom).offset(20)
             make.centerX.equalTo(vibrancyView)
             make.width.equalTo(300)
             make.height.equalTo(38)
@@ -262,8 +262,8 @@ extension LoginViewController {
 
         vibrancyView.contentView.addSubview(forgetPasswordLabel);
 
-        forgetPasswordLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.loginButton.snp_bottom).offset(14)
+        forgetPasswordLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.loginButton.snp.bottom).offset(14)
             make.right.equalTo(self.loginButton)
         }
 
@@ -274,7 +274,7 @@ extension LoginViewController {
 
         vibrancyView.contentView.addSubview(footLabel);
 
-        footLabel.snp_makeConstraints{ (make) -> Void in
+        footLabel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(vibrancyView).offset(-20)
             make.centerX.equalTo(vibrancyView)
         }
@@ -282,7 +282,7 @@ extension LoginViewController {
         self.cancelButton.contentMode = .center
         cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         vibrancyView.contentView.addSubview(cancelButton)
-        cancelButton.snp_makeConstraints{ (make) -> Void in
+        cancelButton.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(footLabel)
             make.right.equalTo(vibrancyView).offset(-5)
             make.width.height.equalTo(40)

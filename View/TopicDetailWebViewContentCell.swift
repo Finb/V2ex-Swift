@@ -36,7 +36,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.contentWebView!.scrollView.isScrollEnabled = false
         self.contentWebView!.delegate = self
         self.contentView.addSubview(self.contentWebView!);
-        self.contentWebView!.snp_makeConstraints{ (make) -> Void in
+        self.contentWebView!.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(self.contentView)
         }
 

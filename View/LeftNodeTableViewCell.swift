@@ -34,17 +34,17 @@ class LeftNodeTableViewCell: UITableViewCell {
         panel.addSubview(self.nodeImageView)
         panel.addSubview(self.nodeNameLabel)
         
-        panel.snp_makeConstraints{ (make) -> Void in
+        panel.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
             make.height.equalTo(55)
         }
-        self.nodeImageView.snp_makeConstraints{ (make) -> Void in
+        self.nodeImageView.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(panel)
             make.left.equalTo(panel).offset(20)
             make.width.height.equalTo(25)
         }
-        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.nodeImageView.snp_right).offset(20)
+        self.nodeNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.nodeImageView.snp.right).offset(20)
             make.centerY.equalTo(self.nodeImageView)
         }
         
@@ -76,9 +76,9 @@ class LeftNotifictionCell : LeftNodeTableViewCell{
         self.nodeNameLabel.text = "消息提醒"
         
         self.contentView.addSubview(self.notifictionCountLabel)
-        self.notifictionCountLabel.snp_makeConstraints{ (make) -> Void in
+        self.notifictionCountLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.nodeNameLabel)
-            make.left.equalTo(self.nodeNameLabel.snp_right).offset(5)
+            make.left.equalTo(self.nodeNameLabel.snp.right).offset(5)
             make.height.equalTo(14)
         }
         

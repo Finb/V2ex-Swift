@@ -46,7 +46,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
 
         self.view.addSubview(self.tableView);
         self.tableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.bottom.equalTo(self.view);
             make.center.equalTo(self.view);
             make.width.equalTo(SCREEN_WIDTH)
@@ -68,10 +68,10 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         return self.users.count   + 1       + 1
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).row < self.users.count {
+        if indexPath.row < self.users.count {
             return 55
         }
-        else if (indexPath as NSIndexPath).row == self.users.count {//分割线
+        else if indexPath.row == self.users.count {//分割线
             return 15
         }
         else { //退出登录按钮
@@ -79,12 +79,12 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).row < self.users.count {
+        if indexPath.row < self.users.count {
             let cell = getCell(tableView, cell: AccountListTableViewCell.self, indexPath: indexPath)
-            cell.bind(self.users[(indexPath as NSIndexPath).row])
+            cell.bind(self.users[indexPath.row])
             return cell
         }
-        else if (indexPath as NSIndexPath).row == self.users.count {//分割线
+        else if indexPath.row == self.users.count {//分割线
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
             cell.detailMarkHidden = true
             cell.backgroundColor = tableView.backgroundColor
@@ -96,15 +96,15 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        if (indexPath as NSIndexPath).row < self.users.count{
+        if indexPath.row < self.users.count{
             return true
         }
         return false
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if let username = self.users[(indexPath as NSIndexPath).row].username {
-                self.users.remove(at: (indexPath as NSIndexPath).row)
+            if let username = self.users[indexPath.row].username {
+                self.users.remove(at: indexPath.row)
                 V2UsersKeychain.sharedInstance.removeUser(username)
                 tableView.deleteRows(at: [indexPath], with: .none)
             }
@@ -116,8 +116,8 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         self.tableView.deselectRow(at: indexPath, animated: true)
 
         let totalNumOfRows = self.tableView(tableView, numberOfRowsInSection: 0)
-        if (indexPath as NSIndexPath).row < self.users.count {
-            let user = self.users[(indexPath as NSIndexPath).row]
+        if indexPath.row < self.users.count {
+            let user = self.users[indexPath.row]
             if user.username == V2User.sharedInstance.username {
                 return;
             }
@@ -125,10 +125,10 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             //这里一个属性两用了，除了用于标记它是切换账号的 alertView, 后面还加上了当前是点击了第几个账号
             //太懒了，懒得用其他什么写法
             //同学们注意，这种写法是相当的low的，如果硬要这样写，千万要留下足够的注释解释
-            alertView.tag = 100001 + (indexPath as NSIndexPath).row
+            alertView.tag = 100001 + indexPath.row
             alertView.show()
         }
-        else if (indexPath as NSIndexPath).row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
+        else if indexPath.row == totalNumOfRows - 1{ //最后一行，也就是退出登录按钮那行
             let alertView = UIAlertView(title: "确定注销当前账号吗？", message: "注销只会退出登录，并不会删除保存在Keychain中的账户名与密码。如需删除，请左滑需要删除的账号，然后点击删除按钮", delegate: self, cancelButtonTitle: "取消", otherButtonTitles: "注销")
             alertView.tag = 100000
             alertView.show()

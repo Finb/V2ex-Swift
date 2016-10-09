@@ -65,7 +65,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         self.view.addSubview(frostedView)
         
         self.view.addSubview(self.tableView);
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         self.thmemChangedHandler = {[weak self] (style) -> Void in
@@ -90,11 +90,11 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: RightNodeTableViewCell.self, indexPath: indexPath);
-        cell.nodeNameLabel.text = self.rightNodes[(indexPath as NSIndexPath).row].nodeName
+        cell.nodeNameLabel.text = self.rightNodes[indexPath.row].nodeName
         return cell ;
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let node = self.rightNodes[(indexPath as NSIndexPath).row];
+        let node = self.rightNodes[indexPath.row];
         V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
         V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)

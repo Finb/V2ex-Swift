@@ -52,7 +52,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         self.view.addSubview(frostedView)
         
         self.view.addSubview(self.tableView);
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         
@@ -76,16 +76,16 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         return [1,3,2][section]
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if ((indexPath as NSIndexPath).section == 1 && (indexPath as NSIndexPath).row == 2)
+        if (indexPath.section == 1 && indexPath.row == 2)
         
         {
             return 55+10
         }
-        return [180,55+SEPARATOR_HEIGHT,55+SEPARATOR_HEIGHT][(indexPath as NSIndexPath).section]
+        return [180,55+SEPARATOR_HEIGHT,55+SEPARATOR_HEIGHT][indexPath.section]
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).section == 0 {
-            if  (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == 0 {
+            if  indexPath.row == 0 {
                 let cell = getCell(tableView, cell: LeftUserHeadCell.self, indexPath: indexPath);
                 return cell ;
             }
@@ -93,31 +93,31 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 return UITableViewCell()
             }
         }
-        else if ((indexPath as NSIndexPath).section == 1) {
-            if (indexPath as NSIndexPath).row == 1 {
+        else if (indexPath.section == 1) {
+            if indexPath.row == 1 {
                 let cell = getCell(tableView, cell: LeftNotifictionCell.self, indexPath: indexPath)
                 cell.nodeImageView.image = UIImage.imageUsedTemplateMode("ic_notifications_none")
                 return cell
             }
             else {
                 let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-                cell.nodeNameLabel.text = ["个人中心","","我的收藏"][(indexPath as NSIndexPath).row]
+                cell.nodeNameLabel.text = ["个人中心","","我的收藏"][indexPath.row]
                 let names = ["ic_face","","ic_turned_in_not"]
-                cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[(indexPath as NSIndexPath).row])
+                cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
                 return cell
             }
         }
         else {
             let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-            cell.nodeNameLabel.text = ["节点","更多"][(indexPath as NSIndexPath).row]
+            cell.nodeNameLabel.text = ["节点","更多"][indexPath.row]
             let names = ["ic_navigation","ic_settings_input_svideo"]
-            cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[(indexPath as NSIndexPath).row])
+            cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
             return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 0 {
-            if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
                 if !V2User.sharedInstance.isLogin {
                     let loginViewController = LoginViewController()
                     V2Client.sharedInstance.centerViewController!.navigationController?.present(loginViewController, animated: true, completion: nil);
@@ -129,34 +129,34 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 }
             }
         }
-        else if (indexPath as NSIndexPath).section == 1 {
+        else if indexPath.section == 1 {
             if !V2User.sharedInstance.isLogin {
                 let loginViewController = LoginViewController()
                 V2Client.sharedInstance.centerNavigation?.present(loginViewController, animated: true, completion: nil);
                 return
             }
-            if (indexPath as NSIndexPath).row == 0 {
+            if indexPath.row == 0 {
                 let memberViewController = MyCenterViewController()
                 memberViewController.username = V2User.sharedInstance.username
                 V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
             }
-            else if (indexPath as NSIndexPath).row == 1 {
+            else if indexPath.row == 1 {
                 let notificationsViewController = NotificationsViewController()
                 V2Client.sharedInstance.centerNavigation?.pushViewController(notificationsViewController, animated: true)
             }
-            else if (indexPath as NSIndexPath).row == 2 {
+            else if indexPath.row == 2 {
                 let favoritesViewController = FavoritesViewController()
                 V2Client.sharedInstance.centerNavigation?.pushViewController(favoritesViewController, animated: true)
             }
             V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
             
         }
-        else if (indexPath as NSIndexPath).section == 2 {
-            if (indexPath as NSIndexPath).row == 0 {
+        else if indexPath.section == 2 {
+            if indexPath.row == 0 {
                 let nodesViewController = NodesViewController()
                 V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(nodesViewController, animated: true)
             }
-            else if (indexPath as NSIndexPath).row == 1 {
+            else if indexPath.row == 1 {
                 let moreViewController = MoreViewController()
                 V2Client.sharedInstance.centerViewController!.navigationController?.pushViewController(moreViewController, animated: true)
             }

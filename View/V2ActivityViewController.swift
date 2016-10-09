@@ -86,7 +86,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         
         self.panel.barStyle = V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault ? .default : .black
         self.view.addSubview(self.panel)
-        self.panel.snp_makeConstraints{ (make) -> Void in
+        self.panel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.view).offset(-90)
             make.left.equalTo(self.view).offset(10)
             make.right.equalTo(self.view).offset(-10)
@@ -97,7 +97,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         self.setupView()
         
         if let lastView = self.panel.subviews.last {
-            self.panel.snp_makeConstraints{ (make) -> Void in
+            self.panel.snp.makeConstraints{ (make) -> Void in
                 make.bottom.equalTo(lastView)
             }
         }
@@ -107,8 +107,8 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         cancelPanel.layer.cornerRadius = self.panel.layer.cornerRadius
         cancelPanel.layer.masksToBounds = true
         self.view.addSubview(cancelPanel)
-        cancelPanel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.panel.snp_bottom).offset(10)
+        cancelPanel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.panel.snp.bottom).offset(10)
             make.left.right.equalTo(self.panel);
             make.height.equalTo(45)
         }
@@ -118,7 +118,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         cancelButton.titleLabel?.font = v2Font(18)
         cancelButton.setTitleColor(V2EXColor.colors.v2_TopicListTitleColor, for: UIControlState())
         cancelPanel.addSubview(cancelButton)
-        cancelButton.snp_makeConstraints{ (make) -> Void in
+        cancelButton.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(cancelPanel)
         }
 
@@ -142,11 +142,11 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             //setupSectionView
             let sectionView = self.setupSectionView(i)
             self.panel.addSubview(sectionView)
-            sectionView.snp_makeConstraints{ (make) -> Void in
+            sectionView.snp.makeConstraints{ (make) -> Void in
                 make.left.right.equalTo(self.panel)
                 make.height.equalTo(110)
                 if self.panel.subviews.count > 1 {
-                    make.top.equalTo(self.panel.subviews[self.panel.subviews.count - 1 - 1].snp_bottom)
+                    make.top.equalTo(self.panel.subviews[self.panel.subviews.count - 1 - 1].snp.bottom)
                 }
                 else {
                     make.top.equalTo(self.panel)
@@ -166,7 +166,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             let cellView = self.setupCellView(i, currentSection: _section);
             sectionView.addSubview(cellView)
         
-            cellView.snp_makeConstraints{ (make) -> Void in
+            cellView.snp.makeConstraints{ (make) -> Void in
                 make.width.equalTo(60)
                 make.height.equalTo(80)
                 make.centerY.equalTo(sectionView)
@@ -186,11 +186,11 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             }
             
             self.panel.addSubview(view)
-            view.snp_makeConstraints{ (make) -> Void in
+            view.snp.makeConstraints{ (make) -> Void in
                 make.left.right.equalTo(self.panel)
                 make.height.equalTo(height!)
                 if self.panel.subviews.count > 1 {
-                    make.top.equalTo(self.panel.subviews[self.panel.subviews.count - 1 - 1].snp_bottom)
+                    make.top.equalTo(self.panel.subviews[self.panel.subviews.count - 1 - 1].snp.bottom)
                 }
                 else {
                     make.top.equalTo(self.panel)
@@ -206,7 +206,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         //用颜色生成图片 切成圆角 并拉伸显示
         buttonBackgoundView.image = createImageWithColor(V2EXColor.colors.v2_CellWhiteBackgroundColor, size: CGSize(width: 15, height: 15)).roundedCornerImageWithCornerRadius(5).stretchableImage(withLeftCapWidth: 7, topCapHeight: 7)
         cellView.addSubview(buttonBackgoundView)
-        buttonBackgoundView.snp_makeConstraints{ (make) -> Void in
+        buttonBackgoundView.snp.makeConstraints{ (make) -> Void in
             make.width.height.equalTo(60)
             make.top.left.equalTo(cellView)
         }
@@ -217,7 +217,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         button.setImage(activity?.image.withRenderingMode(.alwaysTemplate), for: UIControlState())
         cellView.addSubview(button)
         button.tintColor = V2EXColor.colors.v2_TopicListUserNameColor
-        button.snp_makeConstraints{ (make) -> Void in
+        button.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(buttonBackgoundView)
         }
         
@@ -232,11 +232,11 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         titleLabel.font = v2Font(12)
         titleLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor
         cellView.addSubview(titleLabel)
-        titleLabel.snp_makeConstraints{ (make) -> Void in
+        titleLabel.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(cellView)
             make.left.equalTo(cellView)
             make.right.equalTo(cellView)
-            make.top.equalTo(buttonBackgoundView.snp_bottom).offset(5)
+            make.top.equalTo(buttonBackgoundView.snp.bottom).offset(5)
         }
         
         

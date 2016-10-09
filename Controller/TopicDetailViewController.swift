@@ -70,7 +70,7 @@ class TopicDetailViewController: BaseViewController{
         self.title = "帖子详情"
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.view.addSubview(self.tableView);
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         
@@ -216,9 +216,9 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let _section = TopicDetailTableViewSection(rawValue: (indexPath as NSIndexPath).section)!
+        let _section = TopicDetailTableViewSection(rawValue: indexPath.section)!
         var _headerComponent = TopicDetailHeaderComponent.other
-        if let headerComponent = TopicDetailHeaderComponent(rawValue: (indexPath as NSIndexPath).row) {
+        if let headerComponent = TopicDetailHeaderComponent(rawValue: indexPath.row) {
             _headerComponent = headerComponent
         }
         switch _section {
@@ -239,16 +239,16 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 return 45
             }
         case .comment:
-            let layout = self.commentsArray[(indexPath as NSIndexPath).row].textLayout!
+            let layout = self.commentsArray[indexPath.row].textLayout!
             return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
         case .other:
             return 200
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let _section = TopicDetailTableViewSection(rawValue: (indexPath as NSIndexPath).section)!
+        let _section = TopicDetailTableViewSection(rawValue: indexPath.section)!
         var _headerComponent = TopicDetailHeaderComponent.other
-        if let headerComponent = TopicDetailHeaderComponent(rawValue: (indexPath as NSIndexPath).row) {
+        if let headerComponent = TopicDetailHeaderComponent(rawValue: indexPath.row) {
             _headerComponent = headerComponent
         }
 
@@ -303,7 +303,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             }
         case .comment:
             let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
-            cell.bind(self.commentsArray[(indexPath as NSIndexPath).row])
+            cell.bind(self.commentsArray[indexPath.row])
             return cell
         case .other:
             return UITableViewCell();
@@ -311,7 +311,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 1 {
+        if indexPath.section == 1 {
             self.selectedRowWithActionSheet(indexPath)
         }
     }
@@ -346,7 +346,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         
         //这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
         let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢" ,"查看对话")
-        actionSheet.tag = (indexPath as NSIndexPath).row
+        actionSheet.tag = indexPath.row
         actionSheet.show(in: self.view)
         
     }
@@ -417,7 +417,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         return 4
     }
     func V2ActivityView(_ activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: IndexPath) -> V2Activity {
-        return V2Activity(title: ["忽略","收藏","感谢","Safari"][(indexPath as NSIndexPath).row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][(indexPath as NSIndexPath).row])!)
+        return V2Activity(title: ["忽略","收藏","感谢","Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][indexPath.row])!)
     }
     func V2ActivityView(_ activityView:V2ActivityViewController ,heightForFooterInSection section: Int) -> CGFloat{
         return 45
@@ -432,7 +432,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         label.textAlignment = .center
         label.textColor = UIColor.white
         view.addSubview(label)
-        label.snp_makeConstraints{ (make) -> Void in
+        label.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(view)
         }
         
@@ -443,7 +443,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
     
     func V2ActivityView(_ activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: IndexPath) {
         activityView.dismiss()
-        let action = V2ActivityViewTopicDetailAction(rawValue: (indexPath as NSIndexPath).row)!
+        let action = V2ActivityViewTopicDetailAction(rawValue: indexPath.row)!
         
         guard V2User.sharedInstance.isLogin
             // 用safari打开是不用登录的

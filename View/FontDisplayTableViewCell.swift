@@ -19,7 +19,7 @@ class FontDisplayTableViewCell: BaseDetailTableViewCell {
         self.titleLabel.preferredMaxLayoutWidth = SCREEN_WIDTH - 24
         self.titleLabel.baselineAdjustment = .none
         
-        self.titleLabel.snp_remakeConstraints{ (make) -> Void in
+        self.titleLabel.snp.remakeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12)
             make.right.equalTo(self.contentView).offset(-12)
             make.height.lessThanOrEqualTo(self.contentView).offset(-12)

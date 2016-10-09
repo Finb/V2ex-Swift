@@ -39,7 +39,7 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
         self.title = "通知"
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
 
@@ -71,13 +71,13 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.fin_heightForCellWithIdentifier(NotificationTableViewCell.self, indexPath: indexPath) { (cell) -> Void in
-            cell.bind(self.notificationsArray[(indexPath as NSIndexPath).row]);
+            cell.bind(self.notificationsArray[indexPath.row]);
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: NotificationTableViewCell.self, indexPath: indexPath)
-        cell.bind(self.notificationsArray[(indexPath as NSIndexPath).row])
-        cell.replyButton.tag = (indexPath as NSIndexPath).row
+        cell.bind(self.notificationsArray[indexPath.row])
+        cell.replyButton.tag = indexPath.row
         if cell.replyButtonClickHandler == nil {
             cell.replyButtonClickHandler = { [weak self] (sender) in
                 self?.replyClick(sender)
@@ -87,7 +87,7 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.notificationsArray[(indexPath as NSIndexPath).row]
+        let item = self.notificationsArray[indexPath.row]
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;

@@ -42,13 +42,13 @@ class LeftUserHeadCell: UITableViewCell {
         self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.userNameLabel)
         
-        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
+        self.avatarImageView.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(self.contentView)
             make.centerY.equalTo(self.contentView).offset(-8)
             make.width.height.equalTo(self.avatarImageView.layer.cornerRadius * 2)
         }
-        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp_bottom).offset(10)
+        self.userNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.avatarImageView.snp.bottom).offset(10)
             make.centerX.equalTo(self.avatarImageView)
         }
 

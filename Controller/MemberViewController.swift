@@ -9,7 +9,7 @@
 import UIKit
 import FXBlurView
 
-class MemberViewController: UIViewController,UITableViewDelegate ,UIScrollViewDelegate {
+class MemberViewController: UIViewController,UITableViewDelegate,UITableViewDataSource ,UIScrollViewDelegate {
     var color:CGFloat = 0
     
     var username:String?
@@ -64,7 +64,7 @@ class MemberViewController: UIViewController,UITableViewDelegate ,UIScrollViewDe
         
 
         self.view.addSubview(self.tableView);
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         
@@ -75,8 +75,8 @@ class MemberViewController: UIViewController,UITableViewDelegate ,UIScrollViewDe
         let aloadView = UIActivityIndicatorView(activityIndicatorStyle: .white)
         self.view.addSubview(aloadView)
         aloadView.startAnimating()
-        aloadView.snp_makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.view.snp_top).offset(20+44/2)
+        aloadView.snp.makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.view.snp.top).offset(20+44/2)
             make.right.equalTo(self.view).offset(-15)
         }
         self._loadView = aloadView
@@ -190,14 +190,10 @@ class MemberViewController: UIViewController,UITableViewDelegate ,UIScrollViewDe
         //后退按钮颜色
         self.navigationController?.navigationBar.tintColor = colorWith255RGB(y*2.4+self.color, g: y*2.4+self.color, b: y*2.4+self.color)
     }
-}
-
-// MARK: - UITableViewDataSource
-extension MemberViewController : UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let rows = [1,self.model?.topics.count,self.model?.replies.count][section] {
             return rows
@@ -206,27 +202,27 @@ extension MemberViewController : UITableViewDataSource {
     }
     
     
-    private func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return [0,40,40][section]
     }
     
-    private func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 0 {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
             return 240
         }
-        else if (indexPath as NSIndexPath).section == 1 {
+        else if indexPath.section == 1 {
             return tableView.fin_heightForCellWithIdentifier(MemberTopicCell.self, indexPath: indexPath) { (cell) -> Void in
-                cell.bind(self.model!.topics[(indexPath as NSIndexPath).row])
+                cell.bind(self.model!.topics[indexPath.row])
             }
         }
         else {
             return tableView.fin_heightForCellWithIdentifier(MemberReplyCell.self, indexPath: indexPath) { (cell) -> Void in
-                cell.bind(self.model!.replies[(indexPath as NSIndexPath).row])
+                cell.bind(self.model!.replies[indexPath.row])
             }
         }
     }
     
-    private func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if tableViewHeader.count > section - 1 {
             return tableViewHeader[section-1]
         }
@@ -238,7 +234,7 @@ extension MemberViewController : UITableViewDataSource {
         view.addSubview(label)
         label.font = v2Font(15)
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
-        label.snp_makeConstraints{ (make) -> Void in
+        label.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(view)
             make.leading.equalTo(view).offset(12)
         }
@@ -246,32 +242,33 @@ extension MemberViewController : UITableViewDataSource {
         tableViewHeader.append(view)
         return view
     }
-    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).section == 0 {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
             let cell = getCell(tableView, cell: MemberHeaderCell.self, indexPath: indexPath);
             cell.bind(self.model)
             return cell ;
         }
-        else if (indexPath as NSIndexPath).section == 1 {
+        else if indexPath.section == 1 {
             let cell = getCell(tableView, cell: MemberTopicCell.self, indexPath: indexPath)
-            cell.bind(self.model!.topics[(indexPath as NSIndexPath).row])
+            cell.bind(self.model!.topics[indexPath.row])
             return cell
         }
         else {
             let cell = getCell(tableView, cell: MemberReplyCell.self, indexPath: indexPath)
-            cell.bind(self.model!.replies[(indexPath as NSIndexPath).row])
+            cell.bind(self.model!.replies[indexPath.row])
             return cell
         }
     }
     
-    private func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var id:String?
         
-        if (indexPath as NSIndexPath).section == 1 {
-            id = self.model?.topics[(indexPath as NSIndexPath).row].topicId
+        if indexPath.section == 1 {
+            id = self.model?.topics[indexPath.row].topicId
         }
-        else if (indexPath as NSIndexPath).section == 2 {
-            id = self.model?.replies[(indexPath as NSIndexPath).row].topicId
+        else if indexPath.section == 2 {
+            id = self.model?.replies[indexPath.row].topicId
         }
         
         if let id = id {
@@ -282,6 +279,7 @@ extension MemberViewController : UITableViewDataSource {
         }
         
     }
+
 }
 
 //MARK: - Block and Follow

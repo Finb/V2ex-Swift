@@ -30,14 +30,14 @@ class V2LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
         
         let sectionInset = self.sectionInset
         
-        if (indexPath as NSIndexPath).item == 0 {
+        if indexPath.item == 0 {
             var frame = currentItemAttributes!.frame
             frame.origin.x = sectionInset.left
             currentItemAttributes!.frame = frame
             return currentItemAttributes!;
         }
         
-        let previousIndexPath = IndexPath(item: (indexPath as NSIndexPath).item - 1 , section: (indexPath as NSIndexPath).section);
+        let previousIndexPath = IndexPath(item: indexPath.item - 1 , section: indexPath.section);
         let previousFrame = self.layoutAttributesForItem(at: previousIndexPath).frame
         let previousFrameRightPoint =  previousFrame.origin.x + previousFrame.size.width + cellSpacing;
         let currentFrame = currentItemAttributes?.frame;

@@ -14,35 +14,6 @@ import AlamofireObjectMapper
 
 import Ji
 import MJRefresh
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l <= r
-  default:
-    return !(rhs < lhs)
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 let kHomeTab = "me.fin.homeTab"
 
@@ -87,7 +58,7 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         
         self.view.addSubview(self.tableView);
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
@@ -167,7 +138,7 @@ class HomeViewController: UIViewController {
     }
     
     func getNextPage(){
-        if self.topicList == nil || self.topicList?.count <= 0{
+        if let count = self.topicList?.count , count <= 0{
             self.tableView.mj_footer.endRefreshing()
             return;
         }
@@ -177,7 +148,7 @@ class HomeViewController: UIViewController {
             (response:V2ValueResponse<[TopicListModel]>) -> Void in
             
             if response.success {
-                if response.value?.count > 0 {
+                if let count = response.value?.count, count > 0 {
                     self.topicList! += response.value!
                     self.tableView.reloadData()
                 }
@@ -214,7 +185,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         return 0;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = self.topicList![(indexPath as NSIndexPath).row]
+        let item = self.topicList![indexPath.row]
         let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
         //          上间隔   头像高度  头像下间隔       标题高度    标题下间隔 cell间隔
         let height = 12    +  35     +  12      + titleHeight   + 12      + 8
@@ -224,12 +195,12 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
-        cell.bind(self.topicList![(indexPath as NSIndexPath).row]);
+        cell.bind(self.topicList![indexPath.row]);
         return cell;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.topicList![(indexPath as NSIndexPath).row]
+        let item = self.topicList![indexPath.row]
         
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();

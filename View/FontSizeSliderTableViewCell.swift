@@ -25,7 +25,7 @@ class FontSizeSliderTableViewCell: UITableViewCell {
         leftLabel.text = "A"
         leftLabel.textAlignment = .center
         self.contentView.addSubview(leftLabel)
-        leftLabel.snp_makeConstraints{ (make) -> Void in
+        leftLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.contentView)
             make.width.height.equalTo(30)
             make.left.equalTo(self.contentView)
@@ -36,7 +36,7 @@ class FontSizeSliderTableViewCell: UITableViewCell {
         rightLabel.text = "A"
         rightLabel.textAlignment = .center
         self.contentView.addSubview(rightLabel)
-        rightLabel.snp_makeConstraints{ (make) -> Void in
+        rightLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.contentView)
             make.width.height.equalTo(30)
             make.right.equalTo(self.contentView)
@@ -50,22 +50,22 @@ class FontSizeSliderTableViewCell: UITableViewCell {
             }
         }
         self.contentView.addSubview(slider)
-        slider.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(leftLabel.snp_right)
-            make.right.equalTo(rightLabel.snp_left)
+        slider.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(leftLabel.snp.right)
+            make.right.equalTo(rightLabel.snp.left)
             make.centerY.equalTo(self.contentView)
         }
         
         let topSeparator = UIImageView()
         self.contentView.addSubview(topSeparator)
-        topSeparator.snp_makeConstraints{ (make) -> Void in
+        topSeparator.snp.makeConstraints{ (make) -> Void in
             make.left.right.top.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)
         }
         
         let bottomSeparator = UIImageView()
         self.contentView.addSubview(bottomSeparator)
-        bottomSeparator.snp_makeConstraints{ (make) -> Void in
+        bottomSeparator.snp.makeConstraints{ (make) -> Void in
             make.left.right.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)
         }

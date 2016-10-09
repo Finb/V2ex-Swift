@@ -26,7 +26,7 @@ class LogoutTableViewCell: UITableViewCell {
         
         let separator = UIImageView(image: createImageWithColor(V2EXColor.colors.v2_SeparatorColor))
         self.contentView.addSubview(separator)
-        separator.snp_makeConstraints{ (make) -> Void in
+        separator.snp.makeConstraints{ (make) -> Void in
             make.left.equalTo(self.contentView)
             make.right.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)

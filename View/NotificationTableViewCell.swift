@@ -129,49 +129,49 @@ class NotificationTableViewCell: UITableViewCell {
         
     }
     fileprivate func setupLayout(){
-        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
+        self.avatarImageView.snp.makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
             make.width.height.equalTo(35);
         }
-        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp_right).offset(10);
+        self.userNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(10);
             make.top.equalTo(self.avatarImageView);
         }
-        self.dateLabel.snp_makeConstraints{ (make) -> Void in
+        self.dateLabel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.avatarImageView);
             make.left.equalTo(self.userNameLabel);
         }
-        self.detailLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp_bottom).offset(12);
+        self.detailLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
         }
-        self.commentLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.detailLabel.snp_bottom).offset(20);
+        self.commentLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.detailLabel.snp.bottom).offset(20);
             make.left.equalTo(self.contentPanel).offset(22);
             make.right.equalTo(self.contentPanel).offset(-22);
         }
-        self.commentPanel.snp_makeConstraints{ (make) -> Void in
+        self.commentPanel.snp.makeConstraints{ (make) -> Void in
             make.top.left.equalTo(self.commentLabel).offset(-10)
             make.right.bottom.equalTo(self.commentLabel).offset(10)
         }
-        self.dropUpImageView.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.commentPanel.snp_top)
+        self.dropUpImageView.snp.makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.commentPanel.snp.top)
             make.left.equalTo(self.commentPanel).offset(25)
             make.width.equalTo(10)
             make.height.equalTo(5)
         }
-        self.replyButton.snp_makeConstraints{ (make) -> Void in
+        self.replyButton.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.avatarImageView)
             make.right.equalTo(self.contentPanel).offset(-12)
             make.width.equalTo(50)
             make.height.equalTo(25)
         }
-        self.contentPanel.snp_remakeConstraints{ (make) -> Void in
+        self.contentPanel.snp.remakeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
-            make.bottom.equalTo(self.commentPanel.snp_bottom).offset(12);
+            make.bottom.equalTo(self.commentPanel.snp.bottom).offset(12);
         }
-        self.contentView.snp_makeConstraints{ (make) -> Void in
+        self.contentView.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self);
             make.bottom.equalTo(self.contentPanel).offset(0);
         }
@@ -214,17 +214,17 @@ class NotificationTableViewCell: UITableViewCell {
             self.commentPanel.isHidden = true
             self.dropUpImageView.isHidden = true
             self.commentLabel.text = ""
-            self.contentPanel.snp_remakeConstraints{ (make) -> Void in
+            self.contentPanel.snp.remakeConstraints{ (make) -> Void in
                 make.top.left.right.equalTo(self.contentView);
-                make.bottom.equalTo(self.detailLabel.snp_bottom).offset(12);
+                make.bottom.equalTo(self.detailLabel.snp.bottom).offset(12);
             }
         }
         else{
             self.commentPanel.isHidden = false
             self.dropUpImageView.isHidden = false
-            self.contentPanel.snp_remakeConstraints{ (make) -> Void in
+            self.contentPanel.snp.remakeConstraints{ (make) -> Void in
                 make.top.left.right.equalTo(self.contentView);
-                make.bottom.equalTo(self.commentPanel.snp_bottom).offset(12);
+                make.bottom.equalTo(self.commentPanel.snp.bottom).offset(12);
             }
         }
     }

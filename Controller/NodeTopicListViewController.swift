@@ -80,7 +80,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         self.title = self.node?.nodeName
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.view.addSubview(self.tableView);
-        self.tableView.snp_makeConstraints{ (make) -> Void in
+        self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         
@@ -155,7 +155,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = self.topicList![(indexPath as NSIndexPath).row]
+        let item = self.topicList![indexPath.row]
         let titleHeight = item.topicTitleLayout?.textBoundingRect.size.height ?? 0
         //          上间隔   头像高度  头像下间隔       标题高度    标题下间隔 cell间隔
         let height = 12    +  35     +  12      + titleHeight   + 12      + 8
@@ -164,12 +164,12 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
-        cell.bindNodeModel(self.topicList![(indexPath as NSIndexPath).row]);
+        cell.bindNodeModel(self.topicList![indexPath.row]);
         return cell;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.topicList![(indexPath as NSIndexPath).row]
+        let item = self.topicList![indexPath.row]
         
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();

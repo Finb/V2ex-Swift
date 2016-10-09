@@ -110,15 +110,15 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
 
         
         self.view.addSubview(self.tableView);
-        self.tableView.snp_remakeConstraints{ (make) -> Void in
+        self.tableView.snp.remakeConstraints{ (make) -> Void in
             make.left.right.equalTo(self.view);
             make.height.equalTo(self.view)
-            make.top.equalTo(self.view.snp_bottom)
+            make.top.equalTo(self.view.snp.bottom)
         }
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        self.tableView.snp_remakeConstraints{ (make) -> Void in
+        self.tableView.snp.remakeConstraints{ (make) -> Void in
             make.left.right.equalTo(self.view);
             make.height.equalTo(self.view)
             make.top.equalTo(self.view)
@@ -144,12 +144,12 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         return self.commentsArray.count;
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let layout = self.commentsArray[(indexPath as NSIndexPath).row].textLayout!
+        let layout = self.commentsArray[indexPath.row].textLayout!
         return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
-        cell.bind(self.commentsArray[(indexPath as NSIndexPath).row])
+        cell.bind(self.commentsArray[indexPath.row])
         return cell
     }
     

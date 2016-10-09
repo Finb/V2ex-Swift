@@ -52,7 +52,7 @@ class V2EXNavigationController: UINavigationController {
         maskingView.isUserInteractionEnabled = false
         maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
         self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
-        maskingView.snp_makeConstraints{ (make) -> Void in
+        maskingView.snp.makeConstraints{ (make) -> Void in
             make.left.bottom.right.equalTo(self.navigationBar)
             make.top.equalTo(self.navigationBar).offset(-20);
         }
@@ -60,7 +60,7 @@ class V2EXNavigationController: UINavigationController {
         self.frostedView.isUserInteractionEnabled = false
         self.frostedView.clipsToBounds = true
         maskingView.addSubview(self.frostedView);
-        self.frostedView.snp_makeConstraints{ (make) -> Void in
+        self.frostedView.snp.makeConstraints{ (make) -> Void in
             make.top.bottom.left.right.equalTo(maskingView);
         }
 

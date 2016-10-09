@@ -78,15 +78,15 @@ extension UITableView {
         
 //         Hit cache
         if self.fin_hasCachedHeightAtIndexPath(indexPath) {
-            let height: CGFloat = self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
+            let height: CGFloat = self.fin_indexPathHeightCache![indexPath.section][indexPath.row]
 //            NSLog("hit cache by indexPath:[\(indexPath.section),\(indexPath.row)] -> \(height)");
             return height
         }
         
         let height = self.fin_heightForCellWithIdentifier(identifierStr, configuration: configuration)
-        self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row] = height
+        self.fin_indexPathHeightCache![indexPath.section][indexPath.row] = height
 //        NSLog("cached by indexPath:[\(indexPath.section),\(indexPath.row)] --> \(height)")
-        
+
         return height
     }
     
@@ -98,7 +98,7 @@ extension UITableView {
 
     fileprivate func fin_hasCachedHeightAtIndexPath(_ indexPath:IndexPath) -> Bool {
         self.fin_buildHeightCachesAtIndexPathsIfNeeded([indexPath]);
-        let height = self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row];
+        let height = self.fin_indexPathHeightCache![indexPath.section][indexPath.row];
         return height >= 0;
     }
     
@@ -113,19 +113,19 @@ extension UITableView {
         
         for indexPath in indexPaths {
             let cacheSectionCount = self.fin_indexPathHeightCache!.count;
-            if  (indexPath as NSIndexPath).section >= cacheSectionCount {
-                for i in cacheSectionCount...(indexPath as NSIndexPath).section {
+            if  indexPath.section >= cacheSectionCount {
+                for i in cacheSectionCount...indexPath.section {
                     if i >= self.fin_indexPathHeightCache?.count {
                         self.fin_indexPathHeightCache!.append([])
                     }
                 }
             }
             
-            let cacheCount = self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section].count;
-            if (indexPath as NSIndexPath).row >= cacheCount {
-                for i in cacheCount...(indexPath as NSIndexPath).row {
-                    if i >= self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section].count {
-                        self.fin_indexPathHeightCache![(indexPath as NSIndexPath).section].append(AssociatedKey.finHeightCacheAbsendValue);
+            let cacheCount = self.fin_indexPathHeightCache![indexPath.section].count;
+            if indexPath.row >= cacheCount {
+                for i in cacheCount...indexPath.row {
+                    if i >= self.fin_indexPathHeightCache![indexPath.section].count {
+                        self.fin_indexPathHeightCache![indexPath.section].append(AssociatedKey.finHeightCacheAbsendValue);
                     }
                 }
             }

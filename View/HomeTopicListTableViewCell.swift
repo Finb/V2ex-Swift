@@ -138,49 +138,49 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupLayout(){
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
         }
-        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
+        self.avatarImageView.snp.makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
             make.width.height.equalTo(35);
         }
-        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp_right).offset(10);
+        self.userNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(10);
             make.top.equalTo(self.avatarImageView);
         }
-        self.dateAndLastPostUserLabel.snp_makeConstraints{ (make) -> Void in
+        self.dateAndLastPostUserLabel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.avatarImageView);
             make.left.equalTo(self.userNameLabel);
         }
-        self.replyCountLabel.snp_makeConstraints{ (make) -> Void in
+        self.replyCountLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.userNameLabel);
             make.right.equalTo(self.contentPanel).offset(-12);
         }
-        self.replyCountIconImageView.snp_makeConstraints{ (make) -> Void in
+        self.replyCountIconImageView.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.replyCountLabel);
             make.width.height.equalTo(18);
-            make.right.equalTo(self.replyCountLabel.snp_left).offset(-2);
+            make.right.equalTo(self.replyCountLabel.snp.left).offset(-2);
         }
-        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
+        self.nodeNameLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.replyCountLabel);
-            make.right.equalTo(self.replyCountIconImageView.snp_left).offset(-9)
+            make.right.equalTo(self.replyCountIconImageView.snp.left).offset(-9)
             make.bottom.equalTo(self.replyCountLabel).offset(1);
             make.top.equalTo(self.replyCountLabel).offset(-1);
         }
-        self.nodeBackgroundImageView.snp_makeConstraints{ (make) -> Void in
+        self.nodeBackgroundImageView.snp.makeConstraints{ (make) -> Void in
             make.top.bottom.equalTo(self.nodeNameLabel)
             make.left.equalTo(self.nodeNameLabel).offset(-5)
             make.right.equalTo(self.nodeNameLabel).offset(5)
         }
-        self.topicTitleLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp_bottom).offset(12);
+        self.topicTitleLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
             make.bottom.equalTo(self.contentView).offset(-8)
         }
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-8);
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-8);
         }
     }
     

@@ -23,7 +23,7 @@ class NodeCollectionReusableView: UICollectionReusableView {
         
         self.addSubview(label);
         
-        label.snp_makeConstraints{ (make) -> Void in
+        label.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self)
             make.left.equalTo(self).offset(15)
         }

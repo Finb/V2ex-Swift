@@ -46,32 +46,32 @@ class SettingsTableViewController: UITableViewController {
         return label
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath as NSIndexPath).section == 0 {
+        if indexPath.section == 0 {
             return 44
         }
         else {
-            return [70,25,175][(indexPath as NSIndexPath).row]
+            return [70,25,175][indexPath.row]
         }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (indexPath as NSIndexPath).section == 0 {
+        if indexPath.section == 0 {
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
-            cell.titleLabel.text = ["默认","暗色"][(indexPath as NSIndexPath).row]
+            cell.titleLabel.text = ["默认","暗色"][indexPath.row]
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                cell.detailLabel.text = ["正在使用",""][(indexPath as NSIndexPath).row]
+                cell.detailLabel.text = ["正在使用",""][indexPath.row]
             }
             else{
-                cell.detailLabel.text = ["","正在使用"][(indexPath as NSIndexPath).row]
+                cell.detailLabel.text = ["","正在使用"][indexPath.row]
             }
             return cell
         }
         
         else {
-            if (indexPath as NSIndexPath).row == 0 {
+            if indexPath.row == 0 {
                 let cell = getCell(tableView, cell: FontSizeSliderTableViewCell.self, indexPath: indexPath)
                 return cell
             }
-            else if (indexPath as NSIndexPath).row == 1 {
+            else if indexPath.row == 1 {
                 let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
                 cell.backgroundColor = V2EXColor.colors.v2_backgroundColor
                 cell.detailMarkHidden = true
@@ -85,8 +85,8 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath as NSIndexPath).section == 0 {
-            V2EXColor.sharedInstance.setStyleAndSave([V2EXColor.V2EXColorStyleDefault,V2EXColor.V2EXColorStyleDark][(indexPath as NSIndexPath).row])
+        if indexPath.section == 0 {
+            V2EXColor.sharedInstance.setStyleAndSave([V2EXColor.V2EXColorStyleDefault,V2EXColor.V2EXColorStyleDark][indexPath.row])
         }
     }
 }

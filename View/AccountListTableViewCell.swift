@@ -49,21 +49,21 @@ class AccountListTableViewCell: UITableViewCell {
 
         self.usedLabel.isHidden = true;
 
-        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
+        self.avatarImageView.snp.makeConstraints{ (make) -> Void in
             make.left.equalTo(self.contentView).offset(15)
             make.centerY.equalTo(self.contentView)
             make.width.height.equalTo(self.avatarImageView.layer.cornerRadius * 2)
         }
-        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp_right).offset(15)
+        self.userNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(15)
             make.centerY.equalTo(self.avatarImageView)
         }
-        self.usedLabel.snp_makeConstraints{ (make) -> Void in
+        self.usedLabel.snp.makeConstraints{ (make) -> Void in
             make.right.equalTo(self.contentView).offset(-15)
             make.centerY.equalTo(self.avatarImageView)
         }
-        separator.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp_right).offset(5)
+        separator.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(5)
             make.right.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)
         }

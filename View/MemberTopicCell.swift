@@ -83,38 +83,38 @@ class MemberTopicCell: UITableViewCell {
     }
     
     func setupLayout(){
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
         }
-        self.dateAndLastPostUserLabel.snp_makeConstraints{ (make) -> Void in
+        self.dateAndLastPostUserLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.contentPanel).offset(12);
             make.left.equalTo(self.contentPanel).offset(12);
         }
-        self.replyCountLabel.snp_makeConstraints{ (make) -> Void in
+        self.replyCountLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.dateAndLastPostUserLabel);
             make.right.equalTo(self.contentPanel).offset(-12);
         }
-        self.replyCountIconImageView.snp_makeConstraints{ (make) -> Void in
+        self.replyCountIconImageView.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.replyCountLabel);
             make.width.height.equalTo(18);
-            make.right.equalTo(self.replyCountLabel.snp_left).offset(-2);
+            make.right.equalTo(self.replyCountLabel.snp.left).offset(-2);
         }
-        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
+        self.nodeNameLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.replyCountLabel);
-            make.right.equalTo(self.replyCountIconImageView.snp_left).offset(-4)
+            make.right.equalTo(self.replyCountIconImageView.snp.left).offset(-4)
             make.bottom.equalTo(self.replyCountLabel).offset(1);
             make.top.equalTo(self.replyCountLabel).offset(-1);
         }
-        self.topicTitleLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.dateAndLastPostUserLabel.snp_bottom).offset(12);
+        self.topicTitleLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.dateAndLastPostUserLabel.snp.bottom).offset(12);
             make.left.equalTo(self.dateAndLastPostUserLabel);
             make.right.equalTo(self.contentPanel).offset(-12);
         }
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.topicTitleLabel.snp_bottom).offset(12);
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.topicTitleLabel.snp.bottom).offset(12);
         }
         
-        self.contentView.snp_makeConstraints{ (make) -> Void in
+        self.contentView.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self);
             make.bottom.equalTo(self.contentPanel);
         }

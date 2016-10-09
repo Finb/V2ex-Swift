@@ -31,15 +31,15 @@ class PodCellTableViewCell: BaseDetailTableViewCell {
     }
     
     fileprivate func setupLayout() {
-        self.titleLabel.snp_remakeConstraints{ (make) -> Void in
+        self.titleLabel.snp.remakeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12)
         }
-        self.descriptionLabel.snp_makeConstraints{ (make) -> Void in
+        self.descriptionLabel.snp.makeConstraints{ (make) -> Void in
             make.left.equalTo(self.titleLabel)
             make.right.equalTo(self.contentView).offset(-30)
-            make.top.equalTo(self.titleLabel.snp_bottom)
+            make.top.equalTo(self.titleLabel.snp.bottom)
         }
-        self.contentView.snp_makeConstraints{ (make) -> Void in
+        self.contentView.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self);
             make.bottom.equalTo(self.descriptionLabel).offset(8);
         }

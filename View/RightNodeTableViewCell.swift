@@ -29,13 +29,13 @@ class RightNodeTableViewCell: UITableViewCell {
         
         let panel = UIView()
         self.contentView.addSubview(panel)
-        panel.snp_makeConstraints{ (make) -> Void in
+        panel.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.equalTo(self.contentView)
             make.bottom.equalTo(self.contentView).offset(-1 * SEPARATOR_HEIGHT)
         }
         
         panel.addSubview(self.nodeNameLabel)
-        self.nodeNameLabel.snp_makeConstraints{ (make) -> Void in
+        self.nodeNameLabel.snp.makeConstraints{ (make) -> Void in
             make.right.equalTo(panel).offset(-22)
             make.centerY.equalTo(panel)
         }

@@ -115,39 +115,39 @@ class TopicDetailCommentCell: UITableViewCell{
         )
     }
     func setupLayout(){
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
         }
-        self.avatarImageView.snp_makeConstraints{ (make) -> Void in
+        self.avatarImageView.snp.makeConstraints{ (make) -> Void in
             make.left.top.equalTo(self.contentView).offset(12);
             make.width.height.equalTo(35);
         }
-        self.userNameLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.avatarImageView.snp_right).offset(10);
+        self.userNameLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.avatarImageView.snp.right).offset(10);
             make.top.equalTo(self.avatarImageView);
         }
-        self.favoriteIconView.snp_makeConstraints{ (make) -> Void in
+        self.favoriteIconView.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.userNameLabel);
-            make.left.equalTo(self.userNameLabel.snp_right).offset(10)
+            make.left.equalTo(self.userNameLabel.snp.right).offset(10)
             make.width.height.equalTo(10)
         }
-        self.favoriteLabel.snp_makeConstraints{ (make) -> Void in
-            make.left.equalTo(self.favoriteIconView.snp_right).offset(3)
+        self.favoriteLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.favoriteIconView.snp.right).offset(3)
             make.centerY.equalTo(self.favoriteIconView)
         }
-        self.dateLabel.snp_makeConstraints{ (make) -> Void in
+        self.dateLabel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.avatarImageView);
             make.left.equalTo(self.userNameLabel);
         }
-        self.commentLabel.snp_makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.avatarImageView.snp_bottom).offset(12);
+        self.commentLabel.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
-            make.bottom.equalTo(self.contentPanel.snp_bottom).offset(-12)
+            make.bottom.equalTo(self.contentPanel.snp.bottom).offset(-12)
         }
         
-        self.contentPanel.snp_makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp_bottom).offset(-SEPARATOR_HEIGHT);
+        self.contentPanel.snp.makeConstraints{ (make) -> Void in
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-SEPARATOR_HEIGHT);
         }
     }
     func userNameTap(_ sender:UITapGestureRecognizer) {

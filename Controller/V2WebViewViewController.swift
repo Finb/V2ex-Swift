@@ -91,7 +91,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.webView!.scalesPageToFit = true
         self.webView!.delegate = self.webViewProgress
         self.view.addSubview(self.webView!)
-        self.webView!.snp_makeConstraints{ (make) -> Void in
+        self.webView!.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view)
         }
         
@@ -151,7 +151,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         return 1
     }
     func V2ActivityView(_ activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: IndexPath) -> V2Activity {
-        return V2Activity(title: ["Safari"][(indexPath as NSIndexPath).row], image: UIImage(named: ["ic_explore_48pt"][(indexPath as NSIndexPath).row])!)
+        return V2Activity(title: ["Safari"][indexPath.row], image: UIImage(named: ["ic_explore_48pt"][indexPath.row])!)
     }
     func V2ActivityView(_ activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: IndexPath) {
         activityView.dismiss()

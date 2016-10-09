@@ -18,7 +18,7 @@ class BaseViewController: UIViewController {
         let aloadView = V2LoadingView()
         aloadView.backgroundColor = self.view.backgroundColor
         self.view.addSubview(aloadView)
-        aloadView.snp_makeConstraints{ (make) -> Void in
+        aloadView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view)
         }
         self._loadView = aloadView

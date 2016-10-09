@@ -21,7 +21,7 @@ class NotificationMenuButton: UIButton {
         self.aPointImageView!.layer.cornerRadius = 4
         self.aPointImageView!.layer.masksToBounds = true
         self.addSubview(self.aPointImageView!)
-        self.aPointImageView!.snp_makeConstraints{ (make) -> Void in
+        self.aPointImageView!.snp.makeConstraints{ (make) -> Void in
             make.width.height.equalTo(8)
             make.top.equalTo(self).offset(3)
             make.right.equalTo(self).offset(-6)

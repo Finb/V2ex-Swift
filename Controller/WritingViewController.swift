@@ -38,7 +38,7 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         textView!.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
         textView?.keyboardDismissMode = .interactive
         self.view.addSubview(self.textView!)
-        self.textView!.snp_makeConstraints{ (make) -> Void in
+        self.textView!.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view)
         }
         

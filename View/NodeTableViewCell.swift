@@ -22,7 +22,7 @@ class NodeTableViewCell: UICollectionViewCell {
         self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.contentView.addSubview(textLabel)
         
-        textLabel.snp_remakeConstraints({ (make) -> Void in
+        textLabel.snp.remakeConstraints({ (make) -> Void in
             make.center.equalTo(self.contentView)
         })
 

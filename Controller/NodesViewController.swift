@@ -50,14 +50,14 @@ extension NodesViewController : UICollectionViewDataSource {
         return self.nodeGroupArray![section].children.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let nodeModel = self.nodeGroupArray![(indexPath as NSIndexPath).section].children[(indexPath as NSIndexPath).row]
+        let nodeModel = self.nodeGroupArray![indexPath.section].children[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! NodeTableViewCell;
         cell.textLabel.text = nodeModel.nodeName
         return cell;
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let nodeGroupNameView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "nodeGroupNameView", for: indexPath)
-        (nodeGroupNameView as! NodeCollectionReusableView).label.text = self.nodeGroupArray![(indexPath as NSIndexPath).section].groupName
+        (nodeGroupNameView as! NodeCollectionReusableView).label.text = self.nodeGroupArray![indexPath.section].groupName
         return nodeGroupNameView
     }
 }
@@ -66,7 +66,7 @@ extension NodesViewController : UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegateFlowLayout
 extension NodesViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let nodeModel = self.nodeGroupArray![(indexPath as NSIndexPath).section].children[(indexPath as NSIndexPath).row]
+        let nodeModel = self.nodeGroupArray![indexPath.section].children[indexPath.row]
         return CGSize(width: nodeModel.width, height: 25);
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat{
@@ -81,7 +81,7 @@ extension NodesViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - UICollectionViewDelegate
 extension NodesViewController : UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
-        let nodeModel = self.nodeGroupArray![(indexPath as NSIndexPath).section].children[(indexPath as NSIndexPath).row]
+        let nodeModel = self.nodeGroupArray![indexPath.section].children[indexPath.row]
         let controller = NodeTopicListViewController()
         controller.node = nodeModel
         V2Client.sharedInstance.centerNavigation?.pushViewController(controller, animated: true)
