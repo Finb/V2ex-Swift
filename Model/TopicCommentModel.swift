@@ -281,9 +281,9 @@ extension TopicCommentModel {
         var users:Set<String> = []
         for highlight in textHighlights {
             if let url = highlight.userInfo?["url"] as? String{
-                let result = AnalyzURLResult(url: url)
-                if result.type == .member,let username = result.params["value"]{
-                    users.insert(username)
+                let result = AnalyzURLResultType(url: url)
+                if case .member(let member) = result {
+                    users.insert(member.username)
                 }
             }
         }
