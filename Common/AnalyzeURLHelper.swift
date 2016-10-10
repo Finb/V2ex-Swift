@@ -14,6 +14,7 @@ class AnalyzeURLHelper {
 
      - parameter url: 各种URL 例如https://baidu.com 、/member/finab 、/t/100000
      */
+    @discardableResult
     class func Analyze(_ url:String) -> Bool {
         let result = AnalyzURLResult(url: url)
         dispatch_sync_safely_main_queue { () -> () in

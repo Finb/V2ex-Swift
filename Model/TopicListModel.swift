@@ -194,7 +194,7 @@ extension TopicListModel {
             url = V2EXURL + "recent"
         }
 
-        Alamofire.request(url, method: .get, parameters: params, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, parameters: params, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             if  let jiHtml = response.result.value{
                 if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
@@ -231,7 +231,7 @@ extension TopicListModel {
 
         let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
         
-        Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             var favoriteUrl :String?
             if  let jiHtml = response.result.value{
@@ -261,7 +261,7 @@ extension TopicListModel {
 
      */
     class func getFavoriteList(_ page:Int = 1, completionHandler: @escaping (V2ValueResponse<([TopicListModel],Int)>) -> Void){
-        Alamofire.request(V2EXURL+"my/topics?p=\(page)", method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(V2EXURL+"my/topics?p=\(page)", headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             var resultArray:[TopicListModel] = []
             var maxPage = 1
             if let jiHtml = response.result.value {
@@ -303,7 +303,7 @@ extension TopicListModel {
             if(response.success){
                 let action = type == 0 ? "favorite/node/" : "unfavorite/node/"
                 let url = V2EXURL + action + nodeId + "?once=" + V2User.sharedInstance.once!
-                Alamofire.request(url , method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+                Alamofire.request(url , headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
                     
                 }
             }

@@ -134,7 +134,7 @@ class V2User: NSObject {
      - parameter url:               有once存在的url
      */
     func getOnce(_ url:String = V2EXURL+"signin" , completionHandler: @escaping (V2Response) -> Void) {
-        Alamofire.request(url, method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
+        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml {
             (response) -> Void in
             if let jiHtml = response .result.value{
                 if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
@@ -180,7 +180,7 @@ class V2User: NSObject {
      - returns: ture: 正常登录 ,false: 登录过期，没登录
      */
     func verifyLoginStatus() {
-        Alamofire.request(V2EXURL + "new", method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
+        Alamofire.request(V2EXURL + "new",  headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
             if response.request?.url?.absoluteString == response.response?.url?.absoluteString {
                 //登录正常
             }

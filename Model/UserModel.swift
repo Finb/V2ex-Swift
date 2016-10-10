@@ -61,7 +61,7 @@ extension UserModel{
         ) -> Void{
         V2User.sharedInstance.removeAllCookies()
         
-        Alamofire.request(V2EXURL+"signin", method: .get,  parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
+        Alamofire.request(V2EXURL+"signin", headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
             (response) -> Void in
 
             if let jiHtml = response .result.value{
@@ -103,7 +103,7 @@ extension UserModel{
         //为安全，此处使用https
         dict["Referer"] = "https://v2ex.com/signin"
         //登录
-        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, encoding: URLEncoding.default, headers: dict).responseJiHtml{
+        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, headers: dict).responseJiHtml{
             (response) -> Void in
             if let jiHtml = response .result.value{
                 //判断有没有用户头像，如果有，则证明登录成功了
@@ -127,7 +127,7 @@ extension UserModel{
         let prame = [
             "username":username
         ]
-        Alamofire.request(V2EXURL+"api/members/show.json", method: .get, parameters: prame, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseObject { (response : DataResponse<UserModel>) in
+        Alamofire.request(V2EXURL+"api/members/show.json", parameters: prame, headers: MOBILE_CLIENT_HEADERS).responseObject { (response : DataResponse<UserModel>) in
             if let model = response.result.value {
                 V2User.sharedInstance.user = model
                 
@@ -147,7 +147,7 @@ extension UserModel{
     class func dailyRedeem() {
         V2User.sharedInstance.getOnce { (response) -> Void in
             if response.success {
-                Alamofire.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , method: .get, parameters: [:], encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
+                Alamofire.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
                     if let jiHtml = response .result.value{
                         if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.first {
                             if aRootNode.content == "已成功领取每日登录奖励" {

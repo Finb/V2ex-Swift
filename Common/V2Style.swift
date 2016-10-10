@@ -69,7 +69,7 @@ class V2Style: NSObject {
         
         //替换FONT_SIZE
         FONT_SIZE_ARRAY.forEach { (fontSize) -> () in
-            fontCss = fontCss.replacingOccurrences(of: fontSize.labelName, with:String(Int(fontSize.defaultFontSize * fontScale)))
+            fontCss = fontCss.replacingOccurrences(of: fontSize.labelName, with:String(fontSize.defaultFontSize * fontScale))
         }
         
         return fontCss

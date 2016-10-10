@@ -79,7 +79,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
     class func getMemberInfo(_ username:String , completionHandler: ((V2ValueResponse<MemberModel>) -> Void)? = nil) {
     
         let url = V2EXURL + "member/" + username
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
             if let jiHtml = response.result.value {
                 
                 if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/table/tr")?.first{
@@ -198,10 +198,9 @@ extension MemberModel {
         ){
         let action = type == .followed ? "follow/" : "unfollow/"
         let url = V2EXURL + action + userId + "?t=" + userToken
-//        Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
-//            completionHandler?(V2Response(success: response.result.isSuccess))
-//        }
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS);
+        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+            completionHandler?(V2Response(success: response.result.isSuccess))
+        }
     }
     
     /**
@@ -218,8 +217,8 @@ extension MemberModel {
         ){
         let action = type == .blocked ? "block/" : "unblock/"
         let url = V2EXURL + action + userId + "?t=" + userToken
-//        Alamofire.request(.GET, url , parameters: nil, encoding: .URL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
-//            completionHandler?(V2Response(success: response.result.isSuccess))
-//        }
+        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+            completionHandler?(V2Response(success: response.result.isSuccess))
+        }
     }
 }

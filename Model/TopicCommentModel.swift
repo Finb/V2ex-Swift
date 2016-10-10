@@ -185,7 +185,7 @@ extension TopicCommentModel {
                     "once":V2User.sharedInstance.once!
                 ] as [String:Any]
                 
-                Alamofire.request(url, method: .post, parameters: prames, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+                Alamofire.request(url, method: .post, parameters: prames, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
                     if let location = response.response?.allHeaderFields["Etag"] as? String{
                         if location.Lenght > 0 {
                             completionHandler(V2Response(success: true))
@@ -211,7 +211,7 @@ extension TopicCommentModel {
     
     class func replyThankWithReplyId(_ replyId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
         let url  = V2EXURL + "thank/reply/" + replyId + "?t=" + token
-        Alamofire.request(url, method: .post, parameters: nil, encoding: URLEncoding.default, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
+        Alamofire.request(url, method: .post, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
             if response.result.isSuccess {
                 if let result = response.result.value {
                     if result.Lenght == 0 {
