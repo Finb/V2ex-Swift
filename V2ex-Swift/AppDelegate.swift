@@ -39,16 +39,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         drawerController.maximumRightDrawerWidth=100;
         drawerController.openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
         drawerController.closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
+        drawerController.shouldStretchDrawer = false;
         self.window?.rootViewController = drawerController;
 
         V2Client.sharedInstance.drawerController = drawerController
         V2Client.sharedInstance.centerViewController = centerNav.viewControllers[0] as? HomeViewController
         V2Client.sharedInstance.centerNavigation = centerNav
-        #if DEBUG
-            let fpsLabel = V2FPSLabel(frame: CGRect(x: 15, y: SCREEN_HEIGHT-40,width: 55,height: 20));
-            self.window?.addSubview(fpsLabel);
-        #else
-        #endif
+//        #if DEBUG
+//            let fpsLabel = V2FPSLabel(frame: CGRect(x: 15, y: SCREEN_HEIGHT-40,width: 55,height: 20));
+//            self.window?.addSubview(fpsLabel);
+//        #else
+//        #endif
         
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
@@ -57,10 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /**
         DEBUG 模式下不统计任何信息，如果你需要使用Crashlytics ，请自行申请账号替换我的Key
         */
-        #if DEBUG
-        #else
-            Fabric.with([Crashlytics.self])
-        #endif
+//        #if DEBUG
+//        #else
+//            Fabric.with([Crashlytics.self])
+//        #endif
         return true
     }
     
