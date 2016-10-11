@@ -35,7 +35,7 @@ extension String {
  - parameter cell:      要注册的类名
  */
 func regClass(_ tableView:UITableView , cell:AnyClass)->Void {
-    tableView.register( cell, forCellReuseIdentifier: cell.Identifier());
+    tableView.register(cell, forCellReuseIdentifier: cell.Identifier())
 }
 /**
  从tableView缓存中取出对应类型的Cell
