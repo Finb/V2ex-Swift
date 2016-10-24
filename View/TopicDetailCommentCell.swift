@@ -65,7 +65,7 @@ class TopicDetailCommentCell: UITableViewCell{
         favoriteLabel.font = v2Font(10)
         return favoriteLabel
     }()
-    weak var itemModel:TopicCommentModel?
+    var itemModel:TopicCommentModel?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
@@ -159,28 +159,26 @@ class TopicDetailCommentCell: UITableViewCell{
     }
     func bind(_ model:TopicCommentModel){
         
+        if let avata = model.avata {
+            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
+        }
+        
+        if self.itemModel?.number == model.number && self.itemModel?.userName == model.userName {
+            return;
+        }
         
         self.userNameLabel.text = model.userName;
         self.dateLabel.text = String(format: "%i楼  %@", model.number, model.date ?? "")
-
         
-        if model != self.itemModel {
-            //如果新旧model相同,则不需要赋值
-            //不然layout需要重新绘制，会造成刷新闪烁
-            if let layout = model.textLayout {
-                self.commentLabel.textLayout = layout
-                if layout.attachments != nil {
-                    for attachment in layout.attachments! {
-                        if let image = attachment.content as? V2CommentAttachmentImage{
-                            image.delegate = self
-                        }
+        if let layout = model.textLayout {
+            self.commentLabel.textLayout = layout
+            if layout.attachments != nil {
+                for attachment in layout.attachments! {
+                    if let image = attachment.content as? V2CommentAttachmentImage{
+                        image.delegate = self
                     }
                 }
             }
-        }
-        
-        if let avata = model.avata {
-            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         self.favoriteIconView.isHidden = model.favorites <= 0

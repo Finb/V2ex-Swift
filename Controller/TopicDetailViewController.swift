@@ -60,7 +60,20 @@ class TopicDetailViewController: BaseViewController{
         rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), for: .touchUpInside)
-
+        
+        
+        self.showLoadingView()
+        self.getData()
+        
+        self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] in
+            self?.getData()
+        })
+        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] in
+            self?.getNextPage()
+        })
+    }
+    
+    func getData(){
         //根据 topicId 获取 帖子信息 、回复。
         TopicDetailModel.getTopicDetailById(self.topicId){
             (response:V2ValueResponse<(TopicDetailModel?,[TopicCommentModel])>) -> Void in
@@ -72,25 +85,24 @@ class TopicDetailViewController: BaseViewController{
                 
                 self.commentsArray = response.value!.1
                 
+                self.currentPage = 1
+                
+                //清除将帖子内容cell,因为这是个缓存，如果赋值后，就会cache到这个变量，之后直接读这个变量不重新赋值。
+                //这里刷新了，则可能需要更新帖子内容cell ,实际上只是重新调用了 cell.load(_:)方法
+                self.webViewContentCell = nil
+                
                 self.tableView.reloadData()
                 
-                //由于UITableView的动画会让这个提示有一个小跳动，这里暂不处理评论加载更多的提示
-                
-//                if (self.model?.commentTotalPages == 1) {
-//                    self.endRefreshingWithNoMoreData()
-//                }
-//                if (self.commentsArray.count == 0) {
-//                    self.endRefreshingWithNoDataAtAll()
-//                }
             }
+            else{
+                V2Error("刷新失败");
+            }
+            if self.tableView.mj_header.isRefreshing(){
+                self.tableView.mj_header.endRefreshing()
+            }
+            self.tableView.mj_footer.resetNoMoreData()
             self.hideLoadingView()
         }
-        
-        self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] () -> Void in
-            self?.getNextPage()
-            })
-        
-        self.showLoadingView()
     }
     
     /**
@@ -254,19 +266,21 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                     return self.webViewContentCell!
                 }
                 self.webViewContentCell!.load(self.model!);
-                self.webViewContentCell!.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
-                    if let weakSelf = self {
-                        //在cell显示在屏幕时更新，否则会崩溃会崩溃会崩溃
-                        if weakSelf.tableView.visibleCells.contains(weakSelf.webViewContentCell!) {
-                            if let height = weakSelf.webViewContentCell?.contentHeight, height > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
-                                UIView.animate(withDuration: 0, animations: { () -> Void in
+                if self.webViewContentCell!.contentHeightChanged == nil {
+                    self.webViewContentCell!.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
+                        if let weakSelf = self {
+                            //在cell显示在屏幕时更新，否则会崩溃会崩溃会崩溃
+                            if weakSelf.tableView.visibleCells.contains(weakSelf.webViewContentCell!) {
+                                if let height = weakSelf.webViewContentCell?.contentHeight, height > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
+                                    UIView.animate(withDuration: 0, animations: { () -> Void in
+                                        self?.tableView.beginUpdates()
+                                        self?.tableView.endUpdates()
+                                    })
+                                }
+                                else {
                                     self?.tableView.beginUpdates()
                                     self?.tableView.endUpdates()
-                                })
-                            }
-                            else {
-                                self?.tableView.beginUpdates()
-                                self?.tableView.endUpdates()
+                                }
                             }
                         }
                     }
