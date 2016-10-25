@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        URLProtocol.registerClass(WebViewImageProtocol.self)
+        
         self.window = UIWindow();
         self.window?.frame=UIScreen.main.bounds;
         self.window?.makeKeyAndVisible();

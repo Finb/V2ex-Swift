@@ -42,6 +42,7 @@
 		065B69111C75ABE1009AAC37 /* AnalyzeURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065B69101C75ABE1009AAC37 /* AnalyzeURLHelper.swift */; };
 		06662CA61C4A89520024452C /* TopicDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA51C4A89520024452C /* TopicDetailViewController.swift */; };
 		06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06662CA71C4A8A370024452C /* TopicDetailModel.swift */; };
+		0666E0F01DBF49C0009A1F71 /* WebViewImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0666E0EF1DBF49C0009A1F71 /* WebViewImageProtocol.swift */; };
 		0678D2051C61B423007FFCFD /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0678D2041C61B423007FFCFD /* UIImage+Extension.swift */; };
 		0678D20C1C61EAA8007FFCFD /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0678D20B1C61EAA8007FFCFD /* UIImageView+Extension.swift */; };
 		067FF8C01C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067FF8BF1C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift */; };
@@ -140,6 +141,7 @@
 		065B69101C75ABE1009AAC37 /* AnalyzeURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyzeURLHelper.swift; sourceTree = "<group>"; };
 		06662CA51C4A89520024452C /* TopicDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailViewController.swift; sourceTree = "<group>"; };
 		06662CA71C4A8A370024452C /* TopicDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailModel.swift; sourceTree = "<group>"; };
+		0666E0EF1DBF49C0009A1F71 /* WebViewImageProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewImageProtocol.swift; sourceTree = "<group>"; };
 		0678D2041C61B423007FFCFD /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		0678D20B1C61EAA8007FFCFD /* UIImageView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		067FF8BF1C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2PhotoBrowserTransionPresent.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				2D6B1BAF1CA93F970050121D /* V2User.swift */,
 				2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */,
 				0614FDC81CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift */,
+				0666E0EF1DBF49C0009A1F71 /* WebViewImageProtocol.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -674,6 +677,7 @@
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				06D3002A1C6D801100547CE6 /* LogoutTableViewCell.swift in Sources */,
 				069806931CA3AA7700388DB6 /* TopicCommentModel.swift in Sources */,
+				0666E0F01DBF49C0009A1F71 /* WebViewImageProtocol.swift in Sources */,
 				06662CA81C4A8A370024452C /* TopicDetailModel.swift in Sources */,
 				06BB48EE1C56096000A4A909 /* V2EXMentionedBindingParser.swift in Sources */,
 				0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */,
