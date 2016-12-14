@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import WebKit
 
 class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2ActivityViewDataSource {
     var webViewProgress: V2WebViewProgress?
     var webViewProgressView: V2WebViewProgressView?
-    var webView:UIWebView?
+    var webView:WKWebView?
     var closeButton:UIButton?
     
     fileprivate var url:String = ""
@@ -66,10 +67,8 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.webViewProgress = V2WebViewProgress()
         self.webViewProgress!.delegate = self
         
-        self.webView = UIWebView()
+        self.webView = WKWebView()
         self.webView!.backgroundColor = self.view.backgroundColor
-        self.webView!.scalesPageToFit = true
-        self.webView!.delegate = self.webViewProgress
         self.view.addSubview(self.webView!)
         self.webView!.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view)
@@ -79,8 +78,25 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.view.addSubview(self.webViewProgressView!)
         
         if let URL = URL(string: self.url) {
-            self.webView?.loadRequest(URLRequest(url: URL))
+            _ = self.webView?.load(URLRequest(url: URL))
         }
+        
+        self.webView?.kvoController.observe(self.webView, keyPaths: ["title","estimatedProgress"], options: [.new,.initial], block: {[weak self] (_,_,_) in
+            self?.refreshState()
+        })
+    }
+    
+    private func refreshState(){
+        
+        self.webViewProgressView?.setProgress(Float(self.webView!.estimatedProgress), animated: true)
+        
+        if self.webView!.canGoBack {
+            self.setCloseButtonHidden(false)
+        } else {
+            self.setCloseButtonHidden(true)
+        }
+        
+        self.title = self.webView?.title
     }
     
     func back(){
@@ -88,11 +104,11 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
             self.webView!.goBack()
         }
         else {
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
     }
     func pop(){
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func setCloseButtonHidden(_ hidden:Bool){
@@ -103,20 +119,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.closeButton!.frame = frame
     }
     
-    func webViewProgress(_ webViewProgress: V2WebViewProgress, progress: Float) {
-        self.webViewProgressView?.setProgress(progress, animated: true)
-        
-        let str = self.webView!.stringByEvaluatingJavaScript(from: "document.title");
-        if let len = str?.Lenght , len > 0{
-            self.title = str
-        }
-        
-        if self.webView!.canGoBack {
-            self.setCloseButtonHidden(false)
-        } else {
-            self.setCloseButtonHidden(true)
-        }
-    }
+
     deinit{
         NSLog("webview deinit")
     }
@@ -135,7 +138,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
     }
     func V2ActivityView(_ activityView: V2ActivityViewController, didSelectRowAtIndexPath indexPath: IndexPath) {
         activityView.dismiss()
-        if  let url = self.webView?.request?.url {
+        if  let url = self.webView?.url {
             if url.absoluteString.Lenght > 0 {
                 UIApplication.shared.openURL(url)
                 return;
