@@ -8,17 +8,6 @@
 
 import UIKit
 
-extension NSObject {
-    /**
-     当前的类名字符串
-     
-     - returns: 当前类名的字符串
-     */
-    public class func Identifier() -> String {
-        return "\(self)";
-    }
-}
-
 extension String {
     public var Lenght:Int {
         get{
@@ -35,7 +24,7 @@ extension String {
  - parameter cell:      要注册的类名
  */
 func regClass(_ tableView:UITableView , cell:AnyClass)->Void {
-    tableView.register( cell, forCellReuseIdentifier: cell.Identifier());
+    tableView.register( cell, forCellReuseIdentifier: "\(cell)");
 }
 /**
  从tableView缓存中取出对应类型的Cell
