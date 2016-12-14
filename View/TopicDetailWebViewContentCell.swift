@@ -8,17 +8,37 @@
 
 import UIKit
 import KVOController
+import JavaScriptCore
+import Kingfisher
 
 public typealias TopicDetailWebViewContentHeightChanged = (CGFloat) -> Void
 
-let HTMLHEADER  = "<html><head><title>test</title><meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0' name='viewport'>"
+let HTMLHEADER  = "<html><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=no\">"
+let jsCode = try! String(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "JSTools", ofType: "js")!))
 class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     
     fileprivate var model:TopicDetailModel?
     
     var contentHeight : CGFloat = 0
-    var contentWebView:UIWebView?
+    var contentWebView:UIWebView = {
+        let contentWebView = UIWebView()
+        contentWebView.isOpaque = false
+        contentWebView.backgroundColor = UIColor.clear
+        contentWebView.scrollView.isScrollEnabled = false
+        contentWebView.scalesPageToFit = false
+        return contentWebView
+
+    }()
     var contentHeightChanged : TopicDetailWebViewContentHeightChanged?
+    
+    var tapGesture:UITapGestureRecognizer?
+    weak var parentScrollView:UIScrollView?{
+        didSet{
+            //滑动的时候，点击不生效
+           tapGesture?.require(toFail: self.parentScrollView!.panGestureRecognizer)
+        }
+    }
+    var tapImageInfo:TapImageInfo?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
@@ -30,23 +50,19 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     func setup()->Void{
         self.clipsToBounds = true
         
-        self.contentWebView = UIWebView()
-        self.contentWebView!.isOpaque = false
-        self.contentWebView!.backgroundColor = UIColor.clear
-        self.contentWebView!.scrollView.isScrollEnabled = false
-        self.contentWebView!.delegate = self
-        self.contentView.addSubview(self.contentWebView!);
-        self.contentWebView!.snp.makeConstraints{ (make) -> Void in
+        self.contentWebView.delegate = self
+        self.contentView.addSubview(self.contentWebView);
+        self.contentWebView.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(self.contentView)
         }
-
+        
         //强制将 UIWebView 设置背景颜色
         //不然不管怎么设置背景颜色，这B一直是白色，非得我治治他
-        for view in self.contentWebView!.scrollView.subviews {
+        for view in self.contentWebView.scrollView.subviews {
             view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         }
         
-        self.kvoController.observe(self.contentWebView!.scrollView, keyPath: "contentSize", options: [.new]) {
+        self.kvoController.observe(self.contentWebView.scrollView, keyPath: "contentSize", options: [.new]) {
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {
                 let size = change!["new"] as! NSValue
@@ -54,6 +70,40 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
                 weakSelf.contentHeightChanged?(weakSelf.contentHeight)
             }
         }
+        
+        tapGesture = UITapGestureRecognizer(target: self, action:#selector(TopicDetailWebViewContentCell.tapHandler(_:)))
+        self.tapGesture!.delegate = self
+        self.contentWebView.addGestureRecognizer(self.tapGesture!);
+    }
+    func tapHandler(_ tap :UITapGestureRecognizer){
+        let tapPoint = tap.location(in: tap.view)
+    
+        let script = String(format: "getHTMLElementAtPoint(%i,%i)", Int(tapPoint.x),Int(tapPoint.y))
+
+        let imgSrc = self.contentWebView.stringByEvaluatingJavaScript(from: script)
+        print("a");
+        guard let img = imgSrc , img.Lenght > 0 else {
+            return
+        }
+        let arr = img.components(separatedBy: ",")
+        guard arr.count == 5 else {
+            return;
+        }
+        
+        let width = Int(arr[1])
+        let height = Int(arr[2])
+        let left = Int(arr[3])
+        let top = Int(arr[4])
+        guard let w = width ,let h = height , let l = left , let t = top else {
+            return;
+        }
+        
+        self.tapImageInfo = TapImageInfo(url: arr[0], width: w, height: h, left: l, top: t)
+        
+        let photoBrowser = V2PhotoBrowser(delegate: self)
+        photoBrowser.currentPageIndex = 0;
+        V2Client.sharedInstance.topNavigationController.present(photoBrowser, animated: true, completion: nil)
+        
     }
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -70,7 +120,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             let style = "<style>" + V2Style.sharedInstance.CSS + "</style></head>"
             html =  HTMLHEADER + style  + html + "</html>"
             
-            self.contentWebView?.loadHTMLString(html, baseURL: URL(string: "https://"))
+            self.contentWebView.loadHTMLString(html, baseURL: URL(string: "https://"))
 
             //这里有一个问题，
             
@@ -97,4 +147,46 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         }
         return true
     }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        self.contentWebView.stringByEvaluatingJavaScript(from: jsCode)
+    }
+}
+
+//MARK: - 点击图片放大
+extension TopicDetailWebViewContentCell : V2PhotoBrowserDelegate {
+    //V2PhotoBrowser Delegate
+    func numberOfPhotosInPhotoBrowser(_ photoBrowser: V2PhotoBrowser) -> Int {
+        return 1
+    }
+    func photoAtIndexInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> V2Photo {
+        let photo = V2Photo(url: URL(string: self.tapImageInfo!.url)!)
+        return photo
+    }
+    func guideContentModeInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
+        return .scaleAspectFit
+    }
+    func guideFrameInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
+        let location = self.contentWebView.convert(self.contentWebView.bounds, to: UIApplication.shared.keyWindow!)
+        return CGRect(x: tapImageInfo!.left + Int(location.origin.x), y: tapImageInfo!.top + Int(location.origin.y), width: tapImageInfo!.width, height: tapImageInfo!.height)
+    }
+    func guideImageInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
+        let image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: URL(string:tapImageInfo!.url)!.cacheKey)
+        return image
+    }
+}
+
+extension TopicDetailWebViewContentCell {
+    //让点击图片手势 和webView的手势能共存
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+struct TapImageInfo {
+    let url:String
+    let width:Int
+    let height:Int
+    let left:Int
+    let top:Int
 }

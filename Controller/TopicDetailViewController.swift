@@ -261,6 +261,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 //帖子内容
                 if self.webViewContentCell == nil {
                     self.webViewContentCell = getCell(tableView, cell: TopicDetailWebViewContentCell.self, indexPath: indexPath);
+                    self.webViewContentCell?.parentScrollView = self.tableView
                 }
                 else {
                     return self.webViewContentCell!

@@ -98,6 +98,7 @@
 		06E4B74B1C5C76190056A673 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B74A1C5C76190056A673 /* MoreViewController.swift */; };
 		06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */; };
 		06E52F781E012A8000E69084 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E52F771E012A8000E69084 /* UIView+Extension.swift */; };
+		06E52F7A1E01326900E69084 /* JSTools.js in Resources */ = {isa = PBXBuildFile; fileRef = 06E52F791E01326900E69084 /* JSTools.js */; };
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
@@ -201,6 +202,7 @@
 		06E4B74A1C5C76190056A673 /* MoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		06E4B7501C5CA0300056A673 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		06E52F771E012A8000E69084 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		06E52F791E01326900E69084 /* JSTools.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JSTools.js; sourceTree = "<group>"; };
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
 		06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVProgressHUD+Extension.swift"; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */,
 				0614FDC81CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift */,
 				0666E0EF1DBF49C0009A1F71 /* WebViewImageProtocol.swift */,
+				06E52F791E01326900E69084 /* JSTools.js */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				06D0EE2B1C9165C3003095FF /* font.css in Resources */,
 				069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */,
 				06D0EE2C1C9165C3003095FF /* lightStyle.css in Resources */,
+				06E52F7A1E01326900E69084 /* JSTools.js in Resources */,
 				0618768D1C7C5F8C002E9C33 /* 12.jpg in Resources */,
 				069839761C4773D600FF7163 /* Localizable.strings in Resources */,
 				069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */,

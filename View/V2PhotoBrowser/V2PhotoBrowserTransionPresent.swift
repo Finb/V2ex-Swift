@@ -32,12 +32,12 @@ class V2PhotoBrowserTransionPresent:NSObject,UIViewControllerAnimatedTransitioni
             toVC.guideImageView.frame = toVC.view.bounds
             
             //如果图片过小，则直接中间原图显示 ，否则fit
-//            if toVC.guideImageView.image?.size.width > SCREEN_WIDTH || toVC.guideImageView.originalImage?.size.height > SCREEN_HEIGHT {
-//                toVC.guideImageView.contentMode = .scaleAspectFit
-//            }
-//            else{
-//                toVC.guideImageView.contentMode = .center
-//            }
+            if let width = toVC.guideImageView.originalImage?.size.width, let height = toVC.guideImageView.originalImage?.size.height,  width > SCREEN_WIDTH || height > SCREEN_HEIGHT {
+                toVC.guideImageView.contentMode = .scaleAspectFit
+            }
+            else{
+                toVC.guideImageView.contentMode = .center
+            }
             
             }) { (finished: Bool) -> Void in
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
