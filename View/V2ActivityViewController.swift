@@ -267,9 +267,10 @@ class V2ActivityTransionPresent:NSObject,UIViewControllerAnimatedTransitioning {
 
         let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
         fromVC?.view.isHidden = true
-        let tempView = fromVC?.view.snapshotView(afterScreenUpdates: false)
-        tempView?.tag = 9988
-        container.addSubview(tempView!)
+        let screenshotImage = fromVC?.view.screenshot()
+        let tempView = UIImageView(image: screenshotImage)
+        tempView.tag = 9988
+        container.addSubview(tempView)
         
         let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
         container.addSubview(toVC!.view)
@@ -277,7 +278,7 @@ class V2ActivityTransionPresent:NSObject,UIViewControllerAnimatedTransitioning {
         toVC?.view.frame = CGRect(x: 0, y: SCREEN_HEIGHT, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 7, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
             toVC?.view.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
-            tempView!.transform = CGAffineTransform(scaleX: 0.98, y: 0.98);
+            tempView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98);
             }) { (finished: Bool) -> Void in
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
