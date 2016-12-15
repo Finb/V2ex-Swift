@@ -12,10 +12,10 @@ import JavaScriptCore
 import Kingfisher
 
 /**
- * 由于这里的逻辑比较分散，但有缺一不可，所以贼这里说明一下
+ * 由于这里的逻辑比较分散，但又缺一不可，所以在这里说明一下
  * 1. 将V站帖子的HTML和此APP内置的CSS等拼接起来，然后用 UIWebView 加载。以实现富文本功能
  * 2. UIWebView 图片请求会被 WebViewImageProtocol 拦截，然后被 Kingfisher 缓存
- * 3. 点击UIWebView 图片时 ，会被内置的 tapGesture 捕获到（这个手势只在 UIWebView.ScrollView 的pan手势 失效时触发
+ * 3. 点击UIWebView 图片时 ，会被内置的 tapGesture 捕获到（这个手势只在 UIWebView 所在的 UITableView 的pan手势 失效时触发
  *    也就是 在没滚动的时候才能点图片（交互优化）
  * 4. 然后通过 JSTools.js内置的 js方法，取得 图片 src,通过内置图片浏览器打开
  */
