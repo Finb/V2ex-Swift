@@ -11,6 +11,15 @@ import KVOController
 import JavaScriptCore
 import Kingfisher
 
+/**
+ * 由于这里的逻辑比较分散，但有缺一不可，所以贼这里说明一下
+ * 1. 将V站帖子的HTML和此APP内置的CSS等拼接起来，然后用 UIWebView 加载。以实现富文本功能
+ * 2. UIWebView 图片请求会被 WebViewImageProtocol 拦截，然后被 Kingfisher 缓存
+ * 3. 点击UIWebView 图片时 ，会被内置的 tapGesture 捕获到（这个手势只在 UIWebView.ScrollView 的pan手势 失效时触发
+ *    也就是 在没滚动的时候才能点图片（交互优化）
+ * 4. 然后通过 JSTools.js内置的 js方法，取得 图片 src,通过内置图片浏览器打开
+ */
+
 public typealias TopicDetailWebViewContentHeightChanged = (CGFloat) -> Void
 
 let HTMLHEADER  = "<html><head><meta name=\"viewport\" content=\"width=device-width, user-scalable=no\">"
@@ -81,7 +90,6 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         let script = String(format: "getHTMLElementAtPoint(%i,%i)", Int(tapPoint.x),Int(tapPoint.y))
 
         let imgSrc = self.contentWebView.stringByEvaluatingJavaScript(from: script)
-        print("a");
         guard let img = imgSrc , img.Lenght > 0 else {
             return
         }
