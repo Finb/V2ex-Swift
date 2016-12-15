@@ -113,7 +113,9 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let highLightCell = self.firstAutoHighLightCell{
             self.firstAutoHighLightCell = nil
-            highLightCell.setSelected(false, animated: false)
+            if(indexPath.row != self.currentSelectedTabIndex){
+                highLightCell.setSelected(false, animated: false)
+            }
         }
         let node = self.rightNodes[indexPath.row];
         V2Client.sharedInstance.centerViewController?.tab = node.nodeTab

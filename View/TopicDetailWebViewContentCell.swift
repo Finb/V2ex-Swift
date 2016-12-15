@@ -97,7 +97,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         guard arr.count == 5 else {
             return;
         }
-        
+        let url = fixUrl(url: arr[0])
         let width = Int(arr[1])
         let height = Int(arr[2])
         let left = Int(arr[3])
@@ -106,12 +106,26 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             return;
         }
         
-        self.tapImageInfo = TapImageInfo(url: arr[0], width: w, height: h, left: l, top: t)
+        self.tapImageInfo = TapImageInfo(url: url, width: w, height: h, left: l, top: t)
         
         let photoBrowser = V2PhotoBrowser(delegate: self)
         photoBrowser.currentPageIndex = 0;
         V2Client.sharedInstance.topNavigationController.present(photoBrowser, animated: true, completion: nil)
         
+    }
+    private func fixUrl(url:String) -> String {
+        if(url.hasPrefix("http") || url.hasPrefix("https")){
+            return url
+        }
+        if (url.hasPrefix("//")){
+            return "https:" + url
+        }
+        else if(url.hasPrefix("/")){
+            return "https://www.v2ex.com" + url
+        }
+        else {
+            return url
+        }
     }
     override func layoutSubviews() {
         super.layoutSubviews()
