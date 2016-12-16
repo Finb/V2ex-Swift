@@ -271,7 +271,8 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                     self.webViewContentCell!.contentHeightChanged = { [weak self] (height:CGFloat) -> Void  in
                         if let weakSelf = self {
                             //在cell显示在屏幕时更新，否则会崩溃会崩溃会崩溃
-                            if weakSelf.tableView.visibleCells.contains(weakSelf.webViewContentCell!) {
+                            //另外刷新清空旧cell,重新创建这个cell ,所以 contentHeightChanged 需要判断cell是否为nil
+                            if let cell = weakSelf.webViewContentCell, weakSelf.tableView.visibleCells.contains(cell) {
                                 if let height = weakSelf.webViewContentCell?.contentHeight, height > 1.5 * SCREEN_HEIGHT{ //太长了就别动画了。。
                                     UIView.animate(withDuration: 0, animations: { () -> Void in
                                         self?.tableView.beginUpdates()
