@@ -193,7 +193,10 @@ extension TopicDetailWebViewContentCell : V2PhotoBrowserDelegate {
         return CGRect(x: tapImageInfo!.left + Int(location.origin.x), y: tapImageInfo!.top + Int(location.origin.y), width: tapImageInfo!.width, height: tapImageInfo!.height)
     }
     func guideImageInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
-        let image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: URL(string:tapImageInfo!.url)!.cacheKey)
+        var image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: URL(string:tapImageInfo!.url)!.cacheKey)
+        if image == nil {
+            image = KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: URL(string:tapImageInfo!.url)!.cacheKey)
+        }
         return image
     }
 }
