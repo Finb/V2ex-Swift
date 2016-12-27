@@ -122,7 +122,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.top.left.right.equalTo(self.contentView);
             make.bottom.equalTo(self.topicTitleLabel.snp.bottom).offset(12);
-            make.bottom.equalTo(self.contentView).offset(-0.5);
+            make.bottom.equalTo(self.contentView).offset(SEPARATOR_HEIGHT * -1);
         }
     }
     func nodeClick() {

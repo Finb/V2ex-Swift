@@ -209,7 +209,7 @@ class NotificationTableViewCell: UITableViewCell {
             self.contentPanel.snp.remakeConstraints{ (make) -> Void in
                 make.bottom.equalTo(self.detailLabel.snp.bottom).offset(12);
                 make.top.left.right.equalTo(self.contentView);
-                make.bottom.equalTo(self.contentView).offset(-0.5)
+                make.bottom.equalTo(self.contentView).offset(SEPARATOR_HEIGHT * -1)
             }
         }
         else{
@@ -218,7 +218,7 @@ class NotificationTableViewCell: UITableViewCell {
             self.contentPanel.snp.remakeConstraints{ (make) -> Void in
                 make.bottom.equalTo(self.commentPanel.snp.bottom).offset(12);
                 make.top.left.right.equalTo(self.contentView);
-                make.bottom.equalTo(self.contentView).offset(-0.5)
+                make.bottom.equalTo(self.contentView).offset(SEPARATOR_HEIGHT * -1)
             }
         }
     }
