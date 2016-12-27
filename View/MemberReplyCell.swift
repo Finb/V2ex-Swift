@@ -94,14 +94,11 @@ class MemberReplyCell: UITableViewCell {
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.commentPanel.snp.bottom).offset(12);
+            make.bottom.equalTo(self.contentView).offset(SEPARATOR_HEIGHT * -1);
         }
         self.commentPanel.snp.makeConstraints{ (make) -> Void in
             make.top.left.equalTo(self.commentLabel).offset(-10)
             make.right.bottom.equalTo(self.commentLabel).offset(10)
-        }
-        self.contentView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel).offset(0);
         }
     }
     func bind(_ model: MemberRepliesModel){

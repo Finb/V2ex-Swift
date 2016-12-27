@@ -167,14 +167,6 @@ class NotificationTableViewCell: UITableViewCell {
             make.width.equalTo(50)
             make.height.equalTo(25)
         }
-        self.contentPanel.snp.remakeConstraints{ (make) -> Void in
-            make.top.left.right.equalTo(self.contentView);
-            make.bottom.equalTo(self.commentPanel.snp.bottom).offset(12);
-        }
-        self.contentView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel).offset(0);
-        }
     }
     
     func userNameTap(_ sender:UITapGestureRecognizer) {
@@ -215,16 +207,18 @@ class NotificationTableViewCell: UITableViewCell {
             self.dropUpImageView.isHidden = true
             self.commentLabel.text = ""
             self.contentPanel.snp.remakeConstraints{ (make) -> Void in
-                make.top.left.right.equalTo(self.contentView);
                 make.bottom.equalTo(self.detailLabel.snp.bottom).offset(12);
+                make.top.left.right.equalTo(self.contentView);
+                make.bottom.equalTo(self.contentView).offset(-0.5)
             }
         }
         else{
             self.commentPanel.isHidden = false
             self.dropUpImageView.isHidden = false
             self.contentPanel.snp.remakeConstraints{ (make) -> Void in
-                make.top.left.right.equalTo(self.contentView);
                 make.bottom.equalTo(self.commentPanel.snp.bottom).offset(12);
+                make.top.left.right.equalTo(self.contentView);
+                make.bottom.equalTo(self.contentView).offset(-0.5)
             }
         }
     }

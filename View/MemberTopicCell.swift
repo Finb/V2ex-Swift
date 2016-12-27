@@ -112,11 +112,7 @@ class MemberTopicCell: UITableViewCell {
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.topicTitleLabel.snp.bottom).offset(12);
-        }
-        
-        self.contentView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.contentPanel);
+            make.bottom.equalTo(self.contentView).offset(SEPARATOR_HEIGHT * -1);
         }
     }
     

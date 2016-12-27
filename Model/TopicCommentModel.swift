@@ -240,13 +240,13 @@ extension TopicCommentModel {
         
         var relevantComments:[TopicCommentModel] = []
         
-        var users = getUsersInComment(firstComment)
+        var users = getUsersOfComment(firstComment)
         users.insert(firstComment.userName!)
         
         for comment in allCommentsArray {
             
             //判断评论中是否只@了其他用户，是的话则证明这条评论是和别人讲的，不属于当前对话
-            let commentUsers = getUsersInComment(comment)
+            let commentUsers = getUsersOfComment(comment)
             let intersectUsers = commentUsers.intersection(users)
             if commentUsers.count > 0 && intersectUsers.count <= 0 {
                 continue;
@@ -267,7 +267,7 @@ extension TopicCommentModel {
     }
     
     //获取评论中 @ 了多少用户
-    class func getUsersInComment(_ comment:TopicCommentModel) -> Set<String>  {
+    class func getUsersOfComment(_ comment:TopicCommentModel) -> Set<String>  {
         
         //获取到所有YYTextHighlight ，用以之后获取 这条评论@了多少用户
         var textHighlights:[YYTextHighlight] = []

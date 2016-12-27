@@ -38,10 +38,7 @@ class PodCellTableViewCell: BaseDetailTableViewCell {
             make.left.equalTo(self.titleLabel)
             make.right.equalTo(self.contentView).offset(-30)
             make.top.equalTo(self.titleLabel.snp.bottom)
-        }
-        self.contentView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.right.equalTo(self);
-            make.bottom.equalTo(self.descriptionLabel).offset(8);
+            make.bottom.equalTo(self.contentView).offset(-8);
         }
     }
 }
