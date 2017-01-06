@@ -74,7 +74,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.kvoController.observe(self.contentWebView.scrollView, keyPath: "contentSize", options: [.new]) {
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {
-                let size = change!["new"] as! NSValue
+                let size = change["new"] as! NSValue
                 weakSelf.contentHeight = size.cgSizeValue.height;
                 weakSelf.contentHeightChanged?(weakSelf.contentHeight)
             }
