@@ -149,7 +149,7 @@ class HomeViewController: UIViewController {
             
             if response.success {
                 if let count = response.value?.count, count > 0 {
-                    self.topicList! += response.value!
+                    self.topicList? += response.value!
                     self.tableView.reloadData()
                 }
             }
