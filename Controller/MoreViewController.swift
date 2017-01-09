@@ -12,7 +12,7 @@ class MoreViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "更多"
+        self.title = NSLocalizedString("more")
         
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
@@ -34,7 +34,16 @@ class MoreViewController: UITableViewController {
         cell.selectionStyle = .none
         
         //设置标题
-        cell.titleLabel.text = ["","阅读设置","","去商店评分","提出BUG或改进", "","关注本项目源代码","开源库","版本号"][indexPath.row]
+        cell.titleLabel.text = [
+            "",
+            NSLocalizedString("viewOptions"),
+            "",
+            NSLocalizedString("rateV2ex"),
+            NSLocalizedString("reportAProblem"),
+            "",
+            NSLocalizedString("followThisProjectSourceCode"),
+            NSLocalizedString("open-SourceLibraries"),
+            NSLocalizedString("version")][indexPath.row]
         
         //设置颜色
         if [0,2,5].contains(indexPath.row) {

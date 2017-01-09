@@ -5,6 +5,7 @@
   Created by huangfeng on 1/14/16.
   Copyright © 2016 Fin. All rights reserved.
 */
+//右侧边栏
 tech     = "Technology";
 creative = "Creative";
 play     = "Play";
@@ -12,9 +13,56 @@ apple    = "Apple";
 jobs     = "Jobs";
 deals    = "Deals";
 city     = "City";
-qna      = "Ask&Answer";
+qna      = "Q&A";
 hot      = "Hot";
 all      = "All";
 r2       = "R2";
 nodes    = "nodes";
 members  = "members";
+
+//左侧边栏
+more = "More";
+nodes = "Nodes";
+favorites = "Favorites";
+notifications = "Notifications";
+me = "My Center";
+
+//用户中心
+posts = "Posts";
+comments = "Comments";
+
+//账户设置
+accounts = "Accounts";
+current = "current";
+logOut ="LogOut";
+
+//更多
+viewOptions = "View Options";
+clearCache = "Clear Cache";
+
+rateV2ex = "Rate V2EX";
+reportAProblem = "Report a Problem";
+
+followThisProjectSourceCode = "Source Code";
+open-SourceLibraries = "Open Source Libraries";
+version = "Version";
+
+//阅读设置
+viewOptionThemeSet = "    Theme - Click on the options below to set the theme";
+default = "Default";
+dark = "Dark";
+viewOptionTextSize = "    Text Size - Slide the slider to adjust the text size";
+
+//节点导航
+navigation = "Navigation";
+
+//通知中心
+reply = "Reply";
+
+//帖子详情
+postDetails = "Topic Details";
+favorite = "Favorite";
+ignore = "Ignore";
+thank = "Thank";
+reply2 = "Reply";
+cancel2 = "Cancel";

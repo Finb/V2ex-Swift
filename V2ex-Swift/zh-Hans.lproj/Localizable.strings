@@ -5,7 +5,7 @@
   Created by huangfeng on 1/14/16.
   Copyright © 2016 Fin. All rights reserved.
 */
-
+//右侧边栏
 tech     = "技术";
 creative = "创意";
 play     = "好玩";
@@ -19,3 +19,50 @@ all      = "全部";
 r2       = "R2";
 nodes    = "节点";
 members  = "关注";
+
+//左侧边栏
+more = "更多";
+nodes = "节点";
+favorites = "我的收藏";
+notifications = "消息提醒";
+me = "个人中心";
+
+//用户中心
+posts = "创建的主题";
+comments = "创建的回复";
+
+//账户设置
+accounts = "账户";
+current = "正在使用";
+logOut ="注销当前账号";
+
+//更多
+viewOptions = "阅读设置";
+clearCache = "清空缓存";
+
+rateV2ex = "去商店评分";
+reportAProblem = "提出BUG或改进";
+
+followThisProjectSourceCode = "关注本项目源代码";
+open-SourceLibraries = "开源库";
+version = "版本号";
+
+//阅读设置
+viewOption_themeSet = "    配色 - 点击下面选项，设置APP的配色方案";
+default = "默认";
+dark = "暗色";
+viewOption_textSize = "    文字大小 - 滑动滑块调整文字大小";
+
+//节点导航
+navigation = "节点导航";
+
+//通知中心
+reply = "回复";
+
+//帖子详情
+postDetails = "帖子详情";
+favorite = "收藏";
+ignore = "忽略";
+thank = "感谢";
+reply2 = "回  复";
+cancel2 = "取  消";

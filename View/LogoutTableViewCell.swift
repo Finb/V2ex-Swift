@@ -20,7 +20,7 @@ class LogoutTableViewCell: UITableViewCell {
     func setup()->Void{
         self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
 
-        self.textLabel!.text = "注销当前账号"
+        self.textLabel!.text = NSLocalizedString("logOut")
         self.textLabel!.textAlignment = .center
         self.textLabel!.textColor = V2EXColor.colors.v2_NoticePointColor
         

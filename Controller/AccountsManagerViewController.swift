@@ -34,7 +34,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "账户"
+        self.title = NSLocalizedString("accounts")
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
 
         let warningButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))

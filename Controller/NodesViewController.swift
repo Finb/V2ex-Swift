@@ -12,7 +12,7 @@ class NodesViewController: BaseViewController {
     var collectionView:UICollectionView?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "节点导航"
+        self.title = NSLocalizedString("Navigation")
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         let layout = V2LeftAlignedCollectionViewFlowLayout();

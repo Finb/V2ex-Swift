@@ -47,7 +47,7 @@ class TopicDetailViewController: BaseViewController{
     //MARK: - 页面事件
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "帖子详情"
+        self.title = NSLocalizedString("postDetails")
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -413,7 +413,11 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         return 4
     }
     func V2ActivityView(_ activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: IndexPath) -> V2Activity {
-        return V2Activity(title: ["忽略","收藏","感谢","Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][indexPath.row])!)
+        return V2Activity(title: [
+            NSLocalizedString("ignore"),
+            NSLocalizedString("favorite"),
+            NSLocalizedString("thank"),
+            "Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][indexPath.row])!)
     }
     func V2ActivityView(_ activityView:V2ActivityViewController ,heightForFooterInSection section: Int) -> CGFloat{
         return 45
@@ -424,7 +428,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         
         let label = UILabel()
         label.font = v2Font(18)
-        label.text = "回  复"
+        label.text = NSLocalizedString("reply2")
         label.textAlignment = .center
         label.textColor = UIColor.white
         view.addSubview(label)

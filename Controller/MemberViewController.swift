@@ -230,7 +230,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         
         let label = UILabel()
-        label.text = ["创建的主题","创建的回复"][section - 1]
+        label.text = [NSLocalizedString("posts"),NSLocalizedString("comments")][section - 1]
         view.addSubview(label)
         label.font = v2Font(15)
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor

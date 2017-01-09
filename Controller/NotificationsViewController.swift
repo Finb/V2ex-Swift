@@ -36,7 +36,7 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(self.tableView);
-        self.title = "通知"
+        self.title = NSLocalizedString("notifications")
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         self.tableView.snp.makeConstraints{ (make) -> Void in

@@ -55,7 +55,7 @@ class PodsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        self.title = "开源库"
+        self.title = NSLocalizedString("Open-SourceLibraries")
         self.tableView.separatorStyle = .none
         regClass(self.tableView, cell: PodCellTableViewCell.self)
     }

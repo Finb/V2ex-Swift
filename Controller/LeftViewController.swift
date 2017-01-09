@@ -101,7 +101,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
             }
             else {
                 let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-                cell.nodeNameLabel.text = ["个人中心","","我的收藏"][indexPath.row]
+                cell.nodeNameLabel.text = [NSLocalizedString("me"),"",NSLocalizedString("favorites")][indexPath.row]
                 let names = ["ic_face","","ic_turned_in_not"]
                 cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
                 return cell
@@ -109,7 +109,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         }
         else {
             let cell = getCell(tableView, cell: LeftNodeTableViewCell.self, indexPath: indexPath)
-            cell.nodeNameLabel.text = ["节点","更多"][indexPath.row]
+            cell.nodeNameLabel.text = [NSLocalizedString("nodes"),NSLocalizedString("more")][indexPath.row]
             let names = ["ic_navigation","ic_settings_input_svideo"]
             cell.nodeImageView.image = UIImage.imageUsedTemplateMode(names[indexPath.row])
             return cell

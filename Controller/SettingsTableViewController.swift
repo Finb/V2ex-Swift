@@ -12,7 +12,7 @@ class SettingsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "阅读设置"
+        self.title = NSLocalizedString("viewOptions")
 
         self.tableView.separatorStyle = .none
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
@@ -37,8 +37,8 @@ class SettingsTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.text = ["    配色 - 点击下面选项，设置APP的配色方案"
-            ,"    文字大小 - 滑动滑块调整文字大小"
+        label.text = [NSLocalizedString("viewOptionThemeSet")
+            ,NSLocalizedString("viewOptionTextSize")
             ][section]
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         label.font = v2Font(12)
@@ -50,18 +50,18 @@ class SettingsTableViewController: UITableViewController {
             return 44
         }
         else {
-            return [70,25,175][indexPath.row]
+            return [70,25,185][indexPath.row]
         }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
-            cell.titleLabel.text = ["默认","暗色"][indexPath.row]
+            cell.titleLabel.text = [NSLocalizedString("default"),NSLocalizedString("dark")][indexPath.row]
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                cell.detailLabel.text = ["正在使用",""][indexPath.row]
+                cell.detailLabel.text = [NSLocalizedString("current"),""][indexPath.row]
             }
             else{
-                cell.detailLabel.text = ["","正在使用"][indexPath.row]
+                cell.detailLabel.text = ["",NSLocalizedString("current")][indexPath.row]
             }
             return cell
         }
