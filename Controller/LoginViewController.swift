@@ -70,8 +70,8 @@ class LoginViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     func loginClick(_ sneder:UIButton){
-        var userName:String?
-        var password:String?
+        var userName:String
+        var password:String
         if let len = self.userNameTextField.text?.Lenght , len > 0{
             userName = self.userNameTextField.text! ;
         }
@@ -88,17 +88,16 @@ class LoginViewController: UIViewController {
             return;
         }
         V2BeginLoadingWithStatus("正在登录")
-        UserModel.Login(userName!, password: password!){
-            (response:V2ValueResponse<String>) -> Void in
+        UserModel.Login(userName, password: password){
+            (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
             if response.success {
                 V2Success("登录成功")
                 let username = response.value!
-                NSLog("登录成功 %@",username)
                 //保存下用户名
                 V2EXSettings.sharedInstance[kUserName] = username
 
                 //将用户名密码保存进keychain （安全保存)
-                V2UsersKeychain.sharedInstance.addUser(username, password: password!)
+                V2UsersKeychain.sharedInstance.addUser(username, password: password)
 
                 //调用登录成功回调
                 if let handel = self.successHandel {
@@ -107,7 +106,12 @@ class LoginViewController: UIViewController {
 
                 //获取用户信息
                 UserModel.getUserInfoByUsername(username,completionHandler: nil)
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true){
+                    if is2FALoggedIn {
+                        let twoFaViewController = TwoFAViewController()
+                        V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
+                    }
+                }
             }
             else{
                 V2Error(response.message)

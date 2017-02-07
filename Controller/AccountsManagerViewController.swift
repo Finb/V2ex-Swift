@@ -147,7 +147,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
             if let username = user.username,let password = user.password {
                 V2BeginLoadingWithStatus("正在登录")
                 UserModel.Login(username, password: password){
-                    (response:V2ValueResponse<String>) -> Void in
+                    (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
                     if response.success {
                         V2Success("登录成功")
                         let username = response.value!

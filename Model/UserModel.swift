@@ -57,7 +57,7 @@ extension UserModel{
      - parameter completionHandler: 登录回调
      */
     class func Login(_ username:String,password:String ,
-                     completionHandler: @escaping (V2ValueResponse<String>) -> Void
+                     completionHandler: @escaping (_ response:V2ValueResponse<String>, _ is2FALoggedIn:Bool) -> Void
         ) -> Void{
         V2User.sharedInstance.removeAllCookies()
         
@@ -77,7 +77,7 @@ extension UserModel{
                     return;
                 }
             }
-            completionHandler(V2ValueResponse(success: false,message: "获取 必要字段 失败"))
+            completionHandler(V2ValueResponse(success: false,message: "获取 必要字段 失败"),false)
         }
     }
 
@@ -91,7 +91,7 @@ extension UserModel{
      */
     class func Login(_ username:String,password:String ,once:String,
                      usernameFieldName:String ,passwordFieldName:String,
-                     completionHandler: @escaping (V2ValueResponse<String>) -> Void){
+                     completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
         let prames = [
             "once":once,
             "next":"/",
@@ -111,15 +111,51 @@ extension UserModel{
                     if let username = avatarImg.parent?["href"]{
                         if username.hasPrefix("/member/") {
                             let username = username.replacingOccurrences(of: "/member/", with: "")
-
-                            completionHandler(V2ValueResponse(value: username, success: true))
+                            
+                            //用户开启了两步验证
+                            if let url = response.response?.url?.absoluteString, url.contains("2fa") {
+                                completionHandler(V2ValueResponse(value: username, success: true),true)
+                            }
+                            //登陆完成
+                            else{
+                                completionHandler(V2ValueResponse(value: username, success: true),false)
+                            }
                             return;
                         }
                     }
                 }
 
             }
-            completionHandler(V2ValueResponse(success: false,message: "登录失败"))
+            completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
+        }
+    }
+    
+    class func twoFALogin(code:String,
+                          completionHandler: @escaping (Bool) -> Void) {
+        V2User.sharedInstance.getOnce { (response) in
+            if(response.success){
+                let prames = [
+                    "code":code,
+                    "once":V2User.sharedInstance.once!
+                    ] as [String:Any]
+                let url = V2EXURL + "2fa"
+                Alamofire.request(url, method: .post, parameters: prames, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+                    if(response.result.isSuccess){
+                        if let url = response.response?.url?.absoluteString, url.contains("2fa") {
+                            completionHandler(false);
+                        }
+                        else{
+                            completionHandler(true);
+                        }
+                    }
+                    else{
+                        completionHandler(false);
+                    }
+                }
+            }
+            else{
+                completionHandler(false);
+            }
         }
     }
 
