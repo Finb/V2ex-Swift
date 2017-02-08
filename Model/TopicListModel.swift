@@ -265,7 +265,7 @@ extension TopicListModel {
             var resultArray:[TopicListModel] = []
             var maxPage = 1
             if let jiHtml = response.result.value {
-                if let aRootNode = jiHtml.xPath("//*[@id='Main']/div[@class='box']/div[@class='cell item']"){
+                if let aRootNode = jiHtml.xPath("//*[@class='cell item']"){
                     for aNode in aRootNode {
                         let topic = TopicListModel(favoritesRootNode:aNode)
                         resultArray.append(topic);
