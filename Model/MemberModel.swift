@@ -85,13 +85,13 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
                 if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/table/tr")?.first{
                     
                     let member = MemberModel(rootNode: aRootNode);
-                    if let rootNodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[@class='cell item']") {
+                    if let rootNodes = jiHtml.xPath("//*[@class='cell item']") {
                         for rootNode  in rootNodes {
                             member.topics.append(MemberTopicsModel(memberTopicRootNode:rootNode))
                         }
                     }
                     
-                    if let rootNodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][3]/div[@class='dock_area']") {
+                    if let rootNodes = jiHtml.xPath("//*[@class='dock_area']") {
                         for rootNode in rootNodes {
                             let replyModel = MemberRepliesModel(rootNode:rootNode)
                             
