@@ -158,6 +158,10 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
                         UserModel.getUserInfoByUsername(username, completionHandler: { (response) -> Void in
                             self.tableView.reloadData()
                         })
+                        if is2FALoggedIn {
+                            let twoFaViewController = TwoFAViewController()
+                            V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
+                        }
                     }
                     else{
                         V2Error(response.message)
