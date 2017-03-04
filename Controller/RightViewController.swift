@@ -99,6 +99,22 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        // 调整RightView宽度
+        let cell = RightNodeTableViewCell()
+        let cellFont = UIFont(name: cell.nodeNameLabel.font.familyName, size: cell.nodeNameLabel.font.pointSize)
+        for node in rightNodes {
+            let size = node.nodeName!.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: CGFloat(MAXFLOAT)),
+                                                   options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                   attributes: ["NSFontAttributeName":cellFont!],
+                                                   context: nil)
+            let width = size.width + 56
+            if width > V2Client.sharedInstance.drawerController!.maximumRightDrawerWidth {
+                V2Client.sharedInstance.drawerController?.maximumRightDrawerWidth = width
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rightNodes.count;
     }
