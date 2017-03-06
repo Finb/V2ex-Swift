@@ -25,7 +25,13 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         rightNodeModel(nodeName: NSLocalizedString("nodes" ), nodeTab: "nodes"),
         rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
     ]
-
+    var currentSelectedTabIndex = 0;
+    /**
+     第一次自动高亮的cell，
+     因为再次点击其他cell，这个cell并不会自动调用 setSelected 取消自身的选中状态
+     所以保存这个cell用于手动取消选中状态
+     我也不知道这是不是BUG，还是我用法不对。
+    */
     var firstAutoHighLightCell:UITableViewCell?
     
     var backgroundImageView:UIImageView?
@@ -59,6 +65,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         if currentTab == nil {
             currentTab = "all"
         }
+        self.currentSelectedTabIndex = rightNodes.index { $0.nodeTab == currentTab }!
         
         self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
@@ -89,11 +96,8 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let rowCount = self.tableView(self.tableView, numberOfRowsInSection: 0)
         let paddingTop = (SCREEN_HEIGHT - CGFloat(rowCount) * rowHeight) / 2
         self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: paddingTop))
-
-        // tableView选中第一行
-        self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
     }
-    override func viewWillAppear(_ animated: Bool) {
+    func maximumRightDrawerWidth() -> CGFloat{
         // 调整RightView宽度
         let cell = RightNodeTableViewCell()
         let cellFont = UIFont(name: cell.nodeNameLabel.font.familyName, size: cell.nodeNameLabel.font.pointSize)
@@ -102,11 +106,12 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                                                    options: NSStringDrawingOptions.usesLineFragmentOrigin,
                                                    attributes: ["NSFontAttributeName":cellFont!],
                                                    context: nil)
-            let width = size.width + 56
-            if width > V2Client.sharedInstance.drawerController!.maximumRightDrawerWidth {
-                V2Client.sharedInstance.drawerController?.maximumRightDrawerWidth = width
+            let width = size.width + 50
+            if width > 100 {
+                return width
             }
         }
+        return 100
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rightNodes.count;
@@ -120,20 +125,29 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         return cell ;
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell!.setSelected(true, animated: false)
-        
+        if let highLightCell = self.firstAutoHighLightCell{
+            self.firstAutoHighLightCell = nil
+            if(indexPath.row != self.currentSelectedTabIndex){
+                highLightCell.setSelected(false, animated: false)
+            }
+        }
         let node = self.rightNodes[indexPath.row];
         V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
         V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
     }
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell!.setSelected(false, animated: false)
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.currentSelectedTabIndex && cell.isSelected == false {
+            if let highLightCell = self.firstAutoHighLightCell{
+                highLightCell.setSelected(false, animated: false)
+            }
+            self.firstAutoHighLightCell = cell;
+            cell.setSelected(true, animated: true)
+        }
     }
-    
 }
+
 
 
 struct rightNodeModel {
