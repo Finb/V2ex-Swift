@@ -1,15 +1,15 @@
-##V2ex-Swift
+## V2ex-Swift
 This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
 [![](https://img.shields.io/badge/done-60%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
 <br/>
-##Download
+## Download
 <a target='_blank' href='https://itunes.apple.com/app/id1078157349'>
 <img src='http://ww2.sinaimg.cn/large/0060lm7Tgw1f1hgrs1ebwj308102q0sp.jpg' width='144' height='49' />
 </a>
 
-##How to build
+## How to build
 1)  Clone the repository
 ```
 $ git clone https://github.com/Finb/V2ex-Swift.git
@@ -24,7 +24,7 @@ $ open "V2ex-Swift.xcworkspace"
 ```
 4) Compile and run the app in your simulator or iOS device
 
-##Requirements
+## Requirements
 * Xcode 8.0
 * iOS9+
 
@@ -33,7 +33,7 @@ If you have questions about any aspect of this project, please feel free to cont
 <br/>Email: fin.uuid@gmail.com
 <br/>or Weibo: <a href = 'http://weibo.com/u/3161718545' >@Finuuid</a>
 <br/>
-##Screenshots
+## Screenshots
 ![](http://ww1.sinaimg.cn/large/0060lm7Tgw1f1dtb12v4gj30af0ijtaa.jpg)
 ![](http://ww1.sinaimg.cn/large/0060lm7Tgw1f1dtb1o68aj30af0ijmz0.jpg)
 ![](http://ww4.sinaimg.cn/large/0060lm7Tgw1f1dtb1yzxhj30af0ijtas.jpg)
