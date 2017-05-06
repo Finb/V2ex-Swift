@@ -232,7 +232,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             }
         case .comment:
             let layout = self.commentsArray[indexPath.row].textLayout!
-            return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
+            return layout.textBoundingRect.size.height + 1 + 12 + 35 + 12 + 12 + 1
         case .other:
             return 200
         }
