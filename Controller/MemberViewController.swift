@@ -349,14 +349,14 @@ extension MemberViewController{
         refreshButtonImage()
     }
     func Block() {
-        if let userId = self.model!.userId, let userToken = self.model!.userToken {
+        if let userId = self.model!.userId, let userToken = self.model!.blockToken {
         MemberModel.block(userId, userToken: userToken, type: .blocked, completionHandler: nil)
         self.model?.blockState = .blocked
         V2Success("屏蔽成功")
         }
     }
     func UnBlock() {
-        if let userId = self.model!.userId, let userToken = self.model!.userToken {
+        if let userId = self.model!.userId, let userToken = self.model!.blockToken {
             MemberModel.block(userId, userToken: userToken, type: .unBlocked, completionHandler: nil)
             self.model?.blockState = .unBlocked
             V2Success("取消屏蔽了~")

@@ -29,6 +29,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
     var blockState:BlockState = .unBlocked
     var followState:FollowState = .unFollowed
     var userToken:String?
+    var blockToken:String?
     
     var topics:[MemberTopicsModel] = []
     var replies:[MemberRepliesModel] = []
@@ -40,19 +41,20 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
         if let followNode = rootNode.xPath("./td[3]/div[1]/input[1]").first
             , let followStateClickUrl = followNode["onclick"] , followStateClickUrl.Lenght > 0{
             
-            var index = followStateClickUrl.range(of: "'")
+            var index = followStateClickUrl.range(of: "'/")
+
             var url = followStateClickUrl.substring(from: index!.upperBound)
-            url = url.substring(to:url.index(url.endIndex, offsetBy: -2))
+            let endIndex = url.range(of:"'", options: .backwards, range: nil, locale: nil)
+            url = url.substring(to: url.index(endIndex!.upperBound, offsetBy: -1))
             
-            
-            if url.hasPrefix("/follow"){
+            if url.hasPrefix("follow"){
                 self.followState = .unFollowed
             }
             else{
                 self.followState = .followed
             }
             
-            index = url.range(of: "?t=")
+            index = url.range(of: "?once=")
             self.userToken = url.substring(from: index!.upperBound)
             
             //UserId
@@ -65,14 +67,29 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
         if let followNode = rootNode.xPath("./td[3]/div[1]/input[2]").first
             , let followStateClickUrl = followNode["onclick"] , followStateClickUrl.Lenght > 0{
             
-            let index = followStateClickUrl.range(of: "unblock")
+            var index = followStateClickUrl.range(of: "'/")
+            guard index == nil else {
+                return
+            }
+            var url = followStateClickUrl.substring(from: index!.upperBound)
             
-            if index == nil{
+            if url.hasPrefix("block"){
                 self.blockState = .unBlocked
             }
             else{
                 self.blockState = .blocked
             }
+            
+            
+            let endIndex = url.range(of:"'", options: .backwards, range: nil, locale: nil)
+            guard endIndex == nil else {
+                return
+            }
+            url = url.substring(to: url.index(endIndex!.upperBound, offsetBy: -1))
+            index = url.range(of: "?t=")
+            self.blockToken = url.substring(from: index!.upperBound)
+            
+            
         }
     }
     
@@ -197,7 +214,7 @@ extension MemberModel {
         completionHandler: ((V2Response) -> Void)?
         ){
         let action = type == .followed ? "follow/" : "unfollow/"
-        let url = V2EXURL + action + userId + "?t=" + userToken
+        let url = V2EXURL + action + userId + "?once=" + userToken
         Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
             completionHandler?(V2Response(success: response.result.isSuccess))
         }
