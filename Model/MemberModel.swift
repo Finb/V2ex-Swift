@@ -68,7 +68,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             , let followStateClickUrl = followNode["onclick"] , followStateClickUrl.Lenght > 0{
             
             var index = followStateClickUrl.range(of: "'/")
-            guard index == nil else {
+            guard index != nil else {
                 return
             }
             var url = followStateClickUrl.substring(from: index!.upperBound)
@@ -82,7 +82,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             
             
             let endIndex = url.range(of:"'", options: .backwards, range: nil, locale: nil)
-            guard endIndex == nil else {
+            guard endIndex != nil else {
                 return
             }
             url = url.substring(to: url.index(endIndex!.upperBound, offsetBy: -1))
