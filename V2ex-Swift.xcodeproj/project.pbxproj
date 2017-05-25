@@ -37,6 +37,7 @@
 		064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */; };
 		064D37A61C53C4A8002E7226 /* LeftNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */; };
 		064D37A81C53CB09002E7226 /* RightNodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */; };
+		064F03B21ED5700C0094683D /* V2EXTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064F03B11ED5700C0094683D /* V2EXTargetType.swift */; };
 		06536F591C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06536F581C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift */; };
 		0653CFA81C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */; };
 		065B69111C75ABE1009AAC37 /* AnalyzeURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065B69101C75ABE1009AAC37 /* AnalyzeURLHelper.swift */; };
@@ -139,6 +140,7 @@
 		064D37A31C53BD4C002E7226 /* LeftUserHeadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftUserHeadCell.swift; sourceTree = "<group>"; };
 		064D37A51C53C4A8002E7226 /* LeftNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNodeTableViewCell.swift; sourceTree = "<group>"; };
 		064D37A71C53CB09002E7226 /* RightNodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightNodeTableViewCell.swift; sourceTree = "<group>"; };
+		064F03B11ED5700C0094683D /* V2EXTargetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXTargetType.swift; sourceTree = "<group>"; };
 		06536F581C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicDetailCommentCell.swift; sourceTree = "<group>"; };
 		0653CFA71C44E0B200E4FC05 /* UITableView+FINAutomaticHeightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+FINAutomaticHeightCell.swift"; sourceTree = "<group>"; };
 		065B69101C75ABE1009AAC37 /* AnalyzeURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyzeURLHelper.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 		069508F81C3F75A60088D031 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				064F03B11ED5700C0094683D /* V2EXTargetType.swift */,
 				0610F1AF1C46136300481402 /* BaseModel.swift */,
 				0610F1B11C4613D800481402 /* TopicListModel.swift */,
 				069806921CA3AA7700388DB6 /* TopicCommentModel.swift */,
@@ -597,7 +600,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		C76D12AD36A3B92F3B13C21B /* [CP] Embed Pods Frameworks */ = {
@@ -682,6 +685,7 @@
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				061876891C7C15BC002E9C33 /* PodsTableViewController.swift in Sources */,
 				06E1459F1C609E8500BDD63D /* NodesViewController.swift in Sources */,
+				064F03B21ED5700C0094683D /* V2EXTargetType.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
 				06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,

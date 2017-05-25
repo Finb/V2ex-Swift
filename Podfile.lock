@@ -24,7 +24,15 @@ PODS:
   - Kingfisher (3.2.4)
   - KVOController (1.2.0)
   - MJRefresh (3.1.12)
+  - Moya/Core (8.0.3):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Moya/RxSwift (8.0.3):
+    - Moya/Core
+    - RxSwift (~> 3.0)
   - ObjectMapper (2.1.0)
+  - Result (3.2.1)
+  - RxSwift (3.4.0)
   - Shimmer (1.0.2)
   - SnapKit (3.1.2)
   - SVProgressHUD (1.1.3)
@@ -44,6 +52,7 @@ DEPENDENCIES:
   - Kingfisher (~> 3.2.4)
   - KVOController (~> 1.2.0)
   - MJRefresh (~> 3.1.12)
+  - Moya/RxSwift
   - ObjectMapper (~> 2.1.0)
   - Shimmer (~> 1.0.2)
   - SnapKit (~> 3.1.2)
@@ -64,12 +73,15 @@ SPEC CHECKSUMS:
   Kingfisher: 8d80f39da403cd9c9ee11984e1655f4d6a566cdb
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  Moya: d3721622e3cc0cc2f038d69a258686f0b66e7252
   ObjectMapper: e5e0f8aef8590fc2ddcde7f27eddb255863ee6e9
+  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  RxSwift: 3789a1af753002a14edecdb698a2424624296a9c
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: 12b24f569cb7c143acc9c22b9d91b23e7b1c84a2
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 223eb8b5b88e48017e9bb8671a1832ff17967e04
+PODFILE CHECKSUM: 3bcdb15defc59dc9b89ba2354743fc6e63229cb8
 
-COCOAPODS: 1.2.0.beta.3
+COCOAPODS: 1.2.1
