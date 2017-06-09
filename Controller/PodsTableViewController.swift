@@ -50,6 +50,8 @@ class PodsTableViewController: UITableViewController {
         PodModel(name: "Shimmer", description: "An easy way to add a simple, shimmering effect to any view in an iOS app.",URL: "https://github.com/facebook/Shimmer"),
         
         PodModel(name: "OnePasswordExtension", description: "1Password Extension for iOS Apps",URL: "https://github.com/AgileBits/onepassword-app-extension"),
+        
+        PodModel(name: "FDFullscreenPopGesture", description: "A UINavigationController's category to enable fullscreen pop gesture with iOS7+ system style.",URL: "https://github.com/forkingdog/FDFullscreenPopGesture"),
     ]
     
     override func viewDidLoad() {
