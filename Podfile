@@ -19,6 +19,7 @@ def pods
     pod 'CXSwipeGestureRecognizer', '~> 1.0.2'
     pod '1PasswordExtension', '~> 1.8.4'
     pod 'Shimmer', '~> 1.0.2'
+    pod 'FDFullscreenPopGesture'
     pod 'Moya/RxSwift'
     pod 'Fabric'
     pod 'Crashlytics'

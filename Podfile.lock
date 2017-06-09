@@ -14,6 +14,7 @@ PODS:
   - DrawerController/DrawerVisualStates (3.1.0):
     - DrawerController/Core
   - Fabric (1.6.8)
+  - FDFullscreenPopGesture (1.1)
   - FXBlurView (1.6.4)
   - Ji (2.0.1):
     - Ji/Ji (= 2.0.1)
@@ -46,6 +47,7 @@ DEPENDENCIES:
   - CXSwipeGestureRecognizer (~> 1.0.2)
   - DrawerController (~> 3.1.0)
   - Fabric
+  - FDFullscreenPopGesture
   - FXBlurView (~> 1.6.4)
   - Ji (~> 2.0.1)
   - KeychainSwift (~> 7.0.0)
@@ -67,6 +69,7 @@ SPEC CHECKSUMS:
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
   DrawerController: 89efc782dd732c0ec7891910a6bcca01433fad32
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: 6bb602a28dd08b804158f64990e6051ed5de0110
   KeychainSwift: b6947435dd78cc442c64a84ae648dd0e871cf448
@@ -82,6 +85,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 3bcdb15defc59dc9b89ba2354743fc6e63229cb8
+PODFILE CHECKSUM: e31fc7ef2c222f60f6db88ac0ad08457efcba415
 
 COCOAPODS: 1.2.1
