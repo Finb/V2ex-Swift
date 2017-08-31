@@ -2,7 +2,6 @@
 This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
-[![](https://img.shields.io/badge/done-60%-green.svg?style=flat)](https://github.com/Finb/V2ex-Swift)
 <br/>
 ## Download
 <a target='_blank' href='https://itunes.apple.com/app/id1078157349'>
@@ -27,6 +26,7 @@ $ open "V2ex-Swift.xcworkspace"
 ## Requirements
 * Xcode 8.0
 * iOS9+
+* Swift 3.0
 
 ## Questions
 If you have questions about any aspect of this project, please feel free to contact me with the following email
