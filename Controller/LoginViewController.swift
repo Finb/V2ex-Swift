@@ -8,6 +8,9 @@
 
 import UIKit
 import OnePasswordExtension
+import Kingfisher
+import SVProgressHUD
+import Alamofire
 
 public typealias LoginSuccessHandel = (String) -> Void
 
@@ -19,6 +22,8 @@ class LoginViewController: UIViewController {
     let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     let userNameTextField = UITextField()
     let passwordTextField = UITextField()
+    let codeTextField = UITextField()
+    let codeImageView = UIImageView()
     let loginButton = UIButton()
     let cancelButton = UIButton()
     override func viewDidLoad() {
@@ -87,35 +92,91 @@ class LoginViewController: UIViewController {
             self.passwordTextField.becomeFirstResponder()
             return;
         }
+        var code:String
+        if let codeText = self.codeTextField.text, codeText.Lenght > 0 {
+            code = codeText
+        }
+        else{
+            self.codeTextField.becomeFirstResponder()
+            return
+        }
+        
         V2BeginLoadingWithStatus("正在登录")
-        UserModel.Login(userName, password: password){
-            (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
-            if response.success {
-                V2Success("登录成功")
-                let username = response.value!
-                //保存下用户名
-                V2EXSettings.sharedInstance[kUserName] = username
-
-                //将用户名密码保存进keychain （安全保存)
-                V2UsersKeychain.sharedInstance.addUser(username, password: password)
-
-                //调用登录成功回调
-                if let handel = self.successHandel {
-                    handel(username)
-                }
-
-                //获取用户信息
-                UserModel.getUserInfoByUsername(username,completionHandler: nil)
-                self.dismiss(animated: true){
-                    if is2FALoggedIn {
-                        let twoFaViewController = TwoFAViewController()
-                        V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
+        if let onceStr = onceStr , let usernameStr = usernameStr, let passwordStr = passwordStr, let codeStr = codeStr {
+            UserModel.Login(userName,
+                            password: password,
+                            once: onceStr,
+                            usernameFieldName: usernameStr,
+                            passwordFieldName: passwordStr ,
+                            codeFieldName:codeStr,
+                            code:code){
+                (response:V2ValueResponse<String> , is2FALoggedIn:Bool) -> Void in
+                if response.success {
+                    V2Success("登录成功")
+                    let username = response.value!
+                    //保存下用户名
+                    V2EXSettings.sharedInstance[kUserName] = username
+                    
+                    //将用户名密码保存进keychain （安全保存)
+                    V2UsersKeychain.sharedInstance.addUser(username, password: password)
+                    
+                    //调用登录成功回调
+                    if let handel = self.successHandel {
+                        handel(username)
+                    }
+                    
+                    //获取用户信息
+                    UserModel.getUserInfoByUsername(username,completionHandler: nil)
+                    self.dismiss(animated: true){
+                        if is2FALoggedIn {
+                            let twoFaViewController = TwoFAViewController()
+                            V2Client.sharedInstance.centerViewController!.navigationController?.present(twoFaViewController, animated: true, completion: nil);
+                        }
                     }
                 }
+                else{
+                    V2Error(response.message)
+                }
             }
-            else{
-                V2Error(response.message)
+            return;
+        }
+        else{
+            V2Error("不知道啥错误")
+        }
+        
+    }
+    
+    var onceStr:String?
+    var usernameStr:String?
+    var passwordStr:String?
+    var codeStr:String?
+    @objc func refreshCode(){
+        
+        Alamofire.request(V2EXURL+"signin", headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
+            (response) -> Void in
+            
+            if let jiHtml = response .result.value{
+                //获取帖子内容
+                //取出 once 登录时要用
+                
+                //self.onceStr = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
+                self.usernameStr = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[1]/td[2]/input[@class='sl']")?.first?["name"]
+                self.passwordStr = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[2]/td[2]/input[@class='sl']")?.first?["name"]
+                self.codeStr = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[4]/td[2]/input[@class='sl']")?.first?["name"]
+                
+                
+                if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
+                    let codeUrl = "\(V2EXURL)_captcha?once=\(once)"
+                    self.onceStr = once
+                    Alamofire.request(codeUrl).responseData(completionHandler: { (dataResp) in
+                        self.codeImageView.image = UIImage(data: dataResp.data!)
+                    })
+                }
+                else{
+                    SVProgressHUD.showError(withStatus: "刷新验证码失败")
+                }
             }
+
         }
     }
 }
@@ -225,7 +286,46 @@ extension LoginViewController {
             make.width.equalTo(300)
             make.height.equalTo(38)
         }
-
+        
+        
+        self.codeTextField.textColor = UIColor.white
+        self.codeTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+        self.codeTextField.font = v2Font(15)
+        self.codeTextField.layer.cornerRadius = 3;
+        self.codeTextField.layer.borderWidth = 0.5
+        self.codeTextField.keyboardType = .asciiCapable
+        self.codeTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        self.codeTextField.placeholder = "验证码"
+        self.codeTextField.clearButtonMode = .always
+        
+        let codeTextFieldImageView = UIImageView(image: UIImage(named: "ic_vpn_key")!.withRenderingMode(.alwaysTemplate));
+        codeTextFieldImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+        codeTextFieldImageView.contentMode = .scaleAspectFit
+        codeTextFieldImageView.tintColor = UIColor.white
+        self.codeTextField.leftView = codeTextFieldImageView
+        self.codeTextField.leftViewMode = .always
+        
+        vibrancyView.contentView.addSubview(self.codeTextField)
+        
+        self.codeTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(self.passwordTextField.snp.bottom).offset(15)
+            make.left.equalTo(passwordTextField)
+            make.width.equalTo(180)
+            make.height.equalTo(38)
+        }
+        
+        self.codeImageView.backgroundColor = UIColor.white
+        self.codeImageView.layer.cornerRadius = 3;
+        self.codeImageView.clipsToBounds = true
+        self.codeImageView.isUserInteractionEnabled = true
+        vibrancyView.contentView.addSubview(self.codeImageView)
+        self.codeImageView.snp.makeConstraints { (make) in
+            make.top.bottom.equalTo(self.codeTextField)
+            make.left.equalTo(self.codeTextField.snp.right).offset(-5)
+            make.right.equalTo(self.passwordTextField)
+        }
+        self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
+        
         self.loginButton.setTitle("登  录", for: UIControlState())
         self.loginButton.titleLabel!.font = v2Font(20)
         self.loginButton.layer.cornerRadius = 3;
@@ -234,7 +334,7 @@ extension LoginViewController {
         vibrancyView.contentView.addSubview(self.loginButton);
 
         self.loginButton.snp.makeConstraints{ (make) -> Void in
-            make.top.equalTo(self.passwordTextField.snp.bottom).offset(20)
+            make.top.equalTo(self.codeTextField.snp.bottom).offset(20)
             make.centerX.equalTo(vibrancyView)
             make.width.equalTo(300)
             make.height.equalTo(38)
@@ -271,5 +371,9 @@ extension LoginViewController {
             make.right.equalTo(vibrancyView).offset(-5)
             make.width.height.equalTo(40)
         }
+        
+        refreshCode()
     }
+    
+    
 }

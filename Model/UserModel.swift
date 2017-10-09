@@ -27,7 +27,7 @@ class UserModel: BaseJsonModel {
     var avatar_normal:String?
     var avatar_large:String?
     var created:String?
-
+    
     override func mapping(map: Map) {
         status <- map["status"]
         id <- map["id"]
@@ -51,39 +51,7 @@ class UserModel: BaseJsonModel {
 extension UserModel{
     /**
      登录
-
-     - parameter username:          用户名
-     - parameter password:          密码
-     - parameter completionHandler: 登录回调
-     */
-    class func Login(_ username:String,password:String ,
-                     completionHandler: @escaping (_ response:V2ValueResponse<String>, _ is2FALoggedIn:Bool) -> Void
-        ) -> Void{
-        V2User.sharedInstance.removeAllCookies()
-        
-        Alamofire.request(V2EXURL+"signin", headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
-            (response) -> Void in
-
-            if let jiHtml = response .result.value{
-                //获取帖子内容
-                //取出 once 登录时要用
-
-                let onceStr:String? = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
-                let usernameStr:String? = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[1]/td[2]/input[@class='sl']")?.first?["name"]
-                let passwordStr:String? = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[2]/form/table/tr[2]/td[2]/input[@class='sl']")?.first?["name"]
-
-                if let onceStr = onceStr , let usernameStr = usernameStr, let passwordStr = passwordStr {
-                    UserModel.Login(username, password: password, once: onceStr, usernameFieldName: usernameStr, passwordFieldName: passwordStr , completionHandler: completionHandler)
-                    return;
-                }
-            }
-            completionHandler(V2ValueResponse(success: false,message: "获取 必要字段 失败"),false)
-        }
-    }
-
-    /**
-     登录
-
+     
      - parameter username:          用户名
      - parameter password:          密码
      - parameter once:              once
@@ -91,14 +59,16 @@ extension UserModel{
      */
     class func Login(_ username:String,password:String ,once:String,
                      usernameFieldName:String ,passwordFieldName:String,
+                     codeFieldName:String, code:String,
                      completionHandler: @escaping (V2ValueResponse<String>, Bool) -> Void){
         let prames = [
             "once":once,
             "next":"/",
             passwordFieldName:password,
-            usernameFieldName:username
+            usernameFieldName:username,
+            codeFieldName: code
         ]
-
+        
         var dict = MOBILE_CLIENT_HEADERS
         //为安全，此处使用https
         dict["Referer"] = "https://v2ex.com/signin"
@@ -116,7 +86,7 @@ extension UserModel{
                             if let url = response.response?.url?.absoluteString, url.contains("2fa") {
                                 completionHandler(V2ValueResponse(value: username, success: true),true)
                             }
-                            //登陆完成
+                                //登陆完成
                             else{
                                 completionHandler(V2ValueResponse(value: username, success: true),false)
                             }
@@ -124,7 +94,7 @@ extension UserModel{
                         }
                     }
                 }
-
+                
             }
             completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
         }
@@ -158,7 +128,7 @@ extension UserModel{
             }
         }
     }
-
+    
     class func getUserInfoByUsername(_ username:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
         let prame = [
             "username":username
@@ -178,8 +148,8 @@ extension UserModel{
             completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
         }
     }
-
-
+    
+    
     class func dailyRedeem() {
         V2User.sharedInstance.getOnce { (response) -> Void in
             if response.success {
@@ -193,12 +163,12 @@ extension UserModel{
                                 })
                             }
                         }
-
+                        
                     }
                 }
-
+                
             }
         }
     }
-
+    
 }
