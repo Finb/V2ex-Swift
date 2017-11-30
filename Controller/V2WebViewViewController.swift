@@ -99,7 +99,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.title = self.webView?.title
     }
     
-    func back(){
+    @objc func back(){
         if self.webView!.canGoBack {
             self.webView!.goBack()
         }
@@ -107,7 +107,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
             _ = self.navigationController?.popViewController(animated: true)
         }
     }
-    func pop(){
+    @objc func pop(){
         _ = self.navigationController?.popViewController(animated: true)
     }
     
@@ -125,7 +125,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
     }
     
     //MARK: - V2ActivityView
-    func rightClick(){
+    @objc func rightClick(){
         let activityView = V2ActivityViewController()
         activityView.dataSource = self
         self.navigationController!.present(activityView, animated: true, completion: nil)

@@ -91,10 +91,10 @@ class HomeViewController: UIViewController {
         rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), for: .touchUpInside)
 
     }
-    func leftClick(){
+    @objc func leftClick(){
         V2Client.sharedInstance.drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
-    func rightClick(){
+    @objc func rightClick(){
         V2Client.sharedInstance.drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
     }
     
@@ -162,7 +162,7 @@ class HomeViewController: UIViewController {
     }
     
     static var lastLeaveTime = Date()
-    func applicationWillEnterForeground(){
+    @objc func applicationWillEnterForeground(){
         //计算上次离开的时间与当前时间差
         //如果超过2分钟，则自动刷新本页面。
         let interval = -1 * HomeViewController.lastLeaveTime.timeIntervalSinceNow
@@ -170,7 +170,7 @@ class HomeViewController: UIViewController {
             self.tableView.mj_header.beginRefreshing()
         }
     }
-    func applicationDidEnterBackground(){
+    @objc func applicationDidEnterBackground(){
         HomeViewController.lastLeaveTime = Date()
     }
 }
@@ -213,7 +213,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         }
     }
     
-    func ignoreTopicHandler(_ topicId:String) {
+    @objc func ignoreTopicHandler(_ topicId:String) {
         let index = self.topicList?.index(where: {$0.topicId == topicId })
         if index == nil {
             return

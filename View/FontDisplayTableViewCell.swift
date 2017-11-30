@@ -25,7 +25,7 @@ class FontDisplayTableViewCell: BaseDetailTableViewCell {
             make.height.lessThanOrEqualTo(self.contentView).offset(-12)
         }
         
-        self.kvoController.observe(V2Style.sharedInstance, keyPath: "fontScale", options: [.initial,.new]) {_ in
+        self.kvoController.observe(V2Style.sharedInstance, keyPath: "fontScale", options: [NSKeyValueObservingOptions.initial, NSKeyValueObservingOptions.new]) { (_, _, _) in
             self.titleLabel.font = v2ScaleFont(14)
         }
     }

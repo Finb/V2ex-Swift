@@ -122,12 +122,12 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             make.left.top.right.bottom.equalTo(cancelPanel)
         }
 
-        cancelButton.addTarget(self, action: #selector(dismiss as (Void) -> Void), for: .touchUpInside)
+        cancelButton.addTarget(self, action: #selector(dismiss as () -> Void), for: .touchUpInside)
 
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismiss as (Void) -> Void)))
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismiss as () -> Void)))
     }
     
-    func dismiss(){
+    @objc func dismiss(){
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -243,7 +243,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         return cellView
     }
     
-    func cellDidSelected(_ sender:V2ActivityButton){
+    @objc func cellDidSelected(_ sender:V2ActivityButton){
         dataSource?.V2ActivityView?(self, didSelectRowAtIndexPath: sender.indexPath!)
     }
     

@@ -25,7 +25,7 @@ class NodeModel: NSObject ,BaseHtmlModelProtocol{
             let rect = (nodeName as NSString).boundingRect(
                 with: CGSize(width: SCREEN_WIDTH,height: 15),
                 options: .usesLineFragmentOrigin,
-                attributes: [NSFontAttributeName:v2Font(15)], context: nil)
+                attributes: [NSAttributedStringKey.font:v2Font(15)], context: nil)
             
             self.width = rect.width;
         }

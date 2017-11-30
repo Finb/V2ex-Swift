@@ -125,10 +125,10 @@ class TopicDetailHeaderCell: UITableViewCell {
             make.bottom.equalTo(self.contentView).offset(SEPARATOR_HEIGHT * -1);
         }
     }
-    func nodeClick() {
+    @objc func nodeClick() {
         nodeClickHandler?()
     }
-    func userNameTap(_ sender:UITapGestureRecognizer) {
+    @objc func userNameTap(_ sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username

@@ -169,7 +169,7 @@ class NotificationTableViewCell: UITableViewCell {
         }
     }
     
-    func userNameTap(_ sender:UITapGestureRecognizer) {
+    @objc func userNameTap(_ sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
@@ -177,7 +177,7 @@ class NotificationTableViewCell: UITableViewCell {
         }
     }
     
-    func replyButtonClick(_ sender:UIButton){
+    @objc func replyButtonClick(_ sender:UIButton){
         self.replyButtonClickHandler?(sender)
     }
     

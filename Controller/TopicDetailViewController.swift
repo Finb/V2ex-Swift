@@ -108,7 +108,7 @@ class TopicDetailViewController: BaseViewController{
     /**
      点击右上角 more 按钮
      */
-    func rightClick(){
+    @objc func rightClick(){
         if  self.model != nil {
             let activityView = V2ActivityViewController()
             activityView.dataSource = self
@@ -351,9 +351,9 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             self.perform([#selector(TopicDetailViewController.replyComment(_:)),#selector(TopicDetailViewController.thankComment(_:)),#selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1], with: actionSheet.tag)
         }
     }
-    func replyComment(_ row:NSNumber){
+    @objc func replyComment(_ row:NSNumber){
         V2User.sharedInstance.ensureLoginWithHandler {
-            let item = self.commentsArray[row as Int]
+            let item = self.commentsArray[row as! Int]
             let replyViewController = ReplyingViewController()
             replyViewController.atSomeone = "@" + item.userName! + " "
             replyViewController.topicModel = self.model!
@@ -361,12 +361,12 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             self.navigationController?.present(nav, animated: true, completion:nil)
         }
     }
-    func thankComment(_ row:NSNumber){
+    @objc func thankComment(_ row:NSNumber){
         guard V2User.sharedInstance.isLogin else {
             V2Inform("请先登录")
             return;
         }
-        let item = self.commentsArray[row as Int]
+        let item = self.commentsArray[row as! Int]
         if item.replyId == nil {
             V2Error("回复replyId为空")
             return;
@@ -376,7 +376,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
             return;
         }
         item.favorites += 1
-        self.tableView.reloadRows(at: [IndexPath(row: row as Int, section: 1)], with: .none)
+        self.tableView.reloadRows(at: [IndexPath(row: row as! Int, section: 1)], with: .none)
         
         TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
             [weak item, weak self](response) in
@@ -386,12 +386,12 @@ extension TopicDetailViewController: UIActionSheetDelegate {
                 V2Error("感谢失败了")
                 //失败后 取消增加的数量
                 item?.favorites -= 1
-                self?.tableView.reloadRows(at: [IndexPath(row: row as Int, section: 1)], with: .none)
+                self?.tableView.reloadRows(at: [IndexPath(row: row as! Int, section: 1)], with: .none)
             }
         }
     }
-    func relevantComment(_ row:NSNumber){
-        let item = self.commentsArray[row as Int]
+    @objc func relevantComment(_ row:NSNumber){
+        let item = self.commentsArray[row as! Int]
         let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
         if relevantComments.count <= 0 {
             return;
@@ -495,7 +495,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         }
     }
     
-    func reply(){
+    @objc func reply(){
         self.activityView?.dismiss()
         V2User.sharedInstance.ensureLoginWithHandler {
             let replyViewController = ReplyingViewController()

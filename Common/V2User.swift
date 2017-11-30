@@ -30,7 +30,7 @@ class V2User: NSObject {
         }
     }
 
-    dynamic var username:String?
+    @objc dynamic var username:String?
 
     fileprivate var _once:String?
     //全局once字符串，用于用户各种操作，例如回帖 登录 。这些操作都需要用的once ，而且这个once是全局统一的
@@ -54,7 +54,7 @@ class V2User: NSObject {
     }
 
     /// 通知数量
-    dynamic var notificationCount:Int = 0
+    @objc dynamic var notificationCount:Int = 0
 
 
 

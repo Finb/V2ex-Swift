@@ -45,7 +45,7 @@ class V2TapDetectingImageView: AnimatedImageView {
 //        self.nextResponder()?.touchesEnded(touches, withEvent: event)
     }
     
-    func handleSingleTap(_ touch:UITouch){
+    @objc func handleSingleTap(_ touch:UITouch){
         self.tapDelegate?.singleTapDetected?(self, touch: touch)
     }
     

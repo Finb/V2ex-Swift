@@ -27,7 +27,7 @@ class MyCenterViewController: MemberViewController {
         self.settingsButton!.isHidden = false
     }
     
-    func accountManagerClick(){
+    @objc func accountManagerClick(){
         self.navigationController?.pushViewController(AccountsManagerViewController(), animated: true)
     }
 }

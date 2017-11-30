@@ -44,10 +44,10 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         
     }
     
-    func leftClick (){
+    @objc func leftClick (){
         self.dismiss(animated: true, completion: nil)
     }
-    func rightClick (){
+    @objc func rightClick (){
         
     }
     

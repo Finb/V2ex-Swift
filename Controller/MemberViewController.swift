@@ -315,7 +315,7 @@ extension MemberViewController{
         self.followButton?.setImage(followImage.withRenderingMode(.alwaysTemplate), for: UIControlState())
     }
     
-    func toggleFollowState(){
+    @objc func toggleFollowState(){
         if(self.model?.followState == .followed){
             UnFollow()
         }
@@ -339,7 +339,7 @@ extension MemberViewController{
         }
     }
     
-    func toggleBlockState(){
+    @objc func toggleBlockState(){
         if(self.model?.blockState == .blocked){
             UnBlock()
         }

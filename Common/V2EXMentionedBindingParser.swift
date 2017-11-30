@@ -28,7 +28,7 @@ class V2EXMentionedBindingParser: NSObject ,YYTextParser{
                     return ;
                 }
                 
-                if  text.attribute(YYTextBindingAttributeName, at: range.location, effectiveRange: nil) != nil  {
+                if  text.attribute(NSAttributedStringKey(rawValue: YYTextBindingAttributeName), at: range.location, effectiveRange: nil) != nil  {
                     return ;
                 }
                 

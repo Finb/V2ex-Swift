@@ -30,7 +30,7 @@ class V2Slider: UISlider {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func valueChanged(_ sender:UISlider) {
+    @objc func valueChanged(_ sender:UISlider) {
         sender.value = Float(Int(sender.value))
         valueChanged?(sender.value)
     }

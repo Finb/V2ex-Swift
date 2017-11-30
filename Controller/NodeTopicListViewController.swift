@@ -185,7 +185,7 @@ extension NodeTopicListViewController {
         self.followButton?.setImage(followImage.withRenderingMode(.alwaysTemplate), for: UIControlState())
     }
     
-    func toggleFavoriteState(){
+    @objc func toggleFavoriteState(){
         if(self.favorited == true){
             unFavorite()
         }

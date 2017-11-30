@@ -184,7 +184,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
     }
     
-    func userNameTap(_ sender:UITapGestureRecognizer) {
+    @objc func userNameTap(_ sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username

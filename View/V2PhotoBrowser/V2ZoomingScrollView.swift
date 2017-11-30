@@ -66,7 +66,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         fatalError("init(coder:) has not been implemented")
     }
     
-    func loadingDidEndNotification(_ notification:Notification){
+    @objc func loadingDidEndNotification(_ notification:Notification){
         self.loadingView.isHidden = true
         self.loadingView.stopAnimating()
         if notification.object as? V2Photo == self.photo , let _ = self._photo?.underlyingImage {

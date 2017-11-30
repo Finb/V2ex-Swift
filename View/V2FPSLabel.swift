@@ -39,7 +39,7 @@ class V2FPSLabel: UILabel {
         super.init(coder: aDecoder)
     }
     
-    func tick(_ link:CADisplayLink) {
+    @objc func tick(_ link:CADisplayLink) {
         if _lastTime == 0  {
             _lastTime = link.timestamp
             return

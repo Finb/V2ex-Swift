@@ -150,7 +150,7 @@ class TopicDetailCommentCell: UITableViewCell{
             make.bottom.equalTo(self.contentView.snp.bottom).offset(-SEPARATOR_HEIGHT);
         }
     }
-    func userNameTap(_ sender:UITapGestureRecognizer) {
+    @objc func userNameTap(_ sender:UITapGestureRecognizer) {
         if let _ = self.itemModel , let username = itemModel?.userName {
             let memberViewController = MemberViewController()
             memberViewController.username = username
@@ -226,7 +226,7 @@ extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoB
 
 //MARK: - 长按复制功能
 extension TopicDetailCommentCell {
-    func longPressHandle(_ longPress:UILongPressGestureRecognizer) -> Void {
+    @objc func longPressHandle(_ longPress:UILongPressGestureRecognizer) -> Void {
         if (longPress.state == .began) {
             self.becomeFirstResponder()
             
@@ -250,7 +250,7 @@ extension TopicDetailCommentCell {
         return true
     }
     
-    func copyText() -> Void {
+    @objc func copyText() -> Void {
         UIPasteboard.general.string = self.itemModel?.textLayout?.text.string
     }
 }

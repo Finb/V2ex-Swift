@@ -279,7 +279,7 @@ class V2EXColor :NSObject  {
         }
     }
     
-    dynamic var style:String
+    @objc dynamic var style:String
     static let sharedInstance = V2EXColor()
     fileprivate override init(){
         if let style = V2EXSettings.sharedInstance[V2EXColor.STYLE_KEY] {

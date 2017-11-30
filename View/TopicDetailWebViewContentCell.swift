@@ -84,7 +84,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.tapGesture!.delegate = self
         self.contentWebView.addGestureRecognizer(self.tapGesture!);
     }
-    func tapHandler(_ tap :UITapGestureRecognizer){
+    @objc func tapHandler(_ tap :UITapGestureRecognizer){
         let tapPoint = tap.location(in: tap.view)
     
         let script = String(format: "getHTMLElementAtPoint(%i,%i)", Int(tapPoint.x),Int(tapPoint.y))

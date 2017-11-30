@@ -24,7 +24,7 @@ class V2Style: NSObject {
     static let sharedInstance = V2Style()
     
     fileprivate var _fontScale:Float = 1.0
-    dynamic var fontScale:Float {
+    @objc dynamic var fontScale:Float {
         get{
             return _fontScale
         }

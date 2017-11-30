@@ -104,7 +104,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         for node in rightNodes {
             let size = node.nodeName!.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: CGFloat(MAXFLOAT)),
                                                    options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                   attributes: ["NSFontAttributeName":cellFont!],
+                                                   attributes: [NSAttributedStringKey(rawValue: "NSFontAttributeName"):cellFont!],
                                                    context: nil)
             let width = size.width + 50
             if width > 100 {

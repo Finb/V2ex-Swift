@@ -60,7 +60,7 @@ class LoginViewController: UIViewController {
     }
 
 
-    func findLoginFrom1Password(){
+    @objc func findLoginFrom1Password(){
         OnePasswordExtension.shared().findLogin(forURLString: "v2ex.com", for: self, sender: nil) { (loginDictionary, errpr) -> Void in
             if let count = loginDictionary?.count , count > 0 {
                 self.userNameTextField.text = loginDictionary![AppExtensionUsernameKey] as? String
@@ -71,10 +71,10 @@ class LoginViewController: UIViewController {
             }
         }
     }
-    func cancelClick (){
+    @objc func cancelClick (){
         self.dismiss(animated: true, completion: nil)
     }
-    func loginClick(_ sneder:UIButton){
+    @objc func loginClick(_ sneder:UIButton){
         var userName:String
         var password:String
         if let len = self.userNameTextField.text?.Lenght , len > 0{
@@ -188,7 +188,7 @@ extension UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 }
