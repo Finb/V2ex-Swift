@@ -97,7 +97,7 @@ class TopicDetailViewController: BaseViewController{
             else{
                 V2Error("刷新失败");
             }
-            if self.tableView.mj_header.isRefreshing(){
+            if self.tableView.mj_header.isRefreshing{
                 self.tableView.mj_header.endRefreshing()
             }
             self.tableView.mj_footer.resetNoMoreData()

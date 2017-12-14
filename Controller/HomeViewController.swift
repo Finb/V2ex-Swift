@@ -105,7 +105,7 @@ class HomeViewController: UIViewController {
     func refresh(){
         
         //如果有上拉加载更多 正在执行，则取消它
-        if self.tableView.mj_footer.isRefreshing() {
+        if self.tableView.mj_footer.isRefreshing {
             self.tableView.mj_footer.endRefreshing()
         }
         
