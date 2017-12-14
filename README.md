@@ -24,14 +24,14 @@ $ open "V2ex-Swift.xcworkspace"
 4) Compile and run the app in your simulator or iOS device
 
 ## Requirements
-* Xcode 8.0
+* Xcode 9.0
 * iOS9+
-* Swift 3.0
+* Swift 4.0
 
 ## Questions
 If you have questions about any aspect of this project, please feel free to contact me with the following email
-<br/>Email: fin.uuid@gmail.com
-<br/>or Weibo: <a href = 'http://weibo.com/u/3161718545' >@Finuuid</a>
+<br/>Email: heyfiniks@gmail.com
+<br/>or Weibo: <a href = 'http://weibo.com/u/3161718545' >@heyfiniks</a>
 <br/>
 ## Screenshots
 ![](http://ww1.sinaimg.cn/large/0060lm7Tgw1f1dtb12v4gj30af0ijtaa.jpg)
