@@ -54,7 +54,7 @@ class V2EXNavigationController: UINavigationController {
         self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
         maskingView.snp.makeConstraints{ (make) -> Void in
             make.left.bottom.right.equalTo(self.navigationBar)
-            make.top.equalTo(self.navigationBar).offset(-20);
+            make.top.equalTo(self.navigationBar).offset(-44);
         }
 
         self.frostedView.isUserInteractionEnabled = false

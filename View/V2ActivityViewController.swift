@@ -61,7 +61,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         }
     }
     
-    var panel:UIToolbar = UIToolbar()
+    var panel:UIToolbar = CTToolBar()
     
     /**
      当前不考虑复用，每一行最多支持4个cell
@@ -307,6 +307,19 @@ class V2ActivityTransionDismiss:NSObject,UIViewControllerAnimatedTransitioning {
             }, completion: { (finished) -> Void in
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 toVC?.view.isHidden = false
-        }) 
+        })
+    }
+}
+
+class CTToolBar: UIToolbar {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        //Fix iOS11 种 UIToolBar的子View 都不响应点击事件
+        for view in self.subviews {
+            print("\(NSStringFromClass(view.classForCoder))")
+            if NSStringFromClass(view.classForCoder) == "_UIToolbarContentView" {
+                view.isUserInteractionEnabled = false
+            }
+        }
     }
 }
