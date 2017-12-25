@@ -48,10 +48,10 @@ open-SourceLibraries = "开源库";
 version = "版本号";
 
 //阅读设置
-viewOption_themeSet = "    配色 - 点击下面选项，设置APP的配色方案";
+viewOptionThemeSet = "    配色 - 点击下面选项，设置APP的配色方案";
 default = "默认";
 dark = "暗色";
-viewOption_textSize = "    文字大小 - 滑动滑块调整文字大小";
+viewOptionTextSize = "    文字大小 - 滑动滑块调整文字大小";
 
 //节点导航
 navigation = "节点导航";
