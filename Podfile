@@ -23,6 +23,7 @@ def pods
     pod 'Moya/RxSwift', '~> 8.0.5'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'DeviceKit'
 end
 
 target 'V2ex-Swift' do
