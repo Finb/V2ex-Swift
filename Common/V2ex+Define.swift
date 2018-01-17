@@ -54,3 +54,16 @@ func v2Font(_ fontSize: CGFloat) -> UIFont {
 func v2ScaleFont(_ fontSize: CGFloat) -> UIFont{
     return v2Font(fontSize * CGFloat(V2Style.sharedInstance.fontScale))
 }
+
+
+extension UIDevice {
+    var isIphoneX:Bool {
+        get {
+            let device = Device()
+            if device.isOneOf([.iPhoneX, Device.simulator(.iPhoneX)]) {
+                return true
+            }
+            return false
+        }
+    }
+}
