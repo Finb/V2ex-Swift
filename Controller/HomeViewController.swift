@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
                 return _tableView!;
             }
             _tableView = UITableView();
-
+            _tableView.cancelEstimatedHeight()
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
             regClass(_tableView, cell: HomeTopicListTableViewCell.self);

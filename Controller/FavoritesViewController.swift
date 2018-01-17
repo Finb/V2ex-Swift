@@ -20,6 +20,7 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
                 return _tableView!;
             }
             _tableView = UITableView();
+            _tableView.cancelEstimatedHeight()
             _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             

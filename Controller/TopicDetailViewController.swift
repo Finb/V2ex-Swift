@@ -24,6 +24,7 @@ class TopicDetailViewController: BaseViewController{
                 return _tableView!;
             }
             _tableView = UITableView();
+            _tableView.cancelEstimatedHeight()
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             
             _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor

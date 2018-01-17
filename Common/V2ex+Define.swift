@@ -67,3 +67,12 @@ extension UIDevice {
         }
     }
 }
+
+extension UITableView {
+    func cancelEstimatedHeight(){
+        self.estimatedRowHeight = 0
+        self.estimatedSectionFooterHeight = 0
+        self.estimatedSectionHeaderHeight = 0
+    }
+}
+

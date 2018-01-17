@@ -62,6 +62,7 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
                 return _tableView!;
             }
             _tableView = UITableView();
+            _tableView.cancelEstimatedHeight()
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
             if #available(iOS 11.0, *) {
                 _tableView.contentInsetAdjustmentBehavior = .never
