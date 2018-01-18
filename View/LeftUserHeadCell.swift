@@ -73,7 +73,7 @@ class LeftUserHeadCell: UITableViewCell {
             }
         }
 
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         }
     }

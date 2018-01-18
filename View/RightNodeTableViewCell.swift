@@ -42,7 +42,7 @@ class RightNodeTableViewCell: UITableViewCell {
             make.centerY.equalTo(panel)
         }
         
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.refreshBackgroundColor()
             self?.nodeNameLabel.textColor = V2EXColor.colors.v2_LeftNodeTintColor
         }

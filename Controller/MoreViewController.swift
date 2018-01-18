@@ -17,7 +17,7 @@ class MoreViewController: UITableViewController {
         self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
         
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
             self?.tableView.reloadData()
         }

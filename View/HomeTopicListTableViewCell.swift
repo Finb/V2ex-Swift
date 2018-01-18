@@ -102,7 +102,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         
         self.setupLayout()
 
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             if style == V2EXColor.V2EXColorStyleDefault {
                 self?.nodeBackgroundImageView.image = HomeTopicListTableViewCell.nodeBackgroundImage_Default
             }

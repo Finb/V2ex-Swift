@@ -66,7 +66,7 @@ class V2EXNavigationController: UINavigationController {
             make.top.bottom.left.right.equalTo(maskingView);
         }
 
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
             
             self?.navigationBar.titleTextAttributes = [

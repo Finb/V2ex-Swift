@@ -45,7 +45,7 @@ class V2Style: NSObject {
             self._fontScale = scale
         }
         //监听主题配色，切换相应的配色
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.remakeCSS()
         }
         

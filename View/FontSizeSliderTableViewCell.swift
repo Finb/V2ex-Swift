@@ -70,7 +70,7 @@ class FontSizeSliderTableViewCell: UITableViewCell {
             make.height.equalTo(SEPARATOR_HEIGHT)
         }
         
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
             leftLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor
             rightLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor

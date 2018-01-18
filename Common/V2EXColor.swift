@@ -319,7 +319,7 @@ extension NSObject {
     
     /// 自动调用的闭包
     /// 设置时，会设置一个KVO监听，当V2Style.style更改时、第一次赋值时 会自动调用这个闭包
-    var thmemChangedHandler:ThemeChangedClosure? {
+    var themeChangedHandler:ThemeChangedClosure? {
         get {
             let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.thmemChanged) as AnyObject?
             guard closureObject != nil else{
@@ -336,7 +336,7 @@ extension NSObject {
             objc_setAssociatedObject(self, &AssociatedKeys.thmemChanged,dealObject,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             //设置KVO监听
             self.kvoController.observe(V2EXColor.sharedInstance, keyPath: "style", options: [.initial,.new] , block: {[weak self] (nav, color, change) -> Void in
-                self?.thmemChangedHandler?(V2EXColor.sharedInstance.style)
+                self?.themeChangedHandler?(V2EXColor.sharedInstance.style)
                 }
             )
         }

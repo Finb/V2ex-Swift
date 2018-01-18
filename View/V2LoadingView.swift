@@ -53,7 +53,7 @@ class V2LoadingView: UIView {
             make.centerX.equalTo(self.activityIndicatorView)
         }
         
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.activityIndicatorView.activityIndicatorViewStyle = .gray
             }

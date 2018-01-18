@@ -48,7 +48,7 @@ class V2RefreshHeader: MJRefreshHeader {
         self.arrowImage = UIImageView(image: UIImage.imageUsedTemplateMode("ic_arrow_downward"))
         self.addSubview(self.arrowImage!)
         
-        self.thmemChangedHandler = {[weak self] (style) -> Void in
+        self.themeChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.loadingView?.activityIndicatorViewStyle = .gray
                 self?.arrowImage?.tintColor = UIColor.gray
