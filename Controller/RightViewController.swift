@@ -94,8 +94,10 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         let rowHeight = self.tableView(self.tableView, heightForRowAt: IndexPath(row: 0, section: 0))
         let rowCount = self.tableView(self.tableView, numberOfRowsInSection: 0)
-        let paddingTop = (SCREEN_HEIGHT - CGFloat(rowCount) * rowHeight) / 2
-        self.tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: paddingTop))
+        let paddingTop = (SCREEN_HEIGHT - CGFloat(rowCount) * rowHeight - NavagationBarHeight) / 2
+        if paddingTop > 0 {
+            self.tableView.contentInset = UIEdgeInsetsMake(paddingTop, 0, 0, 0)
+        }
     }
     func maximumRightDrawerWidth() -> CGFloat{
         // 调整RightView宽度
