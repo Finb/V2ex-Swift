@@ -99,7 +99,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         self.view.addSubview(aloadView)
         aloadView.startAnimating()
         aloadView.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.view.snp.top).offset( (NavagationBarHeight - 44 ) + 44 / 2 )
+            make.centerY.equalTo(self.view.snp.top).offset( (NavigationBarHeight - 44 ) + 44 / 2 )
             make.right.equalTo(self.view).offset(-15)
         }
         self._loadView = aloadView
@@ -186,7 +186,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         self.changeNavigationBarTintColor()
         
         //navigationBar title 显示
-        let navigationBarHeight = NavagationBarHeight
+        let navigationBarHeight = NavigationBarHeight
         
         //昵称距离NavigationBar 底部的距离
         let nickLabelDistanceToNavigationBarBottom = nickLabelTop - navigationBarHeight

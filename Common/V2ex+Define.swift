@@ -14,7 +14,7 @@ let SCREEN_WIDTH = UIScreen.main.bounds.size.width;
 //屏幕高度
 let SCREEN_HEIGHT = UIScreen.main.bounds.size.height;
 //NavagationBar高度
-let NavagationBarHeight:CGFloat = {
+let NavigationBarHeight:CGFloat = {
     let device = Device()
     if device.isOneOf([.iPhoneX, Device.simulator(.iPhoneX)]) {
         return 88

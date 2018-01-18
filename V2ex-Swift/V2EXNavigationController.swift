@@ -53,7 +53,7 @@ class V2EXNavigationController: UINavigationController {
         maskingView.isUserInteractionEnabled = false
         maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
         self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
-        maskingView.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: NavagationBarHeight)
+        maskingView.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: NavigationBarHeight)
 //        maskingView.snp.makeConstraints{ (make) -> Void in
 //            make.left.bottom.right.equalTo(self.navigationBar)
 //            make.top.equalTo(self.navigationBar).offset(-44);
