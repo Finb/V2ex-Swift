@@ -11,8 +11,17 @@ import FXBlurView
 
 class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
-    var backgroundImageView:UIImageView?
-    var frostedView = FXBlurView()
+    var backgroundImageView: UIImageView = {
+        let backgroundImageView = UIImageView()
+        backgroundImageView.contentMode = .scaleToFill
+        return backgroundImageView
+    }()
+    var frostedView: FXBlurView = {
+        let frostedView = FXBlurView()
+        frostedView.isDynamic = false
+        frostedView.tintColor = UIColor.black
+        return frostedView;
+    }()
     
     fileprivate var _tableView :UITableView!
     fileprivate var tableView: UITableView {
@@ -40,16 +49,12 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         
-        self.backgroundImageView = UIImageView()
-        self.backgroundImageView!.frame = self.view.frame
-        self.backgroundImageView!.contentMode = .scaleToFill
-        view.addSubview(self.backgroundImageView!)
+        self.backgroundImageView.frame = self.view.frame
+        view.addSubview(self.backgroundImageView)
         
-        frostedView.underlyingView = self.backgroundImageView!
-        frostedView.isDynamic = false
-        frostedView.tintColor = UIColor.black
-        frostedView.frame = self.view.frame
-        self.view.addSubview(frostedView)
+        self.frostedView.underlyingView = self.backgroundImageView
+        self.frostedView.frame = self.view.frame
+        self.view.addSubview(self.frostedView)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -61,10 +66,10 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         }
         self.thmemChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.backgroundImageView?.image = UIImage(named: "32.jpg")
+                self?.backgroundImageView.image = UIImage(named: "32.jpg")
             }
             else{
-                self?.backgroundImageView?.image = UIImage(named: "12.jpg")
+                self?.backgroundImageView.image = UIImage(named: "12.jpg")
             }
             self?.frostedView.updateAsynchronously(true, completion: nil)
         }
@@ -76,12 +81,10 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         return [1,3,2][section]
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath.section == 1 && indexPath.row == 2)
-        
-        {
-            return 55+10
+        if (indexPath.section == 1 && indexPath.row == 2){
+            return 55 + 10
         }
-        return [180,55+SEPARATOR_HEIGHT,55+SEPARATOR_HEIGHT][indexPath.section]
+        return [180, 55+SEPARATOR_HEIGHT, 55+SEPARATOR_HEIGHT][indexPath.section]
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
