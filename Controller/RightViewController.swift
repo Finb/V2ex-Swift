@@ -26,13 +26,6 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
     ]
     var currentSelectedTabIndex = 0;
-    /**
-     第一次自动高亮的cell，
-     因为再次点击其他cell，这个cell并不会自动调用 setSelected 取消自身的选中状态
-     所以保存这个cell用于手动取消选中状态
-     我也不知道这是不是BUG，还是我用法不对。
-    */
-    var firstAutoHighLightCell:UITableViewCell?
     
     var backgroundImageView:UIImageView?
     var frostedView = FXBlurView()
@@ -125,29 +118,17 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: RightNodeTableViewCell.self, indexPath: indexPath);
         cell.nodeNameLabel.text = self.rightNodes[indexPath.row].nodeName
+        
+        if indexPath.row == self.currentSelectedTabIndex && cell.isSelected == false {
+            self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+        }
         return cell ;
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let highLightCell = self.firstAutoHighLightCell{
-            self.firstAutoHighLightCell = nil
-            if(indexPath.row != self.currentSelectedTabIndex){
-                highLightCell.setSelected(false, animated: false)
-            }
-        }
         let node = self.rightNodes[indexPath.row];
         V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
         V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.currentSelectedTabIndex && cell.isSelected == false {
-            if let highLightCell = self.firstAutoHighLightCell{
-                highLightCell.setSelected(false, animated: false)
-            }
-            self.firstAutoHighLightCell = cell;
-            cell.setSelected(true, animated: true)
-        }
     }
 }
 
