@@ -49,13 +49,15 @@ class V2EXNavigationController: UINavigationController {
         self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clear), for: .default)
 
         let maskingView = UIView()
+        
         maskingView.isUserInteractionEnabled = false
         maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
         self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
-        maskingView.snp.makeConstraints{ (make) -> Void in
-            make.left.bottom.right.equalTo(self.navigationBar)
-            make.top.equalTo(self.navigationBar).offset(-44);
-        }
+        maskingView.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: NavagationBarHeight)
+//        maskingView.snp.makeConstraints{ (make) -> Void in
+//            make.left.bottom.right.equalTo(self.navigationBar)
+//            make.top.equalTo(self.navigationBar).offset(-44);
+//        }
 
         self.frostedView.isUserInteractionEnabled = false
         self.frostedView.clipsToBounds = true
