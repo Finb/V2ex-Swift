@@ -91,7 +91,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             make.top.right.bottom.left.equalTo(self.view);
         }
         
-        self.titleView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 64))
+        self.titleView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 44))
         self.navigationItem.titleView = self.titleView!
         
         
