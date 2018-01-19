@@ -20,6 +20,10 @@ class PodsTableViewController: UITableViewController {
         PodModel(name: "SnapKit", description: "A Swift Autolayout DSL for iOS & OS X",URL:"https://github.com/SnapKit/SnapKit"),
         
         PodModel(name: "Alamofire", description: "Elegant HTTP Networking in Swift",URL:"https://github.com/Alamofire/Alamofire"),
+        
+        PodModel(name: "Moya", description: "Network abstraction layer written in Swift",URL:"https://github.com/Moya/Moya"),
+        
+        PodModel(name: "RxSwift", description: "Reactive Programming in Swift",URL:"https://github.com/ReactiveX/RxSwift"),
 
         PodModel(name: "Ji", description: "Ji (戟) is an XML/HTML parser for Swift",URL: "https://github.com/honghaoz/Ji"),
         
