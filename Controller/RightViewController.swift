@@ -40,7 +40,9 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             _tableView.backgroundColor = UIColor.clear
             _tableView.estimatedRowHeight=100;
             _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
+            if #available(iOS 11.0, *) {
+                _tableView.contentInsetAdjustmentBehavior = .never
+            }
             regClass(self.tableView, cell: RightNodeTableViewCell.self)
             
             _tableView.delegate = self;
@@ -87,7 +89,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         let rowHeight = self.tableView(self.tableView, heightForRowAt: IndexPath(row: 0, section: 0))
         let rowCount = self.tableView(self.tableView, numberOfRowsInSection: 0)
-        var paddingTop = (SCREEN_HEIGHT - CGFloat(rowCount) * rowHeight - NavigationBarHeight) / 2
+        var paddingTop = (SCREEN_HEIGHT - CGFloat(rowCount) * rowHeight) / 2
         if paddingTop <= 0 {
             paddingTop = 20
         }
