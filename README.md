@@ -4,7 +4,7 @@ This's a 3rd-party app for V2EX , designed to make V2EX reading more friendly.
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/Finb/V2ex-Swift/master/LICENSE)
 <br/>
 ## Download
-<a target='_blank' href='https://itunes.apple.com/app/id1078157349'>
+<a target='_blank' href='https://itunes.apple.com/cn/app/v2ex-%E5%88%9B%E6%84%8F%E5%B7%A5%E4%BD%9C%E8%80%85%E4%BB%AC%E7%9A%84%E7%A4%BE%E5%8C%BA/id1078157349'>
 <img src='http://ww2.sinaimg.cn/large/0060lm7Tgw1f1hgrs1ebwj308102q0sp.jpg' width='144' height='49' />
 </a>
 
