@@ -94,6 +94,10 @@ extension UserModel{
                         }
                     }
                 }
+                else if let errMessage = jiHtml.xPath("//*[contains(@class, 'problem')]/ul/li")?.first?.value , errMessage.count > 0 {
+                    completionHandler(V2ValueResponse(success: false,message: errMessage),false)
+                    return
+                }
                 
             }
             completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
