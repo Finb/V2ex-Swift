@@ -10,6 +10,11 @@
 import Foundation
 import Alamofire
 import Ji
+extension Error {
+    var localizedFailureReason :String? {
+        return (self as NSError).localizedFailureReason
+    }
+}
 extension DataRequest {
     enum ErrorCode: Int {
         case noData = 1
@@ -26,6 +31,12 @@ extension DataRequest {
         return DataResponseSerializer { request, response, data, error in
             guard error == nil else { return .failure(error!) }
             
+            if response?.url?.path == "/signin" && request?.url?.path != "/signin" {
+                //跳转到登录页时，则证明请求的内容需要登录
+                let failureReason = "查看的内容需要登录!"
+                let error = newError(.dataSerializationFailed, failureReason: failureReason)
+                return .failure(error)
+            }
             guard let validData = data else {
                 return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
             }

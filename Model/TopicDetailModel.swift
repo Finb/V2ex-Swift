@@ -87,6 +87,10 @@ extension TopicDetailModel {
         
         let url = V2EXURL + "t/" + topicId + "?p=1"
         Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+            if response.result.isFailure {
+                completionHandler(V2ValueResponse(success: false, message: response.result.error?.localizedFailureReason ?? "请求失败"))
+                return
+            }
             var topicModel: TopicDetailModel? = nil
             var topicCommentsArray : [TopicCommentModel] = []
             if  let jiHtml = response.result.value {
