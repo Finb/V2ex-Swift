@@ -339,14 +339,15 @@ extension LoginViewController {
             make.width.equalTo(300)
             make.height.equalTo(38)
         }
-        let forgetPasswordLabel = UILabel()
-        forgetPasswordLabel.alpha = 0.5
-        forgetPasswordLabel.font = v2Font(12)
-        forgetPasswordLabel.text = "忘记密码了?"
+        let codeProblem = UILabel()
+        codeProblem.alpha = 0.5
+        codeProblem.font = v2Font(12)
+        codeProblem.text = "验证码不显示?"
+        codeProblem.isUserInteractionEnabled = true
+        codeProblem.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(codeProblemClick)))
+        vibrancyView.contentView.addSubview(codeProblem);
 
-        vibrancyView.contentView.addSubview(forgetPasswordLabel);
-
-        forgetPasswordLabel.snp.makeConstraints{ (make) -> Void in
+        codeProblem.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.loginButton.snp.bottom).offset(14)
             make.right.equalTo(self.loginButton)
         }
@@ -375,5 +376,7 @@ extension LoginViewController {
         refreshCode()
     }
     
-    
+    @objc func codeProblemClick(){
+        UIAlertView(title: "验证码不显示？", message: "如果你验证码输错次数过多，V2EX将禁止你的登录。", delegate: nil, cancelButtonTitle: "知道了").show()
+    }
 }
