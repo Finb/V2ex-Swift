@@ -176,15 +176,10 @@ class V2User: NSObject {
 
     /**
      验证客户端登录状态
-
-     - returns: ture: 正常登录 ,false: 登录过期，没登录
      */
     func verifyLoginStatus() {
         Alamofire.request(V2EXURL + "new",  headers: MOBILE_CLIENT_HEADERS).responseString(encoding: nil) { (response) -> Void in
-            if response.request?.url?.absoluteString == response.response?.url?.absoluteString {
-                //登录正常
-            }
-            else{
+            if response.response?.url?.path == "/signin"{
                 //没有登录 ,注销客户端
                 dispatch_sync_safely_main_queue({ () -> () in
                     self.loginOut()
