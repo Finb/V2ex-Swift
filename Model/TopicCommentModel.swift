@@ -164,6 +164,9 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 }
             }
                 
+            else if element.name == "br" {
+                commentAttributedString.yy_appendString("\n")
+            }
                 
             else if let content = element.content{//其他
                 commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSAttributedStringKey.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor]))
