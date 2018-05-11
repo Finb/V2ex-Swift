@@ -377,6 +377,6 @@ extension LoginViewController {
     }
     
     @objc func codeProblemClick(){
-        UIAlertView(title: "验证码不显示？", message: "如果你验证码输错次数过多，V2EX将禁止你的登录。", delegate: nil, cancelButtonTitle: "知道了").show()
+        UIAlertView(title: "验证码不显示？", message: "如果验证码输错次数过多，V2EX将暂时禁止你的登录。", delegate: nil, cancelButtonTitle: "知道了").show()
     }
 }
