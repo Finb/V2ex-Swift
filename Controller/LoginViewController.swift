@@ -136,6 +136,7 @@ class LoginViewController: UIViewController {
                 }
                 else{
                     V2Error(response.message)
+                    self.refreshCode()
                 }
             }
             return;
