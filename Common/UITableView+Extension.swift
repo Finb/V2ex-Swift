@@ -11,7 +11,7 @@ import UIKit
 extension String {
     public var Lenght:Int {
         get{
-            return self.characters.count;
+            return self.count;
         }
     }
 }

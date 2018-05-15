@@ -55,19 +55,16 @@ class LeftUserHeadCell: UITableViewCell {
         self.kvoController.observe(V2User.sharedInstance, keyPath: "username", options: [.initial , .new]){
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {
-                if let user = V2User.sharedInstance.user {
-                    weakSelf.userNameLabel.text = user.username
-                    if let avatar = user.avatar_large {
-                        weakSelf.avatarImageView.kf.setImage(with: URL(string: "https:"+avatar)!, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
-                            //如果请求到图片时，客户端已经不是登录状态了，则将图片清除
-                            if !V2User.sharedInstance.isLogin {
-                                weakSelf.avatarImageView.image = nil
-                            }
-                        })
-                    }
+                weakSelf.userNameLabel.text = V2User.sharedInstance.username ?? "请先登录"
+                if let avatar = V2User.sharedInstance.user?.avatar_large {
+                    weakSelf.avatarImageView.kf.setImage(with: URL(string: "https:"+avatar)!, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+                        //如果请求到图片时，客户端已经不是登录状态了，则将图片清除
+                        if !V2User.sharedInstance.isLogin {
+                            weakSelf.avatarImageView.image = nil
+                        }
+                    })
                 }
                 else { //没有登录
-                    weakSelf.userNameLabel.text = "请先登录"
                     weakSelf.avatarImageView.image = nil
                 }
             }
