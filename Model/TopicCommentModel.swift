@@ -247,6 +247,14 @@ extension TopicCommentModel {
         users.insert(firstComment.userName!)
         
         for comment in allCommentsArray {
+            //被回复人所@的人也加进对话，但是不递归获取所有关系链（可能获取到无意义的数据）
+            if let username = comment.userName, users.contains(username) {
+                let commentUsers = getUsersOfComment(comment)
+                users = users.union(commentUsers)
+            }
+        }
+        
+        for comment in allCommentsArray {
             
             //判断评论中是否只@了其他用户，是的话则证明这条评论是和别人讲的，不属于当前对话
             let commentUsers = getUsersOfComment(comment)
