@@ -244,7 +244,6 @@ extension TopicCommentModel {
         var relevantComments:[TopicCommentModel] = []
         
         var users = getUsersOfComment(firstComment)
-        users.insert(firstComment.userName!)
         
         for comment in allCommentsArray {
             //被回复人所@的人也加进对话，但是不递归获取所有关系链（可能获取到无意义的数据）
@@ -252,7 +251,13 @@ extension TopicCommentModel {
                 let commentUsers = getUsersOfComment(comment)
                 users = users.union(commentUsers)
             }
+            //只找到点击的位置，之后就不找了
+            if comment == firstComment {
+                break;
+            }
         }
+        
+        users.insert(firstComment.userName!)
         
         for comment in allCommentsArray {
             
