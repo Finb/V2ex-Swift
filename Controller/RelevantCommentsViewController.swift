@@ -122,6 +122,7 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
             make.top.equalTo(self.view.snp.bottom)
         }
         
+        self.tableView.v2_scrollToBottom()
     }
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.snp.remakeConstraints{ (make) -> Void in
