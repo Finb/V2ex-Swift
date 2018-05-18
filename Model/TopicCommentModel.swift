@@ -244,12 +244,14 @@ extension TopicCommentModel {
         var relevantComments:[TopicCommentModel] = []
         
         var users = getUsersOfComment(firstComment)
-        
+
+        //当前会话所有相关的用户（ B 回复 A， C 回复 B， D 回复 C， 查看D的对话时， D C B 为相关联用户）
+        var relateUsers:Set<String> = users
         for comment in allCommentsArray {
             //被回复人所@的人也加进对话，但是不递归获取所有关系链（可能获取到无意义的数据）
             if let username = comment.userName, users.contains(username) {
                 let commentUsers = getUsersOfComment(comment)
-                users = users.union(commentUsers)
+                relateUsers = relateUsers.union(commentUsers)
             }
             //只找到点击的位置，之后就不找了
             if comment == firstComment {
@@ -260,10 +262,9 @@ extension TopicCommentModel {
         users.insert(firstComment.userName!)
         
         for comment in allCommentsArray {
-            
-            //判断评论中是否只@了其他用户，是的话则证明这条评论是和别人讲的，不属于当前对话
+            //判断评论中是否@的所有用户和会话相关联的用户无关，是的话则证明这条评论是和别人讲的，不属于当前对话
             let commentUsers = getUsersOfComment(comment)
-            let intersectUsers = commentUsers.intersection(users)
+            let intersectUsers = commentUsers.intersection(relateUsers)
             if commentUsers.count > 0 && intersectUsers.count <= 0 {
                 continue;
             }
