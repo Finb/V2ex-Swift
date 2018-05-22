@@ -202,6 +202,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
         cell.bind(self.topicList![indexPath.row]);
+        cell.tag = indexPath.row
         self.registerForPreviewing(with: self, sourceView: cell)
         return cell;
     }
@@ -251,10 +252,8 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
 @available(iOS 9.0, *)
 extension HomeViewController :UIViewControllerPreviewingDelegate{
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = self.tableView.indexPathForRow(at: location)  else {
-            return nil
-        }
-        let item = self.topicList![indexPath.row]
+        let index = previewingContext.sourceView.tag
+        let item = self.topicList![index]
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();
             topicDetailController.topicId = id ;
