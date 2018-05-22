@@ -133,6 +133,12 @@ class HomeViewController: UIViewController {
                 self.currentPage = 0
                 
             }
+            else {
+                switch response.code {
+                case .twoFA: V2Client.sharedInstance.centerViewController!.navigationController?.present(TwoFAViewController(), animated: true, completion: nil);
+                default:break;
+                }
+            }
             self.tableView.mj_header.endRefreshing()
         }
     }

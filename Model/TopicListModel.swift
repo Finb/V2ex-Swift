@@ -195,6 +195,11 @@ extension TopicListModel {
         }
 
         Alamofire.request(url, parameters: params, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+            if response.response?.url?.path == "/2fa" {
+                //需要两步验证
+                completionHandler(V2ValueResponse<[TopicListModel]>(value:[], success: false, code: .twoFA));
+                return
+            }
             var resultArray:[TopicListModel] = []
             if  let jiHtml = response.result.value{
                 if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
