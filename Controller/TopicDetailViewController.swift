@@ -494,18 +494,10 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                 })
             }
         case .share:
-            let myWebsite = NSURL(string: V2EXURL + "t/" + self.model!.topicId!)
-            let img: UIImage = #imageLiteral(resourceName: "ic_share_48pt")
-            
-            guard let url = myWebsite else {
-                print("nothing found")
-                return
-            }
-            
-            let shareItems:Array = [img, url]
-            let activityViewController:UIActivityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
-            activityViewController.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
-            self.present(activityViewController, animated: true, completion: nil)
+            let shareUrl = NSURL.init(string: V2EXURL + "t/" + self.model!.topicId!)
+            let shareArr:NSArray = [shareUrl!]
+            let activityController = UIActivityViewController.init(activityItems: shareArr as [AnyObject], applicationActivities: nil)
+            self.present(activityController, animated: true, completion: nil)
         case .explore:
             UIApplication.shared.openURL(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)
         }
