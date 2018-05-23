@@ -68,8 +68,8 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
      */
     func numberOfCellsInSection(_ section:Int) -> Int{
         if var cells = dataSource?.V2ActivityView(self, numberOfCellsInSection: section) {
-            if cells > 4 {
-                cells = 4
+            if cells > 5 {
+                cells = 5
             }
             return cells
         }
@@ -161,7 +161,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
     fileprivate func setupSectionView(_ _section:Int) -> UIView {
         let sectionView = UIView()
 
-        let margin = (SCREEN_WIDTH-20 - 60 * 4 )/5.0
+        let margin = (SCREEN_WIDTH-20 - 60 * 5 )/6.0
         for i in 0..<self.numberOfCellsInSection(_section) {
             let cellView = self.setupCellView(i, currentSection: _section);
             sectionView.addSubview(cellView)

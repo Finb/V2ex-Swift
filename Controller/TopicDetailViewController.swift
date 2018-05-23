@@ -408,19 +408,20 @@ extension TopicDetailViewController: UIActionSheetDelegate {
 
 //MARK: - V2ActivityView
 enum V2ActivityViewTopicDetailAction : Int {
-    case block = 0, favorite, grade, explore
+    case block = 0, favorite, grade, share, explore
 }
 
 extension TopicDetailViewController: V2ActivityViewDataSource {
     func V2ActivityView(_ activityView: V2ActivityViewController, numberOfCellsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     func V2ActivityView(_ activityView: V2ActivityViewController, ActivityAtIndexPath indexPath: IndexPath) -> V2Activity {
         return V2Activity(title: [
             NSLocalizedString("ignore"),
             NSLocalizedString("favorite"),
             NSLocalizedString("thank"),
-            "Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_explore_48pt"][indexPath.row])!)
+            NSLocalizedString("share"),
+            "Safari"][indexPath.row], image: UIImage(named: ["ic_block_48pt","ic_grade_48pt","ic_favorite_48pt","ic_share_48pt","ic_explore_48pt"][indexPath.row])!)
     }
     func V2ActivityView(_ activityView:V2ActivityViewController ,heightForFooterInSection section: Int) -> CGFloat{
         return 45
@@ -450,7 +451,8 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         
         guard V2User.sharedInstance.isLogin
             // 用safari打开是不用登录的
-            || action == V2ActivityViewTopicDetailAction.explore else {
+            || action == V2ActivityViewTopicDetailAction.explore
+            || action == V2ActivityViewTopicDetailAction.share else {
             V2Inform("请先登录")
             return;
         }
@@ -493,6 +495,19 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
                     }
                 })
             }
+        case .share:
+            let myWebsite = NSURL(string: V2EXURL + "t/" + self.model!.topicId!)
+            let img: UIImage = #imageLiteral(resourceName: "ic_share_48pt")
+            
+            guard let url = myWebsite else {
+                print("nothing found")
+                return
+            }
+            
+            let shareItems:Array = [img, url]
+            let activityViewController:UIActivityViewController = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
+            activityViewController.excludedActivityTypes = [UIActivityType.print, UIActivityType.postToWeibo, UIActivityType.copyToPasteboard, UIActivityType.addToReadingList, UIActivityType.postToVimeo]
+            self.present(activityViewController, animated: true, completion: nil)
         case .explore:
             UIApplication.shared.openURL(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)
         }
