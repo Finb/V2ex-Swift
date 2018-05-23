@@ -202,8 +202,6 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
         cell.bind(self.topicList![indexPath.row]);
-        cell.tag = indexPath.row
-        self.registerForPreviewing(with: self, sourceView: cell)
         return cell;
     }
     
@@ -246,26 +244,5 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         self.tableView.endUpdates()
         
 
-    }
-}
-
-@available(iOS 9.0, *)
-extension HomeViewController :UIViewControllerPreviewingDelegate{
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        let index = previewingContext.sourceView.tag
-        let item = self.topicList![index]
-        if let id = item.topicId {
-            let topicDetailController = TopicDetailViewController();
-            topicDetailController.topicId = id ;
-            topicDetailController.ignoreTopicHandler = {[weak self] (topicId) in
-                self?.perform(#selector(HomeViewController.ignoreTopicHandler(_:)), with: topicId, afterDelay: 0.6)
-            }
-            return topicDetailController
-        }
-        return nil
-    }
-    
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        show(viewControllerToCommit, sender: nil)
     }
 }
