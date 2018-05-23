@@ -64,6 +64,6 @@ postDetails = "帖子详情";
 favorite = "收藏";
 ignore = "忽略";
 thank = "感谢";
-thank = "分享";
+share = "分享";
 reply2 = "回  复";
 cancel2 = "取  消";
