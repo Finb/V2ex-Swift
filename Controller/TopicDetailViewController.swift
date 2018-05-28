@@ -348,9 +348,13 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         
     }
     func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
-        if buttonIndex > 0 && buttonIndex <= 3 {
-            self.perform([#selector(TopicDetailViewController.replyComment(_:)),#selector(TopicDetailViewController.thankComment(_:)),#selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1], with: actionSheet.tag)
+        guard buttonIndex > 0 && buttonIndex <= 3 else{
+            return
         }
+        self.perform([#selector(TopicDetailViewController.replyComment(_:)),
+                      #selector(TopicDetailViewController.thankComment(_:)),
+                      #selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1],
+                     with: actionSheet.tag)
     }
     @objc func replyComment(_ row:NSNumber){
         V2User.sharedInstance.ensureLoginWithHandler {
