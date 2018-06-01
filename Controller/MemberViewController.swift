@@ -263,12 +263,13 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             return tableViewHeader[section-1]
         }
         let view = UIView()
-        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-        
+        view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+
         let label = UILabel()
         label.text = [NSLocalizedString("posts"),NSLocalizedString("comments")][section - 1]
         view.addSubview(label)
         label.font = v2Font(15)
+        label.layoutMargins.top = 20
         label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         label.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(view)
