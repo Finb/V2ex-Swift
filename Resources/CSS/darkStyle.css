@@ -8,8 +8,14 @@ body {
     background-color:#232226;
 }
 .subtle {
-    /*    background-color: #F1F2F4;*/
+    background-color: #323036;
+    margin: 0 -15px;
+    padding: 10px;
+    line-height: 120%;
+    text-align: left;
+    border-bottom: 1px solid #3b3b3b;
 }
+
 .subtle .fade {
     color:#646464;
 }

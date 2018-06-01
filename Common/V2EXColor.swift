@@ -60,6 +60,8 @@ protocol V2EXColorProtocol{
     var v2_NoticePointColor : UIColor { get }
     
     var v2_ButtonBackgroundColor : UIColor { get }
+
+    var v2_UserCenterPostBackgroundColor : UIColor { get }
 }
 
 class V2EXDefaultColor: NSObject,V2EXColorProtocol {
@@ -153,6 +155,11 @@ class V2EXDefaultColor: NSObject,V2EXColorProtocol {
             return colorWith255RGB(85, g: 172, b: 238)
         }
     }
+    var v2_UserCenterPostBackgroundColor : UIColor {
+        get {
+            return colorWith255RGB(237, g: 243, b: 245)
+        }
+    }
 }
 
 
@@ -165,7 +172,7 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
     
     var v2_backgroundColor : UIColor{
         get{
-            return colorWith255RGB(32, g: 31, b: 35);
+            return colorWith255RGB(62, g: 61, b: 65);
         }
     }
     var v2_navigationBarTintColor : UIColor{
@@ -246,6 +253,11 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
     var v2_ButtonBackgroundColor : UIColor {
         get {
             return colorWith255RGB(207, g: 70, b: 71)
+        }
+    }
+    var v2_UserCenterPostBackgroundColor : UIColor {
+        get {
+            return colorWith255RGB(237, g: 243, b: 245)
         }
     }
 }
