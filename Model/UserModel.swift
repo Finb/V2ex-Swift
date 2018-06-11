@@ -134,23 +134,21 @@ extension UserModel{
     }
     
     class func getUserInfoByUsername(_ username:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
-        let prame = [
-            "username":username
-        ]
-        Alamofire.request(V2EXURL+"api/members/show.json", parameters: prame, headers: MOBILE_CLIENT_HEADERS).responseObject { (response : DataResponse<UserModel>) in
-            if let model = response.result.value {
-                V2User.sharedInstance.user = model
-                
+        
+        _ = UserApi.provider.request(.getUserInfo(username: username))
+            .filterResponseError()
+            .mapResponseToObj(UserModel.self)
+            .subscribe(onNext: { (userModel) in
+                V2User.sharedInstance.user = userModel
                 //将头像更新进 keychain保存的users中
-                if let avatar = model.avatar_large {
+                if let avatar = userModel.avatar_large {
                     V2UsersKeychain.sharedInstance.update(username, password: nil, avatar: "https:" + avatar )
                 }
-                
-                completionHandler?(V2ValueResponse(value: model, success: true))
+                completionHandler?(V2ValueResponse(value: userModel, success: true))
                 return ;
-            }
-            completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
-        }
+            }, onError: { (error) in
+                completionHandler?(V2ValueResponse(success: false,message: "获取用户信息失败"))
+            });
     }
     
     
