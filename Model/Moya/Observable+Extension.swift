@@ -15,8 +15,6 @@ import Moya
 public enum ApiError : Swift.Error {
     case Error(info: String)
     case AccountBanned(info: String)
-    case TopicExpired
-    
 }
 
 extension Swift.Error {
@@ -29,8 +27,6 @@ extension Swift.Error {
             return info
         case let .AccountBanned(info):
             return info
-        case .TopicExpired:
-            return "话题跟帖开放时间已过"
         }
     }
 }
@@ -73,8 +69,6 @@ extension Observable where Element: Moya.Response {
             }
             
             switch code {
-            case 21104: throw ApiError.AccountBanned(info: msg)
-            case 31711: throw ApiError.TopicExpired
             default: throw ApiError.Error(info: msg)
             }
             
