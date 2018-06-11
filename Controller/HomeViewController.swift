@@ -82,13 +82,21 @@ class HomeViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
         leftButton.addTarget(self, action: #selector(HomeViewController.leftClick), for: .touchUpInside)
         
+        let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        searchButton.contentMode = .center
+        searchButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -30)
+        searchButton.setImage(UIImage.imageUsedTemplateMode("ic_menu_search_48pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        let searchButtonItem = UIBarButtonItem(customView: searchButton)
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
         rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        let rightButtonItem = UIBarButtonItem(customView: rightButton)
+        
+        self.navigationItem.rightBarButtonItems = [rightButtonItem, searchButtonItem]
         rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(HomeViewController.searchClick), for: .touchUpInside)
 
     }
     @objc func leftClick(){
@@ -96,6 +104,10 @@ class HomeViewController: UIViewController {
     }
     @objc func rightClick(){
         V2Client.sharedInstance.drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
+    }
+    
+    @objc func searchClick() {
+        self.navigationController?.pushViewController(SearchViewController(), animated: true)
     }
     
     func refreshPage(){

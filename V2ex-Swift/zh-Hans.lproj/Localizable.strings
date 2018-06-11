@@ -55,6 +55,7 @@ viewOptionTextSize = "    文字大小 - 滑动滑块调整文字大小";
 
 //节点导航
 navigation = "节点导航";
+search = "搜索";
 
 //通知中心
 reply = "回复";

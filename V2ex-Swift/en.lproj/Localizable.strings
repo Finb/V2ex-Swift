@@ -55,6 +55,7 @@ viewOptionTextSize = "    Text Size - Slide the slider to adjust the text size";
 
 //节点导航
 navigation = "Navigation";
+search = "Search";
 
 //通知中心
 reply = "Reply";
