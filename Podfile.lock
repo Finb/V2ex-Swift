@@ -38,6 +38,7 @@ PODS:
   - Shimmer (1.0.2)
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.2)
+  - SwiftyJSON (3.1.4)
   - YYText (1.0.7)
 
 DEPENDENCIES:
@@ -61,6 +62,7 @@ DEPENDENCIES:
   - Shimmer
   - SnapKit
   - SVProgressHUD
+  - SwiftyJSON (~> 3.1.4)
   - YYText
 
 SPEC CHECKSUMS:
@@ -70,7 +72,7 @@ SPEC CHECKSUMS:
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
   DeviceKit: fa74d97499660e88081718b16688e19217595dba
-  DrawerController: bad219f1535b1ff71f06ceb0f9d4339751b60af4
+  DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -86,8 +88,9 @@ SPEC CHECKSUMS:
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: ac30a177c5e0ed0067844bacbeca875646f7fe75
+PODFILE CHECKSUM: 43181d934c2a59027cc1f39e250e0e6047d43388
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0
