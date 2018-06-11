@@ -14,7 +14,10 @@ enum UserApi {
 
 extension UserApi: V2EXTargetType {
     var path: String {
-        return "/api/members/show.json"
+        switch self {
+        case .getUserInfo:
+            return "/api/members/show.json"
+        }
     }
     
     var parameters: [String : Any]? {
