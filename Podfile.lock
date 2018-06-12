@@ -65,6 +65,33 @@ DEPENDENCIES:
   - SwiftyJSON (~> 3.1.4)
   - YYText
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - 1PasswordExtension
+    - Alamofire
+    - AlamofireObjectMapper
+    - Crashlytics
+    - CXSwipeGestureRecognizer
+    - DeviceKit
+    - DrawerController
+    - Fabric
+    - FDFullscreenPopGesture
+    - FXBlurView
+    - Ji
+    - KeychainSwift
+    - Kingfisher
+    - KVOController
+    - MJRefresh
+    - Moya
+    - ObjectMapper
+    - Result
+    - RxSwift
+    - Shimmer
+    - SnapKit
+    - SVProgressHUD
+    - SwiftyJSON
+    - YYText
+
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -93,4 +120,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d21857f66837d3439ad6854f3a4abb9c86e7632c
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.2
