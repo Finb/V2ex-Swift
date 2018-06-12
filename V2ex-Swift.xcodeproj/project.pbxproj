@@ -107,7 +107,6 @@
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
 		07EDC58920CF9E87003174FA /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDC58820CF9E87003174FA /* SearchViewController.swift */; };
-		07EDC58B20CF9EB5003174FA /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDC58A20CF9EB5003174FA /* SearchModel.swift */; };
 		07EDC58D20CF9EDB003174FA /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDC58C20CF9EDB003174FA /* SearchTableViewCell.swift */; };
 		07EDC58F20CFA1BC003174FA /* ClientApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDC58E20CFA1BC003174FA /* ClientApi.swift */; };
 		07EDC59120CFA6D3003174FA /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDC59020CFA6D3003174FA /* SearchResultModel.swift */; };
@@ -222,7 +221,6 @@
 		06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVProgressHUD+Extension.swift"; sourceTree = "<group>"; };
 		07EDC58820CF9E87003174FA /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
-		07EDC58A20CF9EB5003174FA /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		07EDC58C20CF9EDB003174FA /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		07EDC58E20CFA1BC003174FA /* ClientApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientApi.swift; sourceTree = "<group>"; };
 		07EDC59020CFA6D3003174FA /* SearchResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
@@ -405,7 +403,6 @@
 				0611DE5A1C5F3ACA00933964 /* MemberModel.swift */,
 				06E145A31C60A86D00BDD63D /* NodeModel.swift */,
 				0678F47820CE8DB80048A64B /* UserApi.swift */,
-				07EDC58A20CF9EB5003174FA /* SearchModel.swift */,
 				07EDC58E20CFA1BC003174FA /* ClientApi.swift */,
 			);
 			path = Model;
@@ -727,7 +724,6 @@
 				07EDC58920CF9E87003174FA /* SearchViewController.swift in Sources */,
 				06E52F781E012A8000E69084 /* UIView+Extension.swift in Sources */,
 				064BD2651C880ADB00B55558 /* RelevantCommentsViewController.swift in Sources */,
-				07EDC58B20CF9EB5003174FA /* SearchModel.swift in Sources */,
 				068910D11C61A44D00D22B4F /* NodeTopicListViewController.swift in Sources */,
 				06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */,
 				06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */,

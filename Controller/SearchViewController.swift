@@ -75,10 +75,11 @@ class SearchViewController: UIViewController, UITextFieldDelegate, UITableViewDa
             return;
         }
         
-        SearchResultModel.search(keyword, from: self.currentPage * pageSize, size: self.pageSize) { (response: V2ValueResponse<SearchResultModel>) in
-            if response.success {
-                let total = response.value?.total
-                if let hits = response.value?.hits {
+        ClientApi.provider.requestAPI(.search(keyword: keyword, from: self.currentPage * pageSize, size: self.pageSize))
+            .mapResponseToObj(SearchResultModel.self)
+            .subscribe(onNext: { (searchResultModel) in
+                let total = searchResultModel.total
+                if let hits = searchResultModel.hits {
                     let count = hits.count
                     self.data.append(contentsOf: hits)
                     self.currentPage += 1
@@ -90,46 +91,10 @@ class SearchViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                         refreshFooter.endRefreshingWithNoMoreData()
                     }
                 }
-            } else {
-                V2Error(response.description)
-            }
-            self.tableView.mj_footer.endRefreshing()
-        }
-            
+            }, onError: { (error) in
+                V2Error("搜索话题失败")
+            });
         
-//        let parameters: Parameters = ["q": keyword, "from": self.currentPage * pageSize, "size": self.pageSize]
-//        Alamofire.request("https://www.sov2ex.com/api/search", parameters: parameters).responseJSON { (resp) in
-//            if resp.result.isSuccess {
-//                let json = resp.result.value as! Dictionary<String, Any>
-//                let total = json["total"] as! Int
-//                let count = (json["hits"] as! Array<Dictionary<String, Any>>).count
-//                if count > 0 {
-//                    let hits = json["hits"] as! Array<Dictionary<String, Any>>
-//                    for hit in hits {
-//                        let id = (hit["_source"] as! Dictionary<String, Any>)["id"] as! Int
-//                        let title = (hit["_source"] as! Dictionary<String, Any>)["title"] as! String
-//                        let replies = (hit["_source"] as! Dictionary<String, Any>)["replies"] as! Int
-//                        let author = (hit["_source"] as! Dictionary<String, Any>)["member"] as! String
-//                        let date = (hit["_source"] as! Dictionary<String, Any>)["created"] as! String
-//                        self.data.append(
-//                            SearchModel(id: id, title: title, replies: replies, author: author, date: date)
-//                        )
-//                    }
-//                    self.currentPage += 1
-//                    self.tableView.reloadData()
-//                    if total == (self.currentPage - 1) * self.pageSize + count {
-//                        let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
-//                        // 为啥没有数据了，这个提示文字还是不出来呢。。
-//                        refreshFooter.noMoreDataStateString = "没更多帖子了"
-//                        refreshFooter.endRefreshingWithNoMoreData()
-//                    }
-//                }
-//            }
-//            if resp.result.isFailure {
-//                V2Error(resp.result.description)
-//            }
-//            self.tableView.mj_footer.endRefreshing()
-//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
