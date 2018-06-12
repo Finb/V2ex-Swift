@@ -47,6 +47,8 @@
 		06744A531E49D4C0001E3D1B /* TwoFAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06744A521E49D4C0001E3D1B /* TwoFAViewController.swift */; };
 		0678D2051C61B423007FFCFD /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0678D2041C61B423007FFCFD /* UIImage+Extension.swift */; };
 		0678D20C1C61EAA8007FFCFD /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0678D20B1C61EAA8007FFCFD /* UIImageView+Extension.swift */; };
+		0678F47120CE388E0048A64B /* Observable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0678F47020CE388E0048A64B /* Observable+Extension.swift */; };
+		0678F47920CE8DB80048A64B /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0678F47820CE8DB80048A64B /* UserApi.swift */; };
 		067FF8C01C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067FF8BF1C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift */; };
 		067FF8C21C804B9C009538F7 /* V2PhotoBrowserTransionDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067FF8C11C804B9C009538F7 /* V2PhotoBrowserTransionDismiss.swift */; };
 		0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */; };
@@ -153,6 +155,8 @@
 		06744A521E49D4C0001E3D1B /* TwoFAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwoFAViewController.swift; sourceTree = "<group>"; };
 		0678D2041C61B423007FFCFD /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		0678D20B1C61EAA8007FFCFD /* UIImageView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		0678F47020CE388E0048A64B /* Observable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Extension.swift"; sourceTree = "<group>"; };
+		0678F47820CE8DB80048A64B /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
 		067FF8BF1C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2PhotoBrowserTransionPresent.swift; sourceTree = "<group>"; };
 		067FF8C11C804B9C009538F7 /* V2PhotoBrowserTransionDismiss.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2PhotoBrowserTransionDismiss.swift; sourceTree = "<group>"; };
 		0684A1DF1C5B4A0A00B12437 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
@@ -283,6 +287,15 @@
 			name = Extension;
 			sourceTree = "<group>";
 		};
+		0678F46F20CE31F30048A64B /* Moya */ = {
+			isa = PBXGroup;
+			children = (
+				064F03B11ED5700C0094683D /* V2EXTargetType.swift */,
+				0678F47020CE388E0048A64B /* Observable+Extension.swift */,
+			);
+			path = Moya;
+			sourceTree = "<group>";
+		};
 		069508D71C3F74FF0088D031 = {
 			isa = PBXGroup;
 			children = (
@@ -373,7 +386,7 @@
 		069508F81C3F75A60088D031 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				064F03B11ED5700C0094683D /* V2EXTargetType.swift */,
+				0678F46F20CE31F30048A64B /* Moya */,
 				0610F1AF1C46136300481402 /* BaseModel.swift */,
 				0610F1B11C4613D800481402 /* TopicListModel.swift */,
 				069806921CA3AA7700388DB6 /* TopicCommentModel.swift */,
@@ -382,7 +395,11 @@
 				0684A1E91C5B608D00B12437 /* NotificationsModel.swift */,
 				0611DE5A1C5F3ACA00933964 /* MemberModel.swift */,
 				06E145A31C60A86D00BDD63D /* NodeModel.swift */,
+<<<<<<< HEAD
 				07EDC56020CE60F2003174FA /* SearchModel.swift */,
+=======
+				0678F47820CE8DB80048A64B /* UserApi.swift */,
+>>>>>>> upstream/master
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -642,6 +659,7 @@
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Shimmer/Shimmer.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/YYText/YYText.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -666,6 +684,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Shimmer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYText.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -726,6 +745,7 @@
 				06744A531E49D4C0001E3D1B /* TwoFAViewController.swift in Sources */,
 				06DD400B1C43726600CE293D /* V2EXColor.swift in Sources */,
 				061876891C7C15BC002E9C33 /* PodsTableViewController.swift in Sources */,
+				0678F47120CE388E0048A64B /* Observable+Extension.swift in Sources */,
 				06E1459F1C609E8500BDD63D /* NodesViewController.swift in Sources */,
 				064F03B21ED5700C0094683D /* V2EXTargetType.swift in Sources */,
 				06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */,
@@ -733,6 +753,7 @@
 				06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */,
 				06C49B6D1C43BFAB00684CA6 /* V2ex+Define.swift in Sources */,
 				0618768F1C7C6A50002E9C33 /* SettingsTableViewController.swift in Sources */,
+				0678F47920CE8DB80048A64B /* UserApi.swift in Sources */,
 				060C4E421C48EC39004FBECC /* V2Client.swift in Sources */,
 				06D3002A1C6D801100547CE6 /* LogoutTableViewCell.swift in Sources */,
 				069806931CA3AA7700388DB6 /* TopicCommentModel.swift in Sources */,

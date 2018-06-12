@@ -77,7 +77,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
             make.top.right.bottom.left.equalTo(self.view)
         }
         
-        self.webViewProgressView = V2WebViewProgressView(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: 2))
+        self.webViewProgressView = V2WebViewProgressView(frame: CGRect(x: 0, y: NavigationBarHeight, width: SCREEN_WIDTH, height: 2))
         self.view.addSubview(self.webViewProgressView!)
         
         if let URL = URL(string: self.url) {

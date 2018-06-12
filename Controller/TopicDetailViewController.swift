@@ -300,9 +300,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             }
         case .comment:
             let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
-            cell.tag = indexPath.row
             cell.bind(self.commentsArray[indexPath.row])
-            self.registerForPreviewing(with: self, sourceView: cell)
             return cell
         case .other:
             return UITableViewCell();
@@ -350,9 +348,13 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         
     }
     func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
-        if buttonIndex > 0 && buttonIndex <= 3 {
-            self.perform([#selector(TopicDetailViewController.replyComment(_:)),#selector(TopicDetailViewController.thankComment(_:)),#selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1], with: actionSheet.tag)
+        guard buttonIndex > 0 && buttonIndex <= 3 else{
+            return
         }
+        self.perform([#selector(TopicDetailViewController.replyComment(_:)),
+                      #selector(TopicDetailViewController.thankComment(_:)),
+                      #selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1],
+                     with: actionSheet.tag)
     }
     @objc func replyComment(_ row:NSNumber){
         V2User.sharedInstance.ensureLoginWithHandler {
@@ -515,21 +517,4 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
         }
     }
     
-}
-
-@available(iOS 9.0, *)
-extension TopicDetailViewController :UIViewControllerPreviewingDelegate{
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        let index = previewingContext.sourceView.tag
-        let item = self.commentsArray[index]
-        let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
-        if relevantComments.count <= 0 {
-            return nil;
-        }
-        return RelevantCommentsNav(comments: relevantComments)
-    }
-    
-    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
-        show(viewControllerToCommit, sender: nil)
-    }
 }

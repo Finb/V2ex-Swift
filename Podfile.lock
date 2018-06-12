@@ -38,6 +38,7 @@ PODS:
   - Shimmer (1.0.2)
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.2)
+  - SwiftyJSON (3.1.4)
   - YYText (1.0.7)
 
 DEPENDENCIES:
@@ -61,6 +62,7 @@ DEPENDENCIES:
   - Shimmer
   - SnapKit
   - SVProgressHUD
+  - SwiftyJSON (~> 3.1.4)
   - YYText
 
 SPEC REPOS:
@@ -112,8 +114,13 @@ SPEC CHECKSUMS:
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: ac30a177c5e0ed0067844bacbeca875646f7fe75
+PODFILE CHECKSUM: 43181d934c2a59027cc1f39e250e0e6047d43388
 
+<<<<<<< HEAD
 COCOAPODS: 1.5.2
+=======
+COCOAPODS: 1.4.0
+>>>>>>> upstream/master

@@ -21,6 +21,7 @@ def pods
     pod 'Shimmer'
     pod 'FDFullscreenPopGesture'
     pod 'Moya/RxSwift', '~> 8.0.5'
+    pod 'SwiftyJSON', '~> 3.1.4'
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'DeviceKit'
