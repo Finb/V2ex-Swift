@@ -1,20 +1,20 @@
 PODS:
   - 1PasswordExtension (1.8.5)
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.2)
   - AlamofireObjectMapper (5.0.0):
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 3.0)
-  - Crashlytics (3.9.3):
-    - Fabric (~> 1.7.2)
+  - Crashlytics (3.10.2):
+    - Fabric (~> 1.7.7)
   - CXSwipeGestureRecognizer (1.0.2)
-  - DeviceKit (1.4.0)
+  - DeviceKit (1.7.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
     - DrawerController/DrawerVisualStates (= 4.0.0)
   - DrawerController/Core (4.0.0)
   - DrawerController/DrawerVisualStates (4.0.0):
     - DrawerController/Core
-  - Fabric (1.7.2)
+  - Fabric (1.7.7)
   - FDFullscreenPopGesture (1.1)
   - FXBlurView (1.6.4)
   - Ji (2.1.0):
@@ -22,22 +22,22 @@ PODS:
   - Ji/Ji (2.1.0):
     - Ji/Ji-libxml
   - Ji/Ji-libxml (2.1.0)
-  - KeychainSwift (10.0.0)
-  - Kingfisher (4.5.0)
+  - KeychainSwift (11.0.0)
+  - Kingfisher (4.8.0)
   - KVOController (1.2.0)
-  - MJRefresh (3.1.15.1)
-  - Moya/Core (8.0.5):
+  - MJRefresh (3.1.15.3)
+  - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
-  - Moya/RxSwift (8.0.5):
+  - Moya/RxSwift (11.0.2):
     - Moya/Core
-    - RxSwift (~> 3.0)
-  - ObjectMapper (3.1.0)
+    - RxSwift (~> 4.0)
+  - ObjectMapper (3.2.0)
   - Result (3.2.4)
-  - RxSwift (3.6.1)
+  - RxSwift (4.2.0)
   - Shimmer (1.0.2)
   - SnapKit (4.0.0)
-  - SVProgressHUD (2.2.2)
+  - SVProgressHUD (2.2.5)
   - SwiftyJSON (3.1.4)
   - YYText (1.0.7)
 
@@ -57,7 +57,7 @@ DEPENDENCIES:
   - Kingfisher
   - KVOController
   - MJRefresh
-  - Moya/RxSwift (~> 8.0.5)
+  - Moya/RxSwift
   - ObjectMapper
   - Shimmer
   - SnapKit
@@ -67,30 +67,30 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   AlamofireObjectMapper: 5fafc816351cbbc0d486611aaeba7461c0cbad49
-  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
+  Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
-  DeviceKit: fa74d97499660e88081718b16688e19217595dba
+  DeviceKit: 6a5bdeb103c03757bb94aef1ccb01e08bc8ef4ee
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
-  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
+  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
-  KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
-  Kingfisher: 26ae0473102b77b575da51960c932431e3745407
+  KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
+  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
-  MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
-  Moya: c37eec09a098ba9991b5a963b291fc5704bdb9ef
-  ObjectMapper: 20505058f54e5c3ca69e1d6de9897d152a5369a6
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  Moya: a725035953bc1c0eb1be505ab903984501d82440
+  ObjectMapper: 5cccd2de6f253eda859df8116a5a554d9769e859
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxSwift: f9de85ea20cd2f7716ee5409fc13523dc638e4e4
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 43181d934c2a59027cc1f39e250e0e6047d43388
+PODFILE CHECKSUM: d21857f66837d3439ad6854f3a4abb9c86e7632c
 
 COCOAPODS: 1.4.0

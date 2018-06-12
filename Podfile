@@ -20,7 +20,7 @@ def pods
     pod '1PasswordExtension'
     pod 'Shimmer'
     pod 'FDFullscreenPopGesture'
-    pod 'Moya/RxSwift', '~> 8.0.5'
+    pod 'Moya/RxSwift'
     pod 'SwiftyJSON', '~> 3.1.4'
     pod 'Fabric'
     pod 'Crashlytics'
@@ -29,13 +29,4 @@ end
 
 target 'V2ex-Swift' do
     pods
-    post_install do |installer|
-        installer.pods_project.targets.each do |target|
-            if target.name == 'Moya' or target.name == 'RxSwift'
-                target.build_configurations.each do |config|
-                    config.build_settings['SWIFT_VERSION'] = '3.2'
-                end
-            end
-        end
-    end
 end

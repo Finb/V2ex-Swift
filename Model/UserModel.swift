@@ -135,8 +135,7 @@ extension UserModel{
     
     class func getUserInfoByUsername(_ username:String ,completionHandler:((V2ValueResponse<UserModel>) -> Void)? ){
         
-        _ = UserApi.provider.request(.getUserInfo(username: username))
-            .filterResponseError()
+        _ = UserApi.provider.requestAPI(.getUserInfo(username: username))
             .mapResponseToObj(UserModel.self)
             .subscribe(onNext: { (userModel) in
                 V2User.sharedInstance.user = userModel

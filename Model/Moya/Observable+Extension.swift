@@ -44,8 +44,9 @@ extension Observable where Element: Moya.Response {
     }
     
     /// 过滤逻辑错误，例如协议里返回 错误CODE
-    func filterResponseError() -> Observable<Element> {
-        return filterHttpError().filter{ response in
+    private func filterResponseError() -> Observable<JSON> {
+        return filterHttpError().map({ (response) -> JSON in
+            
             let json = JSON(data: response.data)
             var code = 200
             var msg = ""
@@ -65,22 +66,13 @@ extension Observable where Element: Moya.Response {
                 msg = json["description"].rawString()!
             }
             if (code == 200 || code == 99999 || code == 80001 || code == 1){
-                return true
+                return json
             }
             
             switch code {
             default: throw ApiError.Error(info: msg)
             }
-            
-        }
-    }
-    
-    func getValueFirst(dataPath:[String] = [], completion: @escaping (_ value:Any?) ->Void  ) -> Observable<Element> {
-        return filter{ response in
-            let json = JSON(data: response.data)[dataPath]
-            completion(json.object)
-            return true
-        }
+        })
     }
     
     /// 将Response 转换成 JSON Model
@@ -88,10 +80,9 @@ extension Observable where Element: Moya.Response {
     /// - Parameters:
     ///   - typeName: 要转换的Model Class
     ///   - dataPath: 从哪个节点开始转换，例如 ["data","links"]
-    /// - Returns: <#return value description#>
     func mapResponseToObj<T: Mappable>(_ typeName: T.Type , dataPath:[String] = [] ) -> Observable<T> {
-        return filterResponseError().map{ response in
-            var rootJson = JSON(data: response.data);
+        return filterResponseError().map{ json in
+            var rootJson  = json
             if dataPath.count > 0{
                 rootJson = rootJson[dataPath]
             }
@@ -106,8 +97,8 @@ extension Observable where Element: Moya.Response {
     
     /// 将Response 转换成 JSON Model Array
     func mapResponseToObjArray<T: Mappable>(_ type: T.Type, dataPath:[String] = [] ) -> Observable<[T]> {
-        return filterResponseError().map{ response in
-            var rootJson = JSON(data: response.data);
+        return filterResponseError().map{ json in
+            var rootJson = json;
             if dataPath.count > 0{
                 rootJson = rootJson[dataPath]
             }
