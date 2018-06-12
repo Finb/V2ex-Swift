@@ -71,7 +71,7 @@ extension V2EXTargetType {
         return provider
     }
     
-    /// 不被全局持有的 Provider ，使用时，需要持有它，否则将立即释放，请求随机终止
+    /// 不被全局持有的 Provider ，使用时，需要持有它，否则将立即释放，请求随即终止
     static var weakProvider: RxSwift.Reactive< MoyaProvider<Self> > {
         let provider = MoyaProvider<Self>(plugins:[networkActivityPlugin])
         return provider.rx
