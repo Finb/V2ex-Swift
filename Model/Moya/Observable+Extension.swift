@@ -44,7 +44,7 @@ extension Observable where Element: Moya.Response {
     }
     
     /// 过滤逻辑错误，例如协议里返回 错误CODE
-    private func filterResponseError() -> Observable<JSON> {
+    func filterResponseError() -> Observable<JSON> {
         return filterHttpError().map({ (response) -> JSON in
             
             let json = JSON(data: response.data)
