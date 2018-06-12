@@ -89,6 +89,7 @@ SPEC REPOS:
     - Shimmer
     - SnapKit
     - SVProgressHUD
+    - SwiftyJSON
     - YYText
 
 SPEC CHECKSUMS:
@@ -119,8 +120,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d21857f66837d3439ad6854f3a4abb9c86e7632c
 
-<<<<<<< HEAD
 COCOAPODS: 1.5.2
-=======
-COCOAPODS: 1.4.0
->>>>>>> upstream/master

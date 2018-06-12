@@ -109,10 +109,6 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(SearchViewController(), animated: true)
     }
     
-    @objc func searchClick() {
-        self.navigationController?.pushViewController(SearchViewController(), animated: true)
-    }
-    
     func refreshPage(){
         self.tableView.mj_header.beginRefreshing();
         V2EXSettings.sharedInstance[kHomeTab] = tab

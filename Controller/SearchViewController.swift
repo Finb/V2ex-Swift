@@ -16,7 +16,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     var input : UITextField = UITextField()
     var tableView: UITableView!
     
-    var data = Array<SearchModel>()
+    var data = Array<Hits>()
     var currentPage = 0
     var pageSize = 20
     
@@ -77,10 +77,23 @@ class SearchViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         
         SearchResultModel.search(keyword, from: self.currentPage * pageSize, size: self.pageSize) { (response: V2ValueResponse<SearchResultModel>) in
             if response.success {
-                print(response.value?.totals)
+                let total = response.value?.total
+                if let hits = response.value?.hits {
+                    let count = hits.count
+                    self.data.append(contentsOf: hits)
+                    self.currentPage += 1
+                    self.tableView.reloadData()
+                    if total == (self.currentPage - 1) * self.pageSize + count {
+                        let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
+                        // 为啥没有数据了，这个提示文字还是不出来呢。。
+                        refreshFooter.noMoreDataStateString = "没更多帖子了"
+                        refreshFooter.endRefreshingWithNoMoreData()
+                    }
+                }
             } else {
                 V2Error(response.description)
             }
+            self.tableView.mj_footer.endRefreshing()
         }
             
         
@@ -137,13 +150,13 @@ class SearchViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchTableViewCell
-        cell.bind(data[indexPath.row])
+        cell.bind(data[indexPath.row]._source!)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let topicDetailVC = TopicDetailViewController()
-        topicDetailVC.topicId = data[indexPath.row].id!.description
+        topicDetailVC.topicId = (data[indexPath.row]._source?.id?.description)!
         self.navigationController?.pushViewController(topicDetailVC, animated: true)
     }
     

@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import ObjectMapper
 
 class Hits: BaseJsonModel {
 
     var _source : Source?
+    
+    override func mapping(map: Map) {
+        self._source <- map["_source"]
+    }
     
 }

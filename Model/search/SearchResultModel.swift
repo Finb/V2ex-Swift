@@ -11,12 +11,12 @@ import ObjectMapper
 
 class SearchResultModel: BaseJsonModel {
     
-    var totals: Int?
-//    var hits: Array<Hits>?
+    var total: Int?
+    var hits: Array<Hits>?
     
     override func mapping(map: Map) {
-        self.totals <- map["totals"]
-//        self.hits <- map["hits"]
+        self.total <- map["total"]
+        self.hits <- map["hits"]
     }
 
 }
@@ -27,7 +27,6 @@ extension SearchResultModel {
         _ = ClientApi.provider.requestAPI(.search(keyword: keyword, from: from, size: size))
             .mapResponseToObj(SearchResultModel.self)
             .subscribe(onNext: { (searchResultModel) in
-                print(searchResultModel.totals)
                 completionHandler?(V2ValueResponse(value: searchResultModel, success: true))
                 return ;
             }, onError: { (error) in

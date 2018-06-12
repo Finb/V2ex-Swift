@@ -101,8 +101,8 @@ class SearchTableViewCell: UITableViewCell {
         }
     }
     
-    func bind(_ model:SearchModel){
-        self.dateAndLastPostUserLabel.text = model.author! + " • " + model.date!
+    func bind(_ model: Source){
+        self.dateAndLastPostUserLabel.text = model.member! + " • " + model.created!
         self.topicTitleLabel.text = model.title
         self.replyCountLabel.text = model.replies?.description
     }
