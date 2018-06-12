@@ -38,15 +38,21 @@ extension V2EXTargetType {
     }
     
     var task: Task {
-        //默认参数
-        var defaultParameters:[String:Any] = [:]
-        //协议参数
-        if let parameters = self.parameters {
-            for (key, value) in parameters {
-                defaultParameters[key] = value
+        return requestTaskWithParameters
+    }
+    
+    var requestTaskWithParameters: Task {
+        get {
+            //默认参数
+            var defaultParameters:[String:Any] = [:]
+            //协议参数
+            if let parameters = self.parameters {
+                for (key, value) in parameters {
+                    defaultParameters[key] = value
+                }
             }
+            return Task.requestParameters(parameters: defaultParameters, encoding: parameterEncoding)
         }
-        return Task.requestParameters(parameters: defaultParameters, encoding: parameterEncoding)
     }
     
     static var networkActivityPlugin: PluginType {
