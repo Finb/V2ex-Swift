@@ -263,7 +263,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             return tableViewHeader[section-1]
         }
         let view = UIView()
-        view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
 
         let label = UILabel()
         label.text = [NSLocalizedString("posts"),NSLocalizedString("comments")][section - 1]

@@ -180,7 +180,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.bottom.equalTo(self.contentView).offset(-8)
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp.bottom).offset(-1);
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-8);
         }
     }
     

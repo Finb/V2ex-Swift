@@ -165,7 +165,7 @@ class V2EXDarkColor: NSObject,V2EXColorProtocol {
     
     var v2_backgroundColor : UIColor{
         get{
-            return colorWith255RGB(62, g: 61, b: 65);
+            return colorWith255RGB(32, g: 31, b: 35);
         }
     }
     var v2_navigationBarTintColor : UIColor{
