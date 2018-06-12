@@ -9,6 +9,7 @@
 import UIKit
 import Moya
 import RxSwift
+import Result
 
 //保存全局Providers
 fileprivate var retainProviders:[String: Any] = [:]
@@ -79,7 +80,11 @@ extension V2EXTargetType {
     
     /// 不被全局持有的 Provider ，使用时，需要持有它，否则将立即释放，请求随即终止
     static var weakProvider: RxSwift.Reactive< MoyaProvider<Self> > {
-        let provider = MoyaProvider<Self>(plugins:[networkActivityPlugin])
+        var plugins:[PluginType] = [networkActivityPlugin]
+        #if DEBUG
+        plugins.append(LogPlugin())
+        #endif
+        let provider = MoyaProvider<Self>(plugins:plugins)
         return provider.rx
     }
 }
@@ -87,5 +92,24 @@ extension V2EXTargetType {
 extension RxSwift.Reactive where Base: MoyaProviderType {
     public func requestAPI(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Observable<Response> {
         return self.request(token, callbackQueue: callbackQueue).asObservable()
+    }
+}
+
+fileprivate class LogPlugin: PluginType{
+    func willSend(_ request: RequestType, target: TargetType) {
+        print("\n-------------------\n准备请求: \(target.path)")
+        print("请求方式: \(target.method.rawValue)")
+        if let params = (target as? V2EXTargetType)?.parameters {
+            print(params)
+        }
+        print("\n")
+        
+    }
+    func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
+        print("\n-------------------\n请求结束: \(target.path)")
+        if let data = result.value?.data, let resutl = String(data: data, encoding: String.Encoding.utf8) {
+            print("请求结果: \(resutl)")
+        }
+        print("\n")
     }
 }
