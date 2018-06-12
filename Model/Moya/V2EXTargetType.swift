@@ -97,7 +97,7 @@ extension RxSwift.Reactive where Base: MoyaProviderType {
 
 fileprivate class LogPlugin: PluginType{
     func willSend(_ request: RequestType, target: TargetType) {
-        print("\n-------------------\n准备请求: \(target.path)")
+        print("\n-------------------\n准备请求: \(target.baseURL)\(target.path)")
         print("请求方式: \(target.method.rawValue)")
         if let params = (target as? V2EXTargetType)?.parameters {
             print(params)
@@ -106,7 +106,7 @@ fileprivate class LogPlugin: PluginType{
         
     }
     func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
-        print("\n-------------------\n请求结束: \(target.path)")
+        print("\n-------------------\n请求结束: \(target.baseURL)\(target.path)")
         if let data = result.value?.data, let resutl = String(data: data, encoding: String.Encoding.utf8) {
             print("请求结果: \(resutl)")
         }
