@@ -175,7 +175,7 @@ class TopicDetailCommentCell: UITableViewCell{
             if layout.attachments != nil {
                 for attachment in layout.attachments! {
                     if let image = attachment.content as? V2CommentAttachmentImage{
-                        image.delegate = self
+                        image.attachmentDelegate = self
                     }
                 }
             }

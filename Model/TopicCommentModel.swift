@@ -24,7 +24,7 @@ class V2CommentAttachmentImage:AnimatedImageView {
     /// 图片地址
     var imageURL:String?
     
-    weak var delegate : V2CommentAttachmentImageTapDelegate?
+    weak var attachmentDelegate : V2CommentAttachmentImageTapDelegate?
     
     init(){
         super.init(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
@@ -65,7 +65,7 @@ class V2CommentAttachmentImage:AnimatedImageView {
         self.next?.touchesCancelled(touches, with: event)
     }
     func handleSingleTap(_ touch:UITouch){
-        self.delegate?.V2CommentAttachmentImageSingleTap(self)
+        self.attachmentDelegate?.V2CommentAttachmentImageSingleTap(self)
     }
 }
 
