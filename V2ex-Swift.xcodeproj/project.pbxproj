@@ -519,7 +519,6 @@
 				069508DD1C3F74FF0088D031 /* Frameworks */,
 				069508DE1C3F74FF0088D031 /* Resources */,
 				C76D12AD36A3B92F3B13C21B /* [CP] Embed Pods Frameworks */,
-				ECD98EA9EBB1D303CE532EDE /* [CP] Copy Pods Resources */,
 				0600D8081C74209E002DB97F /* Run Script */,
 			);
 			buildRules = (
@@ -679,21 +678,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ECD98EA9EBB1D303CE532EDE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
