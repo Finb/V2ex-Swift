@@ -51,8 +51,7 @@ class TopicListModel:NSObject {
                 id.replaceSubrange(range, with: "");
             }
             if let range = id.range(of: "#") {
-                id = id.substring(to: range.lowerBound)
-                topicIdUrl = id
+                topicIdUrl = String(id[..<range.lowerBound])
             }
         }
         self.topicId = topicIdUrl
@@ -90,8 +89,7 @@ class TopicListModel:NSObject {
                 id.replaceSubrange(range, with: "");
             }
             if let range = id.range(of: "#") {
-                id = id.substring(to: range.lowerBound)
-                topicIdUrl = id
+                topicIdUrl = String(id[..<range.lowerBound])
             }
         }
         self.topicId = topicIdUrl
@@ -127,17 +125,15 @@ class TopicListModel:NSObject {
                 id.replaceSubrange(range, with: "");
             }
             if let range = id.range(of: "#") {
-                id = id.substring(to: range.lowerBound)
-                topicIdUrl = id
+                topicIdUrl = String(id[..<range.lowerBound])
             }
         }
         self.topicId = topicIdUrl
 
 
         self.hits = nodeRootNode.xPath("./table/tr/td[3]/span[last()]/text()").first?.content
-        if var hits = self.hits {
-            hits = hits.substring(from: hits.index(hits.startIndex, offsetBy: 5))
-            self.hits = hits
+        if let hits = self.hits {
+            self.hits = String(hits[hits.index(hits.startIndex, offsetBy: 5)...])
         }
         var replies:String? = nil;
         if let reply = nodeRootNode.xPath("./table/tr/td[4]/a[1]").first {
