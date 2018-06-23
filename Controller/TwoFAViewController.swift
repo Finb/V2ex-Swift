@@ -77,7 +77,7 @@ class TwoFAViewController: UIViewController ,UITextFieldDelegate{
         guard code.Lenght == 6 else {
             return false
         }
-        for c in code.characters {
+        for c in code {
             if c > "9" && c < "0" {
                 return false
             }
