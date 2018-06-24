@@ -24,9 +24,10 @@ $ open "V2ex-Swift.xcworkspace"
 4) Compile and run the app in your simulator or iOS device
 
 ## Requirements
-* Xcode 9.0
-* iOS9+
-* Swift 4.0
+* Xcode 9.3
+* iOS 9+
+* Swift 4.1
+* CocoaPods 1.5.0
 
 ## Questions
 If you have questions about any aspect of this project, please feel free to contact me with the following email

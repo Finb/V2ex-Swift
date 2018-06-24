@@ -11,7 +11,7 @@ import UIKit
 extension UITableView {
 
     public func fin_heightForCellWithIdentifier<T: UITableViewCell>(_ identifier: String, configuration: ((_ cell: T) -> Void)?) -> CGFloat {
-        if identifier.characters.count <= 0 {
+        if identifier.count <= 0 {
             return 0
         }
         
@@ -36,7 +36,7 @@ extension UITableView {
     
     
     fileprivate func fin_templateCellForReuseIdentifier(_ identifier: String) -> UITableViewCell {
-        assert(identifier.characters.count > 0, "Expect a valid identifier - \(identifier)")
+        assert(identifier.count > 0, "Expect a valid identifier - \(identifier)")
         if self.fin_templateCellsByIdentifiers == nil {
             self.fin_templateCellsByIdentifiers = [:]
         }
@@ -53,7 +53,7 @@ extension UITableView {
     
     public func fin_heightForCellWithIdentifier<T: UITableViewCell>(_ identifier: T.Type, indexPath: IndexPath, configuration: ((_ cell: T) -> Void)?) -> CGFloat {
         let identifierStr = "\(identifier)";
-        if identifierStr.characters.count == 0 {
+        if identifierStr.count == 0 {
             return 0
         }
         

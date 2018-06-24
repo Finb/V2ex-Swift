@@ -41,7 +41,9 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         
         let nodeUrl = node?["href"]
         let index = nodeUrl?.range(of: "/", options: .backwards, range: nil, locale: nil)
-        self.node = nodeUrl?.substring(from: index!.upperBound)
+        if let temp = nodeUrl?[index!.upperBound...] {
+            self.node = String(temp)
+        }
         
         self.avata = rootNode.xPath("./div[1]/div[1]/a/img").first?["src"]
         
