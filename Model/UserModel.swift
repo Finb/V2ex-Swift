@@ -156,8 +156,8 @@ extension UserModel{
             if response.success {
                 Alamofire.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
                     if let jiHtml = response .result.value{
-                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.first {
-                            if aRootNode.content == "已成功领取每日登录奖励" {
+                        if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.last {
+                            if aRootNode.content?.trimmingCharacters(in: .whitespaces) == "已成功领取每日登录奖励" {
                                 print("每日登录奖励 领取成功")
                                 dispatch_sync_safely_main_queue({ () -> () in
                                     V2Inform("已成功领取每日登录奖励")
