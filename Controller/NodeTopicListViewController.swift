@@ -16,8 +16,9 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         didSet{
             let startIndex = favoriteUrl?.range(of: "/", options: .backwards, range: nil, locale: nil)
             let endIndex = favoriteUrl?.range(of: "?")
-            nodeId = favoriteUrl?.substring(with: Range<String.Index>( startIndex!.upperBound ..< endIndex!.lowerBound ))
-            if let _ = nodeId , let favoriteUrl = favoriteUrl {
+            let nodeId = favoriteUrl?[Range<String.Index>(startIndex!.upperBound ..< endIndex!.lowerBound)]
+            if let nodeId = nodeId , let favoriteUrl = favoriteUrl {
+                self.nodeId = String(nodeId)
                 if favoriteUrl.hasPrefix("/favorite"){
                     favorited = false
                 }

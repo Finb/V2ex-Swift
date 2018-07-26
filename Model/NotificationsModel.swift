@@ -35,8 +35,7 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
                     id.replaceSubrange(range, with: "");
                 }
                 if let range = id.range(of: "#") {
-                    id = id.substring(to: range.lowerBound)
-                    topicIdUrl = id
+                    topicIdUrl = String(id[..<range.lowerBound])
                 }
             }
             self.topicId = topicIdUrl

@@ -43,9 +43,9 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             
             var index = followStateClickUrl.range(of: "'/")
 
-            var url = followStateClickUrl.substring(from: index!.upperBound)
+            var url = followStateClickUrl[index!.upperBound...]
             let endIndex = url.range(of:"'", options: .backwards, range: nil, locale: nil)
-            url = url.substring(to: url.index(endIndex!.upperBound, offsetBy: -1))
+            url = url[..<url.index(endIndex!.upperBound, offsetBy: -1)]
             
             if url.hasPrefix("follow"){
                 self.followState = .unFollowed
@@ -55,11 +55,11 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             }
             
             index = url.range(of: "?once=")
-            self.userToken = url.substring(from: index!.upperBound)
+            self.userToken = String(url[index!.upperBound...])
             
             //UserId
             let startIndex = url.range(of:"/", options: .backwards, range: nil, locale: nil)
-            self.userId = url.substring(with: Range<String.Index>( startIndex!.upperBound ..< index!.lowerBound))
+            self.userId = String(url[Range<String.Index>(startIndex!.upperBound ..< index!.lowerBound)])
             
         }
 
@@ -71,7 +71,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             guard index != nil else {
                 return
             }
-            var url = followStateClickUrl.substring(from: index!.upperBound)
+            var url = followStateClickUrl[index!.upperBound...]
             
             if url.hasPrefix("block"){
                 self.blockState = .unBlocked
@@ -85,10 +85,9 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             guard endIndex != nil else {
                 return
             }
-            url = url.substring(to: url.index(endIndex!.upperBound, offsetBy: -1))
+            url = url[..<url.index(endIndex!.upperBound, offsetBy: -1)]
             index = url.range(of: "?t=")
-            self.blockToken = url.substring(from: index!.upperBound)
-            
+            self.blockToken = String(url[index!.upperBound...])
             
         }
     }
@@ -149,7 +148,7 @@ class MemberTopicsModel: TopicListModel {
                 id.replaceSubrange(range, with: "")
             }
             if let range = id.range(of: "#") {
-                id = id.substring(to: range.lowerBound)
+                id = String(id[..<range.lowerBound])
                 topicIdUrl = id
             }
         }
@@ -190,7 +189,7 @@ class MemberRepliesModel: NSObject ,BaseHtmlModelProtocol{
                 id.replaceSubrange(range, with: "")
             }
             if let range = id.range(of: "#") {
-                id = id.substring(to: range.lowerBound)
+                id = String(id[..<range.lowerBound])
                 topicIdUrl = id
             }
         }

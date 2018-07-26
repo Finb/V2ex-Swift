@@ -24,10 +24,6 @@ extension UserApi: V2EXTargetType {
         switch self {
         case let .getUserInfo(username):
             return ["username": username]
-        default:
-            return nil
         }
     }
-    
-    
 }

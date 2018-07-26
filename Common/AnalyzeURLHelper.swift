@@ -117,7 +117,7 @@ struct MemberActionModel: AnalyzeURLActionProtocol {
     var username:String
     init?(url:String) {
         if  let range = url.range(of: "/member/") {
-            self.username = url.substring(from: range.upperBound)
+            self.username = String(url[range.upperBound...])
         }
         else{
             return nil
@@ -134,16 +134,16 @@ struct TopicActionModel: AnalyzeURLActionProtocol {
     var topicID:String
     init?(url:String) {
         if  let range = url.range(of: "/t/") {
-            var topicID = url.substring(from: range.upperBound)
+            var topicID = url[range.upperBound...]
             
             if let range = topicID.range(of: "?"){
-                topicID = topicID.substring(to: range.lowerBound)
+                topicID = topicID[..<range.lowerBound]
             }
             
             if let range = topicID.range(of: "#"){
-                topicID = topicID.substring(to: range.lowerBound)
+                topicID = topicID[..<range.lowerBound]
             }
-            self.topicID = topicID
+            self.topicID = String(topicID)
         }
         else{
             return nil;
