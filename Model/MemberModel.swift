@@ -59,7 +59,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
             
             //UserId
             let startIndex = url.range(of:"/", options: .backwards, range: nil, locale: nil)
-            self.userId = String(url[Range<String.Index>(startIndex!.upperBound ..< index!.lowerBound)])
+            self.userId = String(url[startIndex!.upperBound ..< index!.lowerBound])
             
         }
 
