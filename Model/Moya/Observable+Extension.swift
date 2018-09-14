@@ -11,10 +11,12 @@ import RxSwift
 import ObjectMapper
 import SwiftyJSON
 import Moya
+import Ji
 
 public enum ApiError : Swift.Error {
     case Error(info: String)
     case AccountBanned(info: String)
+    case LoginPermissionRequired(info: String)
 }
 
 extension Swift.Error {
@@ -26,6 +28,8 @@ extension Swift.Error {
         case let .Error(info):
             return info
         case let .AccountBanned(info):
+            return info
+        case let .LoginPermissionRequired(info):
             return info
         }
     }
@@ -42,6 +46,8 @@ extension Observable where Element: Moya.Response {
             throw ApiError.Error(info: "网络错误")
         }
     }
+
+//MARK: - JSON解析相关
     
     /// 过滤逻辑错误，例如协议里返回 错误CODE
     func filterResponseError() -> Observable<JSON> {
@@ -128,6 +134,39 @@ extension Observable where Element: Moya.Response {
             return resultFromJSON(jsonString: str)
         }
         return nil
+    }
+    
+//MARK: - Ji 解析相关
+    
+    /// 过滤业务逻辑错误
+    func filterJiResponseError() -> Observable<Ji> {
+        return filterHttpError().map({ (response) -> Ji in
+            if response.response?.url?.path == "/signin" && response.request?.url?.path != "/signin" {
+                throw ApiError.LoginPermissionRequired(info: "查看的内容需要登录!")
+            }
+            
+            if let jiHtml = Ji(htmlData: response.data) {
+                return jiHtml
+            }
+            else {
+                throw ApiError.Error(info: "Failed to serialize response.")
+            }
+        })
+    }
+    
+    
+    /// 将Response 转成成 Ji Model Array
+    func mapResponseToJiArray<T: HtmlModelArrayProtocol>(_ type: T.Type) -> Observable<[T]> {
+        return filterJiResponseError().map{ ji in
+            return type.createModelArray(ji: ji)
+        }
+    }
+    
+    /// 将Response 转成成 Ji Model
+    func mapResponseToJiModel<T: HtmlModelProtocol>(_ type: T.Type) -> Observable<T> {
+        return filterJiResponseError().map{ ji in
+            return type.createModel(ji: ji)
+        }
     }
 }
 
