@@ -20,7 +20,7 @@ protocol V2EXTargetType: TargetType {
 
 extension V2EXTargetType {
     var headers: [String : String]? {
-        return nil
+        return MOBILE_CLIENT_HEADERS
     }
     var baseURL: URL {
         return URL(string: "https://www.v2ex.com")!

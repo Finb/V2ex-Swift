@@ -24,6 +24,7 @@
 		0618768B1C7C19F0002E9C33 /* PodCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0618768A1C7C19F0002E9C33 /* PodCellTableViewCell.swift */; };
 		0618768D1C7C5F8C002E9C33 /* 12.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0618768C1C7C5F8C002E9C33 /* 12.jpg */; };
 		0618768F1C7C6A50002E9C33 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0618768E1C7C6A50002E9C33 /* SettingsTableViewController.swift */; };
+		0620DA03214F56FC00761FBB /* TopicListApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620DA02214F56FC00761FBB /* TopicListApi.swift */; };
 		0623EB211C5EF6BB0016E816 /* NotificationMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */; };
 		0623EB231C5F04630016E816 /* MemberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0623EB221C5F04630016E816 /* MemberViewController.swift */; };
 		06267CFB1CB38F1000756970 /* NodeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06267CFA1CB38F1000756970 /* NodeCollectionReusableView.swift */; };
@@ -129,6 +130,7 @@
 		0618768A1C7C19F0002E9C33 /* PodCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodCellTableViewCell.swift; sourceTree = "<group>"; };
 		0618768C1C7C5F8C002E9C33 /* 12.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 12.jpg; sourceTree = "<group>"; };
 		0618768E1C7C6A50002E9C33 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		0620DA02214F56FC00761FBB /* TopicListApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicListApi.swift; sourceTree = "<group>"; };
 		0623EB201C5EF6BB0016E816 /* NotificationMenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationMenuButton.swift; sourceTree = "<group>"; };
 		0623EB221C5F04630016E816 /* MemberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberViewController.swift; sourceTree = "<group>"; };
 		06267CFA1CB38F1000756970 /* NodeCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -244,6 +246,14 @@
 				06D300291C6D801100547CE6 /* LogoutTableViewCell.swift */,
 			);
 			name = Member;
+			sourceTree = "<group>";
+		};
+		0620DA01214F56E800761FBB /* API */ = {
+			isa = PBXGroup;
+			children = (
+				0620DA02214F56FC00761FBB /* TopicListApi.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		0636716E1C7AE9E300B72D9F /* V2PhotoBrowser */ = {
@@ -379,6 +389,7 @@
 		069508F81C3F75A60088D031 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0620DA01214F56E800761FBB /* API */,
 				0678F46F20CE31F30048A64B /* Moya */,
 				0610F1AF1C46136300481402 /* BaseModel.swift */,
 				0610F1B11C4613D800481402 /* TopicListModel.swift */,
@@ -767,6 +778,7 @@
 				063671721C7AF44300B72D9F /* V2ZoomingScrollView.swift in Sources */,
 				063671741C7AF45B00B72D9F /* V2PhotoBrowser.swift in Sources */,
 				06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */,
+				0620DA03214F56FC00761FBB /* TopicListApi.swift in Sources */,
 				0684A1EA1C5B608D00B12437 /* NotificationsModel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				06D0EE2E1C917696003095FF /* V2Slider.swift in Sources */,

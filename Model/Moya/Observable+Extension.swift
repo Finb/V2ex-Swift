@@ -17,6 +17,7 @@ public enum ApiError : Swift.Error {
     case Error(info: String)
     case AccountBanned(info: String)
     case LoginPermissionRequired(info: String)
+    case needs2FA(info: String) //需要两步验证
 }
 
 extension Swift.Error {
@@ -30,6 +31,8 @@ extension Swift.Error {
         case let .AccountBanned(info):
             return info
         case let .LoginPermissionRequired(info):
+            return info
+        case .needs2FA(let info):
             return info
         }
     }
@@ -144,6 +147,10 @@ extension Observable where Element: Moya.Response {
             if response.response?.url?.path == "/signin" && response.request?.url?.path != "/signin" {
                 throw ApiError.LoginPermissionRequired(info: "查看的内容需要登录!")
             }
+            if response.response?.url?.path == "/2fa" {
+                //需要两步验证
+                throw ApiError.needs2FA(info: "需要两步验证")
+            }
             
             if let jiHtml = Ji(htmlData: response.data) {
                 return jiHtml
@@ -158,14 +165,14 @@ extension Observable where Element: Moya.Response {
     /// 将Response 转成成 Ji Model Array
     func mapResponseToJiArray<T: HtmlModelArrayProtocol>(_ type: T.Type) -> Observable<[T]> {
         return filterJiResponseError().map{ ji in
-            return type.createModelArray(ji: ji)
+            return type.createModelArray(ji: ji) as! [T]
         }
     }
     
     /// 将Response 转成成 Ji Model
     func mapResponseToJiModel<T: HtmlModelProtocol>(_ type: T.Type) -> Observable<T> {
         return filterJiResponseError().map{ ji in
-            return type.createModel(ji: ji)
+            return type.createModel(ji: ji) as! T
         }
     }
 }

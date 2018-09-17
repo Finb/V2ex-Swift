@@ -15,7 +15,32 @@ import Ji
 import YYText
 import KVOController
 
-class TopicListModel:NSObject {
+class TopicListModel:NSObject, HtmlModelArrayProtocol {
+
+    static func createModelArray(ji: Ji) -> [Any] {
+        var resultArray:[TopicListModel] = []
+        if let aRootNode = ji.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
+            for aNode in aRootNode {
+                let topic = TopicListModel(rootNode:aNode)
+                resultArray.append(topic);
+            }
+            
+            //更新通知数量
+            V2User.sharedInstance.getNotificationsCount(ji.rootNode!)
+            
+            DispatchQueue.global().async {
+                //领取每日奖励
+                if let aRootNode = ji.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='inner']/a[@href='/mission/daily']")?.first {
+                    if aRootNode.content == "领取今日的登录奖励" {
+                        print("有登录奖励可领取")
+                        UserModel.dailyRedeem()
+                    }
+                }
+            }
+        }
+        return resultArray
+    }
+    
     var topicId: String?
     var avata: String?
     var nodeName: String?
@@ -164,66 +189,7 @@ class TopicListModel:NSObject {
 
 //MARK: - Request
 extension TopicListModel {
-    /**
-     获取首页帖子列表
-
-     - parameter tab:               tab名
-     */
-    class func getTopicList(
-        _ tab: String? = nil ,
-        page:Int = 0 ,
-        completionHandler: @escaping (V2ValueResponse<[TopicListModel]>) -> Void
-        )->Void{
-
-        var params:[String:String] = [:]
-        if let tab = tab {
-            params["tab"]=tab
-        }
-        else {
-            params["tab"] = "all"
-        }
-
-        var url = V2EXURL
-        if params["tab"] == "all" && page > 0 {
-            params.removeAll()
-            params["p"] = "\(page)"
-            url = V2EXURL + "recent"
-        }
-
-        Alamofire.request(url, parameters: params, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-            if response.response?.url?.path == "/2fa" {
-                //需要两步验证
-                completionHandler(V2ValueResponse<[TopicListModel]>(value:[], success: false, code: .twoFA));
-                return
-            }
-            var resultArray:[TopicListModel] = []
-            if  let jiHtml = response.result.value{
-                if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
-                    for aNode in aRootNode {
-                        let topic = TopicListModel(rootNode:aNode)
-                        resultArray.append(topic);
-                    }
-
-                    //更新通知数量
-                    V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
-                }
-                DispatchQueue.global().async {
-                    //领取奖励
-                    if let aRootNode = jiHtml.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='inner']/a[@href='/mission/daily']")?.first {
-                        if aRootNode.content == "领取今日的登录奖励" {
-                            print("有登录奖励可领取")
-                            UserModel.dailyRedeem()
-                        }
-                    }
-                }
-                
-            }
-
-            let t = V2ValueResponse<[TopicListModel]>(value:resultArray, success: response.result.isSuccess)
-            completionHandler(t);
-        }
-    }
-
+    
     class func getTopicList(
         _ nodeName: String,
         page:Int,

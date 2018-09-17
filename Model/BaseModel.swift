@@ -10,6 +10,7 @@ import UIKit
 
 import ObjectMapper
 import Ji
+import Moya
 
 class BaseJsonModel: Mappable {
     required init?(map: Map) {
@@ -27,10 +28,10 @@ protocol BaseHtmlModelProtocol {
 
 /// 实现这个协议的类，可用于Moya自动解析出这个类的model的对象数组
 protocol HtmlModelArrayProtocol {
-    static func createModelArray(ji:Ji) -> [Self]
+    static func createModelArray(ji:Ji) -> [Any]
 }
 
 /// 实现这个协议的类，可用于Moya自动解析出这个类的model的对象
 protocol HtmlModelProtocol {
-    static func createModel(ji:Ji) -> Self
+    static func createModel(ji:Ji) -> Any
 }

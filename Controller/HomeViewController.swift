@@ -15,6 +15,8 @@ import AlamofireObjectMapper
 import Ji
 import MJRefresh
 
+import SVProgressHUD
+
 let kHomeTab = "me.fin.homeTab"
 
 class HomeViewController: UIViewController {
@@ -110,12 +112,11 @@ class HomeViewController: UIViewController {
         }
         
         //根据 tab name 获取帖子列表
-        TopicListModel.getTopicList(tab){
-            (response:V2ValueResponse<[TopicListModel]>) -> Void in
-            
-            if response.success {
-                
-                self.topicList = response.value
+        _ = TopicListApi.provider
+            .requestAPI(.topicList(tab: tab, page: 0))
+            .mapResponseToJiArray(TopicListModel.self)
+            .subscribe(onNext: { (response) in
+                self.topicList = response
                 self.tableView.reloadData()
                 
                 //判断标签是否能加载下一页, 不能就提示下
@@ -131,16 +132,22 @@ class HomeViewController: UIViewController {
                 
                 //重置page
                 self.currentPage = 0
+                self.tableView.mj_header.endRefreshing()
                 
-            }
-            else {
-                switch response.code {
-                case .twoFA: V2Client.sharedInstance.centerViewController!.navigationController?.present(TwoFAViewController(), animated: true, completion: nil);
-                default:break;
+            }, onError: { (error) in
+                if let err = error as? ApiError {
+                    switch err {
+                    case .needs2FA:
+                        V2Client.sharedInstance.centerViewController!.navigationController?.present(TwoFAViewController(), animated: true, completion: nil);
+                    default:
+                        SVProgressHUD.showError(withStatus: err.rawString())
+                    }
                 }
-            }
-            self.tableView.mj_header.endRefreshing()
-        }
+                else {
+                    SVProgressHUD.showError(withStatus: error.rawString())
+                }
+                self.tableView.mj_header.endRefreshing()
+            })
     }
     
     func getNextPage(){
@@ -148,23 +155,23 @@ class HomeViewController: UIViewController {
             self.tableView.mj_footer.endRefreshing()
             return;
         }
+        
         //根据 tab name 获取帖子列表
         self.currentPage += 1
-        TopicListModel.getTopicList(tab,page: self.currentPage){
-            (response:V2ValueResponse<[TopicListModel]>) -> Void in
-            
-            if response.success {
-                if let count = response.value?.count, count > 0 {
-                    self.topicList? += response.value!
+        _ = TopicListApi.provider
+            .requestAPI(.topicList(tab: tab, page: self.currentPage))
+            .mapResponseToJiArray(TopicListModel.self)
+            .subscribe(onNext: { (response) in
+                if response.count > 0 {
+                    self.topicList? += response
                     self.tableView.reloadData()
                 }
-            }
-            else{
-                //加载失败，重置page
+                self.tableView.mj_footer.endRefreshing()
+            }, onError: { (error) in
                 self.currentPage -= 1
-            }
-            self.tableView.mj_footer.endRefreshing()
-        }
+                SVProgressHUD.showError(withStatus: error.rawString())
+                self.tableView.mj_footer.endRefreshing()
+            })
     }
     
     static var lastLeaveTime = Date()
