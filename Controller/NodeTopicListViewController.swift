@@ -90,19 +90,27 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         }
         
         //根据 tab name 获取帖子列表
-        TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
-            [weak self](response:V2ValueResponse<([TopicListModel],String?)>) -> Void in
-            if response.success {
-                if let weakSelf = self {
-                    weakSelf.topicList = response.value?.0
-                    weakSelf.favoriteUrl = response.value?.1
-                    weakSelf.tableView.reloadData()
+        _ = TopicListApi.provider
+            .requestAPI(.nodeTopicList(nodeName: self.node!.nodeId!, page: self.currentPage))
+            .getJiDataFirst { (ji) in
+                if let node = ji.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/div[1]/a")?.first{
+                    self.favoriteUrl = node["href"]
                 }
             }
-            self?.tableView.mj_header.endRefreshing()
-            
-            self?.hideLoadingView()
-        }
+            .mapResponseToJiArray(NodeTopicListModel.self)
+            .subscribe(onNext: { (response) in
+                self.topicList = response
+                self.tableView.reloadData()
+                
+                self.tableView.mj_header.endRefreshing()
+                self.hideLoadingView()
+            }, onError: { (error) in
+                
+                V2Error(error.rawString())
+                
+                self.tableView.mj_header.endRefreshing()
+                self.hideLoadingView()
+            })
     }
     
     func getNextPage(){
@@ -113,20 +121,21 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         }
         
         self.currentPage += 1
-
-        TopicListModel.getTopicList(self.node!.nodeId!, page: self.currentPage){
-            [weak self](response:V2ValueResponse<([TopicListModel],String?)>) -> Void in
-            if response.success {
-                if let weakSelf = self , let value = response.value  {
-                    weakSelf.topicList! += value.0
-                    weakSelf.tableView.reloadData()
-                }
-                else{
-                    self?.currentPage -= 1
-                }
-            }
-            self?.tableView.mj_footer.endRefreshing()
-        }
+        
+        _ = TopicListApi.provider
+            .requestAPI(.nodeTopicList(nodeName: self.node!.nodeId!, page: self.currentPage))
+            .mapResponseToJiArray(NodeTopicListModel.self)
+            .subscribe(onNext: { (response) in
+                self.topicList?.append(contentsOf: response)
+                self.tableView.reloadData()
+                
+                self.tableView.mj_footer.endRefreshing()
+            }, onError: { (error) in
+                self.currentPage -= 1
+                V2Error(error.rawString())
+                
+                self.tableView.mj_footer.endRefreshing()
+            })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

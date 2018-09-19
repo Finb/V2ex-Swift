@@ -13,6 +13,8 @@ enum TopicListApi {
     case topicList(tab: String?, page: Int)
     //获取我的收藏帖子列表
     case favoriteList(page: Int)
+    //获取节点主题列表
+    case nodeTopicList(nodeName: String, page:Int)
 }
 
 extension TopicListApi: V2EXTargetType {
@@ -25,6 +27,8 @@ extension TopicListApi: V2EXTargetType {
             }
             return ["tab": tab ?? "all"]
         case let .favoriteList(page):
+            return ["p": page]
+        case let .nodeTopicList(_, page):
             return ["p": page]
 //        default:
 //            return nil
@@ -40,6 +44,8 @@ extension TopicListApi: V2EXTargetType {
             return "/"
         case .favoriteList:
             return "/my/topics"
+        case let .nodeTopicList(nodeName, _):
+            return "/go/\(nodeName)"
 //        default:
 //            return ""
         }

@@ -103,7 +103,7 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
             .requestAPI(.favoriteList(page: self.currentPage))
             .mapResponseToJiArray(FavoriteListModel.self)
             .subscribe(onNext: { (response) in
-                self.topicList = response
+                self.topicList?.append(contentsOf: response)
                 self.tableView.reloadData()
                 self.tableView.mj_footer.endRefreshing()
             }, onError: { (error) in

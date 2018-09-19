@@ -98,39 +98,6 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
 
     }
 
-    init(nodeRootNode:JiNode) {
-        super.init()
-        self.avata = nodeRootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
-        self.userName = nodeRootNode.xPath("./table/tr/td[3]/span[2]/strong").first?.content
-
-        let node = nodeRootNode.xPath("./table/tr/td[3]/span/a[1]").first
-        self.topicTitle = node?.content
-        self.setupTitleLayout()
-
-        var topicIdUrl = node?["href"];
-
-        if var id = topicIdUrl {
-            if let range = id.range(of: "/t/") {
-                id.replaceSubrange(range, with: "");
-            }
-            if let range = id.range(of: "#") {
-                topicIdUrl = String(id[..<range.lowerBound])
-            }
-        }
-        self.topicId = topicIdUrl
-
-
-        self.hits = nodeRootNode.xPath("./table/tr/td[3]/span[last()]/text()").first?.content
-        if let hits = self.hits {
-            self.hits = String(hits[hits.index(hits.startIndex, offsetBy: 5)...])
-        }
-        var replies:String? = nil;
-        if let reply = nodeRootNode.xPath("./table/tr/td[4]/a[1]").first {
-            replies = reply.content
-        }
-        self.replies  = replies
-    }
-
     func setupTitleLayout(){
         if let title = self.topicTitle {
             self.topicTitleAttributedString = NSMutableAttributedString(string: title,
@@ -201,42 +168,59 @@ class FavoriteListModel: TopicListModel {
     }
 }
 
+class NodeTopicListModel: TopicListModel {
+    
+    override class func createModelArray(ji: Ji) -> [Any] {
+        var resultArray:[NodeTopicListModel] = []
+        if let aRootNode = ji.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']"){
+            for aNode in aRootNode {
+                let topic = NodeTopicListModel(nodeRootNode: aNode)
+                resultArray.append(topic);
+            }
+            
+            //更新通知数量
+            V2User.sharedInstance.getNotificationsCount(ji.rootNode!)
+        }
+        return resultArray
+    }
+    
+    init(nodeRootNode:JiNode) {
+        super.init()
+        self.avata = nodeRootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
+        self.userName = nodeRootNode.xPath("./table/tr/td[3]/span[2]/strong").first?.content
+        
+        let node = nodeRootNode.xPath("./table/tr/td[3]/span/a[1]").first
+        self.topicTitle = node?.content
+        self.setupTitleLayout()
+        
+        var topicIdUrl = node?["href"];
+        
+        if var id = topicIdUrl {
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "");
+            }
+            if let range = id.range(of: "#") {
+                topicIdUrl = String(id[..<range.lowerBound])
+            }
+        }
+        self.topicId = topicIdUrl
+        
+        
+        self.hits = nodeRootNode.xPath("./table/tr/td[3]/span[last()]/text()").first?.content
+        if let hits = self.hits {
+            self.hits = String(hits[hits.index(hits.startIndex, offsetBy: 5)...])
+        }
+        var replies:String? = nil;
+        if let reply = nodeRootNode.xPath("./table/tr/td[4]/a[1]").first {
+            replies = reply.content
+        }
+        self.replies  = replies
+    }
+}
+
 
 //MARK: - Request
 extension TopicListModel {
-    
-    class func getTopicList(
-        _ nodeName: String,
-        page:Int,
-        completionHandler: @escaping (V2ValueResponse<([TopicListModel] ,String?)>) -> Void
-        )->Void{
-
-        let url =  V2EXURL + "go/" + nodeName + "?p=" + "\(page)"
-        
-        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-            var resultArray:[TopicListModel] = []
-            var favoriteUrl :String?
-            if  let jiHtml = response.result.value{
-                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']"){
-                    for aNode in aRootNode {
-                        let topic = TopicListModel(nodeRootNode: aNode)
-                        resultArray.append(topic);
-                    }
-
-                    //更新通知数量
-                    V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
-                }
-                
-                if let node = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/div[1]/a")?.first{
-                    favoriteUrl = node["href"]
-                }
-            }
-
-            let t = V2ValueResponse<([TopicListModel], String?)>(value:(resultArray,favoriteUrl), success: response.result.isSuccess)
-            completionHandler(t);
-        }
-    }
-    
     /**
      收藏节点
      
