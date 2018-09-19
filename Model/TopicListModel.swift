@@ -17,7 +17,7 @@ import KVOController
 
 class TopicListModel:NSObject, HtmlModelArrayProtocol {
 
-    static func createModelArray(ji: Ji) -> [Any] {
+    class func createModelArray(ji: Ji) -> [Any] {
         var resultArray:[TopicListModel] = []
         if let aRootNode = ji.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
             for aNode in aRootNode {
@@ -97,42 +97,6 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
         self.replies  = replies
 
     }
-    init(favoritesRootNode:JiNode) {
-        super.init()
-        self.avata = favoritesRootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
-        self.nodeName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/a[1]").first?.content
-        self.userName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/strong[1]/a").first?.content
-
-        let node = favoritesRootNode.xPath("./table/tr/td[3]/span/a[1]").first
-        self.topicTitle = node?.content
-        self.setupTitleLayout()
-
-        var topicIdUrl = node?["href"];
-
-        if var id = topicIdUrl {
-            if let range = id.range(of: "/t/") {
-                id.replaceSubrange(range, with: "");
-            }
-            if let range = id.range(of: "#") {
-                topicIdUrl = String(id[..<range.lowerBound])
-            }
-        }
-        self.topicId = topicIdUrl
-
-
-        let date = favoritesRootNode.xPath("./table/tr/td[3]/span[2]").first?.content
-        if let date = date {
-            let array = date.components(separatedBy: "•")
-            if array.count == 4 {
-                self.date = array[3].trimmingCharacters(in: NSCharacterSet.whitespaces)
-                
-            }
-        }
-
-        self.lastReplyUserName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/strong[2]/a[1]").first?.content
-
-        self.replies = favoritesRootNode.xPath("./table/tr/td[4]/a[1]").first?.content
-    }
 
     init(nodeRootNode:JiNode) {
         super.init()
@@ -187,6 +151,57 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
     }
 }
 
+class FavoriteListModel: TopicListModel {
+    override class func createModelArray(ji: Ji) -> [Any] {
+        var resultArray:[FavoriteListModel] = []
+        if let aRootNode = ji.xPath("//*[@class='cell item']"){
+            for aNode in aRootNode {
+                let topic = FavoriteListModel(favoritesRootNode:aNode)
+                resultArray.append(topic);
+            }
+        }
+        return resultArray
+    }
+    
+    init(favoritesRootNode:JiNode) {
+        super.init()
+        self.avata = favoritesRootNode.xPath("./table/tr/td[1]/a[1]/img[@class='avatar']").first?["src"]
+        self.nodeName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/a[1]").first?.content
+        self.userName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/strong[1]/a").first?.content
+        
+        let node = favoritesRootNode.xPath("./table/tr/td[3]/span/a[1]").first
+        self.topicTitle = node?.content
+        self.setupTitleLayout()
+        
+        var topicIdUrl = node?["href"];
+        
+        if var id = topicIdUrl {
+            if let range = id.range(of: "/t/") {
+                id.replaceSubrange(range, with: "");
+            }
+            if let range = id.range(of: "#") {
+                topicIdUrl = String(id[..<range.lowerBound])
+            }
+        }
+        self.topicId = topicIdUrl
+        
+        
+        let date = favoritesRootNode.xPath("./table/tr/td[3]/span[2]").first?.content
+        if let date = date {
+            let array = date.components(separatedBy: "•")
+            if array.count == 4 {
+                self.date = array[3].trimmingCharacters(in: NSCharacterSet.whitespaces)
+                
+            }
+        }
+        
+        self.lastReplyUserName = favoritesRootNode.xPath("./table/tr/td[3]/span[2]/strong[2]/a[1]").first?.content
+        
+        self.replies = favoritesRootNode.xPath("./table/tr/td[4]/a[1]").first?.content
+    }
+}
+
+
 //MARK: - Request
 extension TopicListModel {
     
@@ -221,40 +236,6 @@ extension TopicListModel {
             completionHandler(t);
         }
     }
-
-
-    /**
-     获取我的收藏帖子列表
-
-     */
-    class func getFavoriteList(_ page:Int = 1, completionHandler: @escaping (V2ValueResponse<([TopicListModel],Int)>) -> Void){
-        Alamofire.request(V2EXURL+"my/topics?p=\(page)", headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-            var resultArray:[TopicListModel] = []
-            var maxPage = 1
-            if let jiHtml = response.result.value {
-                if let aRootNode = jiHtml.xPath("//*[@class='cell item']"){
-                    for aNode in aRootNode {
-                        let topic = TopicListModel(favoritesRootNode:aNode)
-                        resultArray.append(topic);
-                    }
-                }
-                //更新通知数量
-                V2User.sharedInstance.getNotificationsCount(jiHtml.rootNode!)
-
-                //获取最大页码 只有第一页需要获取maxPage
-                if page <= 1
-                    ,let aRootNode = jiHtml.xPath("//*[@class='page_normal']")?.last
-                    , let page = aRootNode.content
-                    , let pageInt = Int(page)
-                {
-                    maxPage = pageInt
-                }
-            }
-
-            let t = V2ValueResponse<([TopicListModel],Int)>(value:(resultArray,maxPage), success: response.result.isSuccess)
-            completionHandler(t);
-        }
-    }
     
     /**
      收藏节点
@@ -278,3 +259,5 @@ extension TopicListModel {
     }
 
 }
+
+

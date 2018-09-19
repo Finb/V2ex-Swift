@@ -9,7 +9,10 @@
 import UIKit
 
 enum TopicListApi {
+    //获取首页列表
     case topicList(tab: String?, page: Int)
+    //获取我的收藏帖子列表
+    case favoriteList(page: Int)
 }
 
 extension TopicListApi: V2EXTargetType {
@@ -21,6 +24,8 @@ extension TopicListApi: V2EXTargetType {
                 return ["p": page]
             }
             return ["tab": tab ?? "all"]
+        case let .favoriteList(page):
+            return ["p": page]
 //        default:
 //            return nil
         }
@@ -33,6 +38,8 @@ extension TopicListApi: V2EXTargetType {
                 return "/recent"
             }
             return "/"
+        case .favoriteList:
+            return "/my/topics"
 //        default:
 //            return ""
         }

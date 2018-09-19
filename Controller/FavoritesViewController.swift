@@ -59,20 +59,34 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
     func refresh(){
         //根据 tab name 获取帖子列表
         self.currentPage = 1
-        TopicListModel.getFavoriteList{
-            [weak self](response) -> Void in
-            if response.success {
-                if let weakSelf = self , let list = response.value?.0 , let maxPage = response.value?.1{
-                    weakSelf.topicList = list
-                    weakSelf.maxPage = maxPage
-                    weakSelf.tableView.mj_footer.resetNoMoreData()
-                    weakSelf.tableView.reloadData()
+        
+        _ = TopicListApi.provider
+            .requestAPI(.favoriteList(page: self.currentPage))
+            .getJiDataFirst(hander: { (ji) in
+                var maxPage = 1
+                if let aRootNode = ji.xPath("//*[@class='page_normal']")?.last
+                    , let page = aRootNode.content
+                    , let pageInt = Int(page)
+                {
+                    maxPage = pageInt
                 }
-            }
-            self?.tableView.mj_header.endRefreshing()
-            
-            self?.hideLoadingView()
-        }
+                self.maxPage = maxPage
+            })
+            .mapResponseToJiArray(FavoriteListModel.self)
+            .subscribe(onNext: { (response) in
+                self.topicList = response
+                self.tableView.mj_footer.resetNoMoreData()
+                self.tableView.reloadData()
+                
+                self.tableView.mj_header.endRefreshing()
+                self.hideLoadingView()
+            }, onError: { (error) in
+                V2Error(error.rawString())
+                
+                self.tableView.mj_header.endRefreshing()
+                self.hideLoadingView()
+            })
+        
     }
     func getNextPage(){
         if let count = self.topicList?.count, count <= 0 {
@@ -84,18 +98,18 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
             return;
         }
         self.currentPage += 1
-        TopicListModel.getFavoriteList(self.currentPage) {[weak self] (response) -> Void in
-            if response.success {
-                if let weakSelf = self ,let list = response.value?.0 {
-                    weakSelf.topicList! += list
-                    weakSelf.tableView.reloadData()
-                }
-                else{
-                    self?.currentPage -= 1
-                }
-            }
-            self?.tableView.mj_footer.endRefreshing()
-        }
+        
+        _ = TopicListApi.provider
+            .requestAPI(.favoriteList(page: self.currentPage))
+            .mapResponseToJiArray(FavoriteListModel.self)
+            .subscribe(onNext: { (response) in
+                self.topicList = response
+                self.tableView.reloadData()
+                self.tableView.mj_footer.endRefreshing()
+            }, onError: { (error) in
+                self.currentPage -= 1
+                V2Error(error.rawString())
+            })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
