@@ -38,6 +38,7 @@ extension Swift.Error {
     }
 }
 
+//MARK: - JSON解析相关
 extension Observable where Element: Moya.Response {
     /// 过滤 HTTP 错误，例如超时，请求失败等
     func filterHttpError() -> Observable<Element> {
@@ -49,9 +50,6 @@ extension Observable where Element: Moya.Response {
             throw ApiError.Error(info: "网络错误")
         }
     }
-
-//MARK: - JSON解析相关
-    
     /// 过滤逻辑错误，例如协议里返回 错误CODE
     func filterResponseError() -> Observable<JSON> {
         return filterHttpError().map({ (response) -> JSON in
@@ -138,12 +136,15 @@ extension Observable where Element: Moya.Response {
         }
         return nil
     }
-    
+}
+
+
 //MARK: - Ji 解析相关
+extension Observable where Element: Moya.Response {
     
     /// 过滤业务逻辑错误
     func filterJiResponseError() -> Observable<Ji> {
-        return filterHttpError().map({ (response) -> Ji in
+        return filterHttpError().map({ (response: Element) -> Ji in
             if response.response?.url?.path == "/signin" && response.request?.url?.path != "/signin" {
                 throw ApiError.LoginPermissionRequired(info: "查看的内容需要登录!")
             }
@@ -175,5 +176,29 @@ extension Observable where Element: Moya.Response {
             return type.createModel(ji: ji) as! T
         }
     }
+    
+    /// 在将 Ji 对象转换成 Model 之前，可能需要先获取 Ji 对象的数据
+    /// 例如获取我的收藏帖子列表时，除了需要将 Ji 数据 转换成 TopicListModel
+    /// 还需要额外获取最大页码,这个最大页面就从这个方法中获得
+    func getJiDataFirst(hander:((_ ji: Ji) -> Void)) -> Observable<Ji> {
+        return filterJiResponseError().map({ (response: Ji) -> Ji in
+            return response
+        })
+    }
 }
 
+//调用 getJiDataFirst() 方法后可调用的方法
+extension Observable where Element: Ji {
+    func mapResponseToJiArray<T: HtmlModelArrayProtocol>(_ type: T.Type) -> Observable<[T]> {
+        return map{ ji in
+            return type.createModelArray(ji: ji) as! [T]
+        }
+    }
+    
+    /// 将Response 转成成 Ji Model
+    func mapResponseToJiModel<T: HtmlModelProtocol>(_ type: T.Type) -> Observable<T> {
+        return map{ ji in
+            return type.createModel(ji: ji) as! T
+        }
+    }
+}
