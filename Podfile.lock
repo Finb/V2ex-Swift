@@ -7,7 +7,7 @@ PODS:
   - Crashlytics (3.10.7):
     - Fabric (~> 1.7.11)
   - CXSwipeGestureRecognizer (1.0.2)
-  - DeviceKit (1.7.0)
+  - DeviceKit (1.8.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
     - DrawerController/DrawerVisualStates (= 4.0.0)
@@ -25,7 +25,7 @@ PODS:
   - KeychainSwift (11.0.0)
   - Kingfisher (4.9.0)
   - KVOController (1.2.0)
-  - MJRefresh (3.1.15.6)
+  - MJRefresh (3.1.15.7)
   - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
@@ -34,7 +34,7 @@ PODS:
     - RxSwift (~> 4.0)
   - ObjectMapper (3.3.0)
   - Result (3.2.4)
-  - RxSwift (4.2.0)
+  - RxSwift (4.3.0)
   - Shimmer (1.0.2)
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.5)
@@ -98,7 +98,7 @@ SPEC CHECKSUMS:
   AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
   Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
-  DeviceKit: 6a5bdeb103c03757bb94aef1ccb01e08bc8ef4ee
+  DeviceKit: c7ae6f7b16c2239156ac64fc22de0b0975f0d0b5
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   Fabric: f233c9492b3bbc1f04e3882986740f7988a58edb
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
@@ -107,11 +107,11 @@ SPEC CHECKSUMS:
   KeychainSwift: bea6bd9f98af7b8d7ca4aa79fe105c00fab532db
   Kingfisher: 64539b51826b778206daa6ed815d12653caa69dd
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
-  MJRefresh: 0efa19656679d70a0f47cbe76e56c2271fe53a97
+  MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
+  RxSwift: a9717a34df3179fe63563f76e046ad345078dd3a
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6

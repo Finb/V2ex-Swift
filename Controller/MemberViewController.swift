@@ -20,8 +20,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     
     var headerHeight: CGFloat = {
-        let device = Device()
-        if device.isOneOf([.iPhoneX, Device.simulator(.iPhoneX)]) {
+        if UIDevice.current.isIphoneX {
             return 240 + 24
         }
         return 240
@@ -29,8 +28,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     //昵称相对于整个屏幕时的 y 值
     var nickLabelTop: CGFloat = {
-        let device = Device()
-        if device.isOneOf([.iPhoneX, Device.simulator(.iPhoneX)]) {
+        if UIDevice.current.isIphoneX {
             return 156 + 24/2
         }
         return 156
