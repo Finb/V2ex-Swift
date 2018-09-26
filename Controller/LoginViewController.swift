@@ -215,8 +215,8 @@ extension LoginViewController {
         self.frostedView.contentView.addSubview(vibrancyView)
 
         let v2exLabel = UILabel()
-        v2exLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 32)!;
-        v2exLabel.text = "V2EX"
+        v2exLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 25)!;
+        v2exLabel.text = "Explore"
         vibrancyView.contentView.addSubview(v2exLabel);
         v2exLabel.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(vibrancyView)
@@ -356,7 +356,7 @@ extension LoginViewController {
         let footLabel = UILabel()
         footLabel.alpha = 0.5
         footLabel.font = v2Font(12)
-        footLabel.text = "© 2016 Fin"
+        footLabel.text = "© 2018 Fin"
 
         vibrancyView.contentView.addSubview(footLabel);
 

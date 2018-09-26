@@ -21,7 +21,18 @@ let kHomeTab = "me.fin.homeTab"
 
 class HomeViewController: UIViewController {
     var topicList:Array<TopicListModel>?
-    var tab:String? = nil
+    var tab:String? = nil {
+        didSet{
+            var name = "全部"
+            for model in RightViewControllerRightNodes {
+                if model.nodeTab == tab {
+                    name = model.nodeName ?? ""
+                    break;
+                }
+            }
+            self.title = name
+        }
+    }
     var currentPage = 0
     
     fileprivate var _tableView :UITableView!
@@ -51,7 +62,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title="V2EX";
         self.tab = V2EXSettings.sharedInstance[kHomeTab]
         self.setupNavigationItem()
         

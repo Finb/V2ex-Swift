@@ -8,23 +8,23 @@
 
 import UIKit
 import FXBlurView
-
+let RightViewControllerRightNodes = [
+    rightNodeModel(nodeName: NSLocalizedString("tech" ), nodeTab: "tech"),
+    rightNodeModel(nodeName: NSLocalizedString("creative" ), nodeTab: "creative"),
+    rightNodeModel(nodeName: NSLocalizedString("play" ), nodeTab: "play"),
+    rightNodeModel(nodeName: NSLocalizedString("apple" ), nodeTab: "apple"),
+    rightNodeModel(nodeName: NSLocalizedString("jobs" ), nodeTab: "jobs"),
+    rightNodeModel(nodeName: NSLocalizedString("deals" ), nodeTab: "deals"),
+    rightNodeModel(nodeName: NSLocalizedString("city" ), nodeTab: "city"),
+    rightNodeModel(nodeName: NSLocalizedString("qna" ), nodeTab: "qna"),
+    rightNodeModel(nodeName: NSLocalizedString("hot"), nodeTab: "hot"),
+    rightNodeModel(nodeName: NSLocalizedString("all"), nodeTab: "all"),
+    rightNodeModel(nodeName: NSLocalizedString("r2" ), nodeTab: "r2"),
+    rightNodeModel(nodeName: NSLocalizedString("nodes" ), nodeTab: "nodes"),
+    rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
+]
 class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    let rightNodes = [
-        rightNodeModel(nodeName: NSLocalizedString("tech" ), nodeTab: "tech"),
-        rightNodeModel(nodeName: NSLocalizedString("creative" ), nodeTab: "creative"),
-        rightNodeModel(nodeName: NSLocalizedString("play" ), nodeTab: "play"),
-        rightNodeModel(nodeName: NSLocalizedString("apple" ), nodeTab: "apple"),
-        rightNodeModel(nodeName: NSLocalizedString("jobs" ), nodeTab: "jobs"),
-        rightNodeModel(nodeName: NSLocalizedString("deals" ), nodeTab: "deals"),
-        rightNodeModel(nodeName: NSLocalizedString("city" ), nodeTab: "city"),
-        rightNodeModel(nodeName: NSLocalizedString("qna" ), nodeTab: "qna"),
-        rightNodeModel(nodeName: NSLocalizedString("hot"), nodeTab: "hot"),
-        rightNodeModel(nodeName: NSLocalizedString("all"), nodeTab: "all"),
-        rightNodeModel(nodeName: NSLocalizedString("r2" ), nodeTab: "r2"),
-        rightNodeModel(nodeName: NSLocalizedString("nodes" ), nodeTab: "nodes"),
-        rightNodeModel(nodeName: NSLocalizedString("members" ), nodeTab: "members"),
-    ]
+    let rightNodes = RightViewControllerRightNodes
     var currentSelectedTabIndex = 0;
     
     var backgroundImageView:UIImageView?
