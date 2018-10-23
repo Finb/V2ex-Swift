@@ -501,7 +501,8 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             let shareUrl = NSURL.init(string: V2EXURL + "t/" + self.model!.topicId!)
             let shareArr:NSArray = [shareUrl!]
             let activityController = UIActivityViewController.init(activityItems: shareArr as [AnyObject], applicationActivities: nil)
-            self.present(activityController, animated: true, completion: nil)
+            activityController.excludedActivityTypes = [UIActivityType.airDrop]
+            self.navigationController?.present(activityController, animated: true, completion: nil)
         case .explore:
             UIApplication.shared.openURL(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)
         }
