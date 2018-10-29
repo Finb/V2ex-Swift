@@ -168,7 +168,23 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
                 commentAttributedString.yy_appendString("\n")
             }
                 
+            else if element.children.first?.name == "iframe", let src = element.children.first?["src"] , src.Lenght > 0 {
+                // youtube 视频
+                let attr = NSMutableAttributedString(string: src ,attributes: [NSAttributedStringKey.font:v2ScaleFont(14)])
+                attr.yy_setTextHighlight(NSMakeRange(0, src.Lenght),
+                                         color: V2EXColor.colors.v2_LinkColor,
+                                         backgroundColor: UIColor(white: 0.95, alpha: 1),
+                                         userInfo: ["url":src],
+                                         tapAction: { (view, text, range, rect) -> Void in
+                                            if let highlight = text.yy_attribute(YYTextHighlightAttributeName, at: UInt(range.location)) ,let url = (highlight as AnyObject).userInfo["url"] as? String  {
+                                                AnalyzeURLHelper.Analyze(url)
+                                            }
+                                            
+                }, longPressAction: nil)
+                commentAttributedString.append(attr)
+            }
             else if let content = element.content{//其他
+                
                 commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSAttributedStringKey.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor]))
             }
         }
