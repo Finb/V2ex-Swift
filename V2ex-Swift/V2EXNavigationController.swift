@@ -42,10 +42,19 @@ class V2EXNavigationController: UINavigationController {
             }
         }
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        get {
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                return .default
+            }
+            else{
+                return .lightContent
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.shared.setStatusBarStyle(.default, animated: true);
         self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clear), for: .default)
 
         let maskingView = UIView()
@@ -76,7 +85,7 @@ class V2EXNavigationController: UINavigationController {
             
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 self?.frostedView.barStyle = .default
-                UIApplication.shared.setStatusBarStyle(.default, animated: true);
+                self?.setNeedsStatusBarAppearanceUpdate()
                 
                 //全局键盘颜色
                 UITextView.appearance().keyboardAppearance = .light
@@ -86,7 +95,7 @@ class V2EXNavigationController: UINavigationController {
             }
             else{
                 self?.frostedView.barStyle = .black
-                UIApplication.shared.setStatusBarStyle(.lightContent, animated: true);
+                self?.setNeedsStatusBarAppearanceUpdate()
                 
                 UITextView.appearance().keyboardAppearance = .dark
                 UITextField.appearance().keyboardAppearance = .dark
