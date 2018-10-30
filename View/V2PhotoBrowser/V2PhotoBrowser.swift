@@ -110,11 +110,15 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
         return self.transitionController.interacting ? self.transitionController : nil
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        UIApplication.shared.setStatusBarHidden(true, with: .fade)
+    override var prefersStatusBarHidden: Bool{
+        get {
+            return self.isAppeared
+        }
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        UIApplication.shared.setStatusBarHidden(false, with: .none)
+    var isAppeared = false
+    override func viewDidAppear(_ animated: Bool) {
+        isAppeared = true
+        self.setNeedsStatusBarAppearanceUpdate()
     }
     func dismiss(){
         self.dismiss(animated: true, completion: nil)
