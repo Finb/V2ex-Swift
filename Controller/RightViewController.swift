@@ -30,27 +30,20 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var backgroundImageView:UIImageView?
     var frostedView = FXBlurView()
     
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.backgroundColor = UIColor.clear
-            _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            if #available(iOS 11.0, *) {
-                _tableView.contentInsetAdjustmentBehavior = .never
-            }
-            regClass(self.tableView, cell: RightNodeTableViewCell.self)
-            
-            _tableView.delegate = self;
-            _tableView.dataSource = self;
-            return _tableView!;
-            
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = UIColor.clear
+        tableView.estimatedRowHeight=100
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
         }
-    }
+        regClass(tableView, cell: RightNodeTableViewCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
