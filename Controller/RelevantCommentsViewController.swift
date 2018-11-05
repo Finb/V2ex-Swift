@@ -55,28 +55,21 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
     
     var commentsArray:[TopicCommentModel] = []
     fileprivate var dismissing = false
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.cancelEstimatedHeight()
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            if #available(iOS 11.0, *) {
-                _tableView.contentInsetAdjustmentBehavior = .never
-            }
-            _tableView.backgroundColor = UIColor.clear
-            _tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
-            regClass(_tableView, cell: TopicDetailCommentCell.self)
-            
-            _tableView.delegate = self
-            _tableView.dataSource = self
-            return _tableView!;
-            
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.cancelEstimatedHeight()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
         }
-    }
+        tableView.backgroundColor = UIColor.clear
+        tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
+        regClass(tableView, cell: TopicDetailCommentCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     var frostedView = FXBlurView()
     

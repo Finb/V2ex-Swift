@@ -13,25 +13,18 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
     var currentPage = 1
     //最大的Page
     var maxPage = 1
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.cancelEstimatedHeight()
-            _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
-            regClass(_tableView, cell: HomeTopicListTableViewCell.self)
-            
-            _tableView.delegate = self
-            _tableView.dataSource = self
-            return _tableView!;
-            
-        }
-    }
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.cancelEstimatedHeight()
+        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        regClass(tableView, cell: HomeTopicListTableViewCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
