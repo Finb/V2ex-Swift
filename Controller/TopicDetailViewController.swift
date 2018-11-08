@@ -17,28 +17,21 @@ class TopicDetailViewController: BaseViewController{
     fileprivate var commentsArray:[TopicCommentModel] = []
     fileprivate var webViewContentCell:TopicDetailWebViewContentCell?
     
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.cancelEstimatedHeight()
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
-            _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-            regClass(_tableView, cell: TopicDetailHeaderCell.self)
-            regClass(_tableView, cell: TopicDetailWebViewContentCell.self)
-            regClass(_tableView, cell: TopicDetailCommentCell.self)
-            regClass(_tableView, cell: BaseDetailTableViewCell.self)
-            
-            _tableView.delegate = self
-            _tableView.dataSource = self
-            return _tableView!;
-            
-        }
-    }
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.cancelEstimatedHeight()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
+        
+        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        regClass(tableView, cell: TopicDetailHeaderCell.self)
+        regClass(tableView, cell: TopicDetailWebViewContentCell.self)
+        regClass(tableView, cell: TopicDetailCommentCell.self)
+        regClass(tableView, cell: BaseDetailTableViewCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     /// 忽略帖子成功后 ，调用的闭包
     var ignoreTopicHandler : ((String) -> Void)?
     //点击右上角more按钮后，弹出的 activityView

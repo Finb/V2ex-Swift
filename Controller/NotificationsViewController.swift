@@ -12,26 +12,18 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
 
     fileprivate var notificationsArray:[NotificationsModel] = []
     
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.backgroundColor = UIColor.clear
-            _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
-            regClass(_tableView, cell: NotificationTableViewCell.self)
-            
-            _tableView.delegate = self;
-            _tableView.dataSource = self;
-            return _tableView!;
-            
-        }
-    }
-    
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = UIColor.clear
+        tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        regClass(tableView, cell: NotificationTableViewCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()

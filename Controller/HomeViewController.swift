@@ -35,30 +35,17 @@ class HomeViewController: UIViewController {
     }
     var currentPage = 0
     
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.cancelEstimatedHeight()
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
-            regClass(_tableView, cell: HomeTopicListTableViewCell.self);
-            
-            _tableView.delegate = self;
-            _tableView.dataSource = self;
-            return _tableView!;
-            
-        }
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
-    }
+    fileprivate lazy var tableView: UITableView  = {
+        let tableView = UITableView()
+        tableView.cancelEstimatedHeight()
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        regClass(tableView, cell: HomeTopicListTableViewCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +74,12 @@ class HomeViewController: UIViewController {
         self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = .panningCenterView
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        V2Client.sharedInstance.drawerController?.openDrawerGestureModeMask = []
     }
     func setupNavigationItem(){
         let leftButton = NotificationMenuButton()

@@ -36,30 +36,23 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     
     var backgroundImageView:UIImageView?
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.backgroundColor = UIColor.clear
-            _tableView.estimatedRowHeight=200;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
-            if #available(iOS 11.0, *) {
-                _tableView.contentInsetAdjustmentBehavior = .never
-            }
-            regClass(_tableView, cell: MemberHeaderCell.self)
-            regClass(_tableView, cell: MemberTopicCell.self)
-            regClass(_tableView, cell: MemberReplyCell.self)
-            
-            _tableView.delegate = self
-            _tableView.dataSource = self
-            return _tableView!;
-            
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = UIColor.clear
+        tableView.estimatedRowHeight = 200
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
         }
-    }
+        regClass(tableView, cell: MemberHeaderCell.self)
+        regClass(tableView, cell: MemberTopicCell.self)
+        regClass(tableView, cell: MemberReplyCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     fileprivate weak var _loadView:UIActivityIndicatorView?
     

@@ -23,27 +23,20 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         return frostedView;
     }()
     
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.backgroundColor = UIColor.clear
-            _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-            
-            regClass(self.tableView, cell: LeftUserHeadCell.self)
-            regClass(self.tableView, cell: LeftNodeTableViewCell.self)
-            regClass(self.tableView, cell: LeftNotifictionCell.self)
-            
-            _tableView.delegate = self;
-            _tableView.dataSource = self;
-            return _tableView!;
-            
-        }
-    }
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView();
+        tableView.backgroundColor = UIColor.clear
+        tableView.estimatedRowHeight=100;
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        regClass(tableView, cell: LeftUserHeadCell.self)
+        regClass(tableView, cell: LeftNodeTableViewCell.self)
+        regClass(tableView, cell: LeftNotifictionCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()

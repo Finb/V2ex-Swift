@@ -11,27 +11,20 @@ import UIKit
 /// 多账户管理
 class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate {
     fileprivate var users:[LocalSecurityAccountModel] = []
-    fileprivate var _tableView :UITableView!
-    fileprivate var tableView: UITableView {
-        get{
-            if(_tableView != nil){
-                return _tableView!;
-            }
-            _tableView = UITableView();
-            _tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-            _tableView.estimatedRowHeight=100;
-            _tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
-
-            regClass(_tableView, cell: BaseDetailTableViewCell.self);
-            regClass(_tableView, cell: AccountListTableViewCell.self);
-            regClass(_tableView, cell: LogoutTableViewCell.self)
-
-            _tableView.delegate = self;
-            _tableView.dataSource = self;
-            return _tableView!;
-
-        }
-    }
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        tableView.estimatedRowHeight = 100
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        regClass(tableView, cell: BaseDetailTableViewCell.self)
+        regClass(tableView, cell: AccountListTableViewCell.self)
+        regClass(tableView, cell: LogoutTableViewCell.self)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = NSLocalizedString("accounts")
