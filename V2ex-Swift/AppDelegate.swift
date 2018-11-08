@@ -82,8 +82,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
     
+    fileprivate var lastPasteString: String?
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        //如果剪切板内有 帖子URL ，则询问用户是否打开
+        if let pasteString = UIPasteboard.general.string {
+            guard lastPasteString != pasteString else {
+                return
+            }
+            self.lastPasteString = pasteString
+            
+            let result = AnalyzURLResultType(url: pasteString)
+            switch result {
+                
+            case .member(let member):
+                let controller = UIAlertController(title: "是否打开用户主页?", message: pasteString, preferredStyle: .alert)
+                controller.addAction(UIAlertAction(title: "打开", style: .default, handler: { (_) in
+                    member.run()
+                }))
+                controller.addAction(UIAlertAction(title: "忽略", style: .cancel, handler: nil))
+                V2Client.sharedInstance.centerNavigation?.present(controller, animated: true, completion: nil)
+                
+            case .topic(let topic):
+                let controller = UIAlertController(title: "是否打开帖子?", message: pasteString, preferredStyle: .alert)
+                controller.addAction(UIAlertAction(title: "打开", style: .default, handler: { (_) in
+                    topic.run()
+                }))
+                controller.addAction(UIAlertAction(title: "忽略", style: .cancel, handler: nil))
+                V2Client.sharedInstance.centerNavigation?.present(controller, animated: true, completion: nil)
+                
+            default : return
+            }
+        }
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
