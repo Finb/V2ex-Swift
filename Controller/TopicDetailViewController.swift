@@ -293,7 +293,9 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             }
         case .comment:
             let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
-            cell.bind(self.commentsArray[indexPath.row])
+            let comment = self.commentsArray[indexPath.row]
+            cell.bind(comment)
+            cell.isAuthor = self.model?.userName == comment.userName
             return cell
         case .other:
             return UITableViewCell();

@@ -25,6 +25,12 @@ class TopicDetailCommentCell: UITableViewCell{
         userNameLabel.font=v2Font(14)
         return userNameLabel
     }()
+    var authorLabel: UILabel = {
+        let authorLabel = UILabel()
+        authorLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+        authorLabel.font=v2Font(12)
+        return authorLabel
+    }()
     /// 日期 和 最后发送人
     var dateLabel: UILabel = {
         let dateLabel = UILabel()
@@ -67,6 +73,11 @@ class TopicDetailCommentCell: UITableViewCell{
     }()
     var itemModel:TopicCommentModel?
     
+    var isAuthor:Bool = false {
+        didSet {
+            self.authorLabel.text = isAuthor ? "• 楼主" : ""
+        }
+    }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
@@ -85,6 +96,7 @@ class TopicDetailCommentCell: UITableViewCell{
         self.contentView.addSubview(self.contentPanel);
         self.contentPanel.addSubview(self.avatarImageView);
         self.contentPanel .addSubview(self.userNameLabel);
+        self.contentPanel .addSubview(self.authorLabel);
         self.contentPanel.addSubview(self.favoriteIconView)
         self.contentPanel.addSubview(self.favoriteLabel)
         self.contentPanel.addSubview(self.dateLabel);
@@ -94,6 +106,7 @@ class TopicDetailCommentCell: UITableViewCell{
         
         self.avatarImageView.backgroundColor = self.contentPanel.backgroundColor
         self.userNameLabel.backgroundColor = self.contentPanel.backgroundColor
+        self.authorLabel.backgroundColor = self.contentPanel.backgroundColor
         self.dateLabel.backgroundColor = self.contentPanel.backgroundColor
         self.commentLabel.backgroundColor = self.contentPanel.backgroundColor
         self.favoriteIconView.backgroundColor = self.contentPanel.backgroundColor
@@ -126,9 +139,13 @@ class TopicDetailCommentCell: UITableViewCell{
             make.left.equalTo(self.avatarImageView.snp.right).offset(10);
             make.top.equalTo(self.avatarImageView);
         }
-        self.favoriteIconView.snp.makeConstraints{ (make) -> Void in
+        self.authorLabel.snp.makeConstraints{ (make) -> Void in
+            make.left.equalTo(self.userNameLabel.snp.right).offset(5);
             make.centerY.equalTo(self.userNameLabel);
-            make.left.equalTo(self.userNameLabel.snp.right).offset(10)
+        }
+        self.favoriteIconView.snp.makeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self.authorLabel);
+            make.left.equalTo(self.authorLabel.snp.right).offset(5)
             make.width.height.equalTo(10)
         }
         self.favoriteLabel.snp.makeConstraints{ (make) -> Void in
