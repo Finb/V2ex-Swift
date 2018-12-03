@@ -28,6 +28,9 @@ class AnalyzeURLHelper {
         case .topic(let topic):
             topic.run()
             
+        case .node(let node):
+            node.run()
+            
         case .undefined :
             return false
         }
@@ -43,17 +46,19 @@ enum AnalyzURLResultType {
     case member(MemberActionModel)
     /// 帖子链接
     case topic(TopicActionModel)
+    case node(NodeActionModel)
     /// 未定义
     case undefined
     
     private enum `Type` : Int {
-        case url, member, topic , undefined
+        case url, member, topic , node, undefined
     }
     
     private static let patterns = [
         "^(http|ftp|https):\\/\\/[\\w\\-_]+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;/~\\+#])?",
         "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/member/[a-zA-Z0-9_]+$",
         "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/t/[0-9]+",
+        "^(http:\\/\\/|https:\\/\\/)?(www\\.)?(v2ex.com)?/go/[a-zA-Z0-9_]+$"
         ]
     
     init(url:String) {
@@ -85,6 +90,10 @@ enum AnalyzURLResultType {
                     case .topic:
                         if let action = TopicActionModel(url: url) {
                             resultType = .topic(action)
+                        }
+                    case .node:
+                        if let action = NodeActionModel(url: url) {
+                            resultType = .node(action)
                         }
                         
                     default:break
@@ -155,6 +164,37 @@ struct TopicActionModel: AnalyzeURLActionProtocol {
         V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
     }
 }
+
+struct NodeActionModel: AnalyzeURLActionProtocol {
+    var nodeID:String
+    init?(url:String) {
+        if  let range = url.range(of: "/go/") {
+            var nodeID = url[range.upperBound...]
+            
+            if let range = nodeID.range(of: "?"){
+                nodeID = nodeID[..<range.lowerBound]
+            }
+            
+            if let range = nodeID.range(of: "#"){
+                nodeID = nodeID[..<range.lowerBound]
+            }
+            self.nodeID = String(nodeID)
+        }
+        else{
+            return nil;
+        }
+    }
+    func run() {
+        let node = NodeModel()
+        node.nodeId = self.nodeID
+        node.nodeName = self.nodeID
+        
+        let controller = NodeTopicListViewController()
+        controller.node = node
+        V2Client.sharedInstance.topNavigationController.pushViewController(controller, animated: true)
+    }
+}
+
 
 
 extension AnalyzeURLHelper {
