@@ -68,6 +68,8 @@
 		069839831C478ECC00FF7163 /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069839821C478ECC00FF7163 /* RightViewController.swift */; };
 		06A490681C67018E00F6A063 /* MyCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A490671C67018E00F6A063 /* MyCenterViewController.swift */; };
 		06A4907C1C67058800F6A063 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06A4907B1C67058800F6A063 /* Media.xcassets */; };
+		06B6447C21B8D10600D1BD46 /* TopicDetailToolCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B6447B21B8D10600D1BD46 /* TopicDetailToolCell.swift */; };
+		06B6447E21B8D1A600D1BD46 /* V2HitTestSlopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B6447D21B8D1A600D1BD46 /* V2HitTestSlopButton.swift */; };
 		06BA47CB1C59C95500CE2A0D /* V2LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */; };
 		06BB48EE1C56096000A4A909 /* V2EXMentionedBindingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BB48ED1C56096000A4A909 /* V2EXMentionedBindingParser.swift */; };
 		06BB48F01C56153A00A4A909 /* WritingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BB48EF1C56153A00A4A909 /* WritingViewController.swift */; };
@@ -177,6 +179,8 @@
 		069839821C478ECC00FF7163 /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
 		06A490671C67018E00F6A063 /* MyCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCenterViewController.swift; sourceTree = "<group>"; };
 		06A4907B1C67058800F6A063 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		06B6447B21B8D10600D1BD46 /* TopicDetailToolCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailToolCell.swift; sourceTree = "<group>"; };
+		06B6447D21B8D1A600D1BD46 /* V2HitTestSlopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V2HitTestSlopButton.swift; sourceTree = "<group>"; };
 		06BA47CA1C59C95500CE2A0D /* V2LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2LoadingView.swift; sourceTree = "<group>"; };
 		06BB48ED1C56096000A4A909 /* V2EXMentionedBindingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2EXMentionedBindingParser.swift; sourceTree = "<group>"; };
 		06BB48EF1C56153A00A4A909 /* WritingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WritingViewController.swift; sourceTree = "<group>"; };
@@ -355,6 +359,7 @@
 				0614FDC81CB371A600C3740A /* V2LeftAlignedCollectionViewFlowLayout.swift */,
 				0666E0EF1DBF49C0009A1F71 /* WebViewImageProtocol.swift */,
 				06E52F791E01326900E69084 /* JSTools.js */,
+				06B6447D21B8D1A600D1BD46 /* V2HitTestSlopButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -459,6 +464,7 @@
 				06C673491C4D20A0000F48DA /* TopicDetailHeaderCell.swift */,
 				06D33A5D1C4DF64B006CF3AE /* TopicDetailWebViewContentCell.swift */,
 				06536F581C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift */,
+				06B6447B21B8D10600D1BD46 /* TopicDetailToolCell.swift */,
 			);
 			name = Topic;
 			sourceTree = "<group>";
@@ -703,9 +709,11 @@
 				06536F591C4F4B5000CE2CF8 /* TopicDetailCommentCell.swift in Sources */,
 				06D0EE311C91787F003095FF /* FontSizeSliderTableViewCell.swift in Sources */,
 				06D0EE331C917E4C003095FF /* FontDisplayTableViewCell.swift in Sources */,
+				06B6447E21B8D1A600D1BD46 /* V2HitTestSlopButton.swift in Sources */,
 				0678D20C1C61EAA8007FFCFD /* UIImageView+Extension.swift in Sources */,
 				060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */,
 				064D37A81C53CB09002E7226 /* RightNodeTableViewCell.swift in Sources */,
+				06B6447C21B8D10600D1BD46 /* TopicDetailToolCell.swift in Sources */,
 				06E52F781E012A8000E69084 /* UIView+Extension.swift in Sources */,
 				064BD2651C880ADB00B55558 /* RelevantCommentsViewController.swift in Sources */,
 				068910D11C61A44D00D22B4F /* NodeTopicListViewController.swift in Sources */,
