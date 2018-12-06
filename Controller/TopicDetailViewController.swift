@@ -444,7 +444,8 @@ extension TopicDetailViewController: UIActionSheetDelegate {
     }
     @objc func relevantComment(_ row:NSNumber){
         let item = self.commentsArray[row as! Int]
-        let relevantComments = TopicCommentModel.getRelevantCommentsInArray(self.commentsArray, firstComment: item)
+        let sourceArr = self.commentSort == .asc ? self.commentsArray : self.commentsArray.reversed()
+        let relevantComments = TopicCommentModel.getRelevantCommentsInArray(sourceArr, firstComment: item)
         if relevantComments.count <= 0 {
             return;
         }
