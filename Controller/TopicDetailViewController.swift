@@ -334,10 +334,10 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
             case .other:
                 let cell = getCell(tableView, cell: TopicDetailToolCell.self, indexPath: indexPath)
                 cell.titleLabel.text = self.model?.topicCommentTotalCount
-                cell.sortButton.setTitle(self.commentSort == .asc ? "顺序" : "倒序", for: .normal)
+                cell.sortButton.setTitle(self.commentSort == .asc ? "顺序查看" : "倒序查看", for: .normal)
                 if cell.sortButtonClick == nil {
                     cell.sortButtonClick = {[weak self] sender in
-                        sender.setTitle("请稍后", for: .normal)
+                        sender.setTitle("正在加载", for: .normal)
                         self?.toggleSoryType()
                     }
                 }
