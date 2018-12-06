@@ -17,6 +17,14 @@ class TopicDetailViewController: BaseViewController{
     fileprivate var commentsArray:[TopicCommentModel] = []
     fileprivate var webViewContentCell:TopicDetailWebViewContentCell?
     
+    fileprivate enum Order {
+        case asc
+        case desc
+    }
+    
+    //评论排序
+    fileprivate var commentSort = Order.asc
+    
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
@@ -27,6 +35,7 @@ class TopicDetailViewController: BaseViewController{
         regClass(tableView, cell: TopicDetailWebViewContentCell.self)
         regClass(tableView, cell: TopicDetailCommentCell.self)
         regClass(tableView, cell: BaseDetailTableViewCell.self)
+        regClass(tableView, cell: TopicDetailToolCell.self)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -76,6 +85,7 @@ class TopicDetailViewController: BaseViewController{
                 if let aModel = response.value!.0{
                     self.model = aModel
                 }
+                self.commentSort = .asc
                 
                 self.commentsArray = response.value!.1
                 
@@ -126,31 +136,70 @@ class TopicDetailViewController: BaseViewController{
      获取下一页评论，如果有的话
      */
     func getNextPage(){
-        if self.model == nil || self.commentsArray.count <= 0 {
+        if self.model == nil{
             self.endRefreshingWithNoDataAtAll()
             return;
         }
-        self.currentPage += 1
+        if self.commentSort == .asc {
+            self.currentPage += 1
+        }
+        else{
+            self.currentPage -= 1
+        }
         
-        if self.model == nil || self.currentPage > self.model!.commentTotalPages {
+        if self.model == nil
+            || self.currentPage > self.model!.commentTotalPages
+            || self.currentPage <= 0 {
             self.endRefreshingWithNoMoreData()
             return;
         }
         
         TopicDetailModel.getTopicCommentsById(self.topicId, page: self.currentPage) { (response) -> Void in
             if response.success {
-                self.commentsArray += response.value!
+                if self.needsClearOldComments {
+                    self.needsClearOldComments = false
+                    self.commentsArray.removeAll()
+                }
+                var arr = response.value!
+                if self.commentSort == .desc {
+                    arr = arr.reversed()
+                    if self.currentPage == 0 {
+                        self.endRefreshingWithNoMoreData()
+                    }
+                }
+                else {
+                    if self.currentPage == self.model?.commentTotalPages {
+                        self.endRefreshingWithNoMoreData()
+                    }
+                }
+                self.commentsArray += arr
                 self.tableView.reloadData()
                 self.tableView.mj_footer.endRefreshing()
-                
-                if self.currentPage == self.model?.commentTotalPages {
-                    self.endRefreshingWithNoMoreData()
-                }
             }
             else{
                 self.currentPage -= 1
             }
         }
+    }
+    
+    var needsClearOldComments = false;
+    func toggleSoryType(){
+        guard self.model != nil
+            && !self.tableView.mj_footer.isRefreshing
+            && !self.tableView.mj_header.isRefreshing
+            else {
+            return
+        }
+        self.commentSort = self.commentSort == .asc ? .desc : .asc;
+        if self.commentSort == .asc {
+            self.currentPage = 0
+        }
+        else {
+            self.currentPage = self.model!.commentTotalPages + 1;
+        }
+        self.tableView.mj_footer.resetNoMoreData()
+        needsClearOldComments = true
+        self.getNextPage()
     }
     
     /**
@@ -283,12 +332,15 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 }
                 return self.webViewContentCell!
             case .other:
-                let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
-                cell.detailMarkHidden = true
+                let cell = getCell(tableView, cell: TopicDetailToolCell.self, indexPath: indexPath)
                 cell.titleLabel.text = self.model?.topicCommentTotalCount
-                cell.titleLabel.font = v2Font(12)
-                cell.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-                cell.separator.image = createImageWithColor(self.view.backgroundColor!)
+                cell.sortButton.setTitle(self.commentSort == .asc ? "顺序" : "倒序", for: .normal)
+                if cell.sortButtonClick == nil {
+                    cell.sortButtonClick = {[weak self] sender in
+                        sender.setTitle("请稍后", for: .normal)
+                        self?.toggleSoryType()
+                    }
+                }
                 return cell
             }
         case .comment:
