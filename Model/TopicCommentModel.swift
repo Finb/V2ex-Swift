@@ -210,9 +210,14 @@ extension TopicCommentModel {
                         if let jiHtml = response .result.value{
                             V2User.sharedInstance.once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
                         }
-                        return
                     }
-                    completionHandler(V2Response(success: false,message: "请求失败"))
+                    else if let problems = response.result.value?.xPath("//*[@class='problem']/ul/li") {
+                        let problemStr = problems.map{ $0.content ?? "" }.joined(separator: "\n")
+                        completionHandler(V2Response(success: false,message: problemStr))
+                    }
+                    else{
+                        completionHandler(V2Response(success: false,message: "请求失败"))
+                    }
                 }
             }
             else{
