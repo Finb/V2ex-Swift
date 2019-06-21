@@ -188,7 +188,8 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
 extension TopicCommentModel {
     class func replyWithTopicId(_ topic:TopicDetailModel, content:String,
                                 completionHandler: @escaping (V2Response) -> Void){
-        let url = V2EXURL + "t/" + topic.topicId!
+        let requestPath = "t/" + topic.topicId!
+        let url = V2EXURL + requestPath
         
         V2User.sharedInstance.getOnce(url) { (response) -> Void in
             if response.success {
@@ -198,25 +199,20 @@ extension TopicCommentModel {
                 ] as [String:Any]
                 
                 Alamofire.request(url, method: .post, parameters: prames, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-                    if let location = response.response?.allHeaderFields["Etag"] as? String{
-                        if location.Lenght > 0 {
-                            completionHandler(V2Response(success: true))
-                        }
-                        else {
-                            completionHandler(V2Response(success: false, message: "回帖失败"))
-                        }
-                        
-                        //不管成功还是失败，更新一下once
-                        if let jiHtml = response .result.value{
-                            V2User.sharedInstance.once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
-                        }
+                    let url = response.response?.url
+                    if url?.path.hasSuffix(requestPath) == true && url?.fragment?.hasPrefix("reply") == true{   
+                       completionHandler(V2Response(success: true))
                     }
                     else if let problems = response.result.value?.xPath("//*[@class='problem']/ul/li") {
-                        let problemStr = problems.map{ $0.content ?? "" }.joined(separator: "\n")
+                        let problemStr = problems.map{ $0.content ?? "回帖失败" }.joined(separator: "\n")
                         completionHandler(V2Response(success: false,message: problemStr))
                     }
                     else{
                         completionHandler(V2Response(success: false,message: "请求失败"))
+                    }
+                    //不管成功还是失败，更新一下once
+                    if let jiHtml = response .result.value{
+                        V2User.sharedInstance.once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
                     }
                 }
             }
