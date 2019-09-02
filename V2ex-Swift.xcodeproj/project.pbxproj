@@ -58,6 +58,7 @@
 		0684A1EA1C5B608D00B12437 /* NotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684A1E91C5B608D00B12437 /* NotificationsModel.swift */; };
 		068910D11C61A44D00D22B4F /* NodeTopicListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068910D01C61A44D00D22B4F /* NodeTopicListViewController.swift */; };
 		068DF8211C803A38008FC29D /* V2PhotoBrowserSwipeInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068DF8201C803A38008FC29D /* V2PhotoBrowserSwipeInteractiveTransition.swift */; };
+		0691BC7A231CC00000A84E92 /* TopicApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0691BC79231CC00000A84E92 /* TopicApi.swift */; };
 		069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069508E31C3F74FF0088D031 /* AppDelegate.swift */; };
 		069508EB1C3F74FF0088D031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069508EA1C3F74FF0088D031 /* Assets.xcassets */; };
 		069508EE1C3F74FF0088D031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069508EC1C3F74FF0088D031 /* LaunchScreen.storyboard */; };
@@ -166,6 +167,7 @@
 		0684A1E91C5B608D00B12437 /* NotificationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsModel.swift; sourceTree = "<group>"; };
 		068910D01C61A44D00D22B4F /* NodeTopicListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTopicListViewController.swift; sourceTree = "<group>"; };
 		068DF8201C803A38008FC29D /* V2PhotoBrowserSwipeInteractiveTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2PhotoBrowserSwipeInteractiveTransition.swift; sourceTree = "<group>"; };
+		0691BC79231CC00000A84E92 /* TopicApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicApi.swift; sourceTree = "<group>"; };
 		069508E01C3F74FF0088D031 /* V2ex-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "V2ex-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		069508E31C3F74FF0088D031 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		069508EA1C3F74FF0088D031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				0620DA02214F56FC00761FBB /* TopicListApi.swift */,
+				0691BC79231CC00000A84E92 /* TopicApi.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				06D300241C6C21B600547CE6 /* AccountsManagerViewController.swift in Sources */,
+				0691BC7A231CC00000A84E92 /* TopicApi.swift in Sources */,
 				0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
 				0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */,

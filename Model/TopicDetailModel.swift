@@ -157,18 +157,19 @@ extension TopicDetailModel {
      感谢主题
      */
     class func topicThankWithTopicId(_ topicId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
-        let url  = V2EXURL + "thank/topic/" + topicId + "?t=" + token
-        Alamofire.request(url, method: .post, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
-            if response.result.isSuccess {
-                if let result = response.result.value {
-                    if result.Lenght == 0 {
-                        completionHandler(V2Response(success: true))
-                        return;
-                    }
-                }
+        
+        _ = TopicApi.provider.requestAPI(.thankTopic(topicId: topicId, once: token))
+            .filterResponseError().subscribe(onNext: { (response) in
+            if response["success"].boolValue {
+                completionHandler(V2Response(success: true))
             }
+            else{
+                completionHandler(V2Response(success: false, message: response["message"].rawString() ?? ""))
+            }
+        }, onError: { (error) in
             completionHandler(V2Response(success: false))
-        }
+        })
+        
     }
     
     /**

@@ -223,18 +223,18 @@ extension TopicCommentModel {
     }
     
     class func replyThankWithReplyId(_ replyId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
-        let url  = V2EXURL + "thank/reply/" + replyId + "?t=" + token
-        Alamofire.request(url, method: .post, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
-            if response.result.isSuccess {
-                if let result = response.result.value {
-                    if result.Lenght == 0 {
-                        completionHandler(V2Response(success: true))
-                        return;
-                    }
-                }
+        
+        _ = TopicApi.provider.requestAPI(.thankReply(replyId: replyId, once: token))
+            .filterResponseError().subscribe(onNext: { (response) in
+            if response["success"].boolValue {
+                completionHandler(V2Response(success: true))
             }
+            else{
+                completionHandler(V2Response(success: false))
+            }
+        }, onError: { (error) in
             completionHandler(V2Response(success: false))
-        }
+        })
     }
 }
 

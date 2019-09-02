@@ -429,16 +429,22 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         }
         item.favorites += 1
         self.tableView.reloadRows(at: [IndexPath(row: row as! Int, section: 1)], with: .none)
-        
-        TopicCommentModel.replyThankWithReplyId(item.replyId!, token: self.model!.token!) {
-            [weak item, weak self](response) in
-            if response.success {
+        V2User.sharedInstance.getOnce { (response) -> Void in
+            if response.success , let once = V2User.sharedInstance.once {
+                TopicCommentModel.replyThankWithReplyId(item.replyId!, token:once ) {
+                    [weak item, weak self](response) in
+                    if response.success {
+                    }
+                    else{
+                        V2Error("感谢失败了")
+                        //失败后 取消增加的数量
+                        item?.favorites -= 1
+                        self?.tableView.reloadRows(at: [IndexPath(row: row as! Int, section: 1)], with: .none)
+                    }
+                }
             }
             else{
-                V2Error("感谢失败了")
-                //失败后 取消增加的数量
-                item?.favorites -= 1
-                self?.tableView.reloadRows(at: [IndexPath(row: row as! Int, section: 1)], with: .none)
+                V2Error("获取 once 失败")
             }
         }
     }
@@ -535,16 +541,23 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             }
         case .grade:
             V2BeginLoading()
-            if let topicId = self.model?.topicId ,let token = self.model?.token {
-                TopicDetailModel.topicThankWithTopicId(topicId, token: token, completionHandler: { (response) -> Void in
-                    if response.success {
-                        V2Success("成功送了一波铜币")
-                    }
-                    else{
-                        V2Error("没感谢成功，再试一下吧")
-                    }
-                })
+            
+            V2User.sharedInstance.getOnce { (response) -> Void in
+                if response.success , let once = V2User.sharedInstance.once {
+                    TopicDetailModel.topicThankWithTopicId(self.model?.topicId ?? "", token: once, completionHandler: { (response) -> Void in
+                        if response.success {
+                            V2Success("成功送了一波铜币")
+                        }
+                        else{
+                            V2Error(response.message)
+                        }
+                    })
+                }
+                else{
+                    V2Error("获取 once 失败")
+                }
             }
+
         case .share:
             let shareUrl = NSURL.init(string: V2EXURL + "t/" + self.model!.topicId!)
             let shareArr:NSArray = [shareUrl!]
