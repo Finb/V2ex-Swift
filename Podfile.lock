@@ -7,7 +7,7 @@ PODS:
   - Crashlytics (3.11.0):
     - Fabric (~> 1.8.0)
   - CXSwipeGestureRecognizer (1.0.2)
-  - DeviceKit (1.9.0)
+  - DeviceKit (2.3.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
     - DrawerController/DrawerVisualStates (= 4.0.0)
@@ -72,7 +72,6 @@ SPEC REPOS:
     - AlamofireObjectMapper
     - Crashlytics
     - CXSwipeGestureRecognizer
-    - DeviceKit
     - DrawerController
     - Fabric
     - FDFullscreenPopGesture
@@ -91,6 +90,7 @@ SPEC REPOS:
     - SVProgressHUD
     - YYText
   trunk:
+    - DeviceKit
     - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -99,7 +99,7 @@ SPEC CHECKSUMS:
   AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
   Crashlytics: 1448070c1d2731ab71ea7c3faf84ac0f69657287
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
-  DeviceKit: a376cb3d0dda0c27c81dcc0d2b7b8600b6802065
+  DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0

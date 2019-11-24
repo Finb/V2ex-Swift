@@ -56,21 +56,9 @@ func v2ScaleFont(_ fontSize: CGFloat) -> UIFont{
 
 
 extension UIDevice {
-    var isIphoneX:Bool {
+    var isIphoneX: Bool {
         get {
-            let device = Device()
-            if device.isOneOf([
-                Device.iPhoneX,
-                Device.simulator(.iPhoneX),
-                .iPhoneXs,
-                Device.simulator(.iPhoneXs),
-                .iPhoneXr,
-                Device.simulator(.iPhoneXr),
-                .iPhoneXsMax,
-                Device.simulator(.iPhoneXsMax)]) {
-                return true
-            }
-            return false
+            return Device.current.isOneOf(Device.allXSeriesDevices + Device.allSimulatorXSeriesDevices)
         }
     }
 }
