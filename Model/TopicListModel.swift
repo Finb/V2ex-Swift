@@ -102,8 +102,8 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
         if let title = self.topicTitle {
             self.topicTitleAttributedString = NSMutableAttributedString(string: title,
                 attributes: [
-                    NSAttributedStringKey.font:v2Font(17),
-                    NSAttributedStringKey.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor,
+                    NSAttributedString.Key.font:v2Font(17),
+                    NSAttributedString.Key.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor,
                 ])
             self.topicTitleAttributedString?.yy_lineSpacing = 3
 

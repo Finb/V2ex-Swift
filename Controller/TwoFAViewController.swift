@@ -23,7 +23,7 @@ class TwoFAViewController: UIViewController ,UITextFieldDelegate{
         
         self.cancelButton.addTarget(self, action: #selector(cancelClick), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -188,7 +188,7 @@ extension TwoFAViewController {
         }
         
         self.cancelButton.contentMode = .center
-        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: .normal)
         vibrancyView.contentView.addSubview(cancelButton)
         cancelButton.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(footLabel)

@@ -15,8 +15,8 @@ class MyCenterViewController: MemberViewController {
         
         self.settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         self.settingsButton!.contentMode = .center
-        self.settingsButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20)
-        self.settingsButton!.setImage(UIImage.imageUsedTemplateMode("ic_supervisor_account")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        self.settingsButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20)
+        self.settingsButton!.setImage(UIImage.imageUsedTemplateMode("ic_supervisor_account")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.settingsButton!)
         self.settingsButton!.addTarget(self, action: #selector(MyCenterViewController.accountManagerClick), for: .touchUpInside)
         self.settingsButton!.isHidden = true

@@ -22,7 +22,7 @@ import UIKit
     /**
      引导动画的ContentMode
      */
-    func guideContentModeInPhotoBrowser(_ photoBrowser:V2PhotoBrowser, index:Int) -> UIViewContentMode
+    func guideContentModeInPhotoBrowser(_ photoBrowser:V2PhotoBrowser, index:Int) -> UIView.ContentMode
     /**
      引导动画在window上的位置
      */

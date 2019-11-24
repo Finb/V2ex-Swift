@@ -33,7 +33,7 @@ class V2FPSLabel: UILabel {
         self.font = UIFont(name: "Menlo", size: 14)
         weak var weakSelf = self
         _link = CADisplayLink(target: weakSelf!, selector:#selector(V2FPSLabel.tick(_:)) );
-        _link!.add(to: RunLoop.main, forMode:RunLoopMode.commonModes)
+        _link!.add(to: RunLoop.main, forMode:RunLoop.Mode.common)
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

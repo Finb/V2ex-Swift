@@ -79,8 +79,8 @@ class V2EXNavigationController: UINavigationController {
             self?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
             
             self?.navigationBar.titleTextAttributes = [
-                NSAttributedStringKey.font : v2Font(18),
-                NSAttributedStringKey.foregroundColor : V2EXColor.colors.v2_TopicListTitleColor
+                NSAttributedString.Key.font : v2Font(18),
+                NSAttributedString.Key.foregroundColor : V2EXColor.colors.v2_TopicListTitleColor
             ]
             
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {

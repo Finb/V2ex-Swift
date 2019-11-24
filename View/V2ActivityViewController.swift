@@ -114,9 +114,9 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         }
         
         let cancelButton = UIButton()
-        cancelButton.setTitle(NSLocalizedString("cancel2"), for: UIControlState())
+        cancelButton.setTitle(NSLocalizedString("cancel2"), for: .normal)
         cancelButton.titleLabel?.font = v2Font(18)
-        cancelButton.setTitleColor(V2EXColor.colors.v2_TopicListTitleColor, for: UIControlState())
+        cancelButton.setTitleColor(V2EXColor.colors.v2_TopicListTitleColor, for: .normal)
         cancelPanel.addSubview(cancelButton)
         cancelButton.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(cancelPanel)
@@ -214,7 +214,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         let activity = dataSource?.V2ActivityView(self, ActivityAtIndexPath: IndexPath(row: index, section: currentSection))
         
         let button = V2ActivityButton()
-        button.setImage(activity?.image.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        button.setImage(activity?.image.withRenderingMode(.alwaysTemplate), for: .normal)
         cellView.addSubview(button)
         button.tintColor = V2EXColor.colors.v2_TopicListUserNameColor
         button.snp.makeConstraints{ (make) -> Void in
@@ -276,7 +276,7 @@ class V2ActivityTransionPresent:NSObject,UIViewControllerAnimatedTransitioning {
         container.addSubview(toVC!.view)
 
         toVC?.view.frame = CGRect(x: 0, y: SCREEN_HEIGHT, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 7, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 7, options: UIView.AnimationOptions.curveLinear, animations: { () -> Void in
             toVC?.view.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
             tempView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98);
             }) { (finished: Bool) -> Void in

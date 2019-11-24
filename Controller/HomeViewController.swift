@@ -38,7 +38,7 @@ class HomeViewController: UIViewController {
     fileprivate lazy var tableView: UITableView  = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         
         regClass(tableView, cell: HomeTopicListTableViewCell.self)
         
@@ -53,8 +53,8 @@ class HomeViewController: UIViewController {
         self.setupNavigationItem()
         
         //监听程序即将进入前台运行、进入后台休眠 事件
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -90,8 +90,8 @@ class HomeViewController: UIViewController {
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
+        rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), for: .touchUpInside)
 
@@ -230,14 +230,14 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     }
     
     @objc func ignoreTopicHandler(_ topicId:String) {
-        let index = self.topicList?.index(where: {$0.topicId == topicId })
+        let index = self.topicList?.firstIndex(where: {$0.topicId == topicId })
         if index == nil {
             return
         }
         
         //看当前忽略的cell 是否在可视列表里
         let indexPaths = self.tableView.indexPathsForVisibleRows
-        let visibleIndex =  indexPaths?.index(where: {($0 as IndexPath).row == index})
+        let visibleIndex =  indexPaths?.firstIndex(where: {($0 as IndexPath).row == index})
         
         self.topicList?.remove(at: index!)
         //如果不在可视列表，则直接reloadData 就可以

@@ -54,7 +54,7 @@ class V2RefreshFooter: MJRefreshAutoFooter {
         super.prepare()
         self.mj_h = 50
         
-        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        self.loadingView = UIActivityIndicatorView(style: .white)
         self.addSubview(self.loadingView!)
         
         self.stateLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 40))
@@ -66,11 +66,11 @@ class V2RefreshFooter: MJRefreshAutoFooter {
         
         self.themeChangedHandler = {[weak self] (style) -> Void in
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.loadingView?.activityIndicatorViewStyle = .gray
+                self?.loadingView?.style = .gray
                 self?.stateLabel!.textColor = UIColor(white: 0, alpha: 0.3)
             }
             else{
-                self?.loadingView?.activityIndicatorViewStyle = .white
+                self?.loadingView?.style = .white
                 self?.stateLabel!.textColor = UIColor(white: 1, alpha: 0.3)
             }
         }

@@ -39,7 +39,7 @@ class RelevantCommentsViewControllerTransionPresent:NSObject,UIViewControllerAni
         container.addSubview(toVC.view)
         toVC.view.alpha = 0
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: { () -> Void in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: UIView.AnimationOptions.curveEaseIn, animations: { () -> Void in
             
             toVC.view.alpha = 1
             
@@ -58,12 +58,12 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
         tableView.backgroundColor = UIColor.clear
-        tableView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0)
+        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
         regClass(tableView, cell: TopicDetailCommentCell.self)
         
         tableView.delegate = self
@@ -124,7 +124,7 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
             make.top.equalTo(self.view)
         }
         
-        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 8, options: UIViewAnimationOptions.curveLinear, animations: { () -> Void in
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 8, options: UIView.AnimationOptions.curveLinear, animations: { () -> Void in
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
@@ -157,7 +157,7 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         //下拉关闭
         if scrollView.contentOffset.y <= -100 {
             //让scrollView 不弹跳回来
-            scrollView.contentInset = UIEdgeInsetsMake(-1 * scrollView.contentOffset.y, 0, 0, 0)
+            scrollView.contentInset = UIEdgeInsets(top: -1 * scrollView.contentOffset.y, left: 0, bottom: 0, right: 0)
             scrollView.isScrollEnabled = false
             self.navigationController!.dismiss(animated: true, completion: nil)
             self.dismissing = true

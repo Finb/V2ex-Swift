@@ -37,7 +37,7 @@ class NodeTopicListViewController: BaseViewController ,UITableViewDataSource,UIT
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
         tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         
         regClass(tableView, cell: HomeTopicListTableViewCell.self)
         
@@ -186,7 +186,7 @@ extension NodeTopicListViewController {
     
     func refreshButtonImage() {
         let followImage = self.favorited == true ? UIImage(named: "ic_favorite")! : UIImage(named: "ic_favorite_border")!
-        self.followButton?.setImage(followImage.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        self.followButton?.setImage(followImage.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     @objc func toggleFavoriteState(){

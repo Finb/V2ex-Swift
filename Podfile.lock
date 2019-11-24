@@ -7,7 +7,7 @@ PODS:
   - Crashlytics (3.11.0):
     - Fabric (~> 1.8.0)
   - CXSwipeGestureRecognizer (1.0.2)
-  - DeviceKit (1.9.0)
+  - DeviceKit (2.3.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
     - DrawerController/DrawerVisualStates (= 4.0.0)
@@ -38,7 +38,7 @@ PODS:
   - Shimmer (1.0.2)
   - SnapKit (4.2.0)
   - SVProgressHUD (2.2.5)
-  - SwiftyJSON (3.1.4)
+  - SwiftyJSON (4.3.0)
   - YYText (1.0.7)
 
 DEPENDENCIES:
@@ -62,17 +62,16 @@ DEPENDENCIES:
   - Shimmer
   - SnapKit
   - SVProgressHUD
-  - SwiftyJSON (~> 3.1.4)
+  - SwiftyJSON (~> 4.3)
   - YYText
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - 1PasswordExtension
     - Alamofire
     - AlamofireObjectMapper
     - Crashlytics
     - CXSwipeGestureRecognizer
-    - DeviceKit
     - DrawerController
     - Fabric
     - FDFullscreenPopGesture
@@ -89,8 +88,10 @@ SPEC REPOS:
     - Shimmer
     - SnapKit
     - SVProgressHUD
-    - SwiftyJSON
     - YYText
+  trunk:
+    - DeviceKit
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
@@ -98,7 +99,7 @@ SPEC CHECKSUMS:
   AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
   Crashlytics: 1448070c1d2731ab71ea7c3faf84ac0f69657287
   CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
-  DeviceKit: a376cb3d0dda0c27c81dcc0d2b7b8600b6802065
+  DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
@@ -115,9 +116,9 @@ SPEC CHECKSUMS:
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 3bebd54be53fb9da8f92c4319385674751ea6a12
+PODFILE CHECKSUM: ff32889a60228af4dcf2932fee3a4b741f96860b
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4

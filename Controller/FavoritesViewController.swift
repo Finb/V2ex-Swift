@@ -17,7 +17,7 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
         tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         
         regClass(tableView, cell: HomeTopicListTableViewCell.self)
         

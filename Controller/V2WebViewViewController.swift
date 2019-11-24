@@ -15,7 +15,7 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
     var webView:WKWebView?
     var closeButton:UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("关闭", for: UIControlState())
+        button.setTitle("关闭", for: .normal)
         button.contentHorizontalAlignment = .left
         button.titleLabel?.font = v2Font(14)
         button.isHidden = true
@@ -39,20 +39,20 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         let backbtn = UIButton(type: .custom)
-        backbtn.setTitle("返回", for: UIControlState())
+        backbtn.setTitle("返回", for: .normal)
         backbtn.frame = CGRect(x: 0, y: 0, width: 35, height: 44)
         backbtn.imageView!.contentMode = .center;
-        backbtn.setImage(UIImage.imageUsedTemplateMode("ic_keyboard_arrow_left_36pt"), for: UIControlState())
-        backbtn.imageEdgeInsets = UIEdgeInsetsMake(0, -21, 0, 0)
-        backbtn.titleEdgeInsets = UIEdgeInsetsMake(0, -31, 0, 0)
+        backbtn.setImage(UIImage.imageUsedTemplateMode("ic_keyboard_arrow_left_36pt"), for: .normal)
+        backbtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: -21, bottom: 0, right: 0)
+        backbtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: -31, bottom: 0, right: 0)
         backbtn.titleLabel?.font = v2Font(14)
-        backbtn.setTitleColor(self.navigationController?.navigationBar.tintColor, for: UIControlState())
+        backbtn.setTitleColor(self.navigationController?.navigationBar.tintColor, for: .normal)
         backbtn.contentHorizontalAlignment = .left
         
         backbtn.addTarget(self, action: #selector(V2WebViewViewController.back), for: .touchUpInside)
 
         self.closeButton.frame = CGRect(x: 40, y: 0, width: 35, height: 44)
-        self.closeButton.setTitleColor(self.navigationController?.navigationBar.tintColor, for: UIControlState())
+        self.closeButton.setTitleColor(self.navigationController?.navigationBar.tintColor, for: .normal)
         self.closeButton.addTarget(self, action: #selector(V2WebViewViewController.pop), for: .touchUpInside)
         
         leftBarButtonsPanelView.addSubview(backbtn)
@@ -61,8 +61,8 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
+        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(V2WebViewViewController.rightClick), for: .touchUpInside)
         

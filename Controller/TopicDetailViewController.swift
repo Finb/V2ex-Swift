@@ -28,7 +28,7 @@ class TopicDetailViewController: BaseViewController{
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
+        tableView.separatorStyle = .none;
         
         tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         regClass(tableView, cell: TopicDetailHeaderCell.self)
@@ -59,8 +59,8 @@ class TopicDetailViewController: BaseViewController{
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -15)
-        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
+        rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), for: .touchUpInside)
         
@@ -562,7 +562,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             let shareUrl = NSURL.init(string: V2EXURL + "t/" + self.model!.topicId!)
             let shareArr:NSArray = [shareUrl!]
             let activityController = UIActivityViewController.init(activityItems: shareArr as [AnyObject], applicationActivities: nil)
-            activityController.excludedActivityTypes = [UIActivityType.airDrop]
+            activityController.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
             self.navigationController?.present(activityController, animated: true, completion: nil)
         case .explore:
             UIApplication.shared.openURL(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)

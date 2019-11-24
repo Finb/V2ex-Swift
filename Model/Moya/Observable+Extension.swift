@@ -54,7 +54,12 @@ extension Observable where Element: Moya.Response {
     func filterResponseError() -> Observable<JSON> {
         return filterHttpError().map({ (response) -> JSON in
             
-            let json = JSON(data: response.data)
+            var json: JSON
+            do {
+                json = try JSON(data: response.data)
+            } catch {
+                json = JSON(NSNull())
+            }
             var code = 200
             var msg = ""
             if let codeStr = json["code"].rawString(), let c = Int(codeStr)  {

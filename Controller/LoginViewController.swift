@@ -327,7 +327,7 @@ extension LoginViewController {
         }
         self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
         
-        self.loginButton.setTitle("登  录", for: UIControlState())
+        self.loginButton.setTitle("登  录", for: .normal)
         self.loginButton.titleLabel!.font = v2Font(20)
         self.loginButton.layer.cornerRadius = 3;
         self.loginButton.layer.borderWidth = 0.5
@@ -366,7 +366,7 @@ extension LoginViewController {
         }
 
         self.cancelButton.contentMode = .center
-        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        cancelButton .setImage(UIImage(named: "ic_cancel")!.withRenderingMode(.alwaysTemplate), for: .normal)
         vibrancyView.contentView.addSubview(cancelButton)
         cancelButton.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(footLabel)

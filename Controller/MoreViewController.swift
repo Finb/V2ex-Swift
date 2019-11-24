@@ -14,7 +14,7 @@ class MoreViewController: UITableViewController {
         
         self.title = NSLocalizedString("more")
         
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none;
+        self.tableView.separatorStyle = .none;
         regClass(self.tableView, cell: BaseDetailTableViewCell.self)
         
         self.themeChangedHandler = {[weak self] (style) -> Void in
