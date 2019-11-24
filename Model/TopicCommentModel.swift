@@ -125,7 +125,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         for element in nodes {
             
             let urlHandler: (_ attributedString:NSMutableAttributedString, _ url:String, _ url:String)->() = {attributedString,title,url in
-                let attr = NSMutableAttributedString(string: title ,attributes: [NSAttributedStringKey.font:v2ScaleFont(14)])
+                let attr = NSMutableAttributedString(string: title ,attributes: [NSAttributedString.Key.font:v2ScaleFont(14)])
                 attr.yy_setTextHighlight(NSMakeRange(0, title.Lenght),
                                          color: V2EXColor.colors.v2_LinkColor,
                                          backgroundColor: UIColor(white: 0.95, alpha: 1),
@@ -140,7 +140,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             }
             
             if element.name == "text" , let content = element.content{//普通文本
-                commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSAttributedStringKey.font:v2ScaleFont(14) , NSAttributedStringKey.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor]))
+                commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSAttributedString.Key.font:v2ScaleFont(14) , NSAttributedString.Key.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor]))
                 commentAttributedString.yy_lineSpacing = 5
             }
                 
@@ -178,7 +178,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             }
             else if let content = element.content{//其他
                 
-                commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSAttributedStringKey.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor]))
+                commentAttributedString.append(NSMutableAttributedString(string: content,attributes: [NSAttributedString.Key.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor]))
             }
         }
     }
@@ -298,7 +298,7 @@ extension TopicCommentModel {
         
         //获取到所有YYTextHighlight ，用以之后获取 这条评论@了多少用户
         var textHighlights:[YYTextHighlight] = []
-        comment.textAttributedString!.enumerateAttribute(NSAttributedStringKey(rawValue: YYTextHighlightAttributeName), in: NSMakeRange(0, comment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
+        comment.textAttributedString!.enumerateAttribute(NSAttributedString.Key(rawValue: YYTextHighlightAttributeName), in: NSMakeRange(0, comment.textAttributedString!.length), options: []) { (attribute, range, stop) -> Void in
             if let highlight = attribute as? YYTextHighlight {
                 textHighlights.append(highlight)
             }

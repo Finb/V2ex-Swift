@@ -12,7 +12,7 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 头像
    var avatarImageView: UIImageView = {
         let imageview = UIImageView();
-        imageview.contentMode=UIViewContentMode.scaleAspectFit;
+        imageview.contentMode=UIView.ContentMode.scaleAspectFit;
         imageview.layer.cornerRadius = 3;
         imageview.layer.masksToBounds = true;
         return imageview
@@ -64,7 +64,7 @@ class TopicDetailHeaderCell: UITableViewCell {
     weak var itemModel:TopicDetailModel?
     var nodeClickHandler:(() -> Void)?
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
     }

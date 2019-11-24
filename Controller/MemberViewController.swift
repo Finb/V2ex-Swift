@@ -40,7 +40,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         let tableView = UITableView()
         tableView.backgroundColor = UIColor.clear
         tableView.estimatedRowHeight = 200
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
@@ -86,7 +86,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         self.navigationItem.titleView = self.titleView!
         
         
-        let aloadView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        let aloadView = UIActivityIndicatorView(style: .white)
         self.view.addSubview(aloadView)
         aloadView.startAnimating()
         aloadView.snp.makeConstraints{ (make) -> Void in
@@ -338,8 +338,8 @@ extension MemberViewController{
     func refreshButtonImage() {
         let blockImage = self.model?.blockState == .blocked ? UIImage(named: "ic_visibility_off")! : UIImage(named: "ic_visibility")!
         let followImage = self.model?.followState == .followed ? UIImage(named: "ic_favorite")! : UIImage(named: "ic_favorite_border")!
-        self.blockButton?.setImage(blockImage.withRenderingMode(.alwaysTemplate), for: UIControlState())
-        self.followButton?.setImage(followImage.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        self.blockButton?.setImage(blockImage.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.followButton?.setImage(followImage.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     @objc func toggleFollowState(){

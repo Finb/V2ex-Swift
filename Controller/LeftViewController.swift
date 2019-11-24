@@ -27,7 +27,7 @@ class LeftViewController: UIViewController,UITableViewDataSource,UITableViewDele
         let tableView = UITableView();
         tableView.backgroundColor = UIColor.clear
         tableView.estimatedRowHeight=100;
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         
         regClass(tableView, cell: LeftUserHeadCell.self)
         regClass(tableView, cell: LeftNodeTableViewCell.self)

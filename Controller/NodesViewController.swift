@@ -16,7 +16,7 @@ class NodesViewController: BaseViewController {
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         let layout = V2LeftAlignedCollectionViewFlowLayout();
-        layout.sectionInset = UIEdgeInsetsMake(10, 15, 10, 15);
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15);
         self.collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
         self.collectionView?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.collectionView!.dataSource = self
@@ -24,7 +24,7 @@ class NodesViewController: BaseViewController {
         self.view.addSubview(self.collectionView!)
         
         self.collectionView!.register(NodeTableViewCell.self, forCellWithReuseIdentifier: "cell")
-        self.collectionView!.register(NodeCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "nodeGroupNameView")
+        self.collectionView!.register(NodeCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "nodeGroupNameView")
     
         NodeGroupModel.getNodes { (response) -> Void in
             if response.success {

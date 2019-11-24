@@ -13,8 +13,8 @@ class NotificationMenuButton: UIButton {
     required init(){
         super.init(frame: CGRect.zero)
         self.contentMode = .center
-        self.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 0)
-        self.setImage(UIImage.imageUsedTemplateMode("ic_menu_36pt")!, for: UIControlState())
+        self.imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+        self.setImage(UIImage.imageUsedTemplateMode("ic_menu_36pt")!, for: .normal)
         
         self.aPointImageView = UIImageView()
         self.aPointImageView!.backgroundColor = V2EXColor.colors.v2_NoticePointColor

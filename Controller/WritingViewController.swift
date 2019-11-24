@@ -22,8 +22,8 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
 
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
-        rightButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20)
-        rightButton.setImage(UIImage(named: "ic_send")!.withRenderingMode(.alwaysTemplate), for: UIControlState())
+        rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20)
+        rightButton.setImage(UIImage(named: "ic_send")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(WritingViewController.rightClick), for: .touchUpInside)
         
@@ -35,7 +35,7 @@ class WritingViewController: UIViewController ,YYTextViewDelegate {
         self.textView!.delegate = self
         self.textView!.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         self.textView!.textParser = V2EXMentionedBindingParser()
-        textView!.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
+        textView!.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         textView?.keyboardDismissMode = .interactive
         self.view.addSubview(self.textView!)
         self.textView!.snp.makeConstraints{ (make) -> Void in

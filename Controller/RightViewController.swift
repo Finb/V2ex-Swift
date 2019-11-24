@@ -34,7 +34,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let tableView = UITableView()
         tableView.backgroundColor = UIColor.clear
         tableView.estimatedRowHeight=100
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = .none
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
@@ -53,7 +53,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         if currentTab == nil {
             currentTab = "all"
         }
-        self.currentSelectedTabIndex = rightNodes.index { $0.nodeTab == currentTab }!
+        self.currentSelectedTabIndex = rightNodes.firstIndex { $0.nodeTab == currentTab }!
         
         self.backgroundImageView = UIImageView()
         self.backgroundImageView!.frame = self.view.frame
@@ -86,7 +86,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         if paddingTop <= 0 {
             paddingTop = 20
         }
-        self.tableView.contentInset = UIEdgeInsetsMake(paddingTop, 0, 0, 0)
+        self.tableView.contentInset = UIEdgeInsets(top: paddingTop, left: 0, bottom: 0, right: 0)
     }
     func maximumRightDrawerWidth() -> CGFloat{
         // 调整RightView宽度
@@ -95,7 +95,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         for node in rightNodes {
             let size = node.nodeName!.boundingRect(with: CGSize(width: CGFloat(MAXFLOAT), height: CGFloat(MAXFLOAT)),
                                                    options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                   attributes: [NSAttributedStringKey(rawValue: "NSFontAttributeName"):cellFont!],
+                                                   attributes: [NSAttributedString.Key(rawValue: "NSFontAttributeName"):cellFont!],
                                                    context: nil)
             let width = size.width + 50
             if width > 100 {

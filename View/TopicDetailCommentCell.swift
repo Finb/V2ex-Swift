@@ -13,7 +13,7 @@ class TopicDetailCommentCell: UITableViewCell{
     /// 头像
     var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
-        avatarImageView.contentMode=UIViewContentMode.scaleAspectFit
+        avatarImageView.contentMode=UIView.ContentMode.scaleAspectFit
         avatarImageView.layer.cornerRadius = 3
         avatarImageView.layer.masksToBounds = true
         return avatarImageView
@@ -78,7 +78,7 @@ class TopicDetailCommentCell: UITableViewCell{
             self.authorLabel.text = isAuthor ? "• 楼主" : ""
         }
     }
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
     }
@@ -221,7 +221,7 @@ extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoB
         let photo = V2Photo(url: URL(string: self.itemModel!.images[index] as! String)!)
         return photo
     }
-    func guideContentModeInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
+    func guideContentModeInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIView.ContentMode {
         if let attachment = self.itemModel!.textLayout!.attachments?[index] , let image = attachment.content  as? V2CommentAttachmentImage{
             return image.contentMode
         }

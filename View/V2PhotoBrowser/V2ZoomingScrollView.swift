@@ -30,7 +30,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         }
     }
     
-    fileprivate var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    fileprivate var loadingView = UIActivityIndicatorView(style: .white)
 
     weak var photoBrowser:V2PhotoBrowser?
 
@@ -48,7 +48,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         self.delegate = self
         self.showsHorizontalScrollIndicator = false
         self.showsVerticalScrollIndicator = false
-        self.decelerationRate = UIScrollViewDecelerationRateFast
+        self.decelerationRate = UIScrollView.DecelerationRate.fast
         
         NotificationCenter.default.addObserver(self, selector: #selector(V2ZoomingScrollView.loadingDidEndNotification(_:)), name: NSNotification.Name(rawValue: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION), object: nil)
         self.photoBrowser = browser

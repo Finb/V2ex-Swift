@@ -13,7 +13,7 @@ class NotificationTableViewCell: UITableViewCell {
     /// 头像
     var avatarImageView: UIImageView = {
         let imageView =  UIImageView()
-        imageView.contentMode=UIViewContentMode.scaleAspectFit
+        imageView.contentMode=UIView.ContentMode.scaleAspectFit
         imageView.layer.cornerRadius = 3
         imageView.layer.masksToBounds = true
         return imageView
@@ -81,7 +81,7 @@ class NotificationTableViewCell: UITableViewCell {
     /// 回复按钮
     var replyButton:UIButton = {
         let button = UIButton.roundedButton()
-        button.setTitle(NSLocalizedString("reply"), for: UIControlState())
+        button.setTitle(NSLocalizedString("reply"), for: .normal)
         return button
     }()
     
@@ -90,7 +90,7 @@ class NotificationTableViewCell: UITableViewCell {
     /// 点击回复按钮，调用的事件
     var replyButtonClickHandler: ((UIButton) -> Void)?
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
     }

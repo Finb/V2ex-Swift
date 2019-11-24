@@ -20,7 +20,7 @@ class V2SpacingLabel: UILabel {
                 paragraphStyle.alignment=self.textAlignment;
                 attributedString.addAttributes(
                     [
-                        NSAttributedStringKey.paragraphStyle:paragraphStyle
+                        NSAttributedString.Key.paragraphStyle:paragraphStyle
                     ],
                     range: NSMakeRange(0, newValue!.Lenght));
                 super.attributedText = attributedString;

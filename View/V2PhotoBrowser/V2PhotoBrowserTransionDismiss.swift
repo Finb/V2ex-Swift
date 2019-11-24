@@ -25,7 +25,7 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
         
         let container = transitionContext.containerView
         container.addSubview(toVC.view)
-        container.bringSubview(toFront: fromVC.view)
+        container.bringSubviewToFront(fromVC.view)
         
         
         if let delegate = fromVC.delegate ,let image = delegate.guideImageInPhotoBrowser(fromVC, index: fromVC.currentPageIndex) {
@@ -78,7 +78,7 @@ class V2PhotoBrowserTransionDismiss:NSObject,UIViewControllerAnimatedTransitioni
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
-        let  options = fromVC.transitionController.interacting ? UIViewAnimationOptions.curveLinear : UIViewAnimationOptions()
+        let  options = fromVC.transitionController.interacting ? UIView.AnimationOptions.curveLinear : UIView.AnimationOptions()
         
         UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: options, animations: animations, completion: completion)
     }

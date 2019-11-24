@@ -74,7 +74,7 @@ enum AnalyzURLResultType {
                         return ;
                     }
                     
-                    type = Type(rawValue: AnalyzURLResultType.patterns.index(of: pattern)!)!
+                    type = Type(rawValue: AnalyzURLResultType.patterns.firstIndex(of: pattern)!)!
                     
                     switch type {
                     case .url:

@@ -49,7 +49,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
     }
     var tapImageInfo:TapImageInfo?
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
     }
@@ -157,7 +157,7 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         }
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         //如果加载的是 自己load 的本地页面 则肯定放过啊
         if navigationType == .other {
             return true
@@ -185,7 +185,7 @@ extension TopicDetailWebViewContentCell : V2PhotoBrowserDelegate {
         let photo = V2Photo(url: URL(string: self.tapImageInfo!.url)!)
         return photo
     }
-    func guideContentModeInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIViewContentMode {
+    func guideContentModeInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIView.ContentMode {
         return .scaleAspectFit
     }
     func guideFrameInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {

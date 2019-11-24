@@ -15,7 +15,7 @@ extension UIButton {
         btn.layer.cornerRadius = 3
         btn.backgroundColor  = V2EXColor.colors.v2_ButtonBackgroundColor
         btn.titleLabel!.font = v2Font(14)
-        btn.setTitleColor(UIColor.white, for: UIControlState())
+        btn.setTitleColor(UIColor.white, for: .normal)
         return btn
     }
 }

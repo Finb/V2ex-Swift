@@ -27,7 +27,7 @@ class V2PhotoBrowserTransionPresent:NSObject,UIViewControllerAnimatedTransitioni
         //显示引导动画的imageView
         toVC.guideImageViewHidden(false)
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: UIView.AnimationOptions(), animations: { () -> Void in
             toVC.view.backgroundColor = UIColor(white: 0, alpha: 1)
             toVC.guideImageView.frame = toVC.view.bounds
             
