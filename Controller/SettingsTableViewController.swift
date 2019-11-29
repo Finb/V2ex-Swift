@@ -57,12 +57,11 @@ class SettingsTableViewController: UITableViewController {
         if indexPath.section == 0 {
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
             cell.titleLabel.text = [NSLocalizedString("default"),NSLocalizedString("dark")][indexPath.row]
-            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                cell.detailLabel.text = [NSLocalizedString("current"),""][indexPath.row]
-            }
-            else{
-                cell.detailLabel.text = ["",NSLocalizedString("current")][indexPath.row]
-            }
+            let index:Int = [V2EXColor.V2EXColorStyleDefault,
+                         V2EXColor.V2EXColorStyleDark]
+                .firstIndex{ $0 == V2EXColor.sharedInstance.style } ?? 0
+            cell.detailLabel.text = index == indexPath.row ? NSLocalizedString("current") : ""
+            
             return cell
         }
         
