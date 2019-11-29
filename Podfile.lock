@@ -1,12 +1,12 @@
 PODS:
   - 1PasswordExtension (1.8.5)
-  - Alamofire (4.7.3)
-  - AlamofireObjectMapper (5.1.0):
-    - Alamofire (~> 4.1)
-    - ObjectMapper (~> 3.3)
-  - Crashlytics (3.11.0):
-    - Fabric (~> 1.8.0)
-  - CXSwipeGestureRecognizer (1.0.2)
+  - Alamofire (4.9.1)
+  - AlamofireObjectMapper (5.2.1):
+    - Alamofire (~> 4.7)
+    - ObjectMapper (~> 3.4)
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
+  - CXSwipeGestureRecognizer (1.1.0)
   - DeviceKit (2.3.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
@@ -14,29 +14,25 @@ PODS:
   - DrawerController/Core (4.0.0)
   - DrawerController/DrawerVisualStates (4.0.0):
     - DrawerController/Core
-  - Fabric (1.8.0)
+  - Fabric (1.10.2)
   - FDFullscreenPopGesture (1.1)
   - FXBlurView (1.6.4)
-  - Ji (2.1.0):
-    - Ji/Ji (= 2.1.0)
-  - Ji/Ji (2.1.0):
-    - Ji/Ji-libxml
-  - Ji/Ji-libxml (2.1.0)
-  - KeychainSwift (13.0.0)
-  - Kingfisher (4.10.0)
+  - Ji (5.0.0)
+  - KeychainSwift (18.0.0)
+  - Kingfisher (4.10.1)
   - KVOController (1.2.0)
   - MJRefresh (3.1.15.7)
-  - Moya/Core (11.0.2):
+  - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
-    - Result (~> 3.0)
-  - Moya/RxSwift (11.0.2):
+    - Result (~> 4.1)
+  - Moya/RxSwift (13.0.1):
     - Moya/Core
     - RxSwift (~> 4.0)
-  - ObjectMapper (3.3.0)
-  - Result (3.2.4)
-  - RxSwift (4.3.1)
+  - ObjectMapper (3.5.1)
+  - Result (4.1.0)
+  - RxSwift (4.5.0)
   - Shimmer (1.0.2)
-  - SnapKit (4.2.0)
+  - SnapKit (5.0.1)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.3.0)
   - YYText (1.0.7)
@@ -54,9 +50,9 @@ DEPENDENCIES:
   - FXBlurView
   - Ji
   - KeychainSwift
-  - Kingfisher
+  - Kingfisher (~> 4.10.0)
   - KVOController
-  - MJRefresh
+  - MJRefresh (~> 3.1.15.7)
   - Moya/RxSwift
   - ObjectMapper
   - Shimmer
@@ -66,12 +62,13 @@ DEPENDENCIES:
   - YYText
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - 1PasswordExtension
     - Alamofire
     - AlamofireObjectMapper
     - Crashlytics
     - CXSwipeGestureRecognizer
+    - DeviceKit
     - DrawerController
     - Fabric
     - FDFullscreenPopGesture
@@ -88,37 +85,35 @@ SPEC REPOS:
     - Shimmer
     - SnapKit
     - SVProgressHUD
-    - YYText
-  trunk:
-    - DeviceKit
     - SwiftyJSON
+    - YYText
 
 SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
-  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
-  AlamofireObjectMapper: 3395e698901d8b0e6f48b7d0c43bd47875325102
-  Crashlytics: 1448070c1d2731ab71ea7c3faf84ac0f69657287
-  CXSwipeGestureRecognizer: 2f340869fd75f46bb23f69f5f56b7dd1e607170b
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  CXSwipeGestureRecognizer: 5a53916aa69e85d041c35b5fc2180ff0bfe6333b
   DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
-  Fabric: 4ac1cdfef3004ccd83ce0959b91eda8a6e37df72
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  Ji: 21946da4e13425485ddd424edfaeeced0d80ad28
-  KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
-  Kingfisher: 43c4b802d8b5256cf1f4379e9cd10b329be6d3e2
+  Ji: d795fed288fe78658b404c88946d753b17d8d7f4
+  KeychainSwift: c46e1438d121e47459fb304ac88c5e058a2a91ed
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
-  Moya: a725035953bc1c0eb1be505ab903984501d82440
-  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
-  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
+  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
-  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: ff32889a60228af4dcf2932fee3a4b741f96860b
+PODFILE CHECKSUM: 7fea84059aeb8f3e65d7b0e556d219067a9e048b
 
 COCOAPODS: 1.8.4
