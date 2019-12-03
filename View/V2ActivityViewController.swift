@@ -49,7 +49,13 @@ class V2ActivityButton: UIButton {
 /// 一个和UIActivityViewController 一样的弹出框
 class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningDelegate {
     weak var dataSource:V2ActivityViewDataSource?
-    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     var section:Int{
         get{
             if let _section = dataSource?.numberOfSectionsInV2ActivityView?(self) {

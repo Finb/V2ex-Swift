@@ -64,6 +64,7 @@ class V2PhotoBrowser: UIViewController ,UIScrollViewDelegate ,UIViewControllerTr
     init(delegate:V2PhotoBrowserDelegate){
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
         self.setup()
     }
     

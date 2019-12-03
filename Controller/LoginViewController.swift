@@ -20,15 +20,88 @@ class LoginViewController: UIViewController {
 
     let backgroundImageView = UIImageView()
     let frostedView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-    let userNameTextField = UITextField()
-    let passwordTextField = UITextField()
-    let codeTextField = UITextField()
+    let userNameTextField:UITextField = {
+        let userNameTextField = UITextField()
+        userNameTextField.autocorrectionType = UITextAutocorrectionType.no
+        userNameTextField.autocapitalizationType = UITextAutocapitalizationType.none
+        
+        userNameTextField.textColor = UIColor.white
+        userNameTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+        userNameTextField.font = v2Font(15)
+        userNameTextField.layer.cornerRadius = 3;
+        userNameTextField.layer.borderWidth = 0.5
+        userNameTextField.keyboardType = .asciiCapable
+        userNameTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        userNameTextField.placeholder = "用户名"
+        userNameTextField.clearButtonMode = .always
+
+        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.withRenderingMode(.alwaysTemplate));
+        userNameIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+        userNameIconImageView.tintColor = UIColor.white
+        userNameIconImageView.contentMode = .scaleAspectFit
+        let userNameIconImageViewPanel = UIView(frame: userNameIconImageView.frame)
+        userNameIconImageViewPanel.addSubview(userNameIconImageView)
+        userNameTextField.leftView = userNameIconImageViewPanel
+        userNameTextField.leftViewMode = .always
+        return userNameTextField
+    }()
+    let passwordTextField:UITextField = {
+        let passwordTextField = UITextField()
+        passwordTextField.textColor = UIColor.white
+        passwordTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+        passwordTextField.font = v2Font(15)
+        passwordTextField.layer.cornerRadius = 3;
+        passwordTextField.layer.borderWidth = 0.5
+        passwordTextField.keyboardType = .asciiCapable
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        passwordTextField.placeholder = "密码"
+        passwordTextField.clearButtonMode = .always
+
+        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.withRenderingMode(.alwaysTemplate));
+        passwordIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+        passwordIconImageView.contentMode = .scaleAspectFit
+        passwordIconImageView.tintColor = UIColor.white
+        let passwordIconImageViewPanel = UIView(frame: passwordIconImageView.frame)
+        passwordIconImageViewPanel.addSubview(passwordIconImageView)
+        passwordTextField.leftView = passwordIconImageViewPanel
+        passwordTextField.leftViewMode = .always
+        return passwordTextField
+    }()
+    let codeTextField:UITextField = {
+        let codeTextField = UITextField()
+        codeTextField.textColor = UIColor.white
+        codeTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
+        codeTextField.font = v2Font(15)
+        codeTextField.layer.cornerRadius = 3;
+        codeTextField.layer.borderWidth = 0.5
+        codeTextField.keyboardType = .asciiCapable
+        codeTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
+        codeTextField.placeholder = "验证码"
+        codeTextField.clearButtonMode = .always
+        
+        let codeTextFieldImageView = UIImageView(image: UIImage(named: "ic_vpn_key")!.withRenderingMode(.alwaysTemplate));
+        codeTextFieldImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
+        codeTextFieldImageView.contentMode = .scaleAspectFit
+        codeTextFieldImageView.tintColor = UIColor.white
+        let codeTextFieldImageViewPanel = UIView(frame: codeTextFieldImageView.frame)
+        codeTextFieldImageViewPanel.addSubview(codeTextFieldImageView)
+        codeTextField.leftView = codeTextFieldImageViewPanel
+        codeTextField.leftViewMode = .always
+        return codeTextField
+    }()
     let codeImageView = UIImageView()
     let loginButton = UIButton()
     let cancelButton = UIButton()
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.modalPresentationStyle = .fullScreen
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.hideKeyboardWhenTappedAround()
         
         //初始化界面
@@ -232,28 +305,7 @@ extension LoginViewController {
             make.top.equalTo(v2exLabel.snp.bottom).offset(2)
         }
 
-        self.userNameTextField.autocorrectionType = UITextAutocorrectionType.no
-        self.userNameTextField.autocapitalizationType = UITextAutocapitalizationType.none
-        
-        self.userNameTextField.textColor = UIColor.white
-        self.userNameTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
-        self.userNameTextField.font = v2Font(15)
-        self.userNameTextField.layer.cornerRadius = 3;
-        self.userNameTextField.layer.borderWidth = 0.5
-        self.userNameTextField.keyboardType = .asciiCapable
-        self.userNameTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
-        self.userNameTextField.placeholder = "用户名"
-        self.userNameTextField.clearButtonMode = .always
-
-        let userNameIconImageView = UIImageView(image: UIImage(named: "ic_account_circle")!.withRenderingMode(.alwaysTemplate));
-        userNameIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
-        userNameIconImageView.tintColor = UIColor.white
-        userNameIconImageView.contentMode = .scaleAspectFit
-        self.userNameTextField.leftView = userNameIconImageView
-        self.userNameTextField.leftViewMode = .always
-
         vibrancyView.contentView.addSubview(self.userNameTextField);
-
         self.userNameTextField.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(v2exSummaryLabel.snp.bottom).offset(25)
             make.centerX.equalTo(vibrancyView)
@@ -261,26 +313,7 @@ extension LoginViewController {
             make.height.equalTo(38)
         }
 
-        self.passwordTextField.textColor = UIColor.white
-        self.passwordTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
-        self.passwordTextField.font = v2Font(15)
-        self.passwordTextField.layer.cornerRadius = 3;
-        self.passwordTextField.layer.borderWidth = 0.5
-        self.passwordTextField.keyboardType = .asciiCapable
-        self.passwordTextField.isSecureTextEntry = true
-        self.passwordTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
-        self.passwordTextField.placeholder = "密码"
-        self.passwordTextField.clearButtonMode = .always
-
-        let passwordIconImageView = UIImageView(image: UIImage(named: "ic_lock")!.withRenderingMode(.alwaysTemplate));
-        passwordIconImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
-        passwordIconImageView.contentMode = .scaleAspectFit
-        userNameIconImageView.tintColor = UIColor.white
-        self.passwordTextField.leftView = passwordIconImageView
-        self.passwordTextField.leftViewMode = .always
-
         vibrancyView.contentView.addSubview(self.passwordTextField);
-
         self.passwordTextField.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.userNameTextField.snp.bottom).offset(15)
             make.centerX.equalTo(vibrancyView)
@@ -288,26 +321,7 @@ extension LoginViewController {
             make.height.equalTo(38)
         }
         
-        
-        self.codeTextField.textColor = UIColor.white
-        self.codeTextField.backgroundColor = UIColor(white: 1, alpha: 0.1);
-        self.codeTextField.font = v2Font(15)
-        self.codeTextField.layer.cornerRadius = 3;
-        self.codeTextField.layer.borderWidth = 0.5
-        self.codeTextField.keyboardType = .asciiCapable
-        self.codeTextField.layer.borderColor = UIColor(white: 1, alpha: 0.8).cgColor;
-        self.codeTextField.placeholder = "验证码"
-        self.codeTextField.clearButtonMode = .always
-        
-        let codeTextFieldImageView = UIImageView(image: UIImage(named: "ic_vpn_key")!.withRenderingMode(.alwaysTemplate));
-        codeTextFieldImageView.frame = CGRect(x: 0, y: 0, width: 34, height: 22)
-        codeTextFieldImageView.contentMode = .scaleAspectFit
-        codeTextFieldImageView.tintColor = UIColor.white
-        self.codeTextField.leftView = codeTextFieldImageView
-        self.codeTextField.leftViewMode = .always
-        
         vibrancyView.contentView.addSubview(self.codeTextField)
-        
         self.codeTextField.snp.makeConstraints { (make) in
             make.top.equalTo(self.passwordTextField.snp.bottom).offset(15)
             make.left.equalTo(passwordTextField)
