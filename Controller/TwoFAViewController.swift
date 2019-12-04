@@ -184,7 +184,7 @@ extension TwoFAViewController {
         let footLabel = UILabel()
         footLabel.alpha = 0.5
         footLabel.font = v2Font(12)
-        footLabel.text = "© 2018 Fin"
+        footLabel.text = "© 2020 Fin"
         
         vibrancyView.contentView.addSubview(footLabel);
         

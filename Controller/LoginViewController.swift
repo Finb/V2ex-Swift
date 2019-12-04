@@ -341,7 +341,7 @@ extension LoginViewController {
         self.view.addSubview(self.codeImageView)
         self.codeImageView.snp.makeConstraints { (make) in
             make.top.bottom.equalTo(self.codeTextField)
-            make.left.equalTo(self.codeTextField.snp.right).offset(3)
+            make.left.equalTo(self.codeTextField.snp.right).offset(2)
             make.right.equalTo(self.passwordTextField)
         }
         self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
@@ -375,7 +375,7 @@ extension LoginViewController {
         let footLabel = UILabel()
         footLabel.alpha = 0.5
         footLabel.font = v2Font(12)
-        footLabel.text = "© 2018 Fin"
+        footLabel.text = "© 2020 Fin"
 
         vibrancyView.contentView.addSubview(footLabel);
 
