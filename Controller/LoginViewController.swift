@@ -280,8 +280,13 @@ extension LoginViewController {
 
         self.frostedView.frame = self.view.frame
         self.view.addSubview(self.frostedView)
-
-        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .dark))
+        
+        var blurEffect:UIBlurEffect.Style = .dark
+        if #available(iOS 13.0, *) {
+            blurEffect = .systemUltraThinMaterialDark
+        }
+        
+        let vibrancy = UIVibrancyEffect(blurEffect: UIBlurEffect(style: blurEffect))
         let vibrancyView = UIVisualEffectView(effect: vibrancy)
         vibrancyView.isUserInteractionEnabled = true
         vibrancyView.frame = self.frostedView.frame
@@ -293,7 +298,7 @@ extension LoginViewController {
         vibrancyView.contentView.addSubview(v2exLabel);
         v2exLabel.snp.makeConstraints{ (make) -> Void in
             make.centerX.equalTo(vibrancyView)
-            make.top.equalTo(vibrancyView).offset(40)
+            make.top.equalTo(vibrancyView).offset(NavigationBarHeight)
         }
 
         let v2exSummaryLabel = UILabel()
@@ -329,14 +334,14 @@ extension LoginViewController {
             make.height.equalTo(38)
         }
         
-        self.codeImageView.backgroundColor = UIColor.white
+        self.codeImageView.backgroundColor = UIColor(white: 1, alpha: 0.2)
         self.codeImageView.layer.cornerRadius = 3;
         self.codeImageView.clipsToBounds = true
         self.codeImageView.isUserInteractionEnabled = true
-        vibrancyView.contentView.addSubview(self.codeImageView)
+        self.view.addSubview(self.codeImageView)
         self.codeImageView.snp.makeConstraints { (make) in
             make.top.bottom.equalTo(self.codeTextField)
-            make.left.equalTo(self.codeTextField.snp.right).offset(-5)
+            make.left.equalTo(self.codeTextField.snp.right).offset(3)
             make.right.equalTo(self.passwordTextField)
         }
         self.codeImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refreshCode)))
