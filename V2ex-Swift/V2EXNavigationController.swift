@@ -19,7 +19,7 @@ class V2EXNavigationController: UINavigationController {
     /// navigationBar 背景透明度
     var navigationBarAlpha:CGFloat {
         get{
-            return  self.frostedView.alpha
+            return  self.frostedView.superview?.alpha ?? 0
         }
         set {
             var value = newValue
@@ -29,7 +29,7 @@ class V2EXNavigationController: UINavigationController {
             else if value < 0 {
                 value = 0
             }
-            self.frostedView.alpha = newValue
+            self.frostedView.superview?.alpha = newValue
             if(value == 1){
                 if self.navigationBar.shadowImage != nil{
                     self.navigationBar.shadowImage = nil
@@ -45,7 +45,11 @@ class V2EXNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle{
         get {
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                return .default
+                if #available(iOS 13.0, *) {
+                    return .darkContent
+                } else {
+                    return .default
+                }
             }
             else{
                 return .lightContent
@@ -66,13 +70,14 @@ class V2EXNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        if #available(iOS 13.0, *) {
+            self.overrideUserInterfaceStyle = .light
+        }
         self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clear), for: .default)
 
         let maskingView = UIView()
         
         maskingView.isUserInteractionEnabled = false
-        maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
         self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
         maskingView.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: NavigationBarHeight)
 //        maskingView.snp.makeConstraints{ (make) -> Void in
@@ -96,8 +101,13 @@ class V2EXNavigationController: UINavigationController {
             ]
             
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
-                self?.frostedView.barStyle = .default
-                self?.setNeedsStatusBarAppearanceUpdate()
+                maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
+                if #available(iOS 13.0, *) {
+                    self?.frostedView.overrideUserInterfaceStyle = .light
+                } else {
+                    self?.frostedView.barStyle = .default
+                }
+
                 
                 //全局键盘颜色
                 UITextView.appearance().keyboardAppearance = .light
@@ -106,13 +116,19 @@ class V2EXNavigationController: UINavigationController {
                 
             }
             else{
-                self?.frostedView.barStyle = .black
-                self?.setNeedsStatusBarAppearanceUpdate()
+                maskingView.backgroundColor = UIColor(white: 0, alpha: 0.6);
+                if #available(iOS 13.0, *) {
+                    self?.frostedView.overrideUserInterfaceStyle = .dark
+                } else {
+                    self?.frostedView.barStyle = .default
+                }
                 
                 UITextView.appearance().keyboardAppearance = .dark
                 UITextField.appearance().keyboardAppearance = .dark
                 YYTextView.appearance().keyboardAppearance = .dark
             }
+            
+            self?.setNeedsStatusBarAppearanceUpdate()
         }
     }
 }
