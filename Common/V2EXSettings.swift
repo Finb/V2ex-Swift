@@ -16,9 +16,9 @@ class V2EXSettings: NSObject {
         super.init()
     }
     
-    subscript(key:String) -> String? {
+    subscript<T : Codable>(key:String) -> T? {
         get {
-            return UserDefaults.standard.object(forKey: keyPrefix + key) as? String
+            return UserDefaults.standard.object(forKey: keyPrefix + key) as? T
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: keyPrefix + key )

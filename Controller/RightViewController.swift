@@ -49,7 +49,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
         
-        var currentTab = V2EXSettings.sharedInstance[kHomeTab]
+        var currentTab:String? = V2EXSettings.sharedInstance[kHomeTab]
         if currentTab == nil {
             currentTab = "all"
         }

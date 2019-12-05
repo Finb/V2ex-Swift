@@ -102,7 +102,7 @@ class V2User: NSObject {
         self.once = nil
         self.notificationCount = 0
         //清空settings中的username
-        V2EXSettings.sharedInstance[kUserName] = nil
+        V2EXSettings.sharedInstance[kUserName] = self.username
     }
 
     /**
