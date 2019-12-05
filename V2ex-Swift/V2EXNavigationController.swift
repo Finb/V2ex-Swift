@@ -120,7 +120,7 @@ class V2EXNavigationController: UINavigationController {
                 if #available(iOS 13.0, *) {
                     self?.frostedView.overrideUserInterfaceStyle = .dark
                 } else {
-                    self?.frostedView.barStyle = .default
+                    self?.frostedView.barStyle = .black
                 }
                 
                 UITextView.appearance().keyboardAppearance = .dark
