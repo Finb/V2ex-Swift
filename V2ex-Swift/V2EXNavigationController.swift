@@ -67,12 +67,14 @@ class V2EXNavigationController: UINavigationController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if V2EXColor.sharedInstance.isFollowSystem {
+            V2EXColor.sharedInstance.refreshColorStyle()
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        if #available(iOS 13.0, *) {
-            self.overrideUserInterfaceStyle = .light
-        }
         self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clear), for: .default)
 
         let maskingView = UIView()

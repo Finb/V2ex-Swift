@@ -49,8 +49,11 @@ version = "版本号";
 
 //阅读设置
 viewOptionThemeSet = "    配色 - 点击下面选项，设置APP的配色方案";
-default = "默认";
+followSystem = "跟随系统";
+default = "亮色";
 dark = "暗色";
+
+
 viewOptionTextSize = "    文字大小 - 滑动滑块调整文字大小";
 
 //节点导航

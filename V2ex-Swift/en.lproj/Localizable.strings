@@ -49,7 +49,8 @@ version = "Version";
 
 //阅读设置
 viewOptionThemeSet = "    Theme - Click on the options below to set the theme";
-default = "Default";
+followSystem = "Follow System";
+default = "Light";
 dark = "Dark";
 viewOptionTextSize = "    Text Size - Slide the slider to adjust the text size";
 

@@ -25,3 +25,5 @@ class V2EXSettings: NSObject {
         }
     }
 }
+
+let Settings = V2EXSettings.sharedInstance

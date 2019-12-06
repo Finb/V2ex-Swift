@@ -29,7 +29,7 @@ class SettingsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return [2,3][section]
+        return [3,3][section]
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -47,6 +47,14 @@ class SettingsTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                if #available(iOS 13.0, *) {
+                    return 44
+                }
+                else{
+                    return 0
+                }
+            }
             return 44
         }
         else {
@@ -56,10 +64,16 @@ class SettingsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
-            cell.titleLabel.text = [NSLocalizedString("default"),NSLocalizedString("dark")][indexPath.row]
-            let index:Int = [V2EXColor.V2EXColorStyleDefault,
-                         V2EXColor.V2EXColorStyleDark]
-                .firstIndex{ $0 == V2EXColor.sharedInstance.style } ?? 0
+            cell.clipsToBounds = true
+            cell.titleLabel.text =
+                [NSLocalizedString("followSystem"),
+                 NSLocalizedString("default"),
+                 NSLocalizedString("dark")][indexPath.row]
+            var index:Int = ([V2EXColor.V2EXColorStyleDefault,V2EXColor.V2EXColorStyleDark]
+                .firstIndex{ $0 == V2EXColor.sharedInstance.style } ?? 0) + 1
+            if V2EXColor.sharedInstance.isFollowSystem {
+                index = 0
+            }
             cell.detailLabel.text = index == indexPath.row ? NSLocalizedString("current") : ""
             
             return cell
@@ -85,7 +99,16 @@ class SettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            V2EXColor.sharedInstance.setStyleAndSave([V2EXColor.V2EXColorStyleDefault,V2EXColor.V2EXColorStyleDark][indexPath.row])
+            if indexPath.row == 0 {
+                //跟随系统
+                V2EXColor.sharedInstance.isFollowSystem = true
+            }
+            else{
+                V2EXColor.sharedInstance.isFollowSystem = false
+                V2EXColor.sharedInstance.setStyleAndSave(
+                    [V2EXColor.V2EXColorStyleDefault,
+                     V2EXColor.V2EXColorStyleDark][indexPath.row - 1])
+            }
         }
     }
 }

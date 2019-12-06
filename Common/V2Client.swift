@@ -12,6 +12,8 @@ import DrawerController
 class V2Client: NSObject {
     static let sharedInstance = V2Client()
     
+    var window : UIWindow? = nil
+    
     var drawerController :DrawerController? = nil
     var centerViewController : HomeViewController? = nil
     var centerNavigation : V2EXNavigationController? = nil

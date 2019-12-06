@@ -23,9 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         URLProtocol.registerClass(WebViewImageProtocol.self)
         
         self.window = UIWindow();
-        if #available(iOS 13.0, *) {
-            self.window?.overrideUserInterfaceStyle = .light
-        } 
+        V2Client.sharedInstance.window = self.window
         self.window?.frame=UIScreen.main.bounds;
         self.window?.makeKeyAndVisible();
 
