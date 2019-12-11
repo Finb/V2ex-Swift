@@ -16,7 +16,6 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
-        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         tableView.separatorStyle = .none
         
         regClass(tableView, cell: HomeTopicListTableViewCell.self)
@@ -29,7 +28,6 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = NSLocalizedString("favorites")
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
@@ -47,6 +45,11 @@ class FavoritesViewController: BaseViewController,UITableViewDataSource,UITableV
             })
         footer?.centerOffset = -4
         self.tableView.mj_footer = footer
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        }
     }
     
     func refresh(){

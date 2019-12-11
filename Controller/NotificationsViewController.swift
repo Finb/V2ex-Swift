@@ -29,7 +29,6 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
         super.viewDidLoad()
         self.view.addSubview(self.tableView);
         self.title = NSLocalizedString("notifications")
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
@@ -40,7 +39,11 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
         })
         self.showLoadingView()
         self.tableView.mj_header.beginRefreshing();
-
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        }
     }
     
     

@@ -21,14 +21,12 @@ class NotificationTableViewCell: UITableViewCell {
     /// 用户名
     var userNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         label.font=v2Font(14)
         return label
     }()
     /// 日期
     var dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor=V2EXColor.colors.v2_TopicListDateColor
         label.font=v2Font(12)
         return label
     }()
@@ -36,7 +34,6 @@ class NotificationTableViewCell: UITableViewCell {
     /// 操作描述
     var detailLabel: UILabel = {
         let label = V2SpacingLabel()
-        label.textColor=V2EXColor.colors.v2_TopicListTitleColor
         label.font=v2Font(14)
         label.numberOfLines=0
         label.preferredMaxLayoutWidth = SCREEN_WIDTH-24
@@ -46,7 +43,6 @@ class NotificationTableViewCell: UITableViewCell {
     /// 回复正文
     var commentLabel: UILabel = {
         let label = V2SpacingLabel();
-        label.textColor=V2EXColor.colors.v2_TopicListTitleColor
         label.font=v2Font(14)
         label.numberOfLines=0
         label.preferredMaxLayoutWidth=SCREEN_WIDTH-24
@@ -58,7 +54,6 @@ class NotificationTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.cornerRadius = 3
         view.layer.masksToBounds = true
-        view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         return view
     }()
     
@@ -66,14 +61,12 @@ class NotificationTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage.imageUsedTemplateMode("ic_arrow_drop_up")
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = self.commentPanel.backgroundColor
         return imageView
     }()
     
     /// 整个cell元素的容器
     var contentPanel:UIView = {
         let view = UIView()
-        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         view.clipsToBounds = true
         return view
     }()
@@ -99,9 +92,8 @@ class NotificationTableViewCell: UITableViewCell {
     }
     
     func setup()->Void{
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        
         let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.selectedBackgroundView = selectedBackgroundView
         
         self.contentView .addSubview(self.contentPanel);
@@ -126,6 +118,19 @@ class NotificationTableViewCell: UITableViewCell {
         
         //按钮点击事件
         self.replyButton.addTarget(self, action: #selector(replyButtonClick(_:)), for: .touchUpInside)
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+            self?.selectedBackgroundView?.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+            self?.dateLabel.textColor=V2EXColor.colors.v2_TopicListDateColor
+            self?.detailLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor
+            self?.commentLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor
+            self?.commentPanel.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.dropUpImageView.tintColor = self?.commentPanel.backgroundColor
+            self?.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.replyButton.backgroundColor  = V2EXColor.colors.v2_ButtonBackgroundColor
+        }
         
     }
     fileprivate func setupLayout(){

@@ -13,12 +13,10 @@ class NodesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = NSLocalizedString("Navigation")
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         let layout = V2LeftAlignedCollectionViewFlowLayout();
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15);
         self.collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
-        self.collectionView?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         self.collectionView!.dataSource = self
         self.collectionView!.delegate = self
         self.view.addSubview(self.collectionView!)
@@ -34,6 +32,11 @@ class NodesViewController: BaseViewController {
             self.hideLoadingView()
         }
         self.showLoadingView()
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.collectionView?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        }
     }
 }
 
