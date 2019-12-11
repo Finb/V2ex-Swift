@@ -12,14 +12,12 @@ class MemberTopicCell: UITableViewCell {
     /// 日期 和 最后发送人
     var dateAndLastPostUserLabel: UILabel = {
         let dateAndLastPostUserLabel = UILabel();
-        dateAndLastPostUserLabel.textColor=V2EXColor.colors.v2_TopicListDateColor;
         dateAndLastPostUserLabel.font=v2Font(12);
         return dateAndLastPostUserLabel
     }()
     /// 评论数量
     var replyCountLabel: UILabel = {
         let replyCountLabel = UILabel()
-        replyCountLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
         replyCountLabel.font = v2Font(12)
         return replyCountLabel
     }()
@@ -32,9 +30,7 @@ class MemberTopicCell: UITableViewCell {
     /// 节点
     var nodeNameLabel: UILabel = {
         let nodeNameLabel = UILabel();
-        nodeNameLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
         nodeNameLabel.font = v2Font(11)
-        nodeNameLabel.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
         nodeNameLabel.layer.cornerRadius=2;
         nodeNameLabel.clipsToBounds = true
         return nodeNameLabel
@@ -42,7 +38,6 @@ class MemberTopicCell: UITableViewCell {
     /// 帖子标题
     var topicTitleLabel: UILabel = {
         let topicTitleLabel=V2SpacingLabel();
-        topicTitleLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         topicTitleLabel.font=v2Font(15);
         topicTitleLabel.numberOfLines=0;
         topicTitleLabel.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
@@ -52,7 +47,6 @@ class MemberTopicCell: UITableViewCell {
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView = {
         let contentPanel = UIView();
-        contentPanel.backgroundColor =  V2EXColor.colors.v2_CellWhiteBackgroundColor
         return contentPanel
     }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -65,7 +59,7 @@ class MemberTopicCell: UITableViewCell {
     }
     func setup()->Void{
         self.selectionStyle = .none
-        self.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        
 
         self.contentView .addSubview(self.contentPanel);
         self.contentPanel.addSubview(self.dateAndLastPostUserLabel);
@@ -76,10 +70,22 @@ class MemberTopicCell: UITableViewCell {
         
         self.setupLayout()
 
-        self.dateAndLastPostUserLabel.backgroundColor = self.contentPanel.backgroundColor
-        self.replyCountLabel.backgroundColor = self.contentPanel.backgroundColor
-        self.replyCountIconImageView.backgroundColor = self.contentPanel.backgroundColor
-        self.topicTitleLabel.backgroundColor = self.contentPanel.backgroundColor
+        self.themeChangedHandler = {[weak self] _ in
+            self?.contentPanel.backgroundColor =  V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            
+            self?.dateAndLastPostUserLabel.textColor=V2EXColor.colors.v2_TopicListDateColor;
+            self?.replyCountLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.nodeNameLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.nodeNameLabel.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
+            self?.topicTitleLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+            
+            self?.dateAndLastPostUserLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.replyCountLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.replyCountIconImageView.backgroundColor = self?.contentPanel.backgroundColor
+            self?.topicTitleLabel.backgroundColor = self?.contentPanel.backgroundColor
+            
+        }
     }
     
     func setupLayout(){

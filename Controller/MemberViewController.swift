@@ -62,7 +62,6 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     var titleLabel:UILabel?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         self.backgroundImageView = UIImageView(image: UIImage(named: "12.jpg"))
         self.backgroundImageView!.frame = self.view.frame
@@ -97,9 +96,17 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         self.refreshData()
         
-        if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDark {
-            self.color = 100
+
+        self.themeChangedHandler = {[weak self] _ in
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDark {
+                self?.color = 100
+            }
+            else{
+                self?.color = 0
+            }
         }
+        
         
     }
     
@@ -254,16 +261,20 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             return tableViewHeader[section-1]
         }
         let view = UIView()
-        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
-        
+
         let label = UILabel()
         label.text = [NSLocalizedString("posts"),NSLocalizedString("comments")][section - 1]
         view.addSubview(label)
         label.font = v2Font(15)
-        label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         label.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(view)
             make.leading.equalTo(view).offset(12)
+        }
+        
+        weak var weakView = view
+        view.themeChangedHandler = {_ in
+            weakView?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            label.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         }
         
         tableViewHeader.append(view)

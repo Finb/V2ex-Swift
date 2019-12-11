@@ -13,7 +13,6 @@ class MemberReplyCell: UITableViewCell {
     /// 操作描述
     var detailLabel: UILabel = {
         let detailLabel=V2SpacingLabel();
-        detailLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         detailLabel.font=v2Font(14);
         detailLabel.numberOfLines=0;
         detailLabel.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
@@ -23,7 +22,6 @@ class MemberReplyCell: UITableViewCell {
     /// 回复正文
     var commentLabel: UILabel = {
         let commentLabel=V2SpacingLabel();
-        commentLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         commentLabel.font=v2Font(14);
         commentLabel.numberOfLines=0;
         commentLabel.preferredMaxLayoutWidth=SCREEN_WIDTH-24;
@@ -35,14 +33,12 @@ class MemberReplyCell: UITableViewCell {
         let commentPanel = UIView()
         commentPanel.layer.cornerRadius = 3
         commentPanel.layer.masksToBounds = true
-        commentPanel.backgroundColor = V2EXColor.colors.v2_backgroundColor
         return commentPanel
     }()
     
     /// 整个cell元素的容器
     var contentPanel:UIView = {
         let contentPanel = UIView()
-        contentPanel.backgroundColor =  V2EXColor.colors.v2_CellWhiteBackgroundColor
         return contentPanel
     }()
     
@@ -57,7 +53,6 @@ class MemberReplyCell: UITableViewCell {
 
     func setup()->Void{
         self.selectionStyle = .none
-        self.backgroundColor = V2EXColor.colors.v2_backgroundColor
         
         self.contentView.addSubview(self.contentPanel)
         self.contentPanel.addSubview(self.detailLabel);
@@ -69,13 +64,22 @@ class MemberReplyCell: UITableViewCell {
         let dropUpImageView = UIImageView()
         dropUpImageView.image = UIImage.imageUsedTemplateMode("ic_arrow_drop_up")
         dropUpImageView.contentMode = .scaleAspectFit
-        dropUpImageView.tintColor = self.commentPanel.backgroundColor
         self.contentPanel.addSubview(dropUpImageView)
         dropUpImageView.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.commentPanel.snp.top)
             make.left.equalTo(self.commentPanel).offset(25)
             make.width.equalTo(10)
             make.height.equalTo(5)
+        }
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            
+            self?.detailLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+            self?.commentLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+            self?.commentPanel.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.contentPanel.backgroundColor =  V2EXColor.colors.v2_CellWhiteBackgroundColor
+            dropUpImageView.tintColor = self?.commentPanel.backgroundColor
         }
     }
     func setupLayout(){
