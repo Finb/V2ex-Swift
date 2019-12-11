@@ -64,13 +64,13 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
         self.contentWebView.snp.makeConstraints{ (make) -> Void in
             make.left.top.right.bottom.equalTo(self.contentView)
         }
-        
-        //强制将 UIWebView 设置背景颜色
-        //不然不管怎么设置背景颜色，这B一直是白色，非得我治治他
-        for view in self.contentWebView.scrollView.subviews {
-            view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        self.themeChangedHandler = {[weak self] _ in
+            //强制将 UIWebView 设置背景颜色
+            //不然不管怎么设置背景颜色，这B一直是白色，非得我治治他
+            for view in self?.contentWebView.scrollView.subviews ?? [] {
+                view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            }
         }
-        
         self.kvoController.observe(self.contentWebView.scrollView, keyPath: "contentSize", options: [.new]) {
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {

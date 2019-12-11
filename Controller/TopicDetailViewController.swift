@@ -30,7 +30,6 @@ class TopicDetailViewController: BaseViewController{
         tableView.cancelEstimatedHeight()
         tableView.separatorStyle = .none;
         
-        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         regClass(tableView, cell: TopicDetailHeaderCell.self)
         regClass(tableView, cell: TopicDetailWebViewContentCell.self)
         regClass(tableView, cell: TopicDetailCommentCell.self)
@@ -51,7 +50,6 @@ class TopicDetailViewController: BaseViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = NSLocalizedString("postDetails")
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
@@ -64,16 +62,23 @@ class TopicDetailViewController: BaseViewController{
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), for: .touchUpInside)
         
-        
-        self.showLoadingView()
-        self.getData()
-        
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] in
             self?.getData()
         })
         self.tableView.mj_footer = V2RefreshFooter(refreshingBlock: {[weak self] in
             self?.getNextPage()
         })
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            
+            self?.tableView.v2_scrollToTop()
+            self?.showLoadingView()
+            self?.getData()
+        }
+        
+        
     }
     
     func getData(){

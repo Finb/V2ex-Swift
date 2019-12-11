@@ -20,14 +20,12 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 用户名
     var userNameLabel: UILabel = {
         let label = UILabel();
-        label.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
         label.font=v2Font(14);
         return label
     }()
     /// 日期 和 最后发送人
     var dateAndLastPostUserLabel: UILabel = {
         let label = UILabel();
-        label.textColor=V2EXColor.colors.v2_TopicListDateColor;
         label.font=v2Font(12);
         return label
     }()
@@ -35,9 +33,7 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 节点
     var nodeNameLabel: UILabel = {
         let label = UILabel();
-        label.textColor = V2EXColor.colors.v2_TopicListDateColor
         label.font = v2Font(11)
-        label.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
         label.layer.cornerRadius=2;
         label.clipsToBounds = true
         label.isUserInteractionEnabled = true
@@ -47,7 +43,6 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 帖子标题
     var topicTitleLabel: UILabel = {
         let label = V2SpacingLabel();
-        label.textColor = V2EXColor.colors.v2_TopicListTitleColor;
         label.font = v2Font(17);
         label.numberOfLines = 0;
         label.preferredMaxLayoutWidth = SCREEN_WIDTH-24;
@@ -57,7 +52,6 @@ class TopicDetailHeaderCell: UITableViewCell {
     /// 装上面定义的那些元素的容器
     var contentPanel:UIView = {
         let view = UIView()
-        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         return view
     }()
     
@@ -73,7 +67,7 @@ class TopicDetailHeaderCell: UITableViewCell {
     }
     func setup()->Void{
         self.selectionStyle = .none
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+        
         
         self.contentView.addSubview(self.contentPanel);
         self.contentPanel.addSubview(self.avatarImageView);
@@ -93,6 +87,15 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.userNameLabel.addGestureRecognizer(userNameTap)
         self.nodeNameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(nodeClick)))
         
+        self.themeChangedHandler = {[weak self] _ in
+            self?.backgroundColor=V2EXColor.colors.v2_backgroundColor;
+            self?.userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor;
+            self?.dateAndLastPostUserLabel.textColor=V2EXColor.colors.v2_TopicListDateColor;
+            self?.nodeNameLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
+            self?.nodeNameLabel.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
+            self?.topicTitleLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor;
+            self?.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        }
     }
     
     fileprivate func setupLayout(){

@@ -21,20 +21,17 @@ class TopicDetailCommentCell: UITableViewCell{
     /// 用户名
     var userNameLabel: UILabel = {
         let userNameLabel = UILabel()
-        userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         userNameLabel.font=v2Font(14)
         return userNameLabel
     }()
     var authorLabel: UILabel = {
         let authorLabel = UILabel()
-        authorLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         authorLabel.font=v2Font(12)
         return authorLabel
     }()
     /// 日期 和 最后发送人
     var dateLabel: UILabel = {
         let dateLabel = UILabel()
-        dateLabel.textColor=V2EXColor.colors.v2_TopicListDateColor
         dateLabel.font=v2Font(12)
         return dateLabel
     }()
@@ -42,7 +39,6 @@ class TopicDetailCommentCell: UITableViewCell{
     /// 回复正文
     var commentLabel: YYLabel = {
         let commentLabel = YYLabel();
-        commentLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
         commentLabel.font = v2Font(14);
         commentLabel.numberOfLines = 0;
         commentLabel.displaysAsynchronously = true
@@ -52,14 +48,12 @@ class TopicDetailCommentCell: UITableViewCell{
     /// 装上面定义的那些元素的容器
     var contentPanel: UIView = {
         let view = UIView()
-        view.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         return view
     }()
     
     //评论喜欢数
     var favoriteIconView:UIImageView = {
         let favoriteIconView = UIImageView(image: UIImage.imageUsedTemplateMode("ic_favorite_18pt")!)
-        favoriteIconView.tintColor = V2EXColor.colors.v2_TopicListDateColor;
         favoriteIconView.contentMode = .scaleAspectFit
         favoriteIconView.isHidden = true
         return favoriteIconView
@@ -67,7 +61,6 @@ class TopicDetailCommentCell: UITableViewCell{
 
     var favoriteLabel:UILabel = {
         let favoriteLabel = UILabel()
-        favoriteLabel.textColor = V2EXColor.colors.v2_TopicListDateColor;
         favoriteLabel.font = v2Font(10)
         return favoriteLabel
     }()
@@ -87,12 +80,9 @@ class TopicDetailCommentCell: UITableViewCell{
     }
 
     func setup()->Void{
-        self.backgroundColor=V2EXColor.colors.v2_backgroundColor;
-        
         let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         self.selectedBackgroundView = selectedBackgroundView
-
+        
         self.contentView.addSubview(self.contentPanel);
         self.contentPanel.addSubview(self.avatarImageView);
         self.contentPanel .addSubview(self.userNameLabel);
@@ -103,14 +93,6 @@ class TopicDetailCommentCell: UITableViewCell{
         self.contentPanel.addSubview(self.commentLabel);
 
         self.setupLayout()
-        
-        self.avatarImageView.backgroundColor = self.contentPanel.backgroundColor
-        self.userNameLabel.backgroundColor = self.contentPanel.backgroundColor
-        self.authorLabel.backgroundColor = self.contentPanel.backgroundColor
-        self.dateLabel.backgroundColor = self.contentPanel.backgroundColor
-        self.commentLabel.backgroundColor = self.contentPanel.backgroundColor
-        self.favoriteIconView.backgroundColor = self.contentPanel.backgroundColor
-        self.favoriteLabel.backgroundColor = self.contentPanel.backgroundColor
         
         //点击用户头像，跳转到用户主页
         self.avatarImageView.isUserInteractionEnabled = true
@@ -126,6 +108,26 @@ class TopicDetailCommentCell: UITableViewCell{
                 action: #selector(TopicDetailCommentCell.longPressHandle(_:))
             )
         )
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+            self?.authorLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+            self?.dateLabel.textColor=V2EXColor.colors.v2_TopicListDateColor
+            self?.commentLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
+            self?.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.favoriteIconView.tintColor = V2EXColor.colors.v2_TopicListDateColor;
+            self?.favoriteLabel.textColor = V2EXColor.colors.v2_TopicListDateColor;
+            self?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
+            self?.selectedBackgroundView?.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            
+            self?.avatarImageView.backgroundColor = self?.contentPanel.backgroundColor
+            self?.userNameLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.authorLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.dateLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.commentLabel.backgroundColor = self?.contentPanel.backgroundColor
+            self?.favoriteIconView.backgroundColor = self?.contentPanel.backgroundColor
+            self?.favoriteLabel.backgroundColor = self?.contentPanel.backgroundColor
+        }
     }
     func setupLayout(){
         self.contentPanel.snp.makeConstraints{ (make) -> Void in

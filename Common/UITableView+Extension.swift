@@ -50,4 +50,7 @@ extension UITableView {
         let path = IndexPath(row: row, section: section)
         self.scrollToRow(at: path, at: .top, animated: false)
     }
+    func v2_scrollToTop() {
+        self.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
+    }
 }

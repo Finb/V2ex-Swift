@@ -19,7 +19,6 @@ class TopicDetailToolCell: UITableViewCell {
     let sortButton:V2HitTestSlopButton = {
         let btn = V2HitTestSlopButton()
         btn.titleLabel?.font = v2Font(12)
-        btn.setTitleColor(V2EXColor.colors.v2_TopicListTitleColor, for: .normal)
         btn.hitTestSlop = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
         btn.titleLabel?.textAlignment = .left
         return btn
@@ -56,6 +55,7 @@ class TopicDetailToolCell: UITableViewCell {
         }
         
         self.themeChangedHandler = {[weak self] (style) -> Void in
+            self?.sortButton.setTitleColor(V2EXColor.colors.v2_TopicListTitleColor, for: .normal)
             self?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
             self?.titleLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor
             self?.separator.image = createImageWithColor(V2EXColor.colors.v2_backgroundColor)
