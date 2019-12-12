@@ -18,13 +18,11 @@ class AccountListTableViewCell: UITableViewCell {
     }()
     var userNameLabel:UILabel = {
         let userNameLabel = UILabel()
-        userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
         userNameLabel.font = v2Font(14)
         return userNameLabel
     }()
     var usedLabel:UILabel = {
         let usedLabel = UILabel()
-        usedLabel.textColor = V2EXColor.colors.v2_NoticePointColor
         usedLabel.font = v2Font(11)
         usedLabel.text = NSLocalizedString("current")
         return usedLabel
@@ -39,12 +37,11 @@ class AccountListTableViewCell: UITableViewCell {
     }
     func setup()->Void{
         self.selectionStyle = .none
-        self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
 
         self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.userNameLabel)
         self.contentView.addSubview(self.usedLabel)
-        let separator = UIImageView(image: createImageWithColor(V2EXColor.colors.v2_SeparatorColor))
+        let separator = UIImageView()
         self.contentView.addSubview(separator)
 
         self.usedLabel.isHidden = true;
@@ -66,6 +63,14 @@ class AccountListTableViewCell: UITableViewCell {
             make.left.equalTo(self.avatarImageView.snp.right).offset(5)
             make.right.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)
+        }
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.userNameLabel.textColor = V2EXColor.colors.v2_TopicListUserNameColor
+            self?.usedLabel.textColor = V2EXColor.colors.v2_NoticePointColor
+            
+            separator.image = createImageWithColor(V2EXColor.colors.v2_SeparatorColor)
         }
     }
     

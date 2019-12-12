@@ -18,18 +18,23 @@ class LogoutTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     func setup()->Void{
-        self.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+        
 
         self.textLabel!.text = NSLocalizedString("logOut")
         self.textLabel!.textAlignment = .center
-        self.textLabel!.textColor = V2EXColor.colors.v2_NoticePointColor
         
-        let separator = UIImageView(image: createImageWithColor(V2EXColor.colors.v2_SeparatorColor))
+        let separator = UIImageView()
         self.contentView.addSubview(separator)
         separator.snp.makeConstraints{ (make) -> Void in
             make.left.equalTo(self.contentView)
             make.right.bottom.equalTo(self.contentView)
             make.height.equalTo(SEPARATOR_HEIGHT)
         }
+        self.themeChangedHandler = {[weak self] _ in
+            self?.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
+            self?.textLabel!.textColor = V2EXColor.colors.v2_NoticePointColor
+            separator.image = createImageWithColor(V2EXColor.colors.v2_SeparatorColor)
+        }
+        
     }
 }

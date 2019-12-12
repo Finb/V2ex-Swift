@@ -13,7 +13,6 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
     fileprivate var users:[LocalSecurityAccountModel] = []
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
         
@@ -28,7 +27,6 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = NSLocalizedString("accounts")
-        self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
 
         let warningButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         warningButton.contentMode = .center
@@ -48,7 +46,11 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         for (_,user) in V2UsersKeychain.sharedInstance.users {
             self.users.append(user)
         }
-
+        
+        self.themeChangedHandler = {[weak self] _ in
+            self?.tableView.backgroundColor = V2EXColor.colors.v2_backgroundColor
+            self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
+        }
     }
 
     @objc func warningClick(){
