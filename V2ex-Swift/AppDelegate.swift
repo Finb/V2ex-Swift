@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let centerNav = V2EXNavigationController(rootViewController: HomeViewController());
         let leftViewController = LeftViewController();
         let rightViewController = RightViewController();
-        let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
+        let drawerController = V2EXDrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController);
         
         self.window?.themeChangedHandler = {[weak self] (style) -> Void in
             self?.window?.backgroundColor = V2EXColor.colors.v2_backgroundColor;
@@ -122,3 +122,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
+
+class V2EXDrawerController: DrawerController {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if V2EXColor.sharedInstance.isFollowSystem {
+            V2EXColor.sharedInstance.refreshColorStyle()
+        }
+    }
+}
