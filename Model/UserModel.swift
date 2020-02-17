@@ -77,11 +77,9 @@ extension UserModel{
             (response) -> Void in
             if let jiHtml = response .result.value{
                 //判断有没有用户头像，如果有，则证明登录成功了
-                if let avatarImg = jiHtml.xPath("//*[@id='Top']/div/div/table/tr/td[3]/a[1]/img[1]")?.first {
-                    if let username = avatarImg.parent?["href"]{
-                        if username.hasPrefix("/member/") {
-                            let username = username.replacingOccurrences(of: "/member/", with: "")
-                            
+                if let avatarImg = jiHtml.xPath("//*[@id='menu-entry']/img")?.first {
+                    if let altUsername = avatarImg.attributes["alt"]{
+                        if altUsername == username {
                             //用户开启了两步验证
                             if let url = response.response?.url?.absoluteString, url.contains("2fa") {
                                 completionHandler(V2ValueResponse(value: username, success: true),true)
