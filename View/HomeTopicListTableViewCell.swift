@@ -210,16 +210,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
                 self.topicTitleLabel.textLayout = layout
             }
         }
-        if let avatar = model.avata {
-            var avatarUrl:String
-            if avatar.hasPrefix("http") {
-                avatarUrl = avatar
-            }
-            else{
-                //某些时期 V2ex 使用 //: 自适应scheme ，需要加上https
-                avatarUrl = "https:" + avatar
-            }
-            self.avatarImageView.fin_setImageWithUrl(URL(string: avatarUrl)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
+        if let avatar = model.avata?.avatarString {
+            self.avatarImageView.fin_setImageWithUrl(URL(string: avatar)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
         self.replyCountLabel.text = model.replies;
         

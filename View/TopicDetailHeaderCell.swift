@@ -147,8 +147,8 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.dateAndLastPostUserLabel.text = model.date
         self.topicTitleLabel.text = model.topicTitle;
         
-        if let avata = model.avata {
-            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
+        if let avata = model.avata?.avatarString {
+            self.avatarImageView.fin_setImageWithUrl(URL(string: avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         if let node = model.nodeName{

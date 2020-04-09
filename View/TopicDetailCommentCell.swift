@@ -178,8 +178,8 @@ class TopicDetailCommentCell: UITableViewCell{
     }
     func bind(_ model:TopicCommentModel){
         
-        if let avata = model.avata {
-            self.avatarImageView.fin_setImageWithUrl(URL(string: "https:" + avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
+        if let avata = model.avata?.avatarString {
+            self.avatarImageView.fin_setImageWithUrl(URL(string: avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
         if self.itemModel?.number == model.number && self.itemModel?.userName == model.userName {

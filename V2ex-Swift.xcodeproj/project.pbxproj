@@ -109,6 +109,7 @@
 		06E52F7A1E01326900E69084 /* JSTools.js in Resources */ = {isa = PBXBuildFile; fileRef = 06E52F791E01326900E69084 /* JSTools.js */; };
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
+		06EB0CD0243EC58A00B958CA /* String+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EB0CCF243EC58A00B958CA /* String+Avatar.swift */; };
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
@@ -221,6 +222,7 @@
 		06E52F791E01326900E69084 /* JSTools.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JSTools.js; sourceTree = "<group>"; };
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
 		06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		06EB0CCF243EC58A00B958CA /* String+Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Avatar.swift"; sourceTree = "<group>"; };
 		06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVProgressHUD+Extension.swift"; sourceTree = "<group>"; };
 		2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2ProgressHUD.swift; sourceTree = "<group>"; };
 		2D6B1BAF1CA93F970050121D /* V2User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2User.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				0666E0EF1DBF49C0009A1F71 /* WebViewImageProtocol.swift */,
 				06E52F791E01326900E69084 /* JSTools.js */,
 				06B6447D21B8D1A600D1BD46 /* V2HitTestSlopButton.swift */,
+				06EB0CCF243EC58A00B958CA /* String+Avatar.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,
 				06D300241C6C21B600547CE6 /* AccountsManagerViewController.swift in Sources */,
 				0691BC7A231CC00000A84E92 /* TopicApi.swift in Sources */,
+				06EB0CD0243EC58A00B958CA /* String+Avatar.swift in Sources */,
 				0684A1E01C5B4A0A00B12437 /* NotificationsViewController.swift in Sources */,
 				069508FB1C3F75C70088D031 /* HomeViewController.swift in Sources */,
 				0610F1B21C4613D800481402 /* TopicListModel.swift in Sources */,

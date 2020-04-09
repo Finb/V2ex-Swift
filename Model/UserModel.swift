@@ -138,8 +138,8 @@ extension UserModel{
             .subscribe(onNext: { (userModel) in
                 V2User.sharedInstance.user = userModel
                 //将头像更新进 keychain保存的users中
-                if let avatar = userModel.avatar_large {
-                    V2UsersKeychain.sharedInstance.update(username, password: nil, avatar: "https:" + avatar )
+                if let avatar = userModel.avatar_large?.avatarString {
+                    V2UsersKeychain.sharedInstance.update(username, password: nil, avatar: avatar )
                 }
                 completionHandler?(V2ValueResponse(value: userModel, success: true))
                 return ;

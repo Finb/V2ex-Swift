@@ -201,8 +201,8 @@ class NotificationTableViewCell: UITableViewCell {
             self.setCommentPanelHidden(true)
         }
         
-        if let avata = model.avata {
-            self.avatarImageView.kf.setImage(with:  URL(string: "https:" + avata)!)
+        if let avata = model.avata?.avatarString {
+            self.avatarImageView.kf.setImage(with:  URL(string: avata)!)
         }
     }
     

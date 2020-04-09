@@ -74,8 +74,8 @@ class MemberHeaderCell: UITableViewCell {
     
     func bind(_ model:MemberModel?){
         if let model = model {
-            if let avata = model.avata {
-                self.avatarImageView.kf.setImage(with: URL(string: "https:" + avata)!)
+            if let avata = model.avata?.avatarString {
+                self.avatarImageView.kf.setImage(with: URL(string: avata)!)
             }
             self.userNameLabel.text = model.userName;
             self.introduceLabel.text = model.introduce;

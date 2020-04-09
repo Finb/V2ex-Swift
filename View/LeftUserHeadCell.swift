@@ -56,8 +56,8 @@ class LeftUserHeadCell: UITableViewCell {
             [weak self] (observe, observer, change) -> Void in
             if let weakSelf = self {
                 weakSelf.userNameLabel.text = V2User.sharedInstance.username ?? "请先登录"
-                if let avatar = V2User.sharedInstance.user?.avatar_large {
-                    weakSelf.avatarImageView.kf.setImage(with: URL(string: "https:"+avatar)!, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+                if let avatar = V2User.sharedInstance.user?.avatar_large?.avatarString {
+                    weakSelf.avatarImageView.kf.setImage(with: URL(string: avatar)!, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
                         //如果请求到图片时，客户端已经不是登录状态了，则将图片清除
                         if !V2User.sharedInstance.isLogin {
                             weakSelf.avatarImageView.image = nil
