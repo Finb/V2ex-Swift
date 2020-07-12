@@ -53,7 +53,7 @@ extension NotificationsModel {
             var resultArray:[NotificationsModel] = []
             
             if let jiHtml = response.result.value {
-                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box']/div[attribute::id]"){
+                if let aRootNode = jiHtml.xPath("//*[@id=\"notifications\"]/div[attribute::id]"){
                     for aNode in aRootNode {
                         let notice = NotificationsModel(rootNode:aNode)
                         resultArray.append(notice);

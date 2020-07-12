@@ -194,7 +194,7 @@ class NotificationTableViewCell: UITableViewCell {
         self.dateLabel.text = model.date
         self.detailLabel.text = model.title
         if let text = model.reply {
-            self.commentLabel.text = text
+            self.commentLabel.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
             self.setCommentPanelHidden(false)
         }
         else {
