@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         V2EXColor.sharedInstance.refreshStyleIfNeeded()
         //如果剪切板内有 帖子URL ，则询问用户是否打开
-        if let pasteString = UIPasteboard.general.string {
+        if UIPasteboard.general.hasURLs, let pasteString = UIPasteboard.general.string {
             guard lastPasteString != pasteString else {
                 return
             }
