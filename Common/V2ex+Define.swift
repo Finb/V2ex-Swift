@@ -15,10 +15,16 @@ let SCREEN_WIDTH = UIScreen.main.bounds.size.width;
 let SCREEN_HEIGHT = UIScreen.main.bounds.size.height;
 //NavagationBar高度
 let NavigationBarHeight:CGFloat = {
-    if UIDevice.current.isIphoneX {
-        return 88
+    return kSafeAreaInsets.top + 44
+}()
+let kSafeAreaInsets:UIEdgeInsets = {
+    if #available(iOS 12.0, *){
+        return UIWindow().safeAreaInsets
     }
-    return 64
+    if UIDevice.current.isIphoneX {
+        return UIEdgeInsets(top: 44, left: 0, bottom: 34, right: 0)
+    }
+    return UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
 }()
 //用户代理，使用这个切换是获取 m站点 还是www站数据
 let USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4";

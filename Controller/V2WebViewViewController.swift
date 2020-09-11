@@ -74,8 +74,10 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         self.webView!.backgroundColor = self.view.backgroundColor
         self.view.addSubview(self.webView!)
         self.webView!.snp.makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.equalTo(self.view)
+            make.right.bottom.left.equalTo(self.view)
+            make.top.equalTo(NavigationBarHeight)
         }
+        self.webView!.scrollView.contentInsetAdjustmentBehavior = .never
         
         self.webViewProgressView = V2WebViewProgressView(frame: CGRect(x: 0, y: NavigationBarHeight, width: SCREEN_WIDTH, height: 2))
         self.view.addSubview(self.webViewProgressView!)
