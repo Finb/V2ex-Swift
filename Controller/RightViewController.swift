@@ -44,7 +44,20 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         tableView.dataSource = self
         return tableView
     }()
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        get {
+            if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
+                if #available(iOS 13.0, *) {
+                    return .darkContent
+                } else {
+                    return .default
+                }
+            }
+            else{
+                return .lightContent
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor;
