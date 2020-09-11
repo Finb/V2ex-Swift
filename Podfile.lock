@@ -4,8 +4,6 @@ PODS:
   - AlamofireObjectMapper (5.2.1):
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
   - CXSwipeGestureRecognizer (1.1.0)
   - DeviceKit (2.3.0)
   - DrawerController (4.0.0):
@@ -14,7 +12,6 @@ PODS:
   - DrawerController/Core (4.0.0)
   - DrawerController/DrawerVisualStates (4.0.0):
     - DrawerController/Core
-  - Fabric (1.10.2)
   - FDFullscreenPopGesture (1.1)
   - FXBlurView (1.6.4)
   - Ji (5.0.0)
@@ -41,11 +38,9 @@ DEPENDENCIES:
   - 1PasswordExtension
   - Alamofire
   - AlamofireObjectMapper
-  - Crashlytics
   - CXSwipeGestureRecognizer
   - DeviceKit
   - DrawerController
-  - Fabric
   - FDFullscreenPopGesture
   - FXBlurView
   - Ji
@@ -66,11 +61,9 @@ SPEC REPOS:
     - 1PasswordExtension
     - Alamofire
     - AlamofireObjectMapper
-    - Crashlytics
     - CXSwipeGestureRecognizer
     - DeviceKit
     - DrawerController
-    - Fabric
     - FDFullscreenPopGesture
     - FXBlurView
     - Ji
@@ -92,11 +85,9 @@ SPEC CHECKSUMS:
   1PasswordExtension: 0e95bdea64ec8ff2f4f693be5467a09fac42a83d
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   CXSwipeGestureRecognizer: 5a53916aa69e85d041c35b5fc2180ff0bfe6333b
   DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: d795fed288fe78658b404c88946d753b17d8d7f4
@@ -114,6 +105,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 7fea84059aeb8f3e65d7b0e556d219067a9e048b
+PODFILE CHECKSUM: 7d1a9d4c1f3833d595835abf67d9a946bc28dbc3
 
 COCOAPODS: 1.8.4
