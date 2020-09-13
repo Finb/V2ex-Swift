@@ -72,3 +72,9 @@ reply2 = "回  复";
 cancel2 = "取  消";
 
 userAgreement = "用户协议";
+reportNude = "低俗色情";
+reportHate = "仇恨言论";
+reportViolence = "血腥暴力";
+reportScam = "诈骗信息";
+reportOther = "其他";
+reportSuccess = "举报成功!";

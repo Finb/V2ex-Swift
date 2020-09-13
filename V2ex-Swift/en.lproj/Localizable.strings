@@ -70,3 +70,9 @@ reply2 = "Reply";
 cancel2 = "Cancel";
 
 userAgreement = "User Agreement";
+reportNude = "Nudity or sexual activity";
+reportHate = "hate speech or symblos";
+reportViolence = "Violence or dangerrous";
+reportScam = "Scam or fraud";
+reportOther = "Other";
+reportSuccess = "Thanks for letting us know!";

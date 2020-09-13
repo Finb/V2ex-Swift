@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		060481EA250E439000BC9799 /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060481E9250E439000BC9799 /* AgreementViewController.swift */; };
+		060481EC250E51E800BC9799 /* HitTestSlopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060481EB250E51E800BC9799 /* HitTestSlopView.swift */; };
 		06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06098B3E1C52171D00848159 /* LoginViewController.swift */; };
 		06098B431C5232D800848159 /* 32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B421C5232D800848159 /* 32.jpg */; };
 		060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */; };
@@ -119,6 +120,7 @@
 
 /* Begin PBXFileReference section */
 		060481E9250E439000BC9799 /* AgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
+		060481EB250E51E800BC9799 /* HitTestSlopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HitTestSlopView.swift; sourceTree = "<group>"; };
 		06098B3E1C52171D00848159 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		06098B421C5232D800848159 /* 32.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 32.jpg; sourceTree = "<group>"; };
 		060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 				060C72561C8D6100000F4D2F /* V2ActivityViewController.swift */,
 				06D0EE2D1C917696003095FF /* V2Slider.swift */,
 				06CE3D8E1DA8ACB000E16F23 /* INSImageView.swift */,
+				060481EB250E51E800BC9799 /* HitTestSlopView.swift */,
 			);
 			name = Control;
 			sourceTree = "<group>";
@@ -748,6 +751,7 @@
 				0684A1EA1C5B608D00B12437 /* NotificationsModel.swift in Sources */,
 				06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */,
 				06D0EE2E1C917696003095FF /* V2Slider.swift in Sources */,
+				060481EC250E51E800BC9799 /* HitTestSlopView.swift in Sources */,
 				063671761C7AF55800B72D9F /* V2TapDetectingImageView.swift in Sources */,
 				06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */,
 				069839811C478EC300FF7163 /* LeftViewController.swift in Sources */,

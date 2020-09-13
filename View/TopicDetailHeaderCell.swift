@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class TopicDetailHeaderCell: UITableViewCell {
     /// 头像
@@ -38,6 +39,16 @@ class TopicDetailHeaderCell: UITableViewCell {
         label.clipsToBounds = true
         label.isUserInteractionEnabled = true
         return label
+    }()
+    
+    let reportImageView:UIImageView = {
+        
+        let imageView = HitTestSlopImageView()
+        imageView.hitTestSlop = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -5)
+        imageView.image = UIImage(named: "baseline_report_black_24pt")?.withRenderingMode(.alwaysTemplate)
+        imageView.alpha = 0.7
+        imageView.isUserInteractionEnabled = true
+        return imageView
     }()
     
     /// 帖子标题
@@ -74,6 +85,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         self.contentPanel.addSubview(self.userNameLabel);
         self.contentPanel.addSubview(self.dateAndLastPostUserLabel);
         self.contentPanel.addSubview(self.nodeNameLabel)
+        self.contentPanel.addSubview(self.reportImageView)
         self.contentPanel.addSubview(self.topicTitleLabel);
 
         self.setupLayout()
@@ -86,6 +98,7 @@ class TopicDetailHeaderCell: UITableViewCell {
         userNameTap = UITapGestureRecognizer(target: self, action: #selector(TopicDetailHeaderCell.userNameTap(_:)))
         self.userNameLabel.addGestureRecognizer(userNameTap)
         self.nodeNameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(nodeClick)))
+        self.reportImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(reportClick)))
         
         self.themeChangedHandler = {[weak self] _ in
             self?.backgroundColor=V2EXColor.colors.v2_backgroundColor;
@@ -93,6 +106,7 @@ class TopicDetailHeaderCell: UITableViewCell {
             self?.dateAndLastPostUserLabel.textColor=V2EXColor.colors.v2_TopicListDateColor;
             self?.nodeNameLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
             self?.nodeNameLabel.backgroundColor = V2EXColor.colors.v2_NodeBackgroundColor
+            self?.reportImageView.tintColor = V2EXColor.colors.v2_TopicListDateColor
             self?.topicTitleLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor;
             self?.contentPanel.backgroundColor = V2EXColor.colors.v2_CellWhiteBackgroundColor
         }
@@ -117,6 +131,11 @@ class TopicDetailHeaderCell: UITableViewCell {
             make.bottom.equalTo(self.userNameLabel).offset(1);
             make.top.equalTo(self.userNameLabel).offset(-1);
         }
+        self.reportImageView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(16)
+            make.centerY.equalTo(self.nodeNameLabel)
+            make.right.equalTo(self.nodeNameLabel.snp.left).offset(-5)
+        }
         self.topicTitleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
@@ -137,6 +156,39 @@ class TopicDetailHeaderCell: UITableViewCell {
             memberViewController.username = username
             V2Client.sharedInstance.centerNavigation?.pushViewController(memberViewController, animated: true)
         }
+    }
+    @objc func reportSuccess(){
+        SVProgressHUD.showSuccess(withStatus: NSLocalizedString("reportSuccess"))
+    }
+    @objc func reportClick(){
+        
+        func report(){
+            SVProgressHUD.show()
+            self.perform(#selector(reportSuccess), with: nil, afterDelay: 1)
+        }
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let reportNudeAction = UIAlertAction(title: NSLocalizedString("reportNude"), style: .default) { _ in
+            report()
+        }
+        let reportHateAction = UIAlertAction(title: NSLocalizedString("reportHate"), style: .default) { _ in
+            report()
+        }
+        let reportViolenceAction = UIAlertAction(title: NSLocalizedString("reportViolence"), style: .default) { _ in
+            report()
+        }
+        let reportScamAction = UIAlertAction(title: NSLocalizedString("reportScam"), style: .default) { _ in
+            report()
+        }
+        let reportOtherAction = UIAlertAction(title: NSLocalizedString("reportOther"), style: .default) { _ in
+            report()
+        }
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        //将action全加进actionSheet
+        [reportNudeAction,reportHateAction,reportViolenceAction,reportScamAction,reportOtherAction,cancelAction].forEach { (action) -> () in
+            actionSheet.addAction(action)
+        }
+        V2Client.sharedInstance.topNavigationController.present(actionSheet, animated: true, completion: nil)
     }
     
     func bind(_ model:TopicDetailModel){
