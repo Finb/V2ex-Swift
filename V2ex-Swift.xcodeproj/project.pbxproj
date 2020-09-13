@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060481EA250E439000BC9799 /* AgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060481E9250E439000BC9799 /* AgreementViewController.swift */; };
 		06098B3F1C52171D00848159 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06098B3E1C52171D00848159 /* LoginViewController.swift */; };
 		06098B431C5232D800848159 /* 32.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 06098B421C5232D800848159 /* 32.jpg */; };
 		060C4E401C4897BB004FBECC /* V2FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */; };
@@ -117,6 +118,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		060481E9250E439000BC9799 /* AgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementViewController.swift; sourceTree = "<group>"; };
 		06098B3E1C52171D00848159 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		06098B421C5232D800848159 /* 32.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 32.jpg; sourceTree = "<group>"; };
 		060C4E3F1C4897BB004FBECC /* V2FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2FPSLabel.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				061876881C7C15BC002E9C33 /* PodsTableViewController.swift */,
 				0618768E1C7C6A50002E9C33 /* SettingsTableViewController.swift */,
 				06744A521E49D4C0001E3D1B /* TwoFAViewController.swift */,
+				060481E9250E439000BC9799 /* AgreementViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -541,7 +544,6 @@
 				069508DC1C3F74FF0088D031 /* Sources */,
 				069508DD1C3F74FF0088D031 /* Frameworks */,
 				069508DE1C3F74FF0088D031 /* Resources */,
-				0600D8081C74209E002DB97F /* Run Script */,
 				E8038E4E35A14C64D67C20D0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -612,20 +614,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0600D8081C74209E002DB97F /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" == \"Release\" ]; then\n    echo \"fabric run Successfully\"\n    \"${PODS_ROOT}/Fabric/run\" e35a0878ffe50135a432ed19f88b19ba853f1a95 ed4490cfa5708117190644629735fd5abf04934826578407415ed78ff17d08ad\nelse\n    echo \"fabric disabled\"\nfi";
-		};
 		AA63AF201CF29D0554C1B2AC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -688,6 +676,7 @@
 				068910D11C61A44D00D22B4F /* NodeTopicListViewController.swift in Sources */,
 				06C6734A1C4D20A0000F48DA /* TopicDetailHeaderCell.swift in Sources */,
 				06D300281C6C720800547CE6 /* V2UsersKeychain.swift in Sources */,
+				060481EA250E439000BC9799 /* AgreementViewController.swift in Sources */,
 				067FF8C01C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift in Sources */,
 				0610F1B01C46136300481402 /* BaseModel.swift in Sources */,
 				069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */,

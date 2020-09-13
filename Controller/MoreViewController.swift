@@ -24,10 +24,10 @@ class MoreViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 9
+        return 10
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return [30,50,12,50,50,12,50,50,50][indexPath.row]
+        return [30,50,12,50,50,50,12,50,50,50][indexPath.row]
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: BaseDetailTableViewCell.self, indexPath: indexPath)
@@ -40,13 +40,14 @@ class MoreViewController: UITableViewController {
             "",
             NSLocalizedString("rateV2ex"),
             NSLocalizedString("reportAProblem"),
+            NSLocalizedString("userAgreement"),
             "",
             NSLocalizedString("followThisProjectSourceCode"),
             NSLocalizedString("open-SourceLibraries"),
             NSLocalizedString("version")][indexPath.row]
         
         //设置颜色
-        if [0,2,5].contains(indexPath.row) {
+        if [0,2,6].contains(indexPath.row) {
             cell.backgroundColor = self.tableView.backgroundColor
         }
         else{
@@ -54,7 +55,7 @@ class MoreViewController: UITableViewController {
         }
         
         //设置右侧箭头
-        if [0,2,5,8].contains(indexPath.row) {
+        if [0,2,6,9].contains(indexPath.row) {
             cell.detailMarkHidden = true
         }
         else {
@@ -62,7 +63,7 @@ class MoreViewController: UITableViewController {
         }
         
         //设置右侧文本
-        if indexPath.row == 8 {
+        if indexPath.row == 9 {
             cell.detailLabel.text = "Version " + (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String)
                 + " (Build " + (Bundle.main.infoDictionary!["CFBundleVersion"] as! String ) + ")"
         }
@@ -85,10 +86,13 @@ class MoreViewController: UITableViewController {
         else if indexPath.row == 4 {
             UIApplication.shared.openURL(URL(string: "https://day.app/2016/02/v2ex-ioske-hu-duan-bug-and-jian-yi/")!)
         }
-        else if indexPath.row == 6 {
-            UIApplication.shared.openURL(URL(string: "https://github.com/Finb/V2ex-Swift")!)
+        else if indexPath.row == 5 {
+            self.navigationController?.pushViewController(AgreementViewController(), animated: true)
         }
         else if indexPath.row == 7 {
+            UIApplication.shared.openURL(URL(string: "https://github.com/Finb/V2ex-Swift")!)
+        }
+        else if indexPath.row == 8 {
             V2Client.sharedInstance.centerNavigation?.pushViewController(PodsTableViewController(), animated: true)
         }
     }

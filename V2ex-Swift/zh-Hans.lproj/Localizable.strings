@@ -70,3 +70,5 @@ thank = "感谢";
 share = "分享";
 reply2 = "回  复";
 cancel2 = "取  消";
+
+userAgreement = "用户协议";
