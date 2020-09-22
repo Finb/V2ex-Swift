@@ -109,9 +109,7 @@ class V2EXNavigationController: UINavigationController {
 
                 
                 //全局键盘颜色
-                UITextView.appearance().keyboardAppearance = .light
                 UITextField.appearance().keyboardAppearance = .light
-                YYTextView.appearance().keyboardAppearance = .light
                 
             }
             else{
@@ -122,9 +120,7 @@ class V2EXNavigationController: UINavigationController {
                     self?.frostedView.barStyle = .black
                 }
                 
-                UITextView.appearance().keyboardAppearance = .dark
                 UITextField.appearance().keyboardAppearance = .dark
-                YYTextView.appearance().keyboardAppearance = .dark
             }
             
             self?.setNeedsStatusBarAppearanceUpdate()

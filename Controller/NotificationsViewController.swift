@@ -97,7 +97,7 @@ class NotificationsViewController: BaseViewController,UITableViewDataSource,UITa
         let replyViewController = ReplyingViewController()
         
         let tempTopicModel = TopicDetailModel()
-        replyViewController.atSomeone = "@" + item.userName! + " "
+        replyViewController.atSomeone = "@" + (item.userName ?? " ")
         tempTopicModel.topicId = item.topicId
         replyViewController.topicModel = tempTopicModel
         

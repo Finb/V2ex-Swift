@@ -412,7 +412,7 @@ extension TopicDetailViewController: UIActionSheetDelegate {
         V2User.sharedInstance.ensureLoginWithHandler {
             let item = self.commentsArray[row as! Int]
             let replyViewController = ReplyingViewController()
-            replyViewController.atSomeone = "@" + item.userName! + " "
+            replyViewController.atSomeone = "@" + (item.userName ?? " ")
             replyViewController.topicModel = self.model!
             let nav = V2EXNavigationController(rootViewController:replyViewController)
             self.navigationController?.present(nav, animated: true, completion:nil)
