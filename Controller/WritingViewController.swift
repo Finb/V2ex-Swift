@@ -44,8 +44,14 @@ class WritingViewController: UIViewController ,UITextViewDelegate {
             make.top.right.bottom.left.equalTo(self.view)
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
-    
+    @objc func keyboardWillChangeFrame(notification: Notification) {
+        guard let bound = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        self.textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bound.size.height, right: 0)
+    }
     @objc func leftClick (){
         self.dismiss(animated: true, completion: nil)
     }
