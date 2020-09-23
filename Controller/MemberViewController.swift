@@ -11,21 +11,20 @@ import FXBlurView
 import DeviceKit
 
 class MemberViewController: UIViewController,UITableViewDelegate,UITableViewDataSource ,UIScrollViewDelegate {
-    var color:CGFloat = 0
-    
+
     var username:String?
-    var blockButton:UIButton?
-    var followButton:UIButton?
     var model:MemberModel?
     
+    var blockButton:UIButton?
+    var followButton:UIButton?
     
+    var color:CGFloat = 0
     var headerHeight: CGFloat = {
         if UIDevice.current.isIphoneX {
             return 240 + 24
         }
         return 240
     }()
-    
     //昵称相对于整个屏幕时的 y 值
     var nickLabelTop: CGFloat = {
         if UIDevice.current.isIphoneX {
@@ -35,7 +34,11 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     }()
     
     
-    var backgroundImageView:UIImageView?
+    let backgroundImageView:UIImageView = {
+        let backgroundImageView = UIImageView(image: UIImage(named: "12.jpg"))
+        backgroundImageView.contentMode = .scaleToFill
+        return backgroundImageView
+    }()
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = UIColor.clear
@@ -58,32 +61,28 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     var tableViewHeader:[UIView?] = []
     
-    var titleView:UIView?
+    var titleView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 44))
     var titleLabel:UILabel?
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.backgroundImageView = UIImageView(image: UIImage(named: "12.jpg"))
-        self.backgroundImageView!.frame = self.view.frame
-        self.backgroundImageView!.contentMode = .scaleToFill
-        view.addSubview(self.backgroundImageView!)
+        self.backgroundImageView.frame = self.view.frame
+        view.addSubview(self.backgroundImageView)
         
         let frostedView = FXBlurView()
-        frostedView.underlyingView = self.backgroundImageView!
+        frostedView.underlyingView = self.backgroundImageView
         frostedView.isDynamic = false
         frostedView.frame = self.view.frame
         frostedView.tintColor = UIColor.black
         self.view.addSubview(frostedView)
-        
+        frostedView.updateAsynchronously(true, completion: nil)
 
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
             make.top.right.bottom.left.equalTo(self.view);
         }
         
-        self.titleView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 44))
-        self.navigationItem.titleView = self.titleView!
-        
+        self.navigationItem.titleView = self.titleView
         
         let aloadView = UIActivityIndicatorView(style: .white)
         self.view.addSubview(aloadView)
@@ -96,7 +95,6 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         
         self.refreshData()
         
-
         self.themeChangedHandler = {[weak self] _ in
             self?.view.backgroundColor = V2EXColor.colors.v2_backgroundColor
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDark {
@@ -106,8 +104,6 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
                 self?.color = 0
             }
         }
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,15 +121,14 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         if self.titleLabel == nil {
-            var frame = self.titleView!.frame
+            var frame = self.titleView.frame
             frame.origin.x = (frame.size.width - SCREEN_WIDTH)/2
             frame.size.width = SCREEN_WIDTH
             
             let coverView = UIView(frame: frame)
             coverView.clipsToBounds = true
-            self.titleView!.addSubview(coverView)
+            self.titleView.addSubview(coverView)
             
             self.titleLabel = UILabel(frame: CGRect(x: 0, y: 44, width: SCREEN_WIDTH, height: 44))
             self.titleLabel!.text = self.model != nil ? self.model!.userName! : "Hello"
@@ -142,7 +137,6 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             self.titleLabel!.textColor = V2EXColor.colors.v2_TopicListTitleColor
             coverView.addSubview(self.titleLabel!)
         }
-        
     }
     
     func refreshData(){
@@ -161,6 +155,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             }
         })
     }
+    
     func getDataSuccessfully(_ aModel:MemberModel){
         self.model = aModel
         self.titleLabel?.text = self.model?.userName
@@ -169,10 +164,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         }
         self.tableView.fin_reloadData()
     }
-    
 
-
-   
 // MARK: - UIScrollViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var offsetY = scrollView.contentOffset.y
