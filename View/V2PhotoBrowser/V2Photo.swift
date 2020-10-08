@@ -15,7 +15,7 @@ class V2Photo :NSObject{
     
     var underlyingImage:UIImage?
     
-    fileprivate var url:URL
+    var url:URL
     
     init(url:URL) {
         

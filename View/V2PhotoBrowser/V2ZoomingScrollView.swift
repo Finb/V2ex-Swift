@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Photos
+import Kingfisher
 
 class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScrollViewDelegate{
     var index:Int = Int.max
@@ -52,6 +54,7 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
         
         NotificationCenter.default.addObserver(self, selector: #selector(V2ZoomingScrollView.loadingDidEndNotification(_:)), name: NSNotification.Name(rawValue: V2Photo.V2PHOTO_LOADING_DID_END_NOTIFICATION), object: nil)
         self.photoBrowser = browser
+        self.photoImageView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(imageLongPress)))
         
     }
     deinit {
@@ -245,5 +248,64 @@ class V2ZoomingScrollView: UIScrollView ,V2TapDetectingImageViewDelegate , UIScr
             
         }
 
+    }
+}
+
+extension V2ZoomingScrollView {
+    @objc func imageLongPress(sender:UIGestureRecognizer){
+        if sender.state == .began {
+            
+            let controller = UIAlertController(title: "", message: "图片", preferredStyle: .actionSheet)
+            controller.addAction(UIAlertAction(title: "保存图片", style: .default, handler: { [weak self] (_) in
+                self?.saveImage()
+            }))
+            controller.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            
+            V2Client.sharedInstance.topNavigationController.presentedViewController?.present(controller, animated: true, completion: nil)
+            
+        }
+    }
+    @objc private func saveImage(){
+        guard let image = photoImageView.image, let photo = self.photo, var imageData:Data = image.pngData() else {
+            return
+        }
+
+        let resource = ImageResource(downloadURL: photo.url)
+        let filePath = KingfisherManager.shared.cache.cachePath(forKey: resource.cacheKey)
+        if let data = try? Data(contentsOf: URL(fileURLWithPath: filePath)) {
+            //拿一下原始Data数据，保存效果更佳~
+            imageData = data
+        }
+        
+        func requestAuthorizationCompletion(status:PHAuthorizationStatus) {
+            if status == .authorized {
+                PHPhotoLibrary.shared().performChanges({
+                    let option = PHAssetResourceCreationOptions()
+                    let request = PHAssetCreationRequest.forAsset()
+                    request.addResource(with: .photo, data: imageData, options: option)
+                    request.creationDate = Date()
+                }, completionHandler: { (success, error) in
+                    if error != nil {
+                        V2Error(error?.rawString())
+                    }
+                    else{
+                        V2Success("保存成功")
+                    }
+                })
+            }
+            else{
+                V2Error("无法保存，无权限访问相册")
+            }
+        }
+        
+        if #available(iOS 14, *) {
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { (status) in
+                requestAuthorizationCompletion(status: status)
+            }
+        } else {
+            PHPhotoLibrary.requestAuthorization { (status) in
+                requestAuthorizationCompletion(status: status)
+            }
+        }
     }
 }
