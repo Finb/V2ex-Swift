@@ -230,8 +230,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     }
     
     @objc func ignoreTopicHandler(_ topicId:String) {
-        let index = self.topicList?.firstIndex(where: {$0.topicId == topicId })
-        if index == nil {
+        guard let index = self.topicList?.firstIndex(where: {$0.topicId == topicId }) else  {
             return
         }
         
@@ -239,7 +238,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         let indexPaths = self.tableView.indexPathsForVisibleRows
         let visibleIndex =  indexPaths?.firstIndex(where: {($0 as IndexPath).row == index})
         
-        self.topicList?.remove(at: index!)
+        self.topicList?.remove(at: index)
         //如果不在可视列表，则直接reloadData 就可以
         if visibleIndex == nil {
             self.tableView.reloadData()
@@ -249,7 +248,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         //如果在可视列表，则动画删除它
         self.tableView.beginUpdates()
         
-        self.tableView.deleteRows(at: [IndexPath(row: index!, section: 0)], with: .fade)
+        self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
         
         self.tableView.endUpdates()
         

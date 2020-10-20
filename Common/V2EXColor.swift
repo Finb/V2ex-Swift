@@ -382,7 +382,7 @@ class V2EXColor :NSObject  {
 //MARK: - 主题更改时，自动执行
 extension NSObject {
     fileprivate struct AssociatedKeys {
-        static var thmemChanged = "thmemChanged"
+        static var themeChanged = "themeChanged"
     }
     
     /// 当前主题更改时、第一次设置时 自动调用的闭包
@@ -392,7 +392,7 @@ extension NSObject {
     /// 设置时，会设置一个KVO监听，当V2Style.style更改时、第一次赋值时 会自动调用这个闭包
     var themeChangedHandler:ThemeChangedClosure? {
         get {
-            let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.thmemChanged) as AnyObject?
+            let closureObject: AnyObject? = objc_getAssociatedObject(self, &AssociatedKeys.themeChanged) as AnyObject?
             guard closureObject != nil else{
                 return nil
             }
@@ -404,7 +404,7 @@ extension NSObject {
                 return
             }
             let dealObject: AnyObject = unsafeBitCast(value, to: AnyObject.self)
-            objc_setAssociatedObject(self, &AssociatedKeys.thmemChanged,dealObject,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.themeChanged,dealObject,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             //设置KVO监听
             self.kvoController.observe(V2EXColor.sharedInstance, keyPath: "_style", options: [.initial,.new] , block: {[weak self] (nav, color, change) -> Void in
                 self?.themeChangedHandler?(V2EXColor.sharedInstance.style)
