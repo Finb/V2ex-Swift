@@ -145,7 +145,7 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let layout = self.commentsArray[indexPath.row].textLayout!
-        return layout.textBoundingRect.size.height + 12 + 35 + 12 + 12 + 1
+        return layout.textBoundingSize.height + 12 + 35 + 12 + 12 + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: TopicDetailCommentCell.self, indexPath: indexPath)
