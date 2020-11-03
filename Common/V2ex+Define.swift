@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DeviceKit
 
 //屏幕宽度
 let SCREEN_WIDTH = UIScreen.main.bounds.size.width;
@@ -19,11 +18,13 @@ let NavigationBarHeight:CGFloat = {
 }()
 let kSafeAreaInsets:UIEdgeInsets = {
     if #available(iOS 12.0, *){
-        return UIWindow().safeAreaInsets
+        return UIApplication.shared.keyWindow?.safeAreaInsets ?? UIWindow().safeAreaInsets
     }
     if UIDevice.current.isIphoneX {
         return UIEdgeInsets(top: 44, left: 0, bottom: 34, right: 0)
     }
+    // iOS 11 下，普通机型的safeAreaInsets.top 是 0 ，与iOS12 的 20 不一致
+    // 这里让他们的 safeAreaInsets.top 保持一致
     return UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
 }()
 //用户代理，使用这个切换是获取 m站点 还是www站数据
@@ -64,7 +65,8 @@ func v2ScaleFont(_ fontSize: CGFloat) -> UIFont{
 extension UIDevice {
     var isIphoneX: Bool {
         get {
-            return Device.current.isOneOf(Device.allXSeriesDevices + Device.allSimulatorXSeriesDevices)
+            // 一般 top 为 44, iPhone 11 的为 48 
+            return kSafeAreaInsets.top >= 44
         }
     }
 }

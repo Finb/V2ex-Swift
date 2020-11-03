@@ -8,7 +8,6 @@
 
 import UIKit
 import FXBlurView
-import DeviceKit
 
 class MemberViewController: UIViewController,UITableViewDelegate,UITableViewDataSource ,UIScrollViewDelegate {
 
