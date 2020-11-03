@@ -5,7 +5,6 @@ PODS:
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
   - CXSwipeGestureRecognizer (1.1.0)
-  - DeviceKit (2.3.0)
   - DrawerController (4.0.0):
     - DrawerController/Core (= 4.0.0)
     - DrawerController/DrawerVisualStates (= 4.0.0)
@@ -39,7 +38,6 @@ DEPENDENCIES:
   - Alamofire
   - AlamofireObjectMapper
   - CXSwipeGestureRecognizer
-  - DeviceKit
   - DrawerController
   - FDFullscreenPopGesture
   - FXBlurView
@@ -62,7 +60,6 @@ SPEC REPOS:
     - Alamofire
     - AlamofireObjectMapper
     - CXSwipeGestureRecognizer
-    - DeviceKit
     - DrawerController
     - FDFullscreenPopGesture
     - FXBlurView
@@ -86,7 +83,6 @@ SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
   CXSwipeGestureRecognizer: 5a53916aa69e85d041c35b5fc2180ff0bfe6333b
-  DeviceKit: da103891aa928d89f64ea8dd8aca738c5f3d8ac0
   DrawerController: eb1168e9f7185cc49f654ae8486917f0acb3dc88
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -105,6 +101,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 7d1a9d4c1f3833d595835abf67d9a946bc28dbc3
+PODFILE CHECKSUM: ce41e8963b929932ec23fcac37d935db52984d94
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.3

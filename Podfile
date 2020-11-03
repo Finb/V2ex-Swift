@@ -22,7 +22,6 @@ def pods
   pod 'FDFullscreenPopGesture'
   pod 'Moya/RxSwift'
   pod 'SwiftyJSON', '~> 4.3'
-  pod 'DeviceKit'
 end
 
 target 'V2ex-Swift' do
