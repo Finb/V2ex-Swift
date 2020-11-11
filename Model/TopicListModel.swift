@@ -46,7 +46,6 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
     var nodeName: String?
     var userName: String?
     var topicTitle: String?
-    var topicTitleAttributedString: NSMutableAttributedString?
     var topicTitleLayout: YYTextLayout?
 
     var date: String?
@@ -67,7 +66,6 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
 
         let node = rootNode.xPath("./table/tr/td[3]/span[2]/a[1]").first
         self.topicTitle = node?.content
-        self.setupTitleLayout()
 
         var topicIdUrl = node?["href"];
 
@@ -97,25 +95,6 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
         self.replies  = replies
 
     }
-
-    func setupTitleLayout(){
-        if let title = self.topicTitle {
-            self.topicTitleAttributedString = NSMutableAttributedString(string: title,
-                attributes: [
-                    NSAttributedString.Key.font:v2Font(17),
-                    NSAttributedString.Key.foregroundColor:V2EXColor.colors.v2_TopicListTitleColor,
-                ])
-            self.topicTitleAttributedString?.yy_lineSpacing = 3
-
-            //监听颜色配置文件变化，当有变化时，改变自身颜色
-            self.themeChangedHandler = {[weak self] (style) -> Void in
-                if let str = self?.topicTitleAttributedString {
-                    str.yy_color = V2EXColor.colors.v2_TopicListTitleColor
-                    self?.topicTitleLayout = YYTextLayout(containerSize: CGSize(width: SCREEN_WIDTH-24, height: 9999), text: str)
-                }
-            }
-        }
-    }
 }
 
 class FavoriteListModel: TopicListModel {
@@ -138,8 +117,7 @@ class FavoriteListModel: TopicListModel {
         
         let node = favoritesRootNode.xPath("./table/tr/td[3]/span/a[1]").first
         self.topicTitle = node?.content
-        self.setupTitleLayout()
-        
+
         var topicIdUrl = node?["href"];
         
         if var id = topicIdUrl {
@@ -191,7 +169,6 @@ class NodeTopicListModel: TopicListModel {
         
         let node = nodeRootNode.xPath("./table/tr/td[3]/span/a[1]").first
         self.topicTitle = node?.content
-        self.setupTitleLayout()
         
         var topicIdUrl = node?["href"];
         

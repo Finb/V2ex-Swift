@@ -73,9 +73,11 @@ extension UIDevice {
 
 extension UITableView {
     func cancelEstimatedHeight(){
-        self.estimatedRowHeight = 0
+        self.estimatedRowHeight = 120
+        self.rowHeight = UITableView.automaticDimension // Self-sizing cell
         self.estimatedSectionFooterHeight = 0
         self.estimatedSectionHeaderHeight = 0
+        
     }
 }
 

@@ -64,12 +64,9 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }()
     var nodeBackgroundImageView:UIImageView = UIImageView()
     /// 帖子标题
-    var topicTitleLabel: YYLabel = {
-        let label = YYLabel()
-        label.textVerticalAlignment = .top
-        label.font=v2Font(18)
-        label.displaysAsynchronously = true
-        label.numberOfLines=0
+    var topicTitleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
         return label
     }()
     
@@ -117,7 +114,6 @@ class HomeTopicListTableViewCell: UITableViewCell {
             self?.dateAndLastPostUserLabel.textColor=V2EXColor.colors.v2_TopicListDateColor;
             self?.replyCountLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
             self?.nodeNameLabel.textColor = V2EXColor.colors.v2_TopicListDateColor
-            self?.topicTitleLabel.textColor=V2EXColor.colors.v2_TopicListTitleColor;
             
             self?.avatarImageView.backgroundColor = self?.contentPanel.backgroundColor
             self?.userNameLabel.backgroundColor = self?.contentPanel.backgroundColor
@@ -125,6 +121,8 @@ class HomeTopicListTableViewCell: UITableViewCell {
             self?.replyCountLabel.backgroundColor = self?.contentPanel.backgroundColor
             self?.replyCountIconImageView.backgroundColor = self?.contentPanel.backgroundColor
             self?.topicTitleLabel.backgroundColor = self?.contentPanel.backgroundColor
+            
+            self?.setTitleText()
         }
         
         //点击用户头像，跳转到用户主页
@@ -142,7 +140,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
             make.top.left.right.equalTo(self.contentView);
         }
         self.avatarImageView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(12);
+            make.left.top.equalToSuperview().offset(12);
             make.width.height.equalTo(35);
         }
         self.userNameLabel.snp.makeConstraints{ (make) -> Void in
@@ -155,7 +153,7 @@ class HomeTopicListTableViewCell: UITableViewCell {
         }
         self.replyCountLabel.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.userNameLabel);
-            make.right.equalTo(self.contentPanel).offset(-12);
+            make.right.equalToSuperview().offset(-12);
         }
         self.replyCountIconImageView.snp.makeConstraints{ (make) -> Void in
             make.centerY.equalTo(self.replyCountLabel);
@@ -176,11 +174,11 @@ class HomeTopicListTableViewCell: UITableViewCell {
         self.topicTitleLabel.snp.makeConstraints{ (make) -> Void in
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
-            make.right.equalTo(self.contentPanel).offset(-12);
-            make.bottom.equalTo(self.contentView).offset(-8)
+            make.right.equalToSuperview().offset(-12);
+            make.bottom.equalToSuperview().offset(-8)
         }
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp.bottom).offset(-8);
+            make.bottom.equalToSuperview().offset(-8)
         }
     }
     
@@ -199,23 +197,28 @@ class HomeTopicListTableViewCell: UITableViewCell {
     }
     
     func superBind(_ model:TopicListModel){
+        self.itemModel = model
+        
+        setTitleText()
         self.userNameLabel.text = model.userName;
-        if let layout = model.topicTitleLayout {
-            //如果新旧model标题相同,则不需要赋值
-            //不然layout需要重新绘制，会造成刷新闪烁
-            if layout.text.string == self.itemModel?.topicTitleLayout?.text.string {
-                return
-            }
-            else{
-                self.topicTitleLabel.textLayout = layout
-            }
-        }
         if let avatar = model.avata?.avatarString {
             self.avatarImageView.fin_setImageWithUrl(URL(string: avatar)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification() )
         }
         self.replyCountLabel.text = model.replies;
-        
-        self.itemModel = model
+    }
+    func setTitleText(){
+        if let model = self.itemModel {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = 3
+            
+            let attrStr = NSAttributedString(
+                string: model.topicTitle ?? "",
+                attributes: [
+                    .font: v2Font(17),
+                    .foregroundColor: V2EXColor.colors.v2_TopicListTitleColor,
+                    .paragraphStyle:style])
+            self.topicTitleLabel.attributedText = attrStr
+        }
     }
     
     func bind(_ model:TopicListModel){
