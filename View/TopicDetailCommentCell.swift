@@ -8,6 +8,7 @@
 
 import UIKit
 import YYText
+import SnapKit
 
 class TopicDetailCommentCell: UITableViewCell{
     /// 头像
@@ -71,6 +72,12 @@ class TopicDetailCommentCell: UITableViewCell{
             self.authorLabel.text = isAuthor ? "• 楼主" : ""
         }
     }
+    
+    //文本高度约束
+    //因YYLabel自适应高度不完善，最好还是在在绑定数据时，手动更新
+    //如果换成UILabel或其他自适应高度Label控件，则不需要这一步
+    var textLabelHeight: Constraint?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier);
         self.setup();
@@ -85,8 +92,8 @@ class TopicDetailCommentCell: UITableViewCell{
         
         self.contentView.addSubview(self.contentPanel);
         self.contentPanel.addSubview(self.avatarImageView);
-        self.contentPanel .addSubview(self.userNameLabel);
-        self.contentPanel .addSubview(self.authorLabel);
+        self.contentPanel.addSubview(self.userNameLabel);
+        self.contentPanel.addSubview(self.authorLabel);
         self.contentPanel.addSubview(self.favoriteIconView)
         self.contentPanel.addSubview(self.favoriteLabel)
         self.contentPanel.addSubview(self.dateLabel);
@@ -134,7 +141,7 @@ class TopicDetailCommentCell: UITableViewCell{
             make.top.left.right.equalTo(self.contentView);
         }
         self.avatarImageView.snp.makeConstraints{ (make) -> Void in
-            make.left.top.equalTo(self.contentView).offset(12);
+            make.left.top.equalToSuperview().offset(12);
             make.width.height.equalTo(35);
         }
         self.userNameLabel.snp.makeConstraints{ (make) -> Void in
@@ -162,11 +169,14 @@ class TopicDetailCommentCell: UITableViewCell{
             make.top.equalTo(self.avatarImageView.snp.bottom).offset(12);
             make.left.equalTo(self.avatarImageView);
             make.right.equalTo(self.contentPanel).offset(-12);
+            
+            self.textLabelHeight = make.height.equalTo(0).constraint
+            
             make.bottom.equalTo(self.contentPanel.snp.bottom).offset(-12)
         }
         
         self.contentPanel.snp.makeConstraints{ (make) -> Void in
-            make.bottom.equalTo(self.contentView.snp.bottom).offset(-SEPARATOR_HEIGHT);
+            make.bottom.equalTo(self.contentView).offset(-SEPARATOR_HEIGHT);
         }
     }
     @objc func userNameTap(_ sender:UITapGestureRecognizer) {
@@ -198,6 +208,7 @@ class TopicDetailCommentCell: UITableViewCell{
                     }
                 }
             }
+            self.textLabelHeight?.update(offset: layout.textBoundingSize.height)
         }
         
         self.favoriteIconView.isHidden = model.favorites <= 0

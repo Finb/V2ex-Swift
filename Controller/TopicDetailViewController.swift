@@ -265,9 +265,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
         case .header:
             switch _headerComponent {
             case .title:
-                return tableView.fin_heightForCellWithIdentifier(TopicDetailHeaderCell.self, indexPath: indexPath) { (cell) -> Void in
-                    cell.bind(self.model!);
-                }
+                return UITableView.automaticDimension
             case .webViewContent:
                 if let height =  self.webViewContentCell?.contentHeight , height > 0 {
                     return self.webViewContentCell!.contentHeight
@@ -279,8 +277,7 @@ extension TopicDetailViewController: UITableViewDelegate,UITableViewDataSource {
                 return 45
             }
         case .comment:
-            let layout = self.commentsArray[indexPath.row].textLayout!
-            return layout.textBoundingSize.height + 1 + 12 + 35 + 12 + 12 + 1
+            return UITableView.automaticDimension
         case .other:
             return 200
         }
