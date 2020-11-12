@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 
+import RxSwift
 import Alamofire
 import AlamofireObjectMapper
 
@@ -20,7 +21,7 @@ import SVProgressHUD
 let kHomeTab = "me.fin.homeTab"
 
 class HomeViewController: UIViewController {
-    var topicList:Array<TopicListModel>?
+    var topicList:[TopicListModel] = []
     var tab:String? = nil {
         didSet{
             var name = "全部"
@@ -35,7 +36,7 @@ class HomeViewController: UIViewController {
     }
     var currentPage = 0
     
-    fileprivate lazy var tableView: UITableView  = {
+    private lazy var tableView: UITableView  = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
         tableView.separatorStyle = .none
@@ -58,7 +59,7 @@ class HomeViewController: UIViewController {
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
-            make.top.right.bottom.left.equalTo(self.view);
+            make.edges.equalTo(self.view);
         }
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: {[weak self] () -> Void in
             self?.refresh()
@@ -86,15 +87,13 @@ class HomeViewController: UIViewController {
         leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
         leftButton.addTarget(self, action: #selector(HomeViewController.leftClick), for: .touchUpInside)
-        
-        
+
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
         rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), for: .touchUpInside)
-
     }
     @objc func leftClick(){
         V2Client.sharedInstance.drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
@@ -111,6 +110,7 @@ class HomeViewController: UIViewController {
         
         //如果有上拉加载更多 正在执行，则取消它
         if self.tableView.mj_footer.isRefreshing {
+            self.nextPageDisposable?.dispose()
             self.tableView.mj_footer.endRefreshing()
         }
         
@@ -153,20 +153,21 @@ class HomeViewController: UIViewController {
             })
     }
     
+    var nextPageDisposable:Disposable?
     func getNextPage(){
-        if let count = self.topicList?.count , count <= 0{
+        if self.topicList.count <= 0{
             self.tableView.mj_footer.endRefreshing()
             return;
         }
         
         //根据 tab name 获取帖子列表
         self.currentPage += 1
-        _ = TopicListApi.provider
+        self.nextPageDisposable = TopicListApi.provider
             .requestAPI(.topicList(tab: tab, page: self.currentPage))
             .mapResponseToJiArray(TopicListModel.self)
             .subscribe(onNext: { (response) in
                 if response.count > 0 {
-                    self.topicList? += response
+                    self.topicList += response
                     self.tableView.reloadData()
                 }
                 self.tableView.mj_footer.endRefreshing()
@@ -195,20 +196,17 @@ class HomeViewController: UIViewController {
 //MARK: - TableViewDataSource
 extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let list = self.topicList {
-            return list.count;
-        }
-        return 0;
+        return topicList.count;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = getCell(tableView, cell: HomeTopicListTableViewCell.self, indexPath: indexPath);
-        cell.bind(self.topicList![indexPath.row]);
+        cell.bind(self.topicList[indexPath.row]);
         return cell;
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = self.topicList![indexPath.row]
+        let item = self.topicList[indexPath.row]
         
         if let id = item.topicId {
             let topicDetailController = TopicDetailViewController();
@@ -222,15 +220,15 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     }
     
     @objc func ignoreTopicHandler(_ topicId:String) {
-        guard let index = self.topicList?.firstIndex(where: {$0.topicId == topicId }) else  {
+        guard let index = self.topicList.firstIndex(where: {$0.topicId == topicId }) else  {
             return
         }
         
         //看当前忽略的cell 是否在可视列表里
         let indexPaths = self.tableView.indexPathsForVisibleRows
-        let visibleIndex =  indexPaths?.firstIndex(where: {($0 as IndexPath).row == index})
+        let visibleIndex = indexPaths?.firstIndex(where: {($0 as IndexPath).row == index})
         
-        self.topicList?.remove(at: index)
+        self.topicList.remove(at: index)
         //如果不在可视列表，则直接reloadData 就可以
         if visibleIndex == nil {
             self.tableView.reloadData()
@@ -239,9 +237,7 @@ extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
         
         //如果在可视列表，则动画删除它
         self.tableView.beginUpdates()
-        
         self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-        
         self.tableView.endUpdates()
         
 
