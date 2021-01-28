@@ -179,7 +179,9 @@ class MemberRepliesModel: NSObject ,BaseHtmlModelProtocol{
     var reply: String?
     
     required init(rootNode: JiNode) {
-        let node = rootNode.xPath("./table/tr/td[1]/span[1]/a[1]")[0]
+        guard let node = rootNode.xPath("./table/tr/td[1]/span[1]/a[1]").first else {
+            return
+        }
         self.title = node.content
         
         var topicIdUrl = node["href"];
@@ -194,7 +196,7 @@ class MemberRepliesModel: NSObject ,BaseHtmlModelProtocol{
             }
         }
         self.topicId = topicIdUrl
-        self.date = rootNode.xPath("./table/tr/td/div/span")[0].content
+        self.date = rootNode.xPath("./table/tr/td/span[@class='fade']").first?.content
     }
 }
 
