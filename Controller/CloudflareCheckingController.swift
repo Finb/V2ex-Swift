@@ -35,7 +35,15 @@ class CloudflareCheckingController: UIViewController, WKNavigationDelegate {
             for cookie in cookies {
                 HTTPCookieStorage.shared.setCookie(cookie)
             }
-            if cookies.count > 1 {
+            let LANGCookie = cookies.compactMap{ (cookie) -> HTTPCookie? in
+                if cookie.name == "V2EX_LANG" {
+                    return cookie
+                }
+                return nil
+            }.first
+            
+            // 有语言cookie，则证明检查通过
+            if LANGCookie != nil {
                 self.dismiss(animated: true) {[weak self] in
                     self?.completion?()
                 }
