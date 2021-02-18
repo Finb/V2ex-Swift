@@ -142,6 +142,12 @@ class HomeViewController: UIViewController {
                     switch err {
                     case .needs2FA:
                         V2Client.sharedInstance.centerViewController!.navigationController?.present(TwoFAViewController(), animated: true, completion: nil);
+                    case .needsCloudflareChecking:
+                        let controller = CloudflareCheckingController()
+                        controller.completion = {[weak self] in
+                            self?.refreshPage()
+                        }
+                        self.navigationController?.present(controller, animated: true, completion: nil)
                     default:
                         SVProgressHUD.showError(withStatus: err.rawString())
                     }

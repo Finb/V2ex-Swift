@@ -112,6 +112,7 @@
 		06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */; };
 		06E583891C3FA1CA00FCA361 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */; };
 		06EB0CD0243EC58A00B958CA /* String+Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EB0CCF243EC58A00B958CA /* String+Avatar.swift */; };
+		06F71C2E25DE3562005C0BFE /* CloudflareCheckingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F71C2D25DE3561005C0BFE /* CloudflareCheckingController.swift */; };
 		06FA34D11C8AA458001D6830 /* SVProgressHUD+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */; };
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
@@ -227,6 +228,7 @@
 		06E583841C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTopicListTableViewCell.swift; sourceTree = "<group>"; };
 		06E583881C3FA1CA00FCA361 /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		06EB0CCF243EC58A00B958CA /* String+Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Avatar.swift"; sourceTree = "<group>"; };
+		06F71C2D25DE3561005C0BFE /* CloudflareCheckingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudflareCheckingController.swift; sourceTree = "<group>"; };
 		06FA34D01C8AA458001D6830 /* SVProgressHUD+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SVProgressHUD+Extension.swift"; sourceTree = "<group>"; };
 		2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2ProgressHUD.swift; sourceTree = "<group>"; };
 		2D6B1BAF1CA93F970050121D /* V2User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = V2User.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				0618768E1C7C6A50002E9C33 /* SettingsTableViewController.swift */,
 				06744A521E49D4C0001E3D1B /* TwoFAViewController.swift */,
 				060481E9250E439000BC9799 /* AgreementViewController.swift */,
+				06F71C2D25DE3561005C0BFE /* CloudflareCheckingController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				067FF8C21C804B9C009538F7 /* V2PhotoBrowserTransionDismiss.swift in Sources */,
 				06E4B7511C5CA0300056A673 /* FavoritesViewController.swift in Sources */,
 				0678D2051C61B423007FFCFD /* UIImage+Extension.swift in Sources */,
+				06F71C2E25DE3562005C0BFE /* CloudflareCheckingController.swift in Sources */,
 				06D0EE1F1C915CAD003095FF /* V2Style.swift in Sources */,
 				06D300261C6C222F00547CE6 /* AccountListTableViewCell.swift in Sources */,
 				064D37A41C53BD4C002E7226 /* LeftUserHeadCell.swift in Sources */,

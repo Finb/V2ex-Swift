@@ -18,6 +18,7 @@ public enum ApiError : Swift.Error {
     case AccountBanned(info: String)
     case LoginPermissionRequired(info: String)
     case needs2FA(info: String) //需要两步验证
+    case needsCloudflareChecking(info: String) //需要 Cloudflare 检查
 }
 
 extension Swift.Error {
@@ -34,6 +35,8 @@ extension Swift.Error {
             return info
         case .needs2FA(let info):
             return info
+        case .needsCloudflareChecking(let info):
+            return info
         }
     }
 }
@@ -46,7 +49,13 @@ extension Observable where Element: Moya.Response {
             if (200...209) ~= response.statusCode {
                 return true
             }
-            print("网络错误")
+            if 503 == response.statusCode {
+                if let jiHtml = Ji(htmlData: response.data) {
+                    if let titleNode = jiHtml.xPath("/html/head/title")?.first , let content = titleNode.content, content.hasPrefix("Just a moment") {
+                        throw ApiError.needsCloudflareChecking(info: "需要Cloudflare检查")
+                    }
+                }
+            }
             throw ApiError.Error(info: "网络错误")
         }
     }
