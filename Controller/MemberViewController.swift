@@ -43,6 +43,9 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         tableView.backgroundColor = UIColor.clear
         tableView.estimatedRowHeight = 200
         tableView.separatorStyle = .none
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0.0
+        }
         
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never

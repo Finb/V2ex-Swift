@@ -71,7 +71,7 @@ class TopicDetailModel:NSObject,BaseHtmlModelProtocol {
         
         let token = rootNode.xPath("div/div/a[@class='op'][1]").first?["href"]
         if let token = token {
-            let array = token.components(separatedBy: "?t=")
+            let array = token.components(separatedBy: "?once=")
             if array.count == 2 {
                 self.token = array[1]
             }
@@ -103,19 +103,19 @@ extension TopicDetailModel {
                 }
                 
                 //获取评论
-                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
+                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[attribute::id]"){
                     for aNode in aRootNode {
                         topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
                     }
                 }
                 
                 //获取评论总数
-                if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div/div[3]/div[1]/span") {
+                if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[5]/div[1]/span") {
                     topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
                 }
                 
                 //获取页数总数
-                if let commentTotalPages = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[last()]/a[last()]")?.first?.content {
+                if let commentTotalPages = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[last()]/a[@class='page_normal'][last()]")?.first?.content {
                     if let pages = Int(commentTotalPages) {
                         topicModel?.commentTotalPages = pages
                     }
@@ -141,7 +141,7 @@ extension TopicDetailModel {
             var topicCommentsArray : [TopicCommentModel] = []
             if  let jiHtml = response.result.value {
                 //获取评论
-                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][2]/div[attribute::id]"){
+                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[attribute::id]"){
                     for aNode in aRootNode {
                         topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
                     }
@@ -176,7 +176,7 @@ extension TopicDetailModel {
      收藏主题
      */
     class func favoriteTopicWithTopicId(_ topicId:String , token:String ,completionHandler: @escaping (V2Response) -> Void) {
-        let url  = V2EXURL + "favorite/topic/" + topicId + "?t=" + token
+        let url  = V2EXURL + "favorite/topic/" + topicId + "?once=" + token
         Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseString { (response: DataResponse<String>) -> Void in
             if response.result.isSuccess {
                 completionHandler(V2Response(success: true))

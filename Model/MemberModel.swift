@@ -86,7 +86,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
                 return
             }
             url = url[..<url.index(endIndex!.upperBound, offsetBy: -1)]
-            index = url.range(of: "?t=")
+            index = url.range(of: "?once=")
             self.blockToken = String(url[index!.upperBound...])
             
         }
@@ -234,7 +234,7 @@ extension MemberModel {
                       completionHandler: ((V2Response) -> Void)?
         ){
         let action = type == .blocked ? "block/" : "unblock/"
-        let url = V2EXURL + action + userId + "?t=" + userToken
+        let url = V2EXURL + action + userId + "?once=" + userToken
         Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
             completionHandler?(V2Response(success: response.result.isSuccess))
         }
