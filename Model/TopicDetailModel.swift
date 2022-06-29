@@ -110,7 +110,7 @@ extension TopicDetailModel {
                 }
                 
                 //获取评论总数
-                if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[5]/div[1]/span") {
+                if let commentTotalCount = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell']/span[@class='gray']") {
                     topicModel?.topicCommentTotalCount = commentTotalCount.first?.content
                 }
                 
