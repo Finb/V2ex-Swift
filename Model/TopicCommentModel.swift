@@ -43,11 +43,15 @@ class V2CommentAttachmentImage:AnimatedImageView {
             return
         }
         if  let imageURL = self.imageURL , let URL = URL(string: imageURL) {
-            self.kf.setImage(with: URL, placeholder: nil, options: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
-                if let image = image {
+            self.kf.setImage(with: URL, placeholder: nil, options: nil, completionHandler: { (result) -> () in
+                switch result {
+                case .success(let imageResult):
+                    let image = imageResult.image
                     if image.size.width < 80 && image.size.height < 80 {
                         self.contentMode = .bottomLeft
                     }
+                default:
+                    break
                 }
             })
         }

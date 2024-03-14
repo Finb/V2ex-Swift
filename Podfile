@@ -1,4 +1,4 @@
-platform:ios,'11.0'
+platform:ios,'13.0'
 inhibit_all_warnings!
 use_modular_headers!
 
@@ -9,7 +9,7 @@ def pods
   pod 'AlamofireObjectMapper'
   pod 'Ji'
   pod 'DrawerController'
-  pod 'Kingfisher', '~> 4.10.0'
+  pod 'Kingfisher', '~> 7.11.0'
   pod 'KeychainSwift'
   pod 'KVOController'
   pod 'YYText'

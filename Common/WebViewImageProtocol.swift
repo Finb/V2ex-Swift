@@ -37,7 +37,7 @@ class WebViewImageProtocol: URLProtocol, URLSessionDataDelegate {
     }
 
     override func startLoading() {
-        let resource = ImageResource(downloadURL: self.request.url!)
+        let resource = KF.ImageResource(downloadURL: self.request.url!)
         let data = try? Data(contentsOf: URL(fileURLWithPath: KingfisherManager.shared.cache.cachePath(forKey: resource.cacheKey)))
         if let data = data {
             // 在磁盘上找到Kingfisher的缓存，则直接使用缓存
@@ -91,10 +91,10 @@ class WebViewImageProtocol: URLProtocol, URLSessionDataDelegate {
         else {
             self.client?.urlProtocolDidFinishLoading(self)
 
-            let resource = ImageResource(downloadURL: self.request.url!)
+            let resource = KF.ImageResource(downloadURL: self.request.url!)
             guard let imageData = self.imageData else { return }
             // 保存图片到Kingfisher
-            guard let image = DefaultCacheSerializer.default.image(with: imageData, options: nil) else { return }
+            guard let image = DefaultCacheSerializer.default.image(with: imageData, options: KingfisherParsedOptionsInfo(nil)) else { return }
             KingfisherManager.shared.cache.store(image, original: imageData, forKey: resource.cacheKey, toDisk: true, completionHandler: nil)
         }
     }

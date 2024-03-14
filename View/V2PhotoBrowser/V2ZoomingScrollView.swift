@@ -270,7 +270,7 @@ extension V2ZoomingScrollView {
             return
         }
 
-        let resource = ImageResource(downloadURL: photo.url)
+        let resource = KF.ImageResource(downloadURL: photo.url)
         let filePath = KingfisherManager.shared.cache.cachePath(forKey: resource.cacheKey)
         if let data = try? Data(contentsOf: URL(fileURLWithPath: filePath)) {
             //拿一下原始Data数据，保存效果更佳~

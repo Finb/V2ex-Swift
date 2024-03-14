@@ -15,7 +15,7 @@ PODS:
   - FXBlurView (1.6.4)
   - Ji (5.0.0)
   - KeychainSwift (18.0.0)
-  - Kingfisher (4.10.1)
+  - Kingfisher (7.11.0)
   - KVOController (1.2.0)
   - MJRefresh (3.1.15.7)
   - Moya/Core (13.0.1):
@@ -43,7 +43,7 @@ DEPENDENCIES:
   - FXBlurView
   - Ji
   - KeychainSwift
-  - Kingfisher (~> 4.10.0)
+  - Kingfisher (~> 7.11.0)
   - KVOController
   - MJRefresh (~> 3.1.15.7)
   - Moya/RxSwift
@@ -88,7 +88,7 @@ SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   Ji: d795fed288fe78658b404c88946d753b17d8d7f4
   KeychainSwift: c46e1438d121e47459fb304ac88c5e058a2a91ed
-  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
@@ -101,6 +101,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 7f0f90db0fd3dc8e16605bb81e7ebb8b7dd01155
+PODFILE CHECKSUM: 3ddddc85b80ca8760de77cc05b6b02dcb02f1ea1
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2

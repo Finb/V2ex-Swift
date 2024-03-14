@@ -195,7 +195,14 @@ extension TopicDetailWebViewContentCell : V2PhotoBrowserDelegate {
     func guideImageInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {
         var image = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: URL(string:tapImageInfo!.url)!.cacheKey)
         if image == nil {
-            image = KingfisherManager.shared.cache.retrieveImageInDiskCache(forKey: URL(string:tapImageInfo!.url)!.cacheKey)
+            let key = URL(string:tapImageInfo!.url)!.cacheKey
+            let options = KingfisherParsedOptionsInfo(nil)
+            let computedKey = options.processor.identifier.isEmpty ? key : key.appending(options.processor.identifier)
+
+            if let data = try? KingfisherManager.shared.cache.diskStorage.value(forKey: computedKey) {
+                return options.cacheSerializer.image(with: data, options: options)
+            }
+            return nil
         }
         return image
     }
