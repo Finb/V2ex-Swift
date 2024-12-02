@@ -134,7 +134,7 @@ class RightViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let node = self.rightNodes[indexPath.row];
-        V2Client.sharedInstance.centerViewController?.tab = node.nodeTab
+        V2Client.sharedInstance.centerViewController?.tabName = node.nodeTab
         V2Client.sharedInstance.centerViewController?.refreshPage()
         V2Client.sharedInstance.drawerController?.closeDrawer(animated: true, completion: nil)
     }

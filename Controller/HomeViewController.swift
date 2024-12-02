@@ -22,11 +22,11 @@ let kHomeTab = "me.fin.homeTab"
 
 class HomeViewController: UIViewController {
     var topicList:[TopicListModel] = []
-    var tab:String? = nil {
+    var tabName:String? = nil {
         didSet{
             var name = "全部"
             for model in RightViewControllerRightNodes {
-                if model.nodeTab == tab {
+                if model.nodeTab == tabName {
                     name = model.nodeName ?? ""
                     break;
                 }
@@ -50,7 +50,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tab = V2EXSettings.sharedInstance[kHomeTab]
+        self.tabName = V2EXSettings.sharedInstance[kHomeTab]
         self.setupNavigationItem()
         
         //监听程序即将进入前台运行、进入后台休眠 事件
@@ -104,7 +104,7 @@ class HomeViewController: UIViewController {
     
     func refreshPage(){
         self.tableView.mj_header.beginRefreshing();
-        V2EXSettings.sharedInstance[kHomeTab] = tab
+        V2EXSettings.sharedInstance[kHomeTab] = tabName
     }
     func refresh(){
         
@@ -116,7 +116,7 @@ class HomeViewController: UIViewController {
         
         //根据 tab name 获取帖子列表
         _ = TopicListApi.provider
-            .requestAPI(.topicList(tab: tab, page: 0))
+            .requestAPI(.topicList(tab: tabName, page: 0))
             .mapResponseToJiArray(TopicListModel.self)
             .subscribe(onNext: { (response) in
                 self.topicList = response
@@ -124,7 +124,7 @@ class HomeViewController: UIViewController {
                 
                 //判断标签是否能加载下一页, 不能就提示下
                 let refreshFooter = self.tableView.mj_footer as! V2RefreshFooter
-                if self.tab == nil || self.tab == "all" {
+                if self.tabName == nil || self.tabName == "all" {
                     refreshFooter.noMoreDataStateString = nil
                     refreshFooter.resetNoMoreData()
                 }
@@ -169,7 +169,7 @@ class HomeViewController: UIViewController {
         //根据 tab name 获取帖子列表
         self.currentPage += 1
         self.nextPageDisposable = TopicListApi.provider
-            .requestAPI(.topicList(tab: tab, page: self.currentPage))
+            .requestAPI(.topicList(tab: tabName, page: self.currentPage))
             .mapResponseToJiArray(TopicListModel.self)
             .subscribe(onNext: { (response) in
                 if response.count > 0 {

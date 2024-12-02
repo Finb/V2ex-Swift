@@ -75,9 +75,9 @@ extension UserModel{
         //登录
         Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, headers: dict).responseJiHtml{
             (response) -> Void in
-            if let jiHtml = response .result.value{
+            if let jiHtml = response.result.value{
                 //判断有没有用户头像，如果有，则证明登录成功了
-                if let avatarImg = jiHtml.xPath("//*[@id='menu-entry']/img")?.first {
+                if let avatarImg = jiHtml.xPath("//*[@class='menu-entry']/img[class='avatar mobile']")?.first {
                     if let altUsername = avatarImg.attributes["alt"]{
                         //用户开启了两步验证
                         if let url = response.response?.url?.absoluteString, url.contains("2fa") {
@@ -95,6 +95,9 @@ extension UserModel{
                     return
                 }
                 
+            }
+            else if response.response?.statusCode == 302 && response.response?.allHeaderFields["Location"] as? String == "/" {
+                completionHandler(V2ValueResponse(value: username, success: true),false)
             }
             completionHandler(V2ValueResponse(success: false,message: "登录失败"),false)
         }
