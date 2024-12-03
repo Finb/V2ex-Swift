@@ -91,7 +91,7 @@ class PodsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let model = self.pods[indexPath.row]
         if let URL = model.URL, let url = Foundation.URL(string:URL ) {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url)
         }
     }
 }

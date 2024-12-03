@@ -557,7 +557,7 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             activityController.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
             self.navigationController?.present(activityController, animated: true, completion: nil)
         case .explore:
-            UIApplication.shared.openURL(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)
+            UIApplication.shared.open(URL(string: V2EXURL + "t/" + self.model!.topicId!)!)
         }
     }
     

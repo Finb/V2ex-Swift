@@ -81,16 +81,16 @@ class MoreViewController: UITableViewController {
         }
         else if indexPath.row == 3 {
             let str = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1078157349"
-            UIApplication.shared.openURL(URL(string: str)!)
+            UIApplication.shared.open(URL(string: str)!)
         }
         else if indexPath.row == 4 {
-            UIApplication.shared.openURL(URL(string: "https://day.app/2016/02/v2ex-ioske-hu-duan-bug-and-jian-yi/")!)
+            UIApplication.shared.open(URL(string: "https://day.app/2016/02/v2ex-ioske-hu-duan-bug-and-jian-yi/")!)
         }
         else if indexPath.row == 5 {
             self.navigationController?.pushViewController(AgreementViewController(), animated: true)
         }
         else if indexPath.row == 7 {
-            UIApplication.shared.openURL(URL(string: "https://github.com/Finb/V2ex-Swift")!)
+            UIApplication.shared.open(URL(string: "https://github.com/Finb/V2ex-Swift")!)
         }
         else if indexPath.row == 8 {
             V2Client.sharedInstance.centerNavigation?.pushViewController(PodsTableViewController(), animated: true)

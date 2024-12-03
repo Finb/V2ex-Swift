@@ -145,12 +145,12 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         activityView.dismiss()
         if  let url = self.webView?.url {
             if url.absoluteString.Lenght > 0 {
-                UIApplication.shared.openURL(url)
+                UIApplication.shared.open(url)
                 return;
             }
         }
         if let url = URL(string: self.url) {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url)
         }
         
     }
