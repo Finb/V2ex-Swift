@@ -141,7 +141,7 @@ extension TopicDetailModel {
             var topicCommentsArray : [TopicCommentModel] = []
             if  let jiHtml = response.result.value {
                 //获取评论
-                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[attribute::id]"){
+                if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@id and @class='cell']"){
                     for aNode in aRootNode {
                         topicCommentsArray.append(TopicCommentModel(rootNode: aNode))
                     }
