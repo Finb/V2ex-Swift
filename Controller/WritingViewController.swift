@@ -58,17 +58,7 @@ class WritingViewController: UIViewController ,UITextViewDelegate {
     @objc func rightClick (){
         
     }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView.attributedText.yy_attribute("someoneEnd", at: UInt(range.location)) != nil && text.Lenght <= 0 {
-            //删除@
-            let atRange = (textView.attributedText.string as NSString).range(of: "@", options: .backwards)
-            if atRange.location != NSNotFound {
-                self.textView.replace(YYTextRange(range: NSRange(location: atRange.location, length: range.location + range.length)), withText: "")
-            }
-        }
-        return true
-    }
+
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.Lenght == 0{
             textView.textColor = V2EXColor.colors.v2_TopicListUserNameColor
