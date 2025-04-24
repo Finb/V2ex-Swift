@@ -19,7 +19,7 @@ class TopicListModel:NSObject, HtmlModelArrayProtocol {
 
     class func createModelArray(ji: Ji) -> [Any] {
         var resultArray:[TopicListModel] = []
-        if let aRootNode = ji.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']/div[@class='cell item']"){
+        if let aRootNode = ji.xPath("//body/div[@id='Wrapper']/div[@class='content']/div[@class='box']//div[@class='cell item']"){
             for aNode in aRootNode {
                 let topic = TopicListModel(rootNode:aNode)
                 resultArray.append(topic);
