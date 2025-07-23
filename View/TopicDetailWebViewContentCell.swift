@@ -98,6 +98,9 @@ class TopicDetailWebViewContentCell: UITableViewCell ,UIWebViewDelegate {
             return;
         }
         let url = fixUrl(url: arr[0])
+        guard url.count > 0 else {
+            return
+        }
         let width = Int(arr[1])
         let height = Int(arr[2])
         let left = Int(arr[3])
