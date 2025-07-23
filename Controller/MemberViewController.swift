@@ -133,7 +133,7 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             self.titleView.addSubview(coverView)
             
             self.titleLabel = UILabel(frame: CGRect(x: 0, y: 44, width: SCREEN_WIDTH, height: 44))
-            self.titleLabel!.text = self.model != nil ? self.model!.userName! : "Hello"
+            self.titleLabel!.text = self.model?.userName ?? "Hello"
             self.titleLabel!.font = v2Font(16)
             self.titleLabel!.textAlignment = .center
             self.titleLabel!.textColor = V2EXColor.colors.v2_TopicListTitleColor

@@ -35,7 +35,7 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
     var replies:[MemberRepliesModel] = []
     required init(rootNode: JiNode) {
         self.avata = rootNode.xPath("./td[1]/img").first?["src"]
-        self.userName = rootNode.xPath("./td[3]/h1").first?.content
+        self.userName = rootNode.xPath("./td[3]//h1").first?.content
         self.introduce = rootNode.xPath("./td[3]/span[1]").first?.content
         // follow状态
         if let followNode = rootNode.xPath("./td[3]/div[1]/input[1]").first
