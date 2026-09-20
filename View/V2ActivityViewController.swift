@@ -51,7 +51,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
     weak var dataSource:V2ActivityViewDataSource?
     init() {
         super.init(nibName: nil, bundle: nil)
-        self.modalPresentationStyle = .fullScreen
+        self.modalPresentationStyle = .overFullScreen
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -300,7 +300,6 @@ class V2ActivityTransionDismiss:NSObject,UIViewControllerAnimatedTransitioning {
         let container = transitionContext.containerView
         
         let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-        container.addSubview(toVC!.view)
         
         let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
         container.addSubview(fromVC!.view)
