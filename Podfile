@@ -1,6 +1,6 @@
 source 'https://cdn.cocoapods.org/'
 
-platform:ios,'13.0'
+platform:ios,'15.0'
 inhibit_all_warnings!
 use_modular_headers!
 
@@ -34,8 +34,8 @@ target 'V2ex-Swift' do
       target.build_configurations.each do |config|
         config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = 'YES'
         # https://stackoverflow.com/questions/63056454/xcode-12-deployment-target-warnings-when-using-cocoapods
-        if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 11.0
-          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+        if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.0
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
         end
       end
       if target.name == 'Ji' or target.name == 'Moya'  or target.name == 'Result'
@@ -46,6 +46,13 @@ target 'V2ex-Swift' do
       if target.name == 'DrawerController'
         target.build_configurations.each do |config|
           config.build_settings['SWIFT_VERSION'] = '4.0'
+        end
+      end
+      # Xcode 26.6 (Apple clang 21) 起 chained comparison 是默认 error，
+      # YYTextLayout.m:1508/1510/1516/1518 中招；GCC_WARN_INHIBIT_ALL_WARNINGS 压不住默认 error
+      if target.name == 'YYText'
+        target.build_configurations.each do |config|
+          config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-parentheses'
         end
       end
     end
