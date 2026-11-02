@@ -93,6 +93,9 @@ class LoginViewController: UIViewController {
     let codeImageView = UIImageView()
     let loginButton = UIButton()
     let cancelButton = UIButton()
+    // iPhone Duo: 状态栏回到顶部
+    @available(iOS 27.1, *)
+    override var preferredVerticalBarBehavior: UIVerticalBarBehavior { .disabled }
     init() {
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .fullScreen

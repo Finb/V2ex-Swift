@@ -9,9 +9,9 @@
 import UIKit
 
 //屏幕宽度
-let SCREEN_WIDTH = UIScreen.main.bounds.size.width;
+var SCREEN_WIDTH: CGFloat { V2Client.sharedInstance.window?.bounds.width ?? UIScreen.main.bounds.size.width }
 //屏幕高度
-let SCREEN_HEIGHT = UIScreen.main.bounds.size.height;
+var SCREEN_HEIGHT: CGFloat { V2Client.sharedInstance.window?.bounds.height ?? UIScreen.main.bounds.size.height }
 //NavagationBar高度
 var NavigationBarHeight: CGFloat {
     return kSafeAreaInsets.top + 44

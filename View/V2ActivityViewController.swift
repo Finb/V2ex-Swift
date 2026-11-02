@@ -49,6 +49,9 @@ class V2ActivityButton: UIButton {
 /// 一个和UIActivityViewController 一样的弹出框
 class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningDelegate {
     weak var dataSource:V2ActivityViewDataSource?
+    // iPhone Duo: 状态栏回到顶部
+    @available(iOS 27.1, *)
+    override var preferredVerticalBarBehavior: UIVerticalBarBehavior { .disabled }
     init() {
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .overFullScreen

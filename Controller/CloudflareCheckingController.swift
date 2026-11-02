@@ -10,6 +10,9 @@ import UIKit
 import WebKit
 
 class CloudflareCheckingController: UIViewController, WKNavigationDelegate {
+    // iPhone Duo: 状态栏回到顶部
+    @available(iOS 27.1, *)
+    override var preferredVerticalBarBehavior: UIVerticalBarBehavior { .disabled }
     let webView:WKWebView = WKWebView()
     var completion: (() -> ())? = nil
     override func viewDidLoad() {

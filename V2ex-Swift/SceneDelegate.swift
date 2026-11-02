@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let centerNav = V2EXNavigationController(rootViewController: HomeViewController())
         let leftViewController = LeftViewController()
         let rightViewController = RightViewController()
-        let drawerController = DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController)
+        let drawerController = V2DrawerController(centerViewController: centerNav, leftDrawerViewController: leftViewController, rightDrawerViewController: rightViewController)
 
         window.themeChangedHandler = { [weak window, weak drawerController] _ in
             window?.backgroundColor = V2EXColor.colors.v2_backgroundColor
@@ -74,4 +74,10 @@ class V2Window: UIWindow {
             V2EXColor.sharedInstance.refreshStyleIfNeeded()
         }
     }
+}
+
+final class V2DrawerController: DrawerController {
+    // iPhone Duo 默认把状态栏竖排在右侧，关闭竖排栏后状态栏回到顶部、内容占满全屏
+    @available(iOS 27.1, *)
+    override var preferredVerticalBarBehavior: UIVerticalBarBehavior { .disabled }
 }

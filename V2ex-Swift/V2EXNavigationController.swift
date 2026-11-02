@@ -57,6 +57,12 @@ class V2EXNavigationController: UINavigationController {
             }
         }
     }
+    // iPhone Duo 默认把状态栏竖排在右侧，关闭竖排栏后状态栏回到顶部、内容占满全屏
+    @available(iOS 27.1, *)
+    override var preferredVerticalBarBehavior: UIVerticalBarBehavior { .disabled }
+    // UINavigationController 默认会把该配置转发给 topViewController，返回 nil 才能让导航容器生效
+    @available(iOS 27.1, *)
+    override var childForPreferredVerticalBarBehavior: UIViewController? { nil }
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.modalPresentationStyle = .fullScreen
@@ -103,12 +109,13 @@ class V2EXNavigationController: UINavigationController {
         let maskingView = UIView()
         
         maskingView.isUserInteractionEnabled = false
-        self.navigationBar.superview!.insertSubview(maskingView, belowSubview: self.navigationBar)
-        maskingView.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: NavigationBarHeight)
-//        maskingView.snp.makeConstraints{ (make) -> Void in
-//            make.left.bottom.right.equalTo(self.navigationBar)
-//            make.top.equalTo(self.navigationBar).offset(-44);
-//        }
+        let barContainer = self.navigationBar.superview!
+        barContainer.insertSubview(maskingView, belowSubview: self.navigationBar)
+        maskingView.snp.makeConstraints{ (make) -> Void in
+            make.top.equalTo(barContainer.snp.top)
+            make.leading.trailing.equalTo(barContainer)
+            make.bottom.equalTo(self.navigationBar.snp.bottom)
+        }
 
         self.frostedView.isUserInteractionEnabled = false
         self.frostedView.clipsToBounds = true
