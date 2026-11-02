@@ -17,7 +17,7 @@ class MyCenterViewController: MemberViewController {
         self.settingsButton!.contentMode = .center
         self.settingsButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20)
         self.settingsButton!.setImage(UIImage.imageUsedTemplateMode("ic_supervisor_account")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.settingsButton!)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.settingsButton!).hidingGlassBackground()
         self.settingsButton!.addTarget(self, action: #selector(MyCenterViewController.accountManagerClick), for: .touchUpInside)
         self.settingsButton!.isHidden = true
     }

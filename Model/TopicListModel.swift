@@ -212,7 +212,7 @@ extension TopicListModel {
             if(response.success){
                 let action = type == 0 ? "favorite/node/" : "unfavorite/node/"
                 let url = V2EXURL + action + nodeId + "?once=" + V2User.sharedInstance.once!
-                Alamofire.request(url , headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+                AF.request(url, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) in
                     
                 }
             }
@@ -220,5 +220,4 @@ extension TopicListModel {
     }
 
 }
-
 

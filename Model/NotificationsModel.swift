@@ -49,10 +49,10 @@ class NotificationsModel: NSObject,BaseHtmlModelProtocol {
 extension NotificationsModel {
     class func getNotifications(_ completionHandler: ((V2ValueResponse<[NotificationsModel]>) -> Void)? = nil){
         
-        Alamofire.request(V2EXURL+"notifications", headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+        AF.request(V2EXURL+"notifications", headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) in
             var resultArray:[NotificationsModel] = []
             
-            if let jiHtml = response.result.value {
+            if let jiHtml = response.value {
                 if let aRootNode = jiHtml.xPath("//*[@id=\"notifications\"]/div[attribute::id]"){
                     for aNode in aRootNode {
                         let notice = NotificationsModel(rootNode:aNode)
@@ -64,7 +64,7 @@ extension NotificationsModel {
                 }
             }
             
-            let t = V2ValueResponse<[NotificationsModel]>(value:resultArray, success: response.result.isSuccess)
+            let t = V2ValueResponse<[NotificationsModel]>(value:resultArray, success: response.error == nil)
             completionHandler?(t);
             
         }

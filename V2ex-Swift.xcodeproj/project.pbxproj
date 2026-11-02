@@ -117,6 +117,7 @@
 		2D43B43D1CAA2CDD007B0007 /* V2ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B43C1CAA2CDD007B0007 /* V2ProgressHUD.swift */; };
 		2D6B1BB01CA93F970050121D /* V2User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6B1BAF1CA93F970050121D /* V2User.swift */; };
 		641612FB6CCABA53083DADCF /* libPods-V2ex-Swift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B0F4B166DB726F4DA349A16 /* libPods-V2ex-Swift.a */; };
+		A176AB112ED0000000000001 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A176AB112ED0000000000002 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -236,6 +237,7 @@
 		52700928D2B67AA24FBCC006 /* Pods-V2ex-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		61362A97378A23EFC5EDD56C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8659DB1BFBA4E17FA63A4C14 /* Pods-V2ex-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2ex-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift.release.xcconfig"; sourceTree = "<group>"; };
+		A176AB112ED0000000000002 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				069508E31C3F74FF0088D031 /* AppDelegate.swift */,
+				A176AB112ED0000000000002 /* SceneDelegate.swift */,
 				0610F1B31C46491800481402 /* V2EXNavigationController.swift */,
 				069839781C4773D600FF7163 /* Localizable.strings */,
 				069508EA1C3F74FF0088D031 /* Assets.xcassets */,
@@ -646,16 +649,28 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-V2ex-Swift/Pods-V2ex-Swift-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/1PasswordExtension/OnePasswordExtensionResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/KeychainSwift/KeychainSwift.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/Kingfisher/Kingfisher.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ObjectMapper/Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RxSwift/RxSwift_Privacy.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/PrivacyInfo.xcprivacy",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit_Privacy.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/OnePasswordExtensionResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Alamofire.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KeychainSwift.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Kingfisher.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RxSwift_Privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/PrivacyInfo.xcprivacy",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SnapKit_Privacy.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -688,6 +703,7 @@
 				067FF8C01C804B8A009538F7 /* V2PhotoBrowserTransionPresent.swift in Sources */,
 				0610F1B01C46136300481402 /* BaseModel.swift in Sources */,
 				069508E41C3F74FF0088D031 /* AppDelegate.swift in Sources */,
+				A176AB112ED0000000000001 /* SceneDelegate.swift in Sources */,
 				069839831C478ECC00FF7163 /* RightViewController.swift in Sources */,
 				06E583851C3F8F4B00FCA361 /* HomeTopicListTableViewCell.swift in Sources */,
 				065B69111C75ABE1009AAC37 /* AnalyzeURLHelper.swift in Sources */,

@@ -11,18 +11,22 @@ import SVProgressHUD
 
 open class V2ProgressHUD: NSObject {
     open class func show() {
-        SVProgressHUD.show(with: .none)
+        SVProgressHUD.setDefaultMaskType(.none)
+        SVProgressHUD.show()
     }
 
     open class func showWithClearMask() {
-        SVProgressHUD.show(with: .clear)
+        SVProgressHUD.setDefaultMaskType(.clear)
+        SVProgressHUD.show()
     }
 
     open class func dismiss() {
         SVProgressHUD.dismiss()
+        SVProgressHUD.setDefaultMaskType(.none)
     }
 
     open class func showWithStatus(_ status:String!) {
+        SVProgressHUD.setDefaultMaskType(.none)
         SVProgressHUD.show(withStatus: status)
     }
 

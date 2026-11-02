@@ -15,6 +15,22 @@ extension Error {
         return (self as NSError).localizedFailureReason
     }
 }
+private struct JiHTMLResponseSerializer: DataResponseSerializerProtocol {
+    func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> Ji {
+        if let error = error { throw error }
+        if response?.url?.path == "/signin" && request?.url?.path != "/signin" {
+            throw DataRequest.newError(.dataSerializationFailed, failureReason: "查看的内容需要登录!")
+        }
+        guard let data = data else {
+            throw AFError.responseSerializationFailed(reason: .inputDataNilOrZeroLength)
+        }
+        guard let html = Ji(htmlData: data) else {
+            throw DataRequest.newError(.dataSerializationFailed, failureReason: "HTML 解析失败")
+        }
+        return html
+    }
+}
+
 extension DataRequest {
     enum ErrorCode: Int {
         case noData = 1
@@ -27,34 +43,8 @@ extension DataRequest {
         return returnError
     }
     
-    static func JIHTMLResponseSerializer() -> DataResponseSerializer<Ji> {
-        return DataResponseSerializer { request, response, data, error in
-            guard error == nil else { return .failure(error!) }
-            
-            if response?.url?.path == "/signin" && request?.url?.path != "/signin" {
-                //跳转到登录页时，则证明请求的内容需要登录
-                let failureReason = "查看的内容需要登录!"
-                let error = newError(.dataSerializationFailed, failureReason: failureReason)
-                return .failure(error)
-            }
-            guard let validData = data else {
-                return .failure(AFError.responseSerializationFailed(reason: .inputDataNil))
-            }
-            
-            if  let jiHtml = Ji(htmlData: validData){
-                return .success(jiHtml)
-            }
-            
-            let failureReason = "ObjectMapper failed to serialize response."
-            let error = newError(.dataSerializationFailed, failureReason: failureReason)
-            return .failure(error)
-        }
-    }
-    
     @discardableResult
-    public func responseJiHtml(queue: DispatchQueue? = nil,  completionHandler: @escaping (DataResponse<Ji>) -> Void) -> Self {
-        return response(responseSerializer: Alamofire.DataRequest.JIHTMLResponseSerializer(), completionHandler: completionHandler);
+    public func responseJiHtml(queue: DispatchQueue = .main, completionHandler: @escaping (AFDataResponse<Ji>) -> Void) -> Self {
+        return response(queue: queue, responseSerializer: JiHTMLResponseSerializer(), completionHandler: completionHandler)
     }
 }
-
-

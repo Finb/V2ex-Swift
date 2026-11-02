@@ -11,8 +11,6 @@ import SnapKit
 
 import RxSwift
 import Alamofire
-import AlamofireObjectMapper
-
 import Ji
 import MJRefresh
 
@@ -54,8 +52,8 @@ class HomeViewController: UIViewController {
         self.setupNavigationItem()
         
         //监听程序即将进入前台运行、进入后台休眠 事件
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationWillEnterForeground), name: UIScene.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.applicationDidEnterBackground), name: UIScene.didEnterBackgroundNotification, object: nil)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.makeConstraints{ (make) -> Void in
@@ -85,14 +83,14 @@ class HomeViewController: UIViewController {
     func setupNavigationItem(){
         let leftButton = NotificationMenuButton()
         leftButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftButton).hidingGlassBackground()
         leftButton.addTarget(self, action: #selector(HomeViewController.leftClick), for: .touchUpInside)
 
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
         rightButton.setImage(UIImage.imageUsedTemplateMode("ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton).hidingGlassBackground()
         rightButton.addTarget(self, action: #selector(HomeViewController.rightClick), for: .touchUpInside)
     }
     @objc func leftClick(){

@@ -50,9 +50,9 @@ class NodeGroupModel: NSObject ,BaseHtmlModelProtocol{
     }
     
     class func getNodes( _ completionHandler: ((V2ValueResponse<[NodeGroupModel]>) -> Void)? = nil ) {
-        Alamofire.request(V2EXURL, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
+        AF.request(V2EXURL, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) in
             var groupArray : [NodeGroupModel] = []
-            if let jiHtml = response .result.value{
+            if let jiHtml = response.value{
                 if let nodes = jiHtml.xPath("//*[@id='Wrapper']/div/div[@class='box'][last()]/div/table/tr") {
                     for rootNode in nodes {
                         let group = NodeGroupModel(rootNode: rootNode)

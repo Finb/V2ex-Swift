@@ -165,7 +165,7 @@ extension NodeTopicListViewController {
         let followButton = UIButton(frame:CGRect(x: 0, y: 0, width: 26, height: 26))
         followButton.addTarget(self, action: #selector(toggleFavoriteState), for: .touchUpInside)
         
-        let followItem = UIBarButtonItem(customView: followButton)
+        let followItem = UIBarButtonItem(customView: followButton).hidingGlassBackground()
         
         //处理间距
         let fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)

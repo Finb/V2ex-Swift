@@ -241,8 +241,8 @@ extension TopicDetailCommentCell : V2CommentAttachmentImageTapDelegate ,V2PhotoB
         return .center
     }
     func guideFrameInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
-        if let attachment = self.itemModel!.textLayout!.attachments?[index] , let image = attachment.content  as? V2CommentAttachmentImage{
-            return image .convert(image.bounds, to: UIApplication.shared.keyWindow!)
+        if let attachment = self.itemModel!.textLayout!.attachments?[index], let image = attachment.content as? V2CommentAttachmentImage, let window = image.window {
+            return image.convert(image.bounds, to: window)
         }
         return CGRect.zero
     }

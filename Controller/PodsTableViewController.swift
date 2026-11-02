@@ -31,8 +31,6 @@ class PodsTableViewController: UITableViewController {
         
         PodModel(name: "ObjectMapper", description: "Simple JSON Object mapping written in Swift",URL: "https://github.com/Hearst-DD/ObjectMapper"),
         
-        PodModel(name: "AlamofireObjectMapper", description: "An Alamofire extension which converts JSON response data into swift objects using ObjectMapper",URL: "https://github.com/tristanhimmelman/AlamofireObjectMapper"),
-        
         PodModel(name: "DrawerController", description: "A lightweight, easy to use, Side Drawer Navigation Controller in Swift (based on MMDrawerController)",URL: "https://github.com/sascha/DrawerController"),
         
         PodModel(name: "Kingfisher", description: "A lightweight and pure Swift implemented library for downloading and caching image from the web.",URL: "https://github.com/onevcat/Kingfisher"),

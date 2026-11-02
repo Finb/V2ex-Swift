@@ -29,7 +29,7 @@ class TwoFAViewController: UIViewController ,UITextFieldDelegate{
         
         self.cancelButton.addTarget(self, action: #selector(cancelClick), for: .touchUpInside)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: UIScene.willEnterForegroundNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {

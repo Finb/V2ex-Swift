@@ -95,8 +95,8 @@ class MemberModel: NSObject ,BaseHtmlModelProtocol{
     class func getMemberInfo(_ username:String , completionHandler: ((V2ValueResponse<MemberModel>) -> Void)? = nil) {
     
         let url = V2EXURL + "member/" + username
-        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-            if let jiHtml = response.result.value {
+        AF.request(url, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) -> Void in
+            if let jiHtml = response.value {
                 
                 if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div[1]/div[1]/table/tr")?.first{
                     
@@ -216,8 +216,8 @@ extension MemberModel {
         ){
         let action = type == .followed ? "follow/" : "unfollow/"
         let url = V2EXURL + action + userId + "?once=" + userToken
-        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
-            completionHandler?(V2Response(success: response.result.isSuccess))
+        AF.request(url, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) in
+            completionHandler?(V2Response(success: response.error == nil))
         }
     }
     
@@ -235,8 +235,8 @@ extension MemberModel {
         ){
         let action = type == .blocked ? "block/" : "unblock/"
         let url = V2EXURL + action + userId + "?once=" + userToken
-        Alamofire.request(url, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) in
-            completionHandler?(V2Response(success: response.result.isSuccess))
+        AF.request(url, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) in
+            completionHandler?(V2Response(success: response.error == nil))
         }
     }
 }

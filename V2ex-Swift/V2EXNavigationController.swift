@@ -13,7 +13,8 @@ import YYText
 class V2EXNavigationController: UINavigationController {
     
     /// 毛玻璃效果的 navigationBar 背景
-    var frostedView:UIToolbar = UIToolbar()
+    /// iOS 27 下 UIToolbar 会强制使用液态玻璃效果，这里改用 UIVisualEffectView
+    var frostedView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
     /// navigationBar 阴影
     var shadowImage:UIImage?
     /// navigationBar 背景透明度
@@ -67,6 +68,31 @@ class V2EXNavigationController: UINavigationController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        // iOS 26 起系统返回按钮默认带有液态玻璃背景，用自定义返回按钮替代
+        if let topViewController = self.topViewController {
+            viewController.navigationItem.leftBarButtonItem = makeBackButtonItem(title: topViewController.title)
+        }
+        super.pushViewController(viewController, animated: animated)
+    }
+
+    private func makeBackButtonItem(title: String?) -> UIBarButtonItem {
+        let backButton = UIButton(type: .system)
+        backButton.setImage(UIImage(systemName: "chevron.backward")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setTitle(title, for: .normal)
+        backButton.titleLabel?.font = v2Font(17)
+        backButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: -2, bottom: 0, right: 2)
+        backButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: -2)
+        backButton.addTarget(self, action: #selector(customBackButtonTapped), for: .touchUpInside)
+        backButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        backButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 44).isActive = true
+        return UIBarButtonItem(customView: backButton).hidingGlassBackground()
+    }
+
+    @objc private func customBackButtonTapped() {
+        self.popViewController(animated: true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         if #available(iOS 13.0, *) {
@@ -101,12 +127,7 @@ class V2EXNavigationController: UINavigationController {
             
             if V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault {
                 maskingView.backgroundColor = UIColor(white: 0, alpha: 0.0);
-                if #available(iOS 13.0, *) {
-                    self?.frostedView.overrideUserInterfaceStyle = .light
-                } else {
-                    self?.frostedView.barStyle = .default
-                }
-
+                self?.frostedView.overrideUserInterfaceStyle = .light
                 
                 //全局键盘颜色
                 UITextField.appearance().keyboardAppearance = .light
@@ -114,11 +135,7 @@ class V2EXNavigationController: UINavigationController {
             }
             else{
                 maskingView.backgroundColor = UIColor(white: 0, alpha: 0.6);
-                if #available(iOS 13.0, *) {
-                    self?.frostedView.overrideUserInterfaceStyle = .dark
-                } else {
-                    self?.frostedView.barStyle = .black
-                }
+                self?.frostedView.overrideUserInterfaceStyle = .dark
                 
                 UITextField.appearance().keyboardAppearance = .dark
             }

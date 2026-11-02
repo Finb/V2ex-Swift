@@ -57,13 +57,13 @@ class V2WebViewViewController: UIViewController ,V2WebViewProgressDelegate ,V2Ac
         
         leftBarButtonsPanelView.addSubview(backbtn)
         leftBarButtonsPanelView.addSubview(self.closeButton)
-        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(customView: leftBarButtonsPanelView)]
+        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(customView: leftBarButtonsPanelView).hidingGlassBackground()]
         
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
         rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton).hidingGlassBackground()
         rightButton.addTarget(self, action: #selector(V2WebViewViewController.rightClick), for: .touchUpInside)
         
         

@@ -8,7 +8,6 @@ def pods
   pod 'SnapKit'
   pod 'Alamofire'
   pod 'ObjectMapper'
-  pod 'AlamofireObjectMapper'
   pod 'Ji'
   pod 'DrawerController'
   pod 'Kingfisher', '~> 7.11.0'

@@ -90,8 +90,9 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
     required init(rootNode: JiNode) {
         super.init()
         
-        let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"]
-        if let id = id {
+        if let id = rootNode["id"], id.hasPrefix("r_") {
+            self.replyId = String(id.dropFirst(2))
+        } else if let id = rootNode.xPath("table/tr/td[3]/div[1]/div[attribute::id]").first?["id"] {
             if id.hasPrefix("thank_area_") {
                 self.replyId = id.replacingOccurrences(of: "thank_area_", with: "")
             }
@@ -103,7 +104,7 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         self.date = rootNode.xPath("table/tr/td[3]/span").first?.content
         
-        if let str = rootNode.xPath("table/tr/td[3]/div[@class='fr']/span").first?.content  , let no =  Int(str){
+        if let str = rootNode.xPath("table/tr/td[3]/div[@class='fr']/span[@class='no']").first?.content, let no = Int(str) {
             self.number = no;
         }
         
@@ -202,12 +203,12 @@ extension TopicCommentModel {
                     "once":V2User.sharedInstance.once!
                 ] as [String:Any]
                 
-                Alamofire.request(url, method: .post, parameters: prames, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
+                AF.request(url, method: .post, parameters: prames, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) -> Void in
                     let url = response.response?.url
                     if url?.path.hasSuffix(requestPath) == true && url?.fragment?.hasPrefix("reply") == true{   
                        completionHandler(V2Response(success: true))
                     }
-                    else if let problems = response.result.value?.xPath("//*[@class='problem']/ul/li") {
+                    else if let problems = response.value?.xPath("//*[@class='problem']/ul/li") {
                         let problemStr = problems.map{ $0.content ?? "回帖失败" }.joined(separator: "\n")
                         completionHandler(V2Response(success: false,message: problemStr))
                     }
@@ -215,7 +216,7 @@ extension TopicCommentModel {
                         completionHandler(V2Response(success: false,message: "请求失败"))
                     }
                     //不管成功还是失败，更新一下once
-                    if let jiHtml = response .result.value{
+                    if let jiHtml = response.value{
                         V2User.sharedInstance.once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]
                     }
                 }

@@ -32,7 +32,7 @@ class AccountsManagerViewController: UIViewController,UITableViewDataSource,UITa
         warningButton.contentMode = .center
         warningButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20)
         warningButton.setImage(UIImage.imageUsedTemplateMode("ic_warning")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: warningButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: warningButton).hidingGlassBackground()
         warningButton.addTarget(self, action: #selector(AccountsManagerViewController.warningClick), for: .touchUpInside)
 
         self.view.addSubview(self.tableView);

@@ -326,8 +326,8 @@ extension MemberViewController{
         let followButton = UIButton(frame:CGRect(x: 0, y: 0, width: 26, height: 26))
         followButton.addTarget(self, action: #selector(toggleFollowState), for: .touchUpInside)
         
-        let blockItem = UIBarButtonItem(customView: blockButton)
-        let followItem = UIBarButtonItem(customView: followButton)
+        let blockItem = UIBarButtonItem(customView: blockButton).hidingGlassBackground()
+        let followItem = UIBarButtonItem(customView: followButton).hidingGlassBackground()
         
         //处理间距
         let fixedSpaceItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)

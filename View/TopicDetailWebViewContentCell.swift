@@ -192,7 +192,8 @@ extension TopicDetailWebViewContentCell : V2PhotoBrowserDelegate {
         return .scaleAspectFit
     }
     func guideFrameInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> CGRect {
-        let location = self.contentWebView.convert(self.contentWebView.bounds, to: UIApplication.shared.keyWindow!)
+        guard let window = self.contentWebView.window else { return .zero }
+        let location = self.contentWebView.convert(self.contentWebView.bounds, to: window)
         return CGRect(x: tapImageInfo!.left + Int(location.origin.x), y: tapImageInfo!.top + Int(location.origin.y), width: tapImageInfo!.width, height: tapImageInfo!.height)
     }
     func guideImageInPhotoBrowser(_ photoBrowser: V2PhotoBrowser, index: Int) -> UIImage? {

@@ -60,7 +60,7 @@ class TopicDetailViewController: BaseViewController {
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -15)
         rightButton.setImage(UIImage(named: "ic_more_horiz_36pt")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton).hidingGlassBackground()
         rightButton.addTarget(self, action: #selector(TopicDetailViewController.rightClick), for: .touchUpInside)
         
         self.tableView.mj_header = V2RefreshHeader(refreshingBlock: { [weak self] in
@@ -357,43 +357,18 @@ extension TopicDetailViewController: UITableViewDelegate, UITableViewDataSource 
 
 // MARK: - actionSheet
 
-extension TopicDetailViewController: UIActionSheetDelegate {
+extension TopicDetailViewController {
     func selectedRowWithActionSheet(_ indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-
-        // 这段代码也可以执行，但是当点击时，会有个0.3秒的dismiss动画。
-        // 然后再弹出回复页面或者查看对话页面。感觉太长了，暂时不用
-//        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-//        let replyAction = UIAlertAction(title: "回复", style: .Default) { _ in
-//            self.replyComment(indexPath.row)
-//        }
-//        let thankAction = UIAlertAction(title: "感谢", style: .Default) { _ in
-//            self.thankComment(indexPath.row)
-//        }
-//        let relevantCommentsAction = UIAlertAction(title: "查看对话", style: .Default) { _ in
-//            self.relevantComment(indexPath.row)
-//        }
-//        let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: nil)
-//        //将action全加进actionSheet
-//        [replyAction,thankAction,relevantCommentsAction,cancelAction].forEach { (action) -> () in
-//            actionSheet.addAction(action)
-//        }
-//        self.navigationController?.presentViewController(actionSheet, animated: true, completion: nil)
-        
-        // 这段代码在iOS8.3中弃用，但是现在还可以使用，先用着吧
-        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "回复", "感谢", "查看对话")
-        actionSheet.tag = indexPath.row
-        actionSheet.show(in: self.view)
-    }
-
-    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
-        guard buttonIndex > 0 && buttonIndex <= 3 else {
-            return
-        }
-        self.perform([#selector(TopicDetailViewController.replyComment(_:)),
-                      #selector(TopicDetailViewController.thankComment(_:)),
-                      #selector(TopicDetailViewController.relevantComment(_:))][buttonIndex - 1],
-                     with: actionSheet.tag)
+        let row = indexPath.row
+        CommentActionSheetView.show(
+            actions: [
+                ("回复", { [weak self] in self?.replyComment(row as NSNumber) }),
+                ("感谢", { [weak self] in self?.thankComment(row as NSNumber) }),
+                ("查看对话", { [weak self] in self?.relevantComment(row as NSNumber) })
+            ],
+            in: self.view.window ?? self.view
+        )
     }
 
     @objc func replyComment(_ row: NSNumber) {
@@ -569,5 +544,167 @@ extension TopicDetailViewController: V2ActivityViewDataSource {
             let nav = V2EXNavigationController(rootViewController: replyViewController)
             self.navigationController?.present(nav, animated: true, completion: nil)
         }
+    }
+}
+
+// MARK: - 评论操作菜单
+
+/// 纯 UIView 实现的底部操作菜单。
+/// 不使用 modal 呈现，点击操作后同步移除视图再执行回调，
+/// 这样后续的 present 不会被 UIAlertController 自身的消失转场排队。
+private final class CommentActionSheetView: UIView {
+    private let actions: [(title: String, handler: () -> Void)]
+    private let dimmingView = UIControl()
+    private let panelContainer = UIView()
+    private var isDismissing = false
+
+    static func show(actions: [(title: String, handler: () -> Void)], in container: UIView) {
+        let sheet = CommentActionSheetView(actions: actions)
+        container.addSubview(sheet)
+        sheet.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        sheet.layoutIfNeeded()
+        sheet.playShowAnimation()
+    }
+
+    private init(actions: [(title: String, handler: () -> Void)]) {
+        self.actions = actions
+        super.init(frame: .zero)
+        setupView()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupView() {
+        dimmingView.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        dimmingView.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
+        addSubview(dimmingView)
+        dimmingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        addSubview(panelContainer)
+        panelContainer.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalTo(min(SCREEN_WIDTH - 16, 400))
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-8)
+        }
+
+        var actionViews: [UIView] = []
+        for (index, action) in actions.enumerated() {
+            if index > 0 {
+                actionViews.append(makeSeparator())
+            }
+            actionViews.append(makeButton(title: action.title, tag: index))
+        }
+
+        let actionsPanel = makePanel(views: actionViews)
+        panelContainer.addSubview(actionsPanel)
+        actionsPanel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+        }
+
+        let cancelButton = makeButton(title: "取消", tag: nil)
+        cancelButton.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
+        let cancelPanel = makePanel(views: [cancelButton])
+        panelContainer.addSubview(cancelPanel)
+        cancelPanel.snp.makeConstraints { make in
+            make.top.equalTo(actionsPanel.snp.bottom).offset(8)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+
+    private func makePanel(views: [UIView]) -> UIView {
+        let panel = UIView()
+        panel.layer.cornerRadius = 13
+        panel.layer.masksToBounds = true
+
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+        blurView.overrideUserInterfaceStyle = V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault ? .light : .dark
+        blurView.layer.cornerRadius = 13
+        blurView.layer.masksToBounds = true
+        panel.addSubview(blurView)
+        blurView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        let stackView = UIStackView(arrangedSubviews: views)
+        stackView.axis = .vertical
+        panel.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return panel
+    }
+
+    private func makeButton(title: String, tag: Int?) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = v2Font(18)
+        button.setTitleColor(V2EXColor.colors.v2_TopicListTitleColor, for: .normal)
+        if let tag = tag {
+            button.tag = tag
+            button.addTarget(self, action: #selector(actionTapped(_:)), for: .touchUpInside)
+        }
+        button.snp.makeConstraints { make in
+            make.height.equalTo(52)
+        }
+        return button
+    }
+
+    private func makeSeparator() -> UIView {
+        let separator = UIView()
+        separator.backgroundColor = V2EXColor.colors.v2_SeparatorColor.withAlphaComponent(0.4)
+        separator.snp.makeConstraints { make in
+            make.height.equalTo(0.5)
+        }
+        return separator
+    }
+
+    private func playShowAnimation() {
+        dimmingView.alpha = 0
+        panelContainer.transform = CGAffineTransform(translationX: 0, y: panelContainer.bounds.height + 16)
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 6,
+            options: [.allowUserInteraction, .beginFromCurrentState],
+            animations: {
+                self.dimmingView.alpha = 1
+                self.panelContainer.transform = .identity
+            },
+            completion: nil
+        )
+    }
+
+    @objc private func cancelTapped() {
+        guard !isDismissing else { return }
+        isDismissing = true
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0,
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 6,
+            options: [.beginFromCurrentState],
+            animations: {
+                self.dimmingView.alpha = 0
+                self.panelContainer.transform = CGAffineTransform(translationX: 0, y: self.panelContainer.bounds.height + 16)
+            },
+            completion: { _ in
+                self.removeFromSuperview()
+            }
+        )
+    }
+
+    @objc private func actionTapped(_ sender: UIButton) {
+        let handler = actions[sender.tag].handler
+        isDismissing = true
+        removeFromSuperview()
+        handler()
     }
 }

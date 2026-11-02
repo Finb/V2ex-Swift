@@ -27,13 +27,13 @@ class WritingViewController: UIViewController ,UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "写东西"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(WritingViewController.leftClick))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .plain, target: self, action: #selector(WritingViewController.leftClick)).hidingGlassBackground()
 
         let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         rightButton.contentMode = .center
         rightButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -20)
         rightButton.setImage(UIImage(named: "ic_send")!.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton).hidingGlassBackground()
         rightButton.addTarget(self, action: #selector(WritingViewController.rightClick), for: .touchUpInside)
         
         self.view.backgroundColor = V2EXColor.colors.v2_backgroundColor

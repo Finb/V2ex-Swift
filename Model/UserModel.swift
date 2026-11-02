@@ -73,9 +73,9 @@ extension UserModel{
         //为安全，此处使用https
         dict["Referer"] = "https://v2ex.com/signin"
         //登录
-        Alamofire.request(V2EXURL+"signin",method:.post, parameters: prames, headers: dict).responseJiHtml{
+        AF.request(V2EXURL+"signin",method:.post, parameters: prames, headers: HTTPHeaders(dict)).responseJiHtml{
             (response) -> Void in
-            if let jiHtml = response.result.value{
+            if let jiHtml = response.value{
                 //判断有没有用户头像，如果有，则证明登录成功了
                 if let avatarImg = jiHtml.xPath("//*[@class='avatar mobile']")?.first {
                     if let altUsername = avatarImg.attributes["alt"]{
@@ -109,8 +109,8 @@ extension UserModel{
                     "once":V2User.sharedInstance.once!
                     ] as [String:Any]
                 let url = V2EXURL + "2fa"
-                Alamofire.request(url, method: .post, parameters: prames, headers: MOBILE_CLIENT_HEADERS).responseJiHtml { (response) -> Void in
-                    if(response.result.isSuccess){
+                AF.request(url, method: .post, parameters: prames, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml { (response) -> Void in
+                    if response.error == nil {
                         if let url = response.response?.url?.absoluteString, url.contains("2fa") {
                             completionHandler(false);
                         }
@@ -150,8 +150,8 @@ extension UserModel{
     class func dailyRedeem() {
         V2User.sharedInstance.getOnce { (response) -> Void in
             if response.success {
-                Alamofire.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once! , headers: MOBILE_CLIENT_HEADERS).responseJiHtml{ (response) in
-                    if let jiHtml = response .result.value{
+                AF.request(V2EXURL + "mission/daily/redeem?once=" + V2User.sharedInstance.once!, headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml{ (response) in
+                    if let jiHtml = response.value{
                         if let aRootNode = jiHtml.xPath("//*[@id='Wrapper']/div/div/div[@class='message']")?.last {
                             if aRootNode.content?.trimmingCharacters(in: .whitespaces) == "已成功领取每日登录奖励" {
                                 print("每日登录奖励 领取成功")

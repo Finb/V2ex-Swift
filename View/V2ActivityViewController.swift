@@ -67,7 +67,9 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         }
     }
     
-    var panel:UIToolbar = CTToolBar()
+    var panel:V2ActivityPanelView = V2ActivityPanelView()
+    /// panel 中最后一个内容视图，用来确定 panel 的底部位置
+    private var lastPanelView: UIView?
     
     /**
      当前不考虑复用，每一行最多支持4个cell
@@ -90,7 +92,7 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         self.view.backgroundColor = UIColor(white: 0, alpha: 0)
         self.transitioningDelegate = self
         
-        self.panel.barStyle = V2EXColor.sharedInstance.style == V2EXColor.V2EXColorStyleDefault ? .default : .black
+        self.panel.isDark = V2EXColor.sharedInstance.style != V2EXColor.V2EXColorStyleDefault
         self.view.addSubview(self.panel)
         self.panel.snp.makeConstraints{ (make) -> Void in
             make.bottom.equalTo(self.view).offset(-90)
@@ -102,14 +104,14 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
         
         self.setupView()
         
-        if let lastView = self.panel.subviews.last {
+        if let lastView = self.lastPanelView {
             self.panel.snp.makeConstraints{ (make) -> Void in
                 make.bottom.equalTo(lastView)
             }
         }
         
-        let cancelPanel = UIToolbar()
-        cancelPanel.barStyle = self.panel.barStyle
+        let cancelPanel = V2ActivityPanelView()
+        cancelPanel.isDark = self.panel.isDark
         cancelPanel.layer.cornerRadius = self.panel.layer.cornerRadius
         cancelPanel.layer.masksToBounds = true
         self.view.addSubview(cancelPanel)
@@ -151,13 +153,14 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             sectionView.snp.makeConstraints{ (make) -> Void in
                 make.left.right.equalTo(self.panel)
                 make.height.equalTo(110)
-                if self.panel.subviews.count > 1 {
-                    make.top.equalTo(self.panel.subviews[self.panel.subviews.count - 1 - 1].snp.bottom)
+                if let lastPanelView = self.lastPanelView {
+                    make.top.equalTo(lastPanelView.snp.bottom)
                 }
                 else {
                     make.top.equalTo(self.panel)
                 }
             }
+            self.lastPanelView = sectionView
             
             //setupFoterView
             self.setupFooterView(i)
@@ -195,13 +198,14 @@ class V2ActivityViewController: UIViewController ,UIViewControllerTransitioningD
             view.snp.makeConstraints{ (make) -> Void in
                 make.left.right.equalTo(self.panel)
                 make.height.equalTo(height!)
-                if self.panel.subviews.count > 1 {
-                    make.top.equalTo(self.panel.subviews[self.panel.subviews.count - 1 - 1].snp.bottom)
+                if let lastPanelView = self.lastPanelView {
+                    make.top.equalTo(lastPanelView.snp.bottom)
                 }
                 else {
                     make.top.equalTo(self.panel)
                 }
             }
+            self.lastPanelView = view
         }
     }
     //配置每个cell
@@ -316,15 +320,26 @@ class V2ActivityTransionDismiss:NSObject,UIViewControllerAnimatedTransitioning {
     }
 }
 
-class CTToolBar: UIToolbar {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        //Fix iOS11 种 UIToolBar的子View 都不响应点击事件
-        for view in self.subviews {
-            print("\(NSStringFromClass(view.classForCoder))")
-            if NSStringFromClass(view.classForCoder) == "_UIToolbarContentView" {
-                view.isUserInteractionEnabled = false
-            }
+/// iOS 27 下 UIToolbar 会强制使用液态玻璃效果，背景变成透明，
+/// 这里用 UIVisualEffectView 自己实现毛玻璃背景。
+class V2ActivityPanelView: UIView {
+    var isDark: Bool = false {
+        didSet {
+            blurView.overrideUserInterfaceStyle = isDark ? .dark : .light
         }
+    }
+    private let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        blurView.isUserInteractionEnabled = false
+        addSubview(blurView)
+        blurView.snp.makeConstraints { (make) -> Void in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

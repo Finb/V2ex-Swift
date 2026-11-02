@@ -226,10 +226,10 @@ class LoginViewController: UIViewController {
     var codeStr:String?
     @objc func refreshCode(){
         
-        Alamofire.request(V2EXURL+"signin", headers: MOBILE_CLIENT_HEADERS).responseJiHtml{
+        AF.request(V2EXURL+"signin", headers: HTTPHeaders(MOBILE_CLIENT_HEADERS)).responseJiHtml{
             (response) -> Void in
             
-            if let jiHtml = response .result.value{
+            if let jiHtml = response.value{
                 //获取帖子内容
                 //取出 once 登录时要用
                 
@@ -242,7 +242,7 @@ class LoginViewController: UIViewController {
                 if let once = jiHtml.xPath("//*[@name='once'][1]")?.first?["value"]{
                     let codeUrl = "\(V2EXURL)_captcha?once=\(once)"
                     self.onceStr = once
-                    Alamofire.request(codeUrl).responseData(completionHandler: { (dataResp) in
+                    AF.request(codeUrl).responseData(completionHandler: { (dataResp) in
                         self.codeImageView.image = UIImage(data: dataResp.data!)
                     })
                 }
