@@ -100,12 +100,19 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         
         self.avata = rootNode.xPath("table/tr/td[1]/img").first?["src"]
         
-        self.userName = rootNode.xPath("table/tr/td[3]/strong/a").first?.content
-        
-        self.date = rootNode.xPath("table/tr/td[3]/span").first?.content
-        
-        if let str = rootNode.xPath("table/tr/td[3]/div[@class='fr']/span[@class='no']").first?.content, let no = Int(str) {
-            self.number = no;
+        self.userName = rootNode.xPath("table/tr/td[3]//strong/a[starts-with(@href, '/member/')]").first?.content
+
+        // 新旧版评论头部层级不同，按 class 查找并排除回复正文。
+        let headerSpans = "table/tr/td[3]//span[not(ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' reply_content ')])]"
+        let timeNode = rootNode.xPath("\(headerSpans)[contains(concat(' ', normalize-space(@class), ' '), ' ago ')]").first
+        let time = timeNode?.content?.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.date = (time?.isEmpty == false ? time : nil)
+            ?? timeNode?["title"]
+            ?? rootNode.xPath("table/tr/td[3]/span[not(contains(concat(' ', normalize-space(@class), ' '), ' no '))]").first?.content?.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if let text = rootNode.xPath("\(headerSpans)[contains(concat(' ', normalize-space(@class), ' '), ' no ')]").first?.content,
+           let number = Int(text.trimmingCharacters(in: .whitespacesAndNewlines)), number > 0 {
+            self.number = number
         }
         
         if let favorite = rootNode.xPath("table/tr/td[3]/span[2]").first?.content {

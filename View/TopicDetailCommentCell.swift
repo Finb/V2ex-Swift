@@ -192,12 +192,9 @@ class TopicDetailCommentCell: UITableViewCell{
             self.avatarImageView.fin_setImageWithUrl(URL(string: avata)!, placeholderImage: nil, imageModificationClosure: fin_defaultImageModification())
         }
         
-        if self.itemModel?.number == model.number && self.itemModel?.userName == model.userName {
-            return;
-        }
-        
         self.userNameLabel.text = model.userName;
-        self.dateLabel.text = String(format: "%i楼  %@", model.number, model.date ?? "")
+        self.dateLabel.text = [model.number > 0 ? "\(model.number)楼" : nil, model.date]
+            .compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: "  ")
         
         if let layout = model.textLayout {
             self.commentLabel.textLayout = layout
