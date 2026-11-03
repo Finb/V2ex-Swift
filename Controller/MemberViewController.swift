@@ -18,19 +18,8 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     var followButton:UIButton?
     
     var color:CGFloat = 0
-    var headerHeight: CGFloat = {
-        if UIDevice.current.isIphoneX {
-            return 240 + 24
-        }
-        return 240
-    }()
-    //昵称相对于整个屏幕时的 y 值
-    var nickLabelTop: CGFloat = {
-        if UIDevice.current.isIphoneX {
-            return 156 + 24/2
-        }
-        return 156
-    }()
+    private var headerHeight: CGFloat = 240
+    private var navigationAppearanceActive = false
     
     
     let backgroundImageView:UIImageView = {
@@ -45,6 +34,10 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
         tableView.separatorStyle = .none
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0.0
+        }
+        if #available(iOS 26.0, *) {
+            // 导航栏背景由 navigationBarAlpha 控制，避免系统顶部滚动边缘效果叠加。
+            tableView.topEdgeEffect.isHidden = true
         }
         
         if #available(iOS 11.0, *) {
@@ -63,18 +56,21 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     var tableViewHeader:[UIView?] = []
     
-    var titleView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 44))
-    var titleLabel:UILabel?
+    private let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 44))
+    private let titleClipView = UIView()
+    private let titleLabel = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.backgroundImageView.frame = self.view.frame
+        self.backgroundImageView.frame = self.view.bounds
+        self.backgroundImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(self.backgroundImageView)
         
         let frostedView = FXBlurView()
         frostedView.underlyingView = self.backgroundImageView
         frostedView.isDynamic = false
-        frostedView.frame = self.view.frame
+        frostedView.frame = self.view.bounds
+        frostedView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         frostedView.tintColor = UIColor.black
         self.view.addSubview(frostedView)
         frostedView.updateAsynchronously(true, completion: nil)
@@ -84,15 +80,17 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             make.top.right.bottom.left.equalTo(self.view);
         }
         
+        self.titleClipView.clipsToBounds = true
+        self.titleClipView.isUserInteractionEnabled = false
+        self.titleLabel.text = self.model?.userName ?? "Hello"
+        self.titleLabel.font = v2Font(16)
+        self.titleLabel.textAlignment = .center
+        self.titleClipView.addSubview(self.titleLabel)
         self.navigationItem.titleView = self.titleView
         
         let aloadView = UIActivityIndicatorView(style: .white)
         self.view.addSubview(aloadView)
         aloadView.startAnimating()
-        aloadView.snp.makeConstraints{ (make) -> Void in
-            make.centerY.equalTo(self.view.snp.top).offset( (NavigationBarHeight - 44 ) + 44 / 2 )
-            make.right.equalTo(self.view).offset(-15)
-        }
         self._loadView = aloadView
         
         self.refreshData()
@@ -105,40 +103,52 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
             else{
                 self?.color = 0
             }
+            self?.titleLabel.textColor = V2EXColor.colors.v2_TopicListTitleColor
+            if self?.navigationAppearanceActive == true {
+                self?.changeNavigationBarTintColor()
+            }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 0
-        self.changeNavigationBarTintColor()
-        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y / 100
+        super.viewWillAppear(animated)
+        if let bar = self.navigationController?.navigationBar, let container = bar.superview {
+            container.insertSubview(self.titleClipView, belowSubview: bar)
+        }
+        self.navigationAppearanceActive = true
+        self.updateNavigationAppearance()
     }
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationAppearanceActive = false
         (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 1
         self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
     }
+
     override func viewDidDisappear(_ animated: Bool) {
-        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = 1
-        self.navigationController?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor
+        super.viewDidDisappear(animated)
+        self.titleClipView.removeFromSuperview()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if self.titleLabel == nil {
-            var frame = self.titleView.frame
-            frame.origin.x = (frame.size.width - SCREEN_WIDTH)/2
-            frame.size.width = SCREEN_WIDTH
-            
-            let coverView = UIView(frame: frame)
-            coverView.clipsToBounds = true
-            self.titleView.addSubview(coverView)
-            
-            self.titleLabel = UILabel(frame: CGRect(x: 0, y: 44, width: SCREEN_WIDTH, height: 44))
-            self.titleLabel!.text = self.model?.userName ?? "Hello"
-            self.titleLabel!.font = v2Font(16)
-            self.titleLabel!.textAlignment = .center
-            self.titleLabel!.textColor = V2EXColor.colors.v2_TopicListTitleColor
-            coverView.addSubview(self.titleLabel!)
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if let window = self.view.window {
+            let safeTop = max(0, self.view.convert(CGPoint(x: 0, y: window.safeAreaInsets.top), from: window).y)
+            let newHeight = 220 + safeTop
+            if abs(self.headerHeight - newHeight) > 0.5 {
+                self.headerHeight = newHeight
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+            }
         }
+        if let bar = self.navigationController?.navigationBar, let loadView = self._loadView {
+            let barFrame = bar.convert(bar.bounds, to: self.view)
+            let size = loadView.intrinsicContentSize
+            loadView.frame = CGRect(x: barFrame.maxX - 15 - size.width,
+                                    y: barFrame.midY - size.height / 2,
+                                    width: size.width, height: size.height)
+        }
+        self.updateTitlePosition()
     }
     
     func refreshData(){
@@ -160,50 +170,49 @@ class MemberViewController: UIViewController,UITableViewDelegate,UITableViewData
     
     func getDataSuccessfully(_ aModel:MemberModel){
         self.model = aModel
-        self.titleLabel?.text = self.model?.userName
+        self.titleLabel.text = self.model?.userName ?? "Hello"
         if self.model?.userToken != nil {
             setupBlockAndFollowButtons()
         }
         self.tableView.fin_reloadData()
+        self.view.setNeedsLayout()
     }
 
 // MARK: - UIScrollViewDelegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        var offsetY = scrollView.contentOffset.y
-        
-        //navigationBar 的透明度
-        self.changeNavigationAlpha()
-        
-        //后退按钮颜色
-        self.changeNavigationBarTintColor()
-        
-        //navigationBar title 显示
-        let navigationBarHeight = NavigationBarHeight
-        
-        //昵称距离NavigationBar 底部的距离
-        let nickLabelDistanceToNavigationBarBottom = nickLabelTop - navigationBarHeight
-
-        //因为titleLabel的高度是44 ，文字是居中的，而Header里的昵称不是相同高度，所以需要增加一点高度弥补一下 （不要问我怎么得来的，玄学数字
-        offsetY += (44-13)/2
-        
-        var y:CGFloat = 0
-        if offsetY <= nickLabelDistanceToNavigationBarBottom {
-            y = 44
-        }
-        else if offsetY >= nickLabelDistanceToNavigationBarBottom + 44 {
-            y = 0
-        }
-        else {
-            y = 44 - (offsetY - nickLabelDistanceToNavigationBarBottom)
-        }
-        
-        var frame = self.titleLabel!.frame
-        frame.origin.y = y
-        self.titleLabel?.frame = frame
+        self.updateNavigationAppearance()
     }
-    
-    func changeNavigationAlpha(){
-        (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y/100
+
+    private func updateNavigationAppearance() {
+        if self.navigationAppearanceActive {
+            (self.navigationController as? V2EXNavigationController)?.navigationBarAlpha = self.tableView.contentOffset.y / 100
+            self.changeNavigationBarTintColor()
+        }
+        self.updateTitlePosition()
+    }
+
+    private func updateTitlePosition() {
+        guard let bar = self.navigationController?.navigationBar,
+              let container = self.titleClipView.superview,
+              self.titleView.window != nil, bar.window != nil else { return }
+        let barFrame = bar.convert(bar.bounds, to: container)
+        let titleFrame = self.titleView.convert(self.titleView.bounds, to: container)
+        guard barFrame.height > 0, titleFrame.width > 0 else { return }
+        self.titleClipView.frame = barFrame
+        let indexPath = IndexPath(row: 0, section: 0)
+        let y: CGFloat
+        if let cell = self.tableView.cellForRow(at: indexPath) as? MemberHeaderCell,
+           cell.window != nil {
+            let label = cell.userNameLabel
+            let center = label.convert(CGPoint(x: label.bounds.midX, y: label.bounds.midY), to: container)
+            y = min(max(center.y - barFrame.height / 2, titleFrame.midY - barFrame.height / 2), barFrame.maxY)
+        } else {
+            let row = self.tableView.rectForRow(at: indexPath)
+            let rowBottom = self.tableView.convert(CGPoint(x: row.midX, y: row.maxY), to: container).y
+            y = rowBottom < barFrame.minY ? titleFrame.midY - barFrame.height / 2 : barFrame.maxY
+        }
+        self.titleLabel.frame = CGRect(x: titleFrame.minX - barFrame.minX, y: y - barFrame.minY,
+                                       width: titleFrame.width, height: barFrame.height)
     }
     
     func changeNavigationBarTintColor(){
@@ -395,4 +404,3 @@ extension MemberViewController{
         }
     }
 }
-

@@ -17,30 +17,19 @@ class V2EXNavigationController: UINavigationController {
     var frostedView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
     /// navigationBar 阴影
     var shadowImage:UIImage?
+    private let navigationBarBackground = UIView()
+    private let navigationBarSeparator = UIView()
+    private var backgroundAlpha: CGFloat = 1
     /// navigationBar 背景透明度
     var navigationBarAlpha:CGFloat {
         get{
-            return  self.frostedView.superview?.alpha ?? 0
+            return self.backgroundAlpha
         }
         set {
-            var value = newValue
-            if newValue > 1 {
-                value = 1
-            }
-            else if value < 0 {
-                value = 0
-            }
-            self.frostedView.superview?.alpha = newValue
-            if(value == 1){
-                if self.navigationBar.shadowImage != nil{
-                    self.navigationBar.shadowImage = nil
-                }
-            }
-            else {
-                if self.navigationBar.shadowImage == nil{
-                    self.navigationBar.shadowImage = UIImage()
-                }
-            }
+            let value = min(max(newValue, 0), 1)
+            self.backgroundAlpha = value
+            self.navigationBarBackground.alpha = value
+            self.navigationBarSeparator.isHidden = value < 1
         }
     }
     override var preferredStatusBarStyle: UIStatusBarStyle{
@@ -104,9 +93,17 @@ class V2EXNavigationController: UINavigationController {
         if #available(iOS 13.0, *) {
             self.overrideUserInterfaceStyle = .light
         }
-        self.navigationBar.setBackgroundImage(createImageWithColor(UIColor.clear), for: .default)
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.shadowColor = .clear
+        self.navigationBar.standardAppearance = appearance
+        self.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationBar.compactAppearance = appearance
+        if #available(iOS 15.0, *) {
+            self.navigationBar.compactScrollEdgeAppearance = appearance
+        }
 
-        let maskingView = UIView()
+        let maskingView = self.navigationBarBackground
         
         maskingView.isUserInteractionEnabled = false
         let barContainer = self.navigationBar.superview!
@@ -123,6 +120,13 @@ class V2EXNavigationController: UINavigationController {
         self.frostedView.snp.makeConstraints{ (make) -> Void in
             make.top.bottom.left.right.equalTo(maskingView);
         }
+        self.navigationBarSeparator.backgroundColor = .separator
+        maskingView.addSubview(self.navigationBarSeparator)
+        self.navigationBarSeparator.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalTo(maskingView)
+            make.height.equalTo(1 / UIScreen.main.scale)
+        }
+        self.navigationBarAlpha = self.backgroundAlpha
 
         self.themeChangedHandler = {[weak self] (style) -> Void in
             self?.navigationBar.tintColor = V2EXColor.colors.v2_navigationBarTintColor

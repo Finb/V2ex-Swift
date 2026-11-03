@@ -55,6 +55,8 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
     
     var commentsArray:[TopicCommentModel] = []
     fileprivate var dismissing = false
+    private let shimmeringView = FBShimmeringView()
+    private var needsInitialScroll = true
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.cancelEstimatedHeight()
@@ -63,7 +65,6 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
             tableView.contentInsetAdjustmentBehavior = .never
         }
         tableView.backgroundColor = UIColor.clear
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
         regClass(tableView, cell: TopicDetailCommentCell.self)
         
         tableView.delegate = self
@@ -81,10 +82,10 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         frostedView.blurRadius = 35
         frostedView.tintColor = UIColor.black
         frostedView.frame = self.view.frame
+        frostedView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(frostedView)
         
 
-        let shimmeringView = FBShimmeringView()
         shimmeringView.isShimmering = true
         shimmeringView.shimmeringOpacity = 0.3
         shimmeringView.shimmeringSpeed = 45
@@ -102,11 +103,6 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
         label.textAlignment = .center
         label.backgroundColor = UIColor.clear
         shimmeringView.contentView = label
-        var y:CGFloat = 15
-        if UIDevice.current.isIphoneX {
-            y = 24
-        }
-        shimmeringView.frame = CGRect( x: (SCREEN_WIDTH-80) / 2 , y: y, width: 80, height: 44)
         
         self.view.addSubview(self.tableView);
         self.tableView.snp.remakeConstraints{ (make) -> Void in
@@ -115,7 +111,31 @@ class RelevantCommentsViewController: UIViewController, UITableViewDelegate,UITa
             make.top.equalTo(self.view.snp.bottom)
         }
         
-        self.tableView.v2_scrollToBottom()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let bar = self.navigationController?.navigationBar else { return }
+        let barFrame = bar.convert(bar.bounds, to: self.view)
+        self.shimmeringView.frame = CGRect(x: (self.view.bounds.width - 80) / 2,
+                                           y: barFrame.midY - 22, width: 80, height: 44)
+        guard !self.dismissing else { return }
+        let oldInset = self.tableView.contentInset
+        let newInset = UIEdgeInsets(top: max(0, barFrame.maxY), left: 0,
+                                    bottom: self.view.safeAreaInsets.bottom, right: 0)
+        if oldInset != newInset {
+            let wasAtTop = self.tableView.contentOffset.y <= -oldInset.top + 0.5
+            self.tableView.contentInset = newInset
+            self.tableView.scrollIndicatorInsets = newInset
+            if wasAtTop {
+                self.tableView.contentOffset.y = -newInset.top
+            }
+        }
+        if self.needsInitialScroll && self.view.window != nil {
+            self.needsInitialScroll = false
+            self.tableView.layoutIfNeeded()
+            self.tableView.v2_scrollToBottom()
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.snp.remakeConstraints{ (make) -> Void in

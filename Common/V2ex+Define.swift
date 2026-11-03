@@ -54,15 +54,6 @@ func v2ScaleFont(_ fontSize: CGFloat) -> UIFont{
 }
 
 
-extension UIDevice {
-    var isIphoneX: Bool {
-        get {
-            // 一般 top 为 44, iPhone 11 的为 48 
-            return kSafeAreaInsets.top >= 44
-        }
-    }
-}
-
 extension UIBarButtonItem {
     /// iOS 26 起导航栏按钮默认带有液态玻璃背景，这里统一去掉
     @discardableResult
