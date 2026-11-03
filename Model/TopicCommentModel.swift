@@ -103,8 +103,9 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
         self.userName = rootNode.xPath("table/tr/td[3]//strong/a[starts-with(@href, '/member/')]").first?.content
 
         // 新旧版评论头部层级不同，按 class 查找并排除回复正文。
+        // 新版时间 span 的 class 为 "fade small"（旧版为 "ago"），内容形如 "5h 40m ago"。
         let headerSpans = "table/tr/td[3]//span[not(ancestor::div[contains(concat(' ', normalize-space(@class), ' '), ' reply_content ')])]"
-        let timeNode = rootNode.xPath("\(headerSpans)[contains(concat(' ', normalize-space(@class), ' '), ' ago ')]").first
+        let timeNode = rootNode.xPath("\(headerSpans)[(contains(concat(' ', normalize-space(@class), ' '), ' ago ') or contains(concat(' ', normalize-space(@class), ' '), ' fade ')) and not(contains(concat(' ', normalize-space(@class), ' '), ' no '))]").first
         let time = timeNode?.content?.trimmingCharacters(in: .whitespacesAndNewlines)
         self.date = (time?.isEmpty == false ? time : nil)
             ?? timeNode?["title"]
