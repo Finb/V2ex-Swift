@@ -158,7 +158,11 @@ class TopicCommentModel: NSObject,BaseHtmlModelProtocol {
             }
                 
                 
-            else if element.name == "img" ,let imageURL = element["src"]  {//图片
+            else if element.name == "img" ,var imageURL = element["src"]  {//图片
+                // 协议相对地址(如 //i.v2ex.co/xxx.png)补全为 https,否则 URL(string:) 返回 nil 导致图片无法加载
+                if imageURL.hasPrefix("//") {
+                    imageURL = "https:" + imageURL
+                }
                 let image = V2CommentAttachmentImage()
                 image.imageURL = imageURL
                 let imageAttributedString = NSMutableAttributedString.yy_attachmentString(withContent: image, contentMode: .scaleAspectFit , attachmentSize: CGSize(width: 80,height: 80), alignTo: v2ScaleFont(14), alignment: .bottom)
