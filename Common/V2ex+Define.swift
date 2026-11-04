@@ -14,7 +14,8 @@ var SCREEN_WIDTH: CGFloat { V2Client.sharedInstance.window?.bounds.width ?? UISc
 var SCREEN_HEIGHT: CGFloat { V2Client.sharedInstance.window?.bounds.height ?? UIScreen.main.bounds.size.height }
 // NavagationBar高度
 var NavigationBarHeight: CGFloat {
-    return kSafeAreaInsets.top + 44
+    let navBarHeight = V2Client.sharedInstance.centerNavigation?.navigationBar.frame.height ?? 44
+    return kSafeAreaInsets.top + navBarHeight
 }
 var kSafeAreaInsets: UIEdgeInsets {
     return V2Client.sharedInstance.window?.safeAreaInsets ?? .zero
